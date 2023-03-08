@@ -1,0 +1,113 @@
+<!-- TODO: add in patch cord here -->
+
+<script>
+    // @ts-nocheck
+    import { onMount } from 'svelte';
+    import { draggable } from '@neodrag/svelte';
+    import { sockets, connections, activateSocket, deactivateSockets, connectSockets, disconnectSocket } from '$lib/stores/patching';
+    import Cable from '$lib/components/Patching/Cable.svelte';
+
+    export let id;
+    export let type;
+    export let active = false;
+
+    let thisSocket;
+    let allSockets;
+    let connectedTo = [];
+    let position = {x: 0, y: 0};
+
+    function handleDragEnd(e) {
+        const {x: targetX, y: targetY} = e.target?.getBoundingClientRect();
+        
+        // find connecting socket
+        const socketId = Object.keys(allSockets).find(id => {
+            const {x, y, width} = allSockets[id];
+            return targetX > x - width && targetX < x + width && targetY > y - width && targetY < y + width;
+        });
+        
+        // if socket found, connect
+        socketId && connectSockets(id, socketId);
+        
+        // return to original position
+        position = {x: 0, y: 0}
+    }
+
+    function handleClick() {
+        activateSocket(id)
+    }
+
+    function handleKeydown(e) {
+        e.key === "Escape" && deactivateSockets();
+        e.key === "Backspace" && active && disconnectSocket(id);
+    }
+
+    function init() {
+        // init socket
+        const {x, y, width} = thisSocket.getBoundingClientRect();
+        // add to store
+        sockets.update(s => ({...s, [id]: {...s[id], x, y, width, active}}));
+    }
+
+    onMount(() => {
+        init();
+        sockets.subscribe(sockets => {
+            allSockets = sockets;
+            active = sockets[id]?.active;
+        });
+        connections.subscribe(connections => {
+            connectedTo = connections.filter(c => c[0] === id).map(c => c[1]);
+        })
+    });
+
+
+</script>
+
+<svelte:window 
+    on:resize={init} 
+    on:keydown={handleKeydown}
+/>
+
+<div class="socket__container">
+    <div 
+        class={`socket socket--${type} socket--${id} ${active ? " active" : ""}`}
+        bind:this={thisSocket}
+        use:draggable={{bounds: 'body', position}}
+        on:neodrag={ ({ offsetX, offsetY }) => position = { x: offsetX, y: offsetY }}
+        on:neodrag:end={handleDragEnd}
+        on:click={handleClick}
+    ></div>
+    {#each connectedTo as socketId}
+        <Cable
+            from={{x: allSockets[id].x + allSockets[id].width/2, y: allSockets[id].y + allSockets[id].width/2}}
+            to={{x: allSockets[socketId].x + allSockets[socketId].width/2, y: allSockets[socketId].y + allSockets[socketId].width/2}}
+        ></Cable>
+    {/each}
+</div>
+
+<style>
+    .socket__container {
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+    .socket {
+        width: 20px;
+        height: 20px;
+        background-color: var(--color-theme-1);
+        border-radius: 50%;
+        cursor: pointer;
+        display: inline-block;
+    }
+
+    .socket--local {
+        background-color: var(--color-theme-1);
+    }
+
+    .socket--remote {
+        background-color: var(--color-theme-2);
+    }
+
+    .active {
+        outline: 2px solid var(--color-theme-3);
+    }
+</style>
