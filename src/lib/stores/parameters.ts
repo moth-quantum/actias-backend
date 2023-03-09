@@ -1,5 +1,7 @@
 import { writable } from 'svelte/store';
 
+import { setEnvelopes } from './envelopes';
+
 interface Parameter {
     key: string;
     name: string;
@@ -32,7 +34,8 @@ export const fxParameters: Parameter[] = [
 
 export const parameters = writable(instrumentParameters.fm);
 
-export const loadInstrument = (instrument: 'fm' | 'granular' | 'subtractive') => {
+export const setInstrument = (instrument: 'fm' | 'granular' | 'subtractive') => {
     parameters.set(instrumentParameters[instrument]);
+    setEnvelopes(instrument);
 }
 

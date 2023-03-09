@@ -1,9 +1,12 @@
 <script>
     import { ButtonGroup, Button } from 'flowbite-svelte';
     import { Card } from "flowbite-svelte";
-    import { parameters, fxParameters, loadInstrument } from '$lib/stores/parameters';
+    import { parameters, fxParameters, setInstrument } from '$lib/stores/parameters';
+    import { envelopes } from '$lib/stores/envelopes';
     import RangeSlider from '$lib/components/RangeSlider.svelte';
     import Socket from '$lib/components/Patching/Socket.svelte';
+    import Knob from '$lib/components/Knob.svelte';
+    import Keyboard from '$lib/components/Keyboard/Keyboard.svelte';
 </script>
 
 <svelte:head>
@@ -13,9 +16,9 @@
 
 <section class="buttons container mx-auto">
     <ButtonGroup>
-        <Button on:click={() => loadInstrument('fm')}>FM</Button>
-        <Button on:click={() => loadInstrument('granular')}>Granular</Button>
-        <Button on:click={() => loadInstrument('subtractive')}>Subtractive</Button>
+        <Button on:click={() => setInstrument('fm')}>FM</Button>
+        <Button on:click={() => setInstrument('granular')}>Granular</Button>
+        <Button on:click={() => setInstrument('subtractive')}>Subtractive</Button>
     </ButtonGroup>
 </section>
 
@@ -53,6 +56,19 @@
         <Socket id="z" type="remote" />
     </Card>
 
+    <Card class="controls">
+        <h2>Controls</h2>
+        {#each $envelopes as envelope}
+            <h3>{envelope.name}</h3>
+            <div class="envelope">
+                {#each Object.entries(envelope.values) as [name, value]}
+                    <Knob bind:value={value} pixelRange={200} name={name}/>
+                {/each}
+            </div>
+        {/each}
+        <Keyboard />
+    </Card>
+
 </section>
 
 
@@ -66,6 +82,13 @@
     }
 
     .parameter {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+    }
+
+    .envelope {
         display: flex;
         align-items: center;
         justify-content: space-between;
