@@ -19,11 +19,18 @@ export const deactivateSockets = () => {
 }
 
 export const connectSockets = (a, b) => {
-    connections.update(prev => {
-        const connection = [a, b].sort((a, b) => a.localeCompare(b));
-        const exists = prev.find(c => c[0] === connection[0] && c[1] === connection[1]);
-        return exists ? prev : [...prev, connection];
-    });
+    // Don't connect sockets of the same type
+    if(a.type === b.type) return
+
+    // Disconnect local socket
+    [a,b].forEach(socket => {
+        if(socket.type === 'remote') return
+        connections.update(prev => prev.filter(c => c[0] !== socket.id && c[1] !== socket.id));
+    })
+
+    // Connect sockets
+    connections.update(prev => [...prev, [a.id, b.id].sort((a, b) => a.localeCompare(b))])
+    
 }
 
 export const disconnectSocket = (id) => {

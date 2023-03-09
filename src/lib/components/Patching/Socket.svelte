@@ -25,8 +25,8 @@
             return targetX > x - width && targetX < x + width && targetY > y - width && targetY < y + width;
         });
         
-        // if socket found, connect
-        socketId && connectSockets(id, socketId);
+        // if socket found and not of same type, connect
+        socketId && connectSockets(allSockets[id], allSockets[socketId]);
         
         // return to original position
         position = {x: 0, y: 0}
@@ -45,7 +45,7 @@
         // init socket
         const {x, y, width} = thisSocket.getBoundingClientRect();
         // add to store
-        sockets.update(s => ({...s, [id]: {...s[id], x, y, width, active}}));
+        sockets.update(s => ({...s, [id]: {...s[id], id, x, y, width, active, type}}));
     }
 
     onMount(() => {
@@ -68,6 +68,7 @@
 />
 
 <div class="socket__container">
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div 
         class={`socket socket--${type} socket--${id} ${active ? " active" : ""}`}
         bind:this={thisSocket}
@@ -99,7 +100,7 @@
         display: inline-block;
     }
 
-    .socket--local {
+    .socket--origin {
         background-color: var(--color-theme-1);
     }
 
