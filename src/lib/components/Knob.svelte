@@ -1,8 +1,8 @@
 <div>
-    <div class="knob__label">{name}</div>
     <div class="knob" style="--rotation: {rotation}" on:pointerdown={pointerDown}>
         <div class="knob__indicator"></div>
     </div>
+    <div class="knob__label">{name}</div>
 </div>
 
 

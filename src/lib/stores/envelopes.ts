@@ -4,26 +4,26 @@ interface Envelope {
     key: string;
     name: string;
     values: {
-        a: number;
-        d: number;
-        s: number;
-        r: number;
+        att: number;
+        dec: number;
+        sus: number;
+        rel: number;
     }
 }
 
 
 const instrumentEnvelopes: {[key: string]: Envelope[]} = {
     fm: [
-        {key: 'amp', name: 'Amplitude Envelope', values: {a: 0.01, d: 0.15, s: 0.5, r: 0.5}},
-        {key: 'modulation', name: 'Modulation Envelope', values: {a: 0.01, d: 0.15, s: 0.5, r: 0.5}},
+        {key: 'amp', name: 'Amp', values: {att: 0.01, dec: 0.15, sus: 0.5, rel: 0.5}},
+        {key: 'modulation', name: 'Mod', values: {att: 0.01, dec: 0.15, sus: 0.5, rel: 0.5}},
     ],
     granular: [
-        {key: 'amp', name: 'Amplitude Envelope', values: {a: 0.01, d: 0.15, s: 0.5, r: 0.5}},
-        {key: 'filter', name: 'Filter Envelope', values: {a: 0.01, d: 0.15, s: 0.5, r: 0.5}},
+        {key: 'amp', name: 'Amp', values: {att: 0.01, dec: 0.15, sus: 0.5, rel: 0.5}},
+        {key: 'filter', name: 'Fil', values: {att: 0.01, dec: 0.15, sus: 0.5, rel: 0.5}},
     ],
     subtractive: [
-        {key: 'amp', name: 'Amplitude Envelope', values: {a: 0.01, d: 0.15, s: 0.5, r: 0.5}},
-        {key: 'filter', name: 'Filter Envelope', values: {a: 0.01, d: 0.15, s: 0.5, r: 0.5}},
+        {key: 'amp', name: 'Amp', values: {att: 0.01, dec: 0.15, sus: 0.5, rel: 0.5}},
+        {key: 'filter', name: 'Fil', values: {att: 0.01, dec: 0.15, sus: 0.5, rel: 0.5}},
     ],
 }
 

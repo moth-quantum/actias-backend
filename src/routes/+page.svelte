@@ -1,12 +1,10 @@
 <script>
     import { ButtonGroup, Button } from 'flowbite-svelte';
-    import { Card } from "flowbite-svelte";
-    import { parameters, fxParameters, setInstrument } from '$lib/stores/parameters';
-    import { envelopes } from '$lib/stores/envelopes';
-    import RangeSlider from '$lib/components/RangeSlider.svelte';
-    import Socket from '$lib/components/Patching/Socket.svelte';
-    import Knob from '$lib/components/Knob.svelte';
-    import Keyboard from '$lib/components/Keyboard/Keyboard.svelte';
+    import { setInstrument } from '$lib/stores/parameters';
+    import Patchbay from '$lib/components/Patching/Patchbay.svelte';
+
+    import Parameters from '$lib/components/Parameters/Parameters.svelte';
+    import Controls from '$lib/components/Controls/Controls.svelte';
 </script>
 
 <svelte:head>
@@ -24,53 +22,21 @@
 
 <section class="synth container mx-auto">
     
-    <Card class="parameters">
-        <h2>Parameters</h2>
-        {#each $parameters as parameter}
-            <h3>{parameter.name}</h3>
-            <div class="parameter">
-                <RangeSlider classes={"mr-4"} value={parameter.value}/>
-                <Socket id={parameter.key} type="origin" />
-            </div>
-        {/each}
-    </Card>
+    <div class="parameters">
+        <Parameters />
+    </div>
 
-    <Card class="fx">
-        <h2>FX</h2>
-        {#each fxParameters as parameter}
-            <h3>{parameter.name}</h3>
-            <div class="parameter">
-                <RangeSlider classes={"mr-4"} value={parameter.value}/>
-                <Socket id={parameter.key} type="origin" />
-            </div>
-        {/each}
-    </Card>
+    <div class="qubit">
+        <div class="axis">
+            <Patchbay ids={['x', 'y', 'z']} title="Axes"/>
+        </div>
+    </div>
 
-    <Card class="axes">
-        <h2>Axes</h2>
-        <h3>x</h3>
-        <Socket id="x" type="remote" />
-        <h3>y</h3>
-        <Socket id="y" type="remote" />
-        <h3>z</h3>
-        <Socket id="z" type="remote" />
-    </Card>
-
-    <Card class="controls">
-        <h2>Controls</h2>
-        {#each $envelopes as envelope}
-            <h3>{envelope.name}</h3>
-            <div class="envelope">
-                {#each Object.entries(envelope.values) as [name, value]}
-                    <Knob bind:value={value} pixelRange={200} name={name}/>
-                {/each}
-            </div>
-        {/each}
-        <Keyboard />
-    </Card>
+    <div class="controls">
+        <Controls />
+    </div>
 
 </section>
-
 
 <style>
 	.buttons {
@@ -78,20 +44,42 @@
 	}
 
     .synth {
-
+        display: grid;
+        grid-template-columns: 3fr 6fr 3fr;
+        grid-template-rows: 3fr 1fr;
+        grid-gap: 1rem;
+        max-height: calc(100vh - 6rem);
+        overflow: scroll;
     }
 
-    .parameter {
+    .parameters {
         display: flex;
-        align-items: center;
+        flex-direction: column;
         justify-content: space-between;
-        margin-bottom: 0.5rem;
+        grid-column-start: 1;
+        grid-column-end: 1;
+        grid-row-start: 1;
+        grid-row-end: 3;
     }
 
-    .envelope {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 0.5rem;
+    .qubit {
+        display: grid;
+        grid-column-start: 2;
+        grid-column-end: 3;
+        position: relative;
+        grid-row-start: 1;
+        grid-row-end: 2;
+    }
+
+    .axis {
+        
+    }
+
+    .controls {
+        grid-column-start: 2;
+        grid-column-end: 2;
+        grid-row-start: 2;
+        grid-row-end: 3;
+        
     }
 </style>
