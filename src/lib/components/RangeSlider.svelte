@@ -1,4 +1,7 @@
 <script>
+  import Controls from "./Controls/Controls.svelte";
+
+
     export let min = 0;
     export let max = 1;
     export let step = 0.01;
@@ -10,13 +13,13 @@
 </script>
 
 <div class="range-slider">
-    <span class="">{min}{units}</span>
+    <span class="">{rangeA}{units}</span>
     <div class="slider">
-        <input class="min" type="range" {min} {max} {step} value={rangeA} />
+        <input class="min" type="range" {min} {max} {step} bind:value={rangeA} />
         <input class="track" type="range" {min} {max} {step} {value} disabled/>
-        <input class="max" type="range" {min} {max} {step} value={rangeB} />
+        <input class="max" type="range" {min} {max} {step} bind:value={rangeB} />
     </div>
-    <span class="">{max}{units}</span>
+    <span class="">{rangeB}{units}</span>
 </div>
 
 <style>
@@ -37,7 +40,7 @@
 
     span {
         color: var(--color-grey-light);
-        font-size: var(--text-xs);
+        font-size: var(--text-xxs);
         text-align: center;
     }
 

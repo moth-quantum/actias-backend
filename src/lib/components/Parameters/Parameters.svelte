@@ -2,65 +2,52 @@
     import { parameters, fxParameters, globalParameters } from '$lib/stores/parameters';
     import RangeSlider from '$lib/components/RangeSlider.svelte';
     import Socket from '$lib/components/Patching/Socket.svelte';
-
 </script>
 
 <div class="group">
     <h2>Instrument</h2>
-    {#each $parameters as parameter}
+    {#each $parameters as {name, min, max, step, units, value, key, rangeA, rangeB}}
         <div class="parameter">
-            <h3>{parameter.key}</h3>
+            <h3>{name}</h3>
             <RangeSlider 
                 classes={"mr-4"} 
-                min={parameter.min} 
-                max={parameter.max} 
-                step={parameter.step} 
-                units={parameter.units} 
-                rangeA={parameter.rangeA}
-                rangeB={parameter.rangeB} 
-                value={parameter.value}
+                {min} {max} {step} {units} {value} 
+                bind:rangeA={rangeA} 
+                bind:rangeB={rangeB} 
             />
-            <Socket id={parameter.key} type="origin" align="right"/>
+            <Socket id={key} type="origin" align="right"/>
         </div>
     {/each}
 </div>
 
 <div class="group">
     <h2>Global</h2>
-    {#each globalParameters as parameter}
+    {#each $globalParameters as {name, min, max, step, units, value, key, rangeA, rangeB}}
         <div class="parameter">
-            <h3>{parameter.key}</h3>
+            <h3>{name}</h3>
             <RangeSlider 
                 classes={"mr-4"} 
-                min={parameter.min} 
-                max={parameter.max} 
-                step={parameter.step} 
-                units={parameter.units} 
-                rangeA={parameter.rangeA}
-                rangeB={parameter.rangeB} 
-                value={parameter.value}
+                {min} {max} {step} {units} {value} 
+                bind:rangeA={rangeA} 
+                bind:rangeB={rangeB} 
             />
-            <Socket id={parameter.key} type="origin" align="right"/>
+            <Socket id={key} type="origin" align="right"/>
         </div>
     {/each}
 </div>
 
 <div class="group">
     <h2>Effects</h2>
-    {#each fxParameters as parameter}
+    {#each $fxParameters as {name, min, max, step, units, value, key, rangeA, rangeB}}
         <div class="parameter">
-            <h3>{parameter.key}</h3>
+            <h3>{name}</h3>
             <RangeSlider 
                 classes={"mr-4"} 
-                min={parameter.min} 
-                max={parameter.max} 
-                step={parameter.step} 
-                units={parameter.units} 
-                rangeA={parameter.rangeA}
-                rangeB={parameter.rangeB} 
-                value={parameter.value}
+                {min} {max} {step} {units} {value} 
+                bind:rangeA={rangeA} 
+                bind:rangeB={rangeB} 
             />
-            <Socket id={parameter.key} type="origin" align="right"/>
+            <Socket id={key} type="origin" align="right"/>
         </div>
     {/each}
 </div>
@@ -68,7 +55,7 @@
 <style>
     .parameter {
         display: grid;
-        grid-template-columns: 2fr 9fr 1fr;
+        grid-template-columns: 3fr 8fr 1fr;
         margin-bottom: 0rem;
     }
 
