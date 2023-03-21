@@ -28,6 +28,9 @@
     .controls {
         display: flex;
         flex-direction: column;
+        background-color: var(--color-grey-dark);
+        border-radius: 5px;
+        padding: 1rem 2rem;
     }
 
     .knobs {

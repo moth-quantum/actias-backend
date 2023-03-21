@@ -22,7 +22,7 @@
 
     function handleDragStart({ offsetX, offsetY }) {
         position = { x: offsetX, y: offsetY }
-        document.body.style.cursor = "wait";
+        thisSocket.style.zIndex = 1002;
     }
 
     function handleDragEnd(e) {
@@ -39,8 +39,7 @@
         
         // return to original position
         position = {x: 0, y: 0}
-
-        document.body.style.cursor = "default";
+        thisSocket.style.zIndex = 999;
     }
 
     function handleClick() {
@@ -122,6 +121,7 @@
         
         cursor: pointer;
         display: inline-block;
+        z-index: 999;
     }
 
     .socket--origin {
