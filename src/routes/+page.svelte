@@ -46,7 +46,7 @@
 	.buttons {
         padding: 0.75rem 2rem;
         background-color: var(--color-grey-mid);
-        box-shadow: 0 0 0.5rem var(--color-grey-dark);
+        box-shadow: 0 0.5rem 0.5rem 0.25rem var(--color-box-shadow);
 	}
 
     .synth {
@@ -62,7 +62,6 @@
     .parameters {
         display: flex;
         flex-direction: column;
-        /* justify-content: space-between; */
         grid-column-start: 1;
         grid-column-end: 1;
         grid-row-start: 1;

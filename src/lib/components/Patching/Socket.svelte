@@ -10,6 +10,7 @@
     export let id;
     export let type;
     export let active = false;
+    export let align = "center";
 
     let thisSocket;
     let allSockets;
@@ -67,7 +68,7 @@
     on:keydown={handleKeydown}
 />
 
-<div class="socket__container">
+<div class={`socket__container socket__container--${align}`}>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div 
         class={`socket socket--${type} socket--${id} ${active ? " active" : ""}`}
@@ -90,7 +91,17 @@
         height: 100%;
         display: flex;
         align-items: center;
+        justify-content: center;
     }
+
+    .socket__container--left {
+        justify-content: flex-start;
+    }
+
+    .socket__container--right {
+        justify-content: flex-end;
+    }
+
     .socket {
         width: 20px;
         height: 20px;

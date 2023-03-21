@@ -6,37 +6,40 @@ interface Parameter {
     key: string;
     name: string;
     value: number;
+    rangeA: number;
+    rangeB: number;
     min: number;
     max: number;
     step: number;
+    units: string;
 }
 
 const instrumentParameters: {[key: string]: Parameter[]} = {
     fm: [
-        {key: 'modi', name: 'Modulation Index', value: 0.5, min: 0, max: 1, step: 0},
-        {key: 'harm', name: 'Harmonicity', value: 0.5, min: 0, max: 1, step: 0},
+        {key: 'modi', name: 'Modulation Index', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+        {key: 'harm', name: 'Harmonicity', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
     ],
     granular: [
-        {key: 'grainsize', name: 'Grain Size', value: 0.5, min: 0, max: 1, step: 0},
-        {key: 'overlap', name: 'Overlap', value: 0.5, min: 0, max: 1, step: 0},
+        {key: 'grainsize', name: 'Grain Size', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+        {key: 'overlap', name: 'Overlap', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
     ],
     subtractive: [
-        {key: 'cutoff', name: 'Cutoff', value: 0.5, min: 0, max: 1, step: 0},
-        {key: 'resonance', name: 'Resonance', value: 0.5, min: 0, max: 1, step: 0},
+        {key: 'cutoff', name: 'Cutoff', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+        {key: 'resonance', name: 'Resonance', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
     ],
 };
 
 export const globalParameters: Parameter[] = [
-    {key: 'detune', name: 'Detune', value: 0, min: -1, max: 1, step: 0},
-    {key: 'octave', name: 'Octave', value: 0, min: -3, max: 3, step: 1},
-    {key: 'gain', name: 'Gain', value: 0.5, min: 0, max: 1, step: 0},
+    {key: 'detune', name: 'Detune', value: 0, rangeA: 0, rangeB: 100, min: -12, max: 12, step: 0.01, units: 'st'},
+    {key: 'octave', name: 'Octave', value: 0, rangeA: -3, rangeB: 3, min: -3, max: 3, step: 1, units: 'octs'},
+    {key: 'gain', name: 'Gain', value: 0, rangeA: -50, rangeB: 3, min: -50, max: 5, step: 0.25, units: 'dB'},
 ];
 
 export const fxParameters: Parameter[] = [
-    {key: 'delay', name: 'Delay', value: 0.5, min: 0, max: 1, step: 0},
-    {key: 'reverb', name: 'Reverb', value: 0.5, min: 0, max: 1, step: 0},
-    {key: 'chorus', name: 'Chorus', value: 0.5, min: 0, max: 1, step: 0},
-    {key: 'phaser', name: 'Phaser', value: 0.5, min: 0, max: 1, step: 0},
+    {key: 'delay', name: 'Delay', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+    {key: 'reverb', name: 'Reverb', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+    {key: 'chorus', name: 'Chorus', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+    {key: 'phaser', name: 'Phaser', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
 ];
 
 export const instrument: Writable<'fm' | 'granular' | 'subtractive'> = writable('fm');

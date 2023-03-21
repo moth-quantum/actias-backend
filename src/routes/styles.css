@@ -13,6 +13,7 @@
 	--font-mono: 'Fira Mono', monospace;
     --text-base: 1rem;
     --text-sm: 0.75rem;
+    --text-xs: 0.65rem;
     --text-spacing: 0.1rem;
 	--color-bg-0: rgb(202, 216, 228);
 	--color-bg-1: hsl(209, 36%, 86%);
@@ -30,6 +31,7 @@
     --color-grey-mid: #555555;
     --color-grey-dark: #333333;
     --color-grey-darkest: #262626;
+    --color-box-shadow: rgba(51, 51, 51, 0.5);
 }
 
 body {
@@ -67,10 +69,17 @@ h1 {
 }
 
 h2, h3 {
-	font-size: var(--text-sm);
     text-transform: uppercase;
-
     color: var(--color-yellow);
+	
+}
+
+h2 {
+    font-size: var(--text-sm);
+}
+
+h3 {
+    font-size: var(--text-xs);
 }
 
 pre {

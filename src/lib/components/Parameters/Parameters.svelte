@@ -8,10 +8,19 @@
 <div class="group">
     <h2>Instrument</h2>
     {#each $parameters as parameter}
-        <h3>{parameter.name}</h3>
         <div class="parameter">
-            <RangeSlider classes={"mr-4"} value={parameter.value}/>
-            <Socket id={parameter.key} type="origin" />
+            <h3>{parameter.key}</h3>
+            <RangeSlider 
+                classes={"mr-4"} 
+                min={parameter.min} 
+                max={parameter.max} 
+                step={parameter.step} 
+                units={parameter.units} 
+                rangeA={parameter.rangeA}
+                rangeB={parameter.rangeB} 
+                value={parameter.value}
+            />
+            <Socket id={parameter.key} type="origin" align="right"/>
         </div>
     {/each}
 </div>
@@ -19,10 +28,19 @@
 <div class="group">
     <h2>Global</h2>
     {#each globalParameters as parameter}
-        <h3>{parameter.name}</h3>
         <div class="parameter">
-            <RangeSlider classes={"mr-4"} value={parameter.value}/>
-            <Socket id={parameter.key} type="origin" />
+            <h3>{parameter.key}</h3>
+            <RangeSlider 
+                classes={"mr-4"} 
+                min={parameter.min} 
+                max={parameter.max} 
+                step={parameter.step} 
+                units={parameter.units} 
+                rangeA={parameter.rangeA}
+                rangeB={parameter.rangeB} 
+                value={parameter.value}
+            />
+            <Socket id={parameter.key} type="origin" align="right"/>
         </div>
     {/each}
 </div>
@@ -30,20 +48,46 @@
 <div class="group">
     <h2>Effects</h2>
     {#each fxParameters as parameter}
-        <h3>{parameter.name}</h3>
         <div class="parameter">
-            <RangeSlider classes={"mr-4"} value={parameter.value}/>
-            <Socket id={parameter.key} type="origin" />
+            <h3>{parameter.key}</h3>
+            <RangeSlider 
+                classes={"mr-4"} 
+                min={parameter.min} 
+                max={parameter.max} 
+                step={parameter.step} 
+                units={parameter.units} 
+                rangeA={parameter.rangeA}
+                rangeB={parameter.rangeB} 
+                value={parameter.value}
+            />
+            <Socket id={parameter.key} type="origin" align="right"/>
         </div>
     {/each}
 </div>
 
 <style>
     .parameter {
+        display: grid;
+        grid-template-columns: 2fr 9fr 1fr;
+        margin-bottom: 0rem;
+    }
+
+    .parameter:nth-child(1) {
+        grid-column: 1;
+        
+    }
+
+    h3 {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        margin-bottom: 0.5rem;
+    }
+
+    .parameter:nth-child(2) {
+        grid-column: 2;
+    }
+
+    .parameter:nth-child(3) {
+        grid-column: 3;
     }
 
     .parameter:last-of-type {
@@ -51,7 +95,7 @@
     }
 
     .group {
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
     }
 
     .group:last-of-type {
@@ -63,4 +107,6 @@
         margin-bottom: 0.5rem;
         border-bottom: 0.5px solid var(--color-grey-light);
     }
+
+
 </style>
