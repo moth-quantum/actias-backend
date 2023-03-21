@@ -20,6 +20,11 @@
     let connectedTo = [];
     let position = {x: 0, y: 0};
 
+    function handleDragStart({ offsetX, offsetY }) {
+        position = { x: offsetX, y: offsetY }
+        document.body.style.cursor = "wait";
+    }
+
     function handleDragEnd(e) {
         const {x: targetX, y: targetY} = e.target?.getBoundingClientRect();
         
@@ -34,6 +39,8 @@
         
         // return to original position
         position = {x: 0, y: 0}
+
+        document.body.style.cursor = "default";
     }
 
     function handleClick() {
@@ -77,7 +84,7 @@
         class={`socket socket--${type} socket--${id} ${active ? " active" : ""}`}
         bind:this={thisSocket}
         use:draggable={{bounds: 'body', position}}
-        on:neodrag={ ({ offsetX, offsetY }) => position = { x: offsetX, y: offsetY }}
+        on:neodrag={handleDragStart}
         on:neodrag:end={handleDragEnd}
         on:click={handleClick}
     ></div>
