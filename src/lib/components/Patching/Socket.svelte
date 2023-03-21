@@ -11,6 +11,7 @@
     export let type;
     export let active = false;
     export let align = "center";
+    export let colour = 'blue';
 
     let thisSocket;
     let allSockets;
@@ -46,7 +47,7 @@
         // init socket
         const {x, y, width} = thisSocket.getBoundingClientRect();
         // add to store
-        sockets.update(s => ({...s, [id]: {...s[id], id, x, y, width, active, type}}));
+        sockets.update(s => ({...s, [id]: {...s[id], id, x, y, width, active, type, colour}}));
     }
 
     onMount(() => {
@@ -56,7 +57,8 @@
             active = sockets[id]?.active;
         });
         connections.subscribe(connections => {
-            connectedTo = connections.filter(c => c[0] === id).map(c => c[1]);
+            connectedTo = connections.filter(c => c[0] === id)?.map(c => c[1]) || [];
+            allSockets[connectedTo] && (colour = allSockets[connectedTo].colour);
         })
     });
 
@@ -80,6 +82,8 @@
     ></div>
     {#each connectedTo as socketId}
         <Cable
+            colour={colour}
+            offset={0}
             from={{x: allSockets[id].x + allSockets[id].width/2, y: allSockets[id].y + allSockets[id].width/2}}
             to={{x: allSockets[socketId].x + allSockets[socketId].width/2, y: allSockets[socketId].y + allSockets[socketId].width/2}}
         ></Cable>
@@ -103,20 +107,21 @@
     }
 
     .socket {
-        width: 20px;
-        height: 20px;
-        background-color: var(--color-theme-1);
+        width: 1.2rem;
+        height: 1.2rem;
+        background-color: #000;
         border-radius: 50%;
+        
         cursor: pointer;
         display: inline-block;
     }
 
     .socket--origin {
-        background-color: var(--color-theme-1);
+        border: 0.2rem solid var(--color-grey-dark);
     }
 
     .socket--remote {
-        background-color: var(--color-theme-2);
+        border: 0.2rem solid var(--color-grey-light);
     }
 
     .active {

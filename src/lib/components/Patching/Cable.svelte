@@ -1,15 +1,31 @@
 <script>
     // @ts-nocheck
+    import { onMount } from 'svelte';
     export let from = {};
     export let to = {};
+    export let offset = 2;
+    export let colour = 'blue';
     
     let w = window.innerWidth;
     let h = window.innerHeight;
 
+    let lines = []
+
+    function calculateLines() {
+        lines = [
+            {x1: from.x + 3, y1: from.y, x2: to.x + (from.x - to.x)/2 + offset, y2: from.y},
+            {x1: to.x + (from.x - to.x)/2 + offset, y1: from.y, x2: to.x + (from.x - to.x)/2 + offset, y2: to.y},
+            {x1: to.x + (from.x - to.x)/2 + offset, y1: to.y, x2: to.x, y2: to.y}
+        ];
+    }
+
     function resize() {
         w = window.innerWidth;
         h = window.innerHeight;
+        calculateLines();
     }
+
+    onMount(() => calculateLines());
 </script>
 
 <svelte:window on:resize={resize}/>
@@ -18,13 +34,21 @@
     viewBox={`0 0 ${w} ${h}`} xmlns="http://www.w3.org/2000/svg"
     class="svg"
 >
+    <circle 
+        class="socket"
+        cx={from.x} cy={from.y} r="3.5" stroke={colour} stroke-width="2" fill="white"
+    />
+    {#each lines as {x1, y1, x2, y2}}
     <line 
         class="cable"
-        x1={from.x} y1={from.y} x2={to.x} y2={to.y} stroke="black" 
+        {x1} {x2} {y1} {y2}
+        stroke={colour} stroke-width="2"
     />
-  
-    <!-- If you do not specify the stroke
-         color the line will not be visible -->
+    {/each}
+    <circle 
+        class="socket"
+        cx={to.x} cy={to.y} r="3.5" stroke={colour} stroke-width="2" fill="white"
+    />
 </svg>
 
 <style>
@@ -35,9 +59,13 @@
         width: 100%;
         height: 100%;
         pointer-events: none;
+        z-index: 1000;
+    }
+
+    .socket {
+        z-index: 1001;
     }
     .cable {
-        stroke: black;
-        stroke-width: 1;
+        z-index: 1000;
     }
 </style>

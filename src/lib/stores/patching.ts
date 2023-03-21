@@ -3,6 +3,7 @@ import { writable } from 'svelte/store';
 interface Socket {
     id: string;
     type: 'local' | 'remote';
+    colour: string;
     active: boolean;
     x: number;
     y: number;

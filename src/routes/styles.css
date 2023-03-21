@@ -4,7 +4,7 @@
     font-family: 'Lato Medium';
     font-style: normal;
     font-weight: 500;
-    src: url('/fonts/Lato-Regular.ttf'); 
+    src: url('/fonts/Lato/Lato-Regular.ttf'); 
 }
 
 :root {
@@ -42,6 +42,7 @@ body {
 	background-color: var(--color-grey-dark);
 	background-size: 100vw 100vh;
     letter-spacing: 0.1rem;
+    user-select: none
 }
 
 h1,

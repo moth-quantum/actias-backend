@@ -71,14 +71,16 @@
     .qubit {
         display: grid;
         grid-column-start: 2;
-        grid-column-end: 3;
+        grid-column-end: 4;
         position: relative;
         grid-row-start: 1;
         grid-row-end: 2;
+        background-color: var(--color-grey-dark);
+        border-radius: 10px;
+        padding: 1rem 2rem;
     }
 
     .axis {
-        
     }
 
     .controls {
