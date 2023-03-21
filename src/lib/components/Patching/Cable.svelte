@@ -36,7 +36,7 @@
 >
     <circle 
         class="socket"
-        cx={from.x} cy={from.y} r="3.5" stroke={colour} stroke-width="2" fill="white"
+        cx={from.x} cy={from.y} r="3" stroke={colour} stroke-width="1.5" fill="white"
     />
     {#each lines as {x1, y1, x2, y2}}
     <line 
@@ -47,7 +47,7 @@
     {/each}
     <circle 
         class="socket"
-        cx={to.x} cy={to.y} r="3.5" stroke={colour} stroke-width="2" fill="white"
+        cx={to.x} cy={to.y} r="3" stroke={colour} stroke-width="1.5" fill="white"
     />
 </svg>
 

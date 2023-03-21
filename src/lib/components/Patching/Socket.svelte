@@ -6,6 +6,7 @@
     import { draggable } from '@neodrag/svelte';
     import { sockets, connections, activateSocket, deactivateSockets, connectSockets, disconnectSocket } from '$lib/stores/patching';
     import Cable from '$lib/components/Patching/Cable.svelte';
+  import Controls from '../Controls/Controls.svelte';
 
     export let id;
     export let type;
@@ -80,7 +81,7 @@
         on:neodrag:end={handleDragEnd}
         on:click={handleClick}
     ></div>
-    {#each connectedTo as socketId}
+    {#each connectedTo as socketId (socketId)}
         <Cable
             colour={allSockets[socketId].colour}
             offset={allSockets[socketId].offset}
