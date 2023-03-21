@@ -44,9 +44,10 @@
 
     .menu__item {
         padding-right: 3rem;
-        font-size: 0.95rem;
-        letter-spacing: 2px;
+        font-size: var(--text-sm);
         font-weight: 500;
+        display: flex;
+        align-items: center;
     }
 
     .menu__item a {

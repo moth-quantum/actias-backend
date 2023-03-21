@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
 
 import { setEnvelopes } from './envelopes';
 
@@ -39,10 +39,12 @@ export const fxParameters: Parameter[] = [
     {key: 'phaser', name: 'Phaser', value: 0.5, min: 0, max: 1, step: 0},
 ];
 
+export const instrument: Writable<'fm' | 'granular' | 'subtractive'> = writable('fm');
+export const instruments: ['fm', 'granular', 'subtractive'] = ['fm', 'granular', 'subtractive']
 export const parameters = writable(instrumentParameters.fm);
 
-export const setInstrument = (instrument: 'fm' | 'granular' | 'subtractive') => {
+instrument.subscribe((instrument) => {
     parameters.set(instrumentParameters[instrument]);
     setEnvelopes(instrument);
-}
+});
 

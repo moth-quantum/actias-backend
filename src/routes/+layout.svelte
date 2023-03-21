@@ -8,7 +8,7 @@
 <div class="app">
     <Header />
 
-    <main class="w-full px-2">
+    <main class="w-full container">
         <slot />
     </main>
 
@@ -32,6 +32,7 @@
         flex-direction: column;
         margin: 0 auto;
         box-sizing: border-box;
+        background-color: var(--color-grey-mid);
     }
 
     footer {

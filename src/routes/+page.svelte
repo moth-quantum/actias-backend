@@ -1,10 +1,10 @@
 <script>
-    import { ButtonGroup, Button } from 'flowbite-svelte';
-    import { setInstrument } from '$lib/stores/parameters';
+    import { instrument, instruments } from '$lib/stores/parameters';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
 
     import Parameters from '$lib/components/Parameters/Parameters.svelte';
     import Controls from '$lib/components/Controls/Controls.svelte';
+    import Button from '$lib/components/Button/Button.svelte';
 </script>
 
 <svelte:head>
@@ -13,11 +13,15 @@
 </svelte:head>
 
 <section class="buttons container mx-auto">
-    <ButtonGroup>
-        <Button on:click={() => setInstrument('fm')}>FM</Button>
-        <Button on:click={() => setInstrument('granular')}>Granular</Button>
-        <Button on:click={() => setInstrument('subtractive')}>Subtractive</Button>
-    </ButtonGroup>
+    {#each instruments as inst}
+        <Button 
+            onClick={() => instrument.set(inst)} 
+            active={$instrument === inst} 
+            disabled={$instrument !== inst}
+            colour="yellow" 
+            text={inst} 
+        />
+    {/each}
 </section>
 
 <section class="synth container mx-auto">
@@ -40,10 +44,13 @@
 
 <style>
 	.buttons {
-        padding: 0.5rem 0;
+        padding: 0.75rem 2rem;
+        background-color: var(--color-grey-mid);
+        box-shadow: 0 0 0.5rem var(--color-grey-dark);
 	}
 
     .synth {
+        padding: 1.5rem 2rem;
         display: grid;
         grid-template-columns: 3fr 6fr 3fr;
         grid-template-rows: 3fr 1fr;
