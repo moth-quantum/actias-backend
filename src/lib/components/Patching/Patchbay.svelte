@@ -20,8 +20,10 @@
 <div class="patchbay">
     <h2>{title}</h2>
     {#each ids as id, i}
-        <h3>{id}</h3>
-        <Socket {id} type="remote" colour={colours[i]} offset={offsets[i]}/>
+        <div class="socket">
+            <Socket {id} type="remote" colour={colours[i]} offset={offsets[i]}/>
+            <h3 style="color: {colours[i]}">{id}</h3>
+        </div>
     {/each}
 </div>
 
@@ -32,5 +34,26 @@
         border-radius: 5px;
         padding: 1rem;
         display: inline-block;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    h3 {
+        font-size: 1rem;
+        text-align: right;
+    }
+    .socket {
+        width: 2.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .socket:last-child {
+        margin-bottom: 0;
     }
 </style>

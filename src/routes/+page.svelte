@@ -32,7 +32,7 @@
 
     <div class="qubit">
         <div class="axis">
-            <Patchbay ids={['x', 'y', 'z']} title="Axes"/>
+            <Patchbay ids={['θ', 'φ', 'λ']} title="Axis"/>
         </div>
     </div>
 
