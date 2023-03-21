@@ -1,8 +1,8 @@
 <script>
     import "../app.postcss";
     import Header from "./Header.svelte";
-    import { Footer, FooterCopyright } from 'flowbite-svelte'
     import "./styles.css";
+    import "./fonts.css";
 </script>
 
 <div class="app">

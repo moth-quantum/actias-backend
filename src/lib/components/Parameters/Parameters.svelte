@@ -2,6 +2,7 @@
     import { parameters, fxParameters, globalParameters } from '$lib/stores/parameters';
     import RangeSlider from '$lib/components/RangeSlider.svelte';
     import Socket from '$lib/components/Patching/Socket.svelte';
+
 </script>
 
 <div class="parameters">

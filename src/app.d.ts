@@ -6,6 +6,14 @@ declare global {
 		// interface Locals {}
 		// interface PageData {}
 		// interface Platform {}
+        interface Parameter {
+            key: string;
+            name: string;
+            value: number;
+            min: number;
+            max: number;
+            step: number;
+        }        
 	}
 }
 
