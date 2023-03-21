@@ -4,6 +4,7 @@ interface Socket {
     id: string;
     type: 'local' | 'remote';
     colour: string;
+    offset: number;
     active: boolean;
     x: number;
     y: number;

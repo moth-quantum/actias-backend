@@ -12,6 +12,7 @@
     export let active = false;
     export let align = "center";
     export let colour = 'blue';
+    export let offset = 0;
 
     let thisSocket;
     let allSockets;
@@ -47,7 +48,7 @@
         // init socket
         const {x, y, width} = thisSocket.getBoundingClientRect();
         // add to store
-        sockets.update(s => ({...s, [id]: {...s[id], id, x, y, width, active, type, colour}}));
+        sockets.update(s => ({...s, [id]: {...s[id], id, x, y, width, active, type, colour, offset}}));
     }
 
     onMount(() => {
@@ -58,7 +59,6 @@
         });
         connections.subscribe(connections => {
             connectedTo = connections.filter(c => c[0] === id)?.map(c => c[1]) || [];
-            allSockets[connectedTo] && (colour = allSockets[connectedTo].colour);
         })
     });
 
@@ -82,10 +82,10 @@
     ></div>
     {#each connectedTo as socketId}
         <Cable
-            colour={colour}
-            offset={0}
+            colour={allSockets[socketId].colour}
+            offset={allSockets[socketId].offset}
             from={{x: allSockets[id].x + allSockets[id].width/2, y: allSockets[id].y + allSockets[id].width/2}}
-            to={{x: allSockets[socketId].x + allSockets[socketId].width/2, y: allSockets[socketId].y + allSockets[socketId].width/2}}
+            to={{x: allSockets[socketId].x + allSockets[socketId].width/2 - 0.5, y: allSockets[socketId].y + allSockets[socketId].width/2}}
         ></Cable>
     {/each}
 </div>

@@ -9,13 +9,19 @@
         '#E5007F',
         '#00A399'
     ]
+
+    const offsets = [
+        4,
+        -4,
+        -12
+    ]
 </script>
 
 <div class="patchbay">
     <h2>{title}</h2>
     {#each ids as id, i}
         <h3>{id}</h3>
-        <Socket {id} type="remote" colour={colours[i]}/>
+        <Socket {id} type="remote" colour={colours[i]} offset={offsets[i]}/>
     {/each}
 </div>
 
