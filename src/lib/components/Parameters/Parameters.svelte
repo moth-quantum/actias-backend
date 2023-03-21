@@ -5,7 +5,7 @@
 
 </script>
 
-<div class="parameters">
+<div class="group">
     <h2>Instrument</h2>
     {#each $parameters as parameter}
         <h3>{parameter.name}</h3>
@@ -16,7 +16,7 @@
     {/each}
 </div>
 
-<div class="fx">
+<div class="group">
     <h2>Global</h2>
     {#each globalParameters as parameter}
         <h3>{parameter.name}</h3>
@@ -27,7 +27,7 @@
     {/each}
 </div>
 
-<div class="fx">
+<div class="group">
     <h2>Effects</h2>
     {#each fxParameters as parameter}
         <h3>{parameter.name}</h3>
@@ -44,5 +44,23 @@
         align-items: center;
         justify-content: space-between;
         margin-bottom: 0.5rem;
+    }
+
+    .parameter:last-of-type {
+        margin-bottom: 0;
+    }
+
+    .group {
+        margin-bottom: 2rem;
+    }
+
+    .group:last-of-type {
+        margin-bottom: 0;
+    }
+
+    h2 {
+        padding-bottom: 0.25rem;
+        margin-bottom: 0.5rem;
+        border-bottom: 0.5px solid var(--color-grey-light);
     }
 </style>

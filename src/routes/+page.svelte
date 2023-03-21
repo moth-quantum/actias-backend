@@ -62,7 +62,7 @@
     .parameters {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        /* justify-content: space-between; */
         grid-column-start: 1;
         grid-column-end: 1;
         grid-row-start: 1;
