@@ -15,21 +15,17 @@
     <div class="keysAndKnobs">
         <Keyboard />
         <div class="knobs">
-            <div class="volume">
-                <span>
-                    <h3 class="knobs__title">Vol</h3>
-                </span>
-                <Knob name="Volume" pixelRange={200} bind:value={$volume}/>
-            </div>
+            <span>
+                <h3 class="knobs__title">Vol</h3>
+            </span>
+            <Knob name="Volume" pixelRange={200} bind:value={$volume}/>
             {#each $envelopes as envelope}
-                <div class="envelope">
-                    <span>
-                        <h3 class="knobs__title">{envelope.name}</h3>
-                    </span>
-                    {#each Object.entries(envelope.values) as [name, value]}
-                        <Knob bind:value={value} pixelRange={200} name={name}/>
-                    {/each}
-                </div>
+                <span>
+                    <h3 class="knobs__title">{envelope.name}</h3>
+                </span>
+                {#each Object.entries(envelope.values) as [name, value]}
+                    <Knob bind:value={value} pixelRange={200} name={name}/>
+                {/each}
             {/each}
         </div>
     </div>
@@ -61,6 +57,7 @@
         margin-top: 1.5rem;
         display: flex;
         width: 100%;
+        justify-content: space-between;
     }
 
     span {
@@ -68,7 +65,7 @@
         display: flex;
         align-items: center;
         border-left: 1px solid var(--color-grey-light);
-        padding: 0 0.5rem;
+        padding: 0 0 0 0.5rem;
     }
 
     .knobs__title {
@@ -77,20 +74,5 @@
         color: var(--color-grey-light);
         transform: rotate(180deg);
         font-size: var(--text-sm);
-    }
-
-    .volume, .envelope {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .volume {
-        justify-content: center;
-    }
-    
-    .envelope {
-        width: 100%;
-        margin-left: 1.5rem;
     }
 </style>
