@@ -6,7 +6,6 @@
     import { draggable } from '@neodrag/svelte';
     import { sockets, connections, activateSocket, deactivateSockets, connectSockets, disconnectSocket } from '$lib/stores/patching';
     import Cable from '$lib/components/Patching/Cable.svelte';
-  import Controls from '../Controls/Controls.svelte';
 
     export let id;
     export let type;
@@ -67,8 +66,9 @@
         connections.subscribe(connections => {
             connectedTo = connections.filter(c => c[0] === id)?.map(c => c[1]) || [];
         })
-    });
 
+        return () => console.log('unmounting')
+    });
 
 </script>
 

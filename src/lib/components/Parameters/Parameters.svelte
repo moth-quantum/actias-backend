@@ -1,12 +1,12 @@
 <script>
-    import { parameters, fxParameters, globalParameters } from '$lib/stores/parameters';
+    import { instrumentParameters, fxParameters, globalParameters } from '$lib/stores/parameters';
     import RangeSlider from '$lib/components/RangeSlider.svelte';
     import Socket from '$lib/components/Patching/Socket.svelte';
 </script>
 
 <div class="group">
     <h2>Instrument</h2>
-    {#each $parameters as {name, min, max, step, units, value, key, rangeA, rangeB}}
+    {#each $instrumentParameters as {name, min, max, step, units, value, key, rangeA, rangeB} (key)}
         <div class="parameter">
             <h3>{name}</h3>
             <RangeSlider 

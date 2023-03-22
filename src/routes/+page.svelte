@@ -1,5 +1,5 @@
 <script>
-    import { instrument, instruments } from '$lib/stores/parameters';
+    import { instrument, instruments, axes } from '$lib/stores/parameters';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
 
     import Parameters from '$lib/components/Parameters/Parameters.svelte';
@@ -32,7 +32,7 @@
 
     <div class="qubit">
         <div class="axis">
-            <Patchbay ids={['θ', 'φ', 'λ']} title="Axis"/>
+            <Patchbay ids={axes} title="axes"/>
         </div>
     </div>
 

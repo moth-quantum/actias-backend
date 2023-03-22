@@ -31,6 +31,7 @@ export const deactivateSockets = () => {
 }
 
 export const connectSockets = (a: Socket, b: Socket) => {
+    console.log(a, b)
     // Don't connect sockets of the same type
     if(a.type === b.type) return
 
@@ -49,4 +50,17 @@ export const connectSockets = (a: Socket, b: Socket) => {
 
 export const disconnectSocket = (id: string) => {
     connections.update(prev => prev.filter(c => c[0] !== id && c[1] !== id));
+};
+
+export const initialiseConnections = (groupA: string[], groupB: string[]) => {
+    // Connect sockets
+    groupA.forEach((a, i) => {
+        const b = groupB[Math.floor(i / groupB.length) % groupB.length];
+        connections.update((prev: Connection[]) => {
+            const connection = [a, b].sort((a, b) => a.localeCompare(b)) as Connection;
+            return [...prev, connection]
+        })
+    })
+
+    
 }
