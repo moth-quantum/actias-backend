@@ -67,6 +67,8 @@
     h3 {
         display: flex;
         align-items: center;
+        word-break: break-word;
+        word-spacing: 50000px; 
     }
 
     .parameter:nth-child(2) {

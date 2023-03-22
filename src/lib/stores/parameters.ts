@@ -45,10 +45,16 @@ const gParams = [
 export const globalParameters = writable(gParams);
 
 const fxParams = [
-    {key: 'delay', name: 'Delay', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
     {key: 'reverb', name: 'Reverb', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+    {key: 'rsize', name: 'Reverb Time', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+    {key: 'delay', name: 'Delay', value: 0, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+    {key: 'dtime', name: 'Delay time', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
     {key: 'chorus', name: 'Chorus', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
-    {key: 'phaser', name: 'Phaser', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+    {key: 'chdepth', name: 'Chorus Depth', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+    {key: 'dist', name: 'dist', value: 0, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+    {key: 'drive', name: 'drive', value: 0, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+    {key: 'hicut', name: 'hicut', value: 0, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+    {key: 'locut', name: 'locut', value: 0, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
 ]
 
 export const fxParameters = writable(fxParams);

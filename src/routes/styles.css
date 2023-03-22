@@ -32,7 +32,7 @@
     --color-grey-mid: #555555;
     --color-grey-dark: #333333;
     --color-grey-darkest: #262626;
-    --color-box-shadow: rgba(51, 51, 51, 0.5);
+    --color-box-shadow: rgba(38, 38, 38, 0.75);
 }
 
 body {

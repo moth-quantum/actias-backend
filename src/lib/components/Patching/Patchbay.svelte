@@ -11,9 +11,9 @@
     ]
 
     const offsets = [
-        4,
-        -4,
-        -12
+        10,
+        0,
+        -10
     ]
 </script>
 
@@ -34,6 +34,7 @@
         border-radius: 5px;
         padding: 1rem;
         display: inline-block;
+        box-shadow: 2px 3px 5px 1px var(--color-box-shadow);
     }
 
     h2 {

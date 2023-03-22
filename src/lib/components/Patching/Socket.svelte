@@ -52,7 +52,10 @@
 
     function init() {
         // init socket
-        const {x, y, width} = thisSocket.getBoundingClientRect();
+        const position = thisSocket.getBoundingClientRect();
+        const x = position.x + window.scrollX;
+        const y = position.y + window.scrollY;
+        const width = position.width;
         // add to store
         sockets.update(s => ({...s, [id]: {...s[id], id, x, y, width, active, type, colour, offset}}));
     }
