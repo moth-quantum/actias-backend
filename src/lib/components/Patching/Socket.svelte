@@ -2,10 +2,11 @@
 
 <script>
     // @ts-nocheck
-    import { onMount } from 'svelte';
+    import { onMount, tick } from 'svelte';
     import { draggable } from '@neodrag/svelte';
     import { sockets, connections, activateSocket, deactivateSockets, connectSockets, disconnectSocket } from '$lib/stores/patching';
     import Cable from '$lib/components/Patching/Cable.svelte';
+    import { instrumentParameters } from '$lib/stores/parameters';
 
     export let id;
     export let type;
@@ -25,7 +26,6 @@
     }
 
     function handleDragEnd(e) {
-        // const {x: targetX, y: targetY} = e.target?.getBoundingClientRect();
         const target = e.target?.getBoundingClientRect();
         const targetX = target.x + window.scrollX;
         const targetY = target.y + window.scrollY;
@@ -63,6 +63,11 @@
         sockets.update(s => ({...s, [id]: {...s[id], id, x, y, width, active, type, colour, offset}}));
     }
 
+    const unsubscribeInstrumentParameters = instrumentParameters.subscribe(async () => {
+        await tick();
+        thisSocket && init();
+    })
+
     onMount(() => {
         init();
         const unsubscribeSockets = sockets.subscribe(sockets => {
@@ -76,6 +81,7 @@
         return () => {
             unsubscribeSockets();
             unsubscribeConnections();
+            unsubscribeInstrumentParameters();
         }
     });
 

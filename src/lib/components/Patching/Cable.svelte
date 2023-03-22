@@ -1,6 +1,5 @@
 <script>
     // @ts-nocheck
-    import { onMount } from 'svelte';
     export let from = {};
     export let to = {};
     export let offset = 2;
@@ -9,23 +8,12 @@
     let w = window.innerWidth;
     let h = window.innerHeight;
 
-    let lines = []
-
-    function calculateLines() {
-        lines = [
-            {x1: from.x + 3, y1: from.y, x2: to.x + (from.x - to.x)/2 + offset, y2: from.y},
-            {x1: to.x + (from.x - to.x)/2 + offset, y1: from.y, x2: to.x + (from.x - to.x)/2 + offset, y2: to.y},
-            {x1: to.x + (from.x - to.x)/2 + offset, y1: to.y, x2: to.x, y2: to.y}
-        ];
-    }
-
     function resize() {
         w = window.innerWidth;
         h = window.innerHeight;
         calculateLines();
     }
 
-    onMount(() => calculateLines());
 </script>
 
 <svelte:window on:resize={resize}/>
@@ -38,12 +26,16 @@
         class="socket"
         cx={from.x} cy={from.y} r="3" stroke={colour} stroke-width="1.5" fill="white"
     />
-    {#each lines as {x1, y1, x2, y2}}
-    <line 
-        class="cable"
-        {x1} {x2} {y1} {y2}
-        stroke={colour} stroke-width="2"
-    />
+    {#each [
+            {x1: from.x + 3, y1: from.y, x2: to.x + (from.x - to.x)/2 + offset, y2: from.y},
+            {x1: to.x + (from.x - to.x)/2 + offset, y1: from.y, x2: to.x + (from.x - to.x)/2 + offset, y2: to.y},
+            {x1: to.x + (from.x - to.x)/2 + offset, y1: to.y, x2: to.x, y2: to.y}
+    ] as {x1, y1, x2, y2}}
+        <line 
+            class="cable"
+            {x1} {x2} {y1} {y2}
+            stroke={colour} stroke-width="2"
+        />
     {/each}
     <circle 
         class="socket"

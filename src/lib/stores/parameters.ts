@@ -75,7 +75,7 @@ const initConnections = () => initialiseConnections([
     ...fxParams,
 ].map(({key}) => key), axes);
 
-instrument.subscribe((instrument) => {
+instrument.subscribe(async (instrument) => {
     instrumentParameters.set(iParams[instrument]);
     setEnvelopes(instrument);
 
