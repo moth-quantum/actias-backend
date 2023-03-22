@@ -37,6 +37,7 @@
         background-color: var(--color-grey-dark);
         border-radius: 5px;
         padding: 1rem 2rem;
+        height: 100%;
     }
 
     .buttons {

@@ -63,7 +63,6 @@
 </script>
 
 <div class="piano">
-    <div class="piano-container">
         <div 
             on:mouseleave={() => mousedown = false}
             class="piano-keys"
@@ -81,17 +80,18 @@
             {/each}
             
         </div>
-    </div>
 </div>
 
 <style>
     .piano {
         width: 100%;
         margin: 0 auto;
+        height: 100%;
         box-shadow: 2px 3px 5px 1px var(--color-box-shadow);
     }
-
+    
     .piano-keys{
+        height: 100%;
         width: 100%;
         display: flex;
         word-spacing: 0;
