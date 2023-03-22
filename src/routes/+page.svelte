@@ -53,10 +53,8 @@
         padding: 1.5rem 2rem;
         display: grid;
         grid-template-columns: 3fr 6fr 3fr;
-        grid-template-rows: 3fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
         grid-gap: 1rem;
-        max-height: calc(100vh - 6rem);
-        overflow: scroll;
     }
 
     .parameters {
@@ -65,7 +63,7 @@
         grid-column-start: 1;
         grid-column-end: 1;
         grid-row-start: 1;
-        grid-row-end: 3;
+        grid-row-end: 4;
     }
 
     .qubit {
@@ -74,7 +72,7 @@
         grid-column-end: 4;
         position: relative;
         grid-row-start: 1;
-        grid-row-end: 2;
+        grid-row-end: 3;
         background-color: var(--color-grey-dark);
         border-radius: 10px;
         padding: 1rem 2rem;
@@ -86,8 +84,8 @@
     .controls {
         grid-column-start: 2;
         grid-column-end: 2;
-        grid-row-start: 2;
-        grid-row-end: 3;
+        grid-row-start: 3;
+        grid-row-end: 4;
         
     }
 </style>

@@ -22,7 +22,7 @@
 
 <div class="group">
     <h2>Global</h2>
-    {#each $globalParameters as {name, min, max, step, units, value, key, rangeA, rangeB}}
+    {#each $globalParameters as {name, min, max, step, units, value, key, rangeA, rangeB} (key)}
         <div class="parameter">
             <h3>{name}</h3>
             <RangeSlider 
@@ -38,7 +38,7 @@
 
 <div class="group">
     <h2>Effects</h2>
-    {#each $fxParameters as {name, min, max, step, units, value, key, rangeA, rangeB}}
+    {#each $fxParameters as {name, min, max, step, units, value, key, rangeA, rangeB} (key)}
         <div class="parameter">
             <h3>{name}</h3>
             <RangeSlider 
@@ -55,7 +55,7 @@
 <style>
     .parameter {
         display: grid;
-        grid-template-columns: 3fr 8fr 1fr;
+        grid-template-columns: 2fr 9fr 1fr;
         margin-bottom: 0rem;
     }
 

@@ -31,7 +31,6 @@ export const deactivateSockets = () => {
 }
 
 export const connectSockets = (a: Socket, b: Socket) => {
-    console.log(a, b)
     // Don't connect sockets of the same type
     if(a.type === b.type) return
 
@@ -53,7 +52,11 @@ export const disconnectSocket = (id: string) => {
 };
 
 export const initialiseConnections = (groupA: string[], groupB: string[]) => {
-    // Connect sockets
+    // remove all connections
+    connections.set([]);
+
+    // TODO: this has all sorts of problems, to do with the order or rendering etc.
+    // connect sockets
     groupA.forEach((a, i) => {
         const b = groupB[Math.floor(i / groupB.length) % groupB.length];
         connections.update((prev: Connection[]) => {
@@ -61,6 +64,4 @@ export const initialiseConnections = (groupA: string[], groupB: string[]) => {
             return [...prev, connection]
         })
     })
-
-    
 }

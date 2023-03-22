@@ -23,10 +23,19 @@ const iParams: {[key: string]: Parameter[]} = {
     fm: [
         {key: 'modi', name: 'modi', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
         {key: 'harm', name: 'harm', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+        {key: 'coff', name: 'cut off', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+        {key: 'res', name: 'res', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
     ],
     granular: [
         {key: 'size', name: 'size', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
         {key: 'width', name: 'Width', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+        {key: 'coff', name: 'coff', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+        {key: 'res', name: 'res', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+        {key: 'grainrate', name: 'grain rate', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+        {key: 'grainsize', name: 'grain size', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+        {key: 'rate', name: 'rate', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+        {key: 'begin', name: 'begin', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+        {key: 'end', name: 'end', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
     ],
     subtractive: [
         {key: 'coff', name: 'coff', value: 50, rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
@@ -40,6 +49,7 @@ const gParams = [
     {key: 'dtune', name: 'dtune', value: 0, rangeA: 0, rangeB: 100, min: -12, max: 12, step: 0.01, units: 'st'},
     {key: 'octave', name: 'Oct', value: 0, rangeA: -3, rangeB: 3, min: -3, max: 3, step: 1, units: 'octs'},
     {key: 'gain', name: 'gain', value: 0, rangeA: -50, rangeB: 3, min: -50, max: 5, step: 0.5, units: 'dB'},
+    {key: 'pan', name: 'pan', value: 0, rangeA: -100, rangeB: 100, min: -100, max: 100, step: 1, units: '%'},
 ]
 
 export const globalParameters = writable(gParams);
@@ -59,22 +69,18 @@ const fxParams = [
 
 export const fxParameters = writable(fxParams);
 
-instrument.subscribe((instrument) => {
-    instrumentParameters.set(iParams[instrument]);
-    setEnvelopes(instrument);
-
-    // const keys = [
-    //     ...iParams[instrument],
-    //     ...gParams,
-    //     ...fxParams,
-    // ].map(({key}) => key)
-    
-    //  resetConnections(keys, axes);
-});
-
-initialiseConnections([
+const initConnections = () => initialiseConnections([
     ...iParams.fm,
     ...gParams,
     ...fxParams,
 ].map(({key}) => key), axes);
+
+instrument.subscribe((instrument) => {
+    instrumentParameters.set(iParams[instrument]);
+    setEnvelopes(instrument);
+
+    initConnections()
+});
+
+
 

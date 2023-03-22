@@ -62,15 +62,18 @@
 
     onMount(() => {
         init();
-        sockets.subscribe(sockets => {
+        const unsubscribeSockets = sockets.subscribe(sockets => {
             allSockets = sockets;
             active = sockets[id]?.active;
         });
-        connections.subscribe(connections => {
+        const unsubscribeConnections = connections.subscribe(connections => {
             connectedTo = connections.filter(c => c[0] === id)?.map(c => c[1]) || [];
         })
 
-        return () => console.log('unmounting')
+        return () => {
+            unsubscribeSockets();
+            unsubscribeConnections();
+        }
     });
 
 </script>

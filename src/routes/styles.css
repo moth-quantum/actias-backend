@@ -132,3 +132,7 @@ button:focus:not(:focus-visible) {
 	white-space: nowrap;
 }
 
+.container {
+    max-width: 1600px;
+}
+
