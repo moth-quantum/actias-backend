@@ -30,7 +30,8 @@
     --color-yellow: #FEF4E5;
     --color-grey-light: #D1CEC7;
     --color-grey-mid: #555555;
-    --color-grey-dark: #333333;
+    --color-grey-dark: #404040;
+    --color-grey-darker: #333333;
     --color-grey-darkest: #262626;
     --color-box-shadow: rgba(38, 38, 38, 0.75);
 }
@@ -39,7 +40,7 @@ body {
 	min-height: 100vh;
 	margin: 0;
 	background-attachment: fixed;
-	background-color: var(--color-grey-dark);
+	background-color: var(--color-grey-darker);
 	background-size: 100vw 100vh;
     letter-spacing: 0.1rem;
     user-select: none

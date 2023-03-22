@@ -1,20 +1,12 @@
-<script>
+<script lang="ts">
     import { createEventDispatcher } from 'svelte';
+    import { noteToKey } from './utils';
 
     const dispatch = createEventDispatcher();
-    /**
-    * @type {boolean}
-    */
-    export let isActive = false;
-    /**
-    * @type {number}
-    */
-    export let note;
     
-    /**
-     * @type {'white' | 'black'}
-    */
-    export let colour;
+    export let isActive: boolean = false;
+    export let note: number;
+    export let colour: 'white' | 'black';
 </script>
 
 <div class="key key--{colour}">
@@ -24,53 +16,63 @@
         on:mouseleave={() => dispatch('leave', note)}
         on:mouseenter={() => dispatch('enter' ,note)}
         class="inner piano-{colour} note-{note} {isActive ? 'active' : ''}"
-    ></div>
+    >
+        <span class="label">{noteToKey(note)}</span>
+    </div>
 </div>
 
 <style>
     .key {
-        display: inline-block;
-        position: relative;
+        display: flex;
         vertical-align: top;
         direction: ltr;
         margin: 0;
         padding: 0;
+        width: 100%;
     }
 
     .key--black {
         width: 0px;
         height: 100px;
         z-index: 2;
+        position: relative;
     }
 
     .inner {
-        border-radius: 2px;
-        border-color: #222;
-        border-style: solid;
-        border-width: 1px 1px 1px 1px;
         cursor: pointer;
+        border-radius: 0 0 4px 4px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding-bottom: 0.5rem;
     }
 
     .key--white > .inner {
-        width: 24px;
-        height: 100px;
+        width: 100%;
+        height: 100%;
         background-color: white;
         z-index: 1;
+        border: 1px solid var(--color-grey-mid);
     }
     .key--white > .inner.active {
         background-color: #000;
     }
     
     .key--black > .inner {
-        width: 16px;
-        height: 70px;
-        position: relative;
-        left: -10px;
-        background-color: black;
+        width: 24px;
+        height: 60%;
+        position: absolute;
+        left: -12px;
+        background-color:  var(--color-grey-darker);
     }
 
     .key--black > .inner.active {
         background-color: #fff;
+    }
+
+    .label {
+        color: var(--color-grey-light);
+        font-size: var(--text-sm);
     }
 
 </style>

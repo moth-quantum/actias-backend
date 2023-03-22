@@ -62,7 +62,7 @@
     }
 </script>
 
-<div class="piano w-full">
+<div class="piano">
     <div class="piano-container">
         <div 
             on:mouseleave={() => mousedown = false}
@@ -87,13 +87,13 @@
 <style>
     .piano {
         margin: 0 auto;
+        box-shadow: 2px 3px 5px 1px var(--color-box-shadow);
     }
 
     .piano-keys{
         width: 100%;
+        display: flex;
         word-spacing: 0;
         letter-spacing: 0;
-        display: inline-block;
-        display: flex;
     }
 </style>
