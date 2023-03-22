@@ -16,12 +16,16 @@
         <Keyboard />
         <div class="knobs">
             <div class="volume">
-                <h3 class="knobs__title">Vol</h3>
+                <span>
+                    <h3 class="knobs__title">Vol</h3>
+                </span>
                 <Knob name="Volume" pixelRange={200} bind:value={$volume}/>
             </div>
             {#each $envelopes as envelope}
                 <div class="envelope">
-                    <h3 class="knobs__title">{envelope.name}</h3>
+                    <span>
+                        <h3 class="knobs__title">{envelope.name}</h3>
+                    </span>
                     {#each Object.entries(envelope.values) as [name, value]}
                         <Knob bind:value={value} pixelRange={200} name={name}/>
                     {/each}
@@ -46,18 +50,47 @@
         margin-right: 1.5rem;
     }
 
-    .knobs {
+    .keysAndKnobs {
+        width: 100%;
         display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .knobs {
+        margin-top: 1.5rem;
+        display: flex;
+        width: 100%;
+    }
+
+    span {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        border-left: 1px solid var(--color-grey-light);
+        padding: 0 0.5rem;
     }
 
     .knobs__title {
         writing-mode: vertical-rl;
         text-orientation: sideways;
+        color: var(--color-grey-light);
+        transform: rotate(180deg);
+        font-size: var(--text-sm);
     }
 
     .volume, .envelope {
         display: flex;
         align-items: center;
-        margin-bottom: 0.5rem;
+        justify-content: space-between;
+    }
+
+    .volume {
+        justify-content: center;
+    }
+    
+    .envelope {
+        width: 100%;
+        margin-left: 1.5rem;
     }
 </style>

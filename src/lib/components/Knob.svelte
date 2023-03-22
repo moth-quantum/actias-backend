@@ -46,11 +46,12 @@
 <style>
 	.knob {
 		background: lightgray;
-		width: 50px;
+		width: 2rem;
+		height: 2rem;
 		user-select: none;
-		height: 50px;
 		border-radius: 50%;
 		transform: rotate(calc(var(--rotation) * 1rad));
+        margin-bottom: 0.5rem;
 	}
 
     .knob__indicator {
@@ -65,8 +66,9 @@
     }
 
     .knob__label {
-        font-size: 0.8rem;
+        font-size: var(--text-xxs);
+        color: var(--color-yellow);
+        text-transform: uppercase;
         text-align: center;
-        margin-bottom: 0.5rem;
     }
 </style>

@@ -86,6 +86,7 @@
 
 <style>
     .piano {
+        width: 100%;
         margin: 0 auto;
         box-shadow: 2px 3px 5px 1px var(--color-box-shadow);
     }
