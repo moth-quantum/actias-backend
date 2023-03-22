@@ -90,8 +90,10 @@
     }
 
     .piano-keys{
+        width: 100%;
         word-spacing: 0;
         letter-spacing: 0;
         display: inline-block;
+        display: flex;
     }
 </style>

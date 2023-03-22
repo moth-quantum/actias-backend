@@ -35,6 +35,8 @@
         padding: 1rem;
         display: inline-block;
         box-shadow: 2px 3px 5px 1px var(--color-box-shadow);
+        width: 4.5rem;
+        text-align: center;
     }
 
     h2 {
@@ -47,7 +49,6 @@
         text-align: right;
     }
     .socket {
-        width: 2.5rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
