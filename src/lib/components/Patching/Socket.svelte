@@ -25,7 +25,10 @@
     }
 
     function handleDragEnd(e) {
-        const {x: targetX, y: targetY} = e.target?.getBoundingClientRect();
+        // const {x: targetX, y: targetY} = e.target?.getBoundingClientRect();
+        const target = e.target?.getBoundingClientRect();
+        const targetX = target.x + window.scrollX;
+        const targetY = target.y + window.scrollY;
         
         // find connecting socket
         const socketId = Object.keys(allSockets).find(id => {
