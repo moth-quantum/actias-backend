@@ -55,6 +55,7 @@
         grid-template-columns: 3fr 6fr 3fr;
         grid-template-rows: 1fr 1fr 1fr;
         grid-gap: 1rem;
+        min-height: 100vh;
     }
 
     .parameters {
