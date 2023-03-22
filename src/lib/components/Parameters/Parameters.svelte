@@ -63,7 +63,12 @@
         grid-column: 1;
         
     }
-
+    
+    h2 {
+        padding-bottom: 0.25rem;
+        margin-bottom: 0.5rem;
+        border-bottom: 0.5px solid var(--color-grey-light);
+    }
     h3 {
         display: flex;
         align-items: center;
@@ -90,12 +95,4 @@
     .group:last-of-type {
         margin-bottom: 0;
     }
-
-    h2 {
-        padding-bottom: 0.25rem;
-        margin-bottom: 0.5rem;
-        border-bottom: 0.5px solid var(--color-grey-light);
-    }
-
-
 </style>
