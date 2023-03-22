@@ -55,10 +55,9 @@ export const initialiseConnections = (groupA: string[], groupB: string[]) => {
     // remove all connections
     connections.set([]);
 
-    // TODO: this has all sorts of problems, to do with the order or rendering etc.
     // connect sockets
     groupA.forEach((a, i) => {
-        const b = groupB[Math.floor(i / groupB.length) % groupB.length];
+        const b = groupB[Math.floor(i / (groupA.length / groupB.length))];
         connections.update((prev: Connection[]) => {
             const connection = [a, b].sort((a, b) => a.localeCompare(b)) as Connection;
             return [...prev, connection]

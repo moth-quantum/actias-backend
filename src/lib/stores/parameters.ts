@@ -69,18 +69,20 @@ const fxParams = [
 
 export const fxParameters = writable(fxParams);
 
-const initConnections = () => initialiseConnections([
-    ...iParams.fm,
+const initConnections = (instrument: string) => initialiseConnections([
+    ...iParams[instrument],
     ...gParams,
     ...fxParams,
 ].map(({key}) => key), axes);
 
-instrument.subscribe(async (instrument) => {
+initConnections('fm')
+
+instrument.subscribe((instrument) => {
     instrumentParameters.set(iParams[instrument]);
     setEnvelopes(instrument);
-
-    initConnections()
+    initConnections(instrument)
 });
+
 
 
 
