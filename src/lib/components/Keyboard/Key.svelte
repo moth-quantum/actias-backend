@@ -55,8 +55,12 @@
         z-index: 1;
         border: 1px solid var(--color-grey-mid);
     }
-    .key--white > .inner.active {
-        background-color: #000;
+    .key--white > .inner.active, .key--black > .inner.active {
+        background-color: var(--color-grey-mid);
+    }
+
+    .key--white > .inner.active > span, .key--black > .inner.active > span {
+        color: white;
     }
     
     .key--black > .inner {
@@ -64,11 +68,7 @@
         height: 60%;
         position: absolute;
         left: -12px;
-        background-color:  var(--color-grey-darker);
-    }
-
-    .key--black > .inner.active {
-        background-color: #fff;
+        background-color: var(--color-grey-darker);
     }
 
     .label {
