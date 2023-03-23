@@ -12,6 +12,8 @@
     let slidersW = 0;
     let slidersH = 0;
 
+    let axesNames = $axes.map(({name}) => name);
+
 </script>
 
 <svelte:head>
@@ -39,11 +41,11 @@
 
     <div class="qubit">
         <div class="axes">
-            <Patchbay ids={$axes.map(({name}) => name)} title="axes"/>
+            <Patchbay ids={axesNames.reverse()} title="axes"/>
         </div>
         <div class="axes-sliders" bind:clientHeight={slidersH} bind:clientWidth={slidersW}>
             <div style={`height: ${slidersW}px; width: ${slidersH}px;`}>
-                {#each $axes.reverse() as {value, min, max, step, name, colour}}
+                {#each $axes as {value, min, max, step, name, colour} (name)}
                     <Slider 
                         {min} {max} {step} {name} {colour}
                         bind:value={value}
@@ -109,6 +111,7 @@
         grid-column-end: 7;
         grid-row-start: 1;
         grid-row-end: 3;
+        display: flex;
     }
 
     .axes-sliders div {
