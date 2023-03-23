@@ -1,5 +1,8 @@
 <script>
+    import { onMount } from 'svelte';
     import { instrument, instruments } from '$lib/stores/parameters';
+    import { startAudio } from '../sound';
+    import { CtSynth } from '../sound/ct-synths';
     import { axes } from '$lib/stores/qubit';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
 
@@ -15,12 +18,20 @@
     let axesIds = $axes.map(({key}) => key);
     let axesNames = $axes.map(({name}) => name);
 
+    onMount(() => {
+        window.addEventListener('keydown', startAudio)
+        window.addEventListener('click', startAudio)
+        window.addEventListener('touchstart', startAudio)
+    });
+
 </script>
 
 <svelte:head>
 	<title>Home</title>
 	<meta name="description" content="TODO: please write a description" />
 </svelte:head>
+
+<svelte:window on:click={startAudio} />
 
 <section class="buttons container mx-auto">
     {#each instruments as inst}

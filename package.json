@@ -32,6 +32,7 @@
     "audiokeys": "^0.1.1",
     "classnames": "^2.3.2",
     "flowbite": "^1.6.3",
-    "flowbite-svelte": "^0.30.6"
+    "flowbite-svelte": "^0.30.6",
+    "tone": "^14.7.77"
   }
 }
