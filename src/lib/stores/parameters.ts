@@ -2,7 +2,6 @@ import { writable, type Writable, get, derived, type Readable } from 'svelte/sto
 import { axes, type Axis } from '$lib/stores/qubit';
 import { setEnvelopes } from './envelopes';
 import { initialiseConnections, getConnections } from './patching';
-
 interface Parameter {
     key: string;
     name: string;
@@ -16,7 +15,6 @@ interface Parameter {
 
 export const instrument: Writable<'fm' | 'granular' | 'subtractive'> = writable('fm');
 export const instruments: ['fm', 'granular', 'subtractive'] = ['fm', 'granular', 'subtractive']
-// export const axes: ['θ', 'φ', 'λ'] = ['θ', 'φ', 'λ'];
 
 const iParams: {[key: string]: Parameter[]} = {
     fm: [
@@ -83,16 +81,6 @@ function getAxis(key: string) : Axis {
     return currentAxes.find((axis) => connections.includes(axis.key)) || currentAxes[0]
 }
 
-function updateValues() {
-    [instrumentParameters, globalParameters, fxParameters].forEach((store) => {
-        store.update((params) => {
-            return params.map((param) => (
-                {...param, value: param.rangeA + (param.rangeB - param.rangeA) * getAxis(param.key).value || 0}
-            ))
-        })
-    })
-}
-
 const initConnections = (instrument: string) => initialiseConnections([
     ...iParams[instrument],
     ...gParams,
@@ -106,5 +94,3 @@ instrument.subscribe((instrument) => {
     setEnvelopes(instrument);
     initConnections(instrument)
 });
-
-axes.subscribe(() => updateValues());
