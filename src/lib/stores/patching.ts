@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { writable, get } from 'svelte/store';
 
 interface Socket {
     id: string;
@@ -63,4 +63,9 @@ export const initialiseConnections = (groupA: string[], groupB: string[]) => {
             return [...prev, connection]
         })
     })
+}
+
+export const getConnections = (id: string) => {
+    let all = get(connections)
+    console.log(all)
 }

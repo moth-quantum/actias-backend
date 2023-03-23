@@ -2,6 +2,7 @@
     import Socket from "./Socket.svelte";
 
     export let ids: string[];
+    export let labels: string[];
     export let title: string;
 
     const colours = [
@@ -22,7 +23,7 @@
     {#each ids as id, i}
         <div class="socket">
             <Socket {id} type="remote" colour={colours[i]} offset={offsets[i]}/>
-            <h3 style="color: {colours[i]}">{id}</h3>
+            <h3 style="color: {colours[i]}">{labels[i]}</h3>
         </div>
     {/each}
 </div>

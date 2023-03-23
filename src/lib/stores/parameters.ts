@@ -1,7 +1,7 @@
 import { writable, type Writable } from 'svelte/store';
-
+import { axes } from '$lib/stores/qubit';
 import { setEnvelopes } from './envelopes';
-import { initialiseConnections } from './patching';
+import { initialiseConnections, getConnections } from './patching';
 
 interface Parameter {
     key: string;
@@ -17,7 +17,7 @@ interface Parameter {
 
 export const instrument: Writable<'fm' | 'granular' | 'subtractive'> = writable('fm');
 export const instruments: ['fm', 'granular', 'subtractive'] = ['fm', 'granular', 'subtractive']
-export const axes: ['θ', 'φ', 'λ'] = ['θ', 'φ', 'λ'];
+// export const axes: ['θ', 'φ', 'λ'] = ['θ', 'φ', 'λ'];
 
 const iParams: {[key: string]: Parameter[]} = {
     fm: [
@@ -73,7 +73,7 @@ const initConnections = (instrument: string) => initialiseConnections([
     ...iParams[instrument],
     ...gParams,
     ...fxParams,
-].map(({key}) => key), axes);
+].map(({key}) => key), ['y', 'x', 'z']);
 
 initConnections('fm')
 
@@ -82,6 +82,14 @@ instrument.subscribe((instrument) => {
     setEnvelopes(instrument);
     initConnections(instrument)
 });
+
+axes.subscribe((axes) => {
+    // for each axis
+    // axes.forEach(({name}) => {
+        // get parameters that are attached via connections to that axis
+        // const connections = getConnections(axis)
+    // using rangeA and rangeB as min and max, set the value of the parameter depending on the value of the axis
+})
 
 
 

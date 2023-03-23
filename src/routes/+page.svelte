@@ -12,6 +12,7 @@
     let slidersW = 0;
     let slidersH = 0;
 
+    let axesIds = $axes.map(({key}) => key);
     let axesNames = $axes.map(({name}) => name);
 
 </script>
@@ -41,7 +42,7 @@
 
     <div class="qubit">
         <div class="axes">
-            <Patchbay ids={axesNames.reverse()} title="axes"/>
+            <Patchbay ids={axesIds.reverse()} labels={axesNames.reverse()} title="axes"/>
         </div>
         <div class="axes-sliders" bind:clientHeight={slidersH} bind:clientWidth={slidersW}>
             <div style={`height: ${slidersW}px; width: ${slidersH}px;`}>

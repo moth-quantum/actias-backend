@@ -1,4 +1,4 @@
-import { writable, type Writable } from 'svelte/store';
+import { writable } from 'svelte/store';
 
 interface Axis {
     key: string;
@@ -17,5 +17,5 @@ export const axes = writable<Axis[]>([
 ]);
 
 axes.subscribe((axes) => {
-    console.log(axes);
+    // console.log(axes);
 })
