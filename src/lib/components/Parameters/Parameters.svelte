@@ -1,17 +1,18 @@
 <script>
-    import { instrumentParameters, fxParameters, globalParameters } from '$lib/stores/parameters';
+    import { instrumentParameters, fxParameters, globalParameters, paramValues } from '$lib/stores/parameters';
     import RangeSlider from '$lib/components/Sliders/RangeSlider.svelte';
     import Socket from '$lib/components/Patching/Socket.svelte';
 </script>
 
 <div class="group">
     <h2>Instrument</h2>
-    {#each $instrumentParameters as {name, min, max, step, units, value, key, rangeA, rangeB} (key)}
+    {#each $instrumentParameters as {name, min, max, step, units, key, rangeA, rangeB} (key)}
         <div class="parameter">
             <h3>{name}</h3>
             <RangeSlider 
                 classes={"mr-4"} 
-                {min} {max} {step} {units} {value} 
+                {min} {max} {step} {units} 
+                value={$paramValues[key]}
                 bind:rangeA={rangeA} 
                 bind:rangeB={rangeB} 
             />
@@ -22,12 +23,13 @@
 
 <div class="group">
     <h2>Global</h2>
-    {#each $globalParameters as {name, min, max, step, units, value, key, rangeA, rangeB} (key)}
+    {#each $globalParameters as {name, min, max, step, units, key, rangeA, rangeB} (key)}
         <div class="parameter">
             <h3>{name}</h3>
             <RangeSlider 
                 classes={"mr-4"} 
-                {min} {max} {step} {units} {value} 
+                {min} {max} {step} {units} 
+                value={$paramValues[key]}
                 bind:rangeA={rangeA} 
                 bind:rangeB={rangeB} 
             />
@@ -38,12 +40,13 @@
 
 <div class="group">
     <h2>Effects</h2>
-    {#each $fxParameters as {name, min, max, step, units, value, key, rangeA, rangeB} (key)}
+    {#each $fxParameters as {name, min, max, step, units, key, rangeA, rangeB} (key)}
         <div class="parameter">
             <h3>{name}</h3>
             <RangeSlider 
                 classes={"mr-4"} 
-                {min} {max} {step} {units} {value} 
+                {min} {max} {step} {units} 
+                value={$paramValues[key]}
                 bind:rangeA={rangeA} 
                 bind:rangeB={rangeB} 
             />
