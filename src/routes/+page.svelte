@@ -9,7 +9,6 @@
     import Measure from '$lib/components/Measure/Measure.svelte';
     import Slider from '$lib/components/Sliders/Slider.svelte';
 
-
     let slidersW = 0;
     let slidersH = 0;
 
@@ -43,19 +42,14 @@
             <Patchbay ids={$axes.map(({name}) => name)} title="axes"/>
         </div>
         <div class="axes-sliders" bind:clientHeight={slidersH} bind:clientWidth={slidersW}>
-            <div 
-                style={`height: ${slidersW}px; width: ${slidersH}px;`}
-            >
+            <div style={`height: ${slidersW}px; width: ${slidersH}px;`}>
                 {#each $axes.reverse() as {value, min, max, step, name, colour}}
-                    <Slider {min} {max} {step} {value} {name} {colour}/>
+                    <Slider 
+                        {min} {max} {step} {name} {colour}
+                        bind:value={value}
+                    />
                 {/each}
-                
             </div>
-            <!-- <SliderGroup 
-                w={slidersW} 
-                h={slidersH}
-                sliders={$axes.map(({value, min, max, step, name, colour}) => ({value, min, max, step, name, colour}))}
-            /> -->
         </div>
     </div>
 
