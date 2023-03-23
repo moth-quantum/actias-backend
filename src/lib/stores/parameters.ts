@@ -1,5 +1,5 @@
 import { writable, type Writable, get } from 'svelte/store';
-import { axes } from '$lib/stores/qubit';
+import { axes, type Axis } from '$lib/stores/qubit';
 import { setEnvelopes } from './envelopes';
 import { initialiseConnections, getConnections } from './patching';
 
@@ -46,9 +46,9 @@ const iParams: {[key: string]: Parameter[]} = {
 export const instrumentParameters = writable(iParams.fm);
 
 const gParams = [
-    {key: 'dtune', name: 'dtune', value: 0, rangeA: 0, rangeB: 100, min: -12, max: 12, step: 0.01, units: 'st'},
+    {key: 'dtune', name: 'dtune', value: 0, rangeA: -12, rangeB: 12, min: -12, max: 12, step: 0.01, units: 'st'},
     {key: 'octave', name: 'Oct', value: 0, rangeA: -3, rangeB: 3, min: -3, max: 3, step: 1, units: 'octs'},
-    {key: 'gain', name: 'gain', value: 0, rangeA: -50, rangeB: 3, min: -50, max: 5, step: 0.5, units: 'dB'},
+    {key: 'gain', name: 'gain', value: 0, rangeA: -50, rangeB: 5, min: -50, max: 5, step: 0.5, units: 'dB'},
     {key: 'pan', name: 'pan', value: 0, rangeA: -100, rangeB: 100, min: -100, max: 100, step: 1, units: '%'},
 ]
 
@@ -69,23 +69,21 @@ const fxParams = [
 
 export const fxParameters = writable(fxParams);
 
-const getParameter = (key: string) : Parameter | null => {
-    const params = [...iParams[get(instrument)], ...gParams, ...fxParams];
-    return params.find((param) => param.key === key) || null;
+const getAxis = (key: string) : Axis => {
+    const currentAxes: Axis[] = get(axes);
+    const connections = getConnections(key);
+    return currentAxes.find((axis) => connections.includes(axis.key)) || currentAxes[0]
 }
 
-const setParameter = (key: string, value: number) : void => {
+function updateValues() {
     [instrumentParameters, globalParameters, fxParameters].forEach((store) => {
         store.update((params) => {
             return params.map((param) => (
-                param.key === key
-                    ? {...param, value}
-                    : param
+                {...param, value: param.rangeA + (param.rangeB - param.rangeA) * getAxis(param.key).value || 0}
             ))
         })
     })
 }
-
 
 const initConnections = (instrument: string) => initialiseConnections([
     ...iParams[instrument],
@@ -101,20 +99,4 @@ instrument.subscribe((instrument) => {
     initConnections(instrument)
 });
 
-axes.subscribe((axes) => {
-    // for each axis
-    axes.forEach(({key, value}) => {
-        // get parameters that are attached via connections to that axis
-        const connections = getConnections(key);
-
-        // using rangeA and rangeB as min and max, set the value of the parameter depending on the value of the axis
-        connections.forEach((connection) => {
-            const param = getParameter(connection);
-            param && setParameter(connection, param.rangeA + (param.rangeB - param.rangeA) * value);
-        })
-    });
-})
-
-
-
-
+axes.subscribe(() => updateValues());

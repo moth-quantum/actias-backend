@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-interface Axis {
+export interface Axis {
     key: string;
     name: string;
     value: number;
