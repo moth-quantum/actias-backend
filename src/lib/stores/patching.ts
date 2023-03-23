@@ -67,5 +67,5 @@ export const initialiseConnections = (groupA: string[], groupB: string[]) => {
 
 export const getConnections = (id: string) => {
     let all = get(connections)
-    console.log(all)
+    return all.filter(c => c[0] === id || c[1] === id).map(c => c[0] === id ? c[1] : c[0]);
 }

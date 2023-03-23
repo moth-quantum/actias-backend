@@ -15,7 +15,3 @@ export const axes = writable<Axis[]>([
     {key: 'x', name: 'φ', value: 0, min: 0, max: 1, step: 0.001, colour: '#E5007F'},
     {key: 'y', name: 'θ', value: 0, min: 0, max: 1, step: 0.001, colour: '#FF695A'},
 ]);
-
-axes.subscribe((axes) => {
-    // console.log(axes);
-})

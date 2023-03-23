@@ -1,4 +1,4 @@
-import { writable, type Writable } from 'svelte/store';
+import { writable, type Writable, get } from 'svelte/store';
 import { axes } from '$lib/stores/qubit';
 import { setEnvelopes } from './envelopes';
 import { initialiseConnections, getConnections } from './patching';
@@ -69,6 +69,24 @@ const fxParams = [
 
 export const fxParameters = writable(fxParams);
 
+const getParameter = (key: string) : Parameter | null => {
+    const params = [...iParams[get(instrument)], ...gParams, ...fxParams];
+    return params.find((param) => param.key === key) || null;
+}
+
+const setParameter = (key: string, value: number) : void => {
+    [instrumentParameters, globalParameters, fxParameters].forEach((store) => {
+        store.update((params) => {
+            return params.map((param) => (
+                param.key === key
+                    ? {...param, value}
+                    : param
+            ))
+        })
+    })
+}
+
+
 const initConnections = (instrument: string) => initialiseConnections([
     ...iParams[instrument],
     ...gParams,
@@ -85,10 +103,16 @@ instrument.subscribe((instrument) => {
 
 axes.subscribe((axes) => {
     // for each axis
-    // axes.forEach(({name}) => {
+    axes.forEach(({key, value}) => {
         // get parameters that are attached via connections to that axis
-        // const connections = getConnections(axis)
-    // using rangeA and rangeB as min and max, set the value of the parameter depending on the value of the axis
+        const connections = getConnections(key);
+
+        // using rangeA and rangeB as min and max, set the value of the parameter depending on the value of the axis
+        connections.forEach((connection) => {
+            const param = getParameter(connection);
+            param && setParameter(connection, param.rangeA + (param.rangeB - param.rangeA) * value);
+        })
+    });
 })
 
 

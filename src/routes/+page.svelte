@@ -42,7 +42,11 @@
 
     <div class="qubit">
         <div class="axes">
-            <Patchbay ids={axesIds.reverse()} labels={axesNames.reverse()} title="axes"/>
+            <Patchbay 
+                title="axes"
+                ids={axesIds.reverse()} 
+                labels={axesNames.reverse()} 
+            />
         </div>
         <div class="axes-sliders" bind:clientHeight={slidersH} bind:clientWidth={slidersW}>
             <div style={`height: ${slidersW}px; width: ${slidersH}px;`}>
