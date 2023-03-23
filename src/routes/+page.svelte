@@ -1,11 +1,18 @@
 <script>
-    import { instrument, instruments, axes } from '$lib/stores/parameters';
+    import { instrument, instruments } from '$lib/stores/parameters';
+    import { axes } from '$lib/stores/qubit';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
 
     import Parameters from '$lib/components/Parameters/Parameters.svelte';
     import Controls from '$lib/components/Controls/Controls.svelte';
     import Button from '$lib/components/Button/Button.svelte';
     import Measure from '$lib/components/Measure/Measure.svelte';
+    import Slider from '$lib/components/Sliders/Slider.svelte';
+
+
+    let slidersW = 0;
+    let slidersH = 0;
+
 </script>
 
 <svelte:head>
@@ -32,8 +39,23 @@
     </div>
 
     <div class="qubit">
-        <div class="axis">
-            <Patchbay ids={axes} title="axes"/>
+        <div class="axes">
+            <Patchbay ids={$axes.map(({name}) => name)} title="axes"/>
+        </div>
+        <div class="axes-sliders" bind:clientHeight={slidersH} bind:clientWidth={slidersW}>
+            <div 
+                style={`height: ${slidersW}px; width: ${slidersH}px;`}
+            >
+                {#each $axes.reverse() as {value, min, max, step, name, colour}}
+                    <Slider {min} {max} {step} {value} {name} {colour}/>
+                {/each}
+                
+            </div>
+            <!-- <SliderGroup 
+                w={slidersW} 
+                h={slidersH}
+                sliders={$axes.map(({value, min, max, step, name, colour}) => ({value, min, max, step, name, colour}))}
+            /> -->
         </div>
     </div>
 
@@ -73,9 +95,10 @@
     }
 
     .qubit {
-        display: grid;
+        display: flex;
+        justify-content: space-between;
         grid-column-start: 2;
-        grid-column-end: 4;
+        grid-column-end: 3;
         position: relative;
         grid-row-start: 1;
         grid-row-end: 3;
@@ -84,7 +107,18 @@
         padding: 1rem 2rem;
     }
 
-    .axis {
+    .axes {
+    }
+
+    .axes-sliders {
+        grid-column-start: 5;
+        grid-column-end: 7;
+        grid-row-start: 1;
+        grid-row-end: 3;
+    }
+
+    .axes-sliders div {
+        transform: rotate(90deg);
     }
 
     .controls {

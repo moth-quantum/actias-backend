@@ -63,23 +63,23 @@
 </script>
 
 <div class="piano">
-        <div 
-            on:mouseleave={() => mousedown = false}
-            class="piano-keys"
-        >
-            {#each notes as note, i}
-                <Key 
-                    note={note}
-                    colour={[1,3,6,8,10].includes(i%12) ? 'black' : 'white'}
-                    isActive={activeNotes.includes(note)}
-                    on:down={handleMousedown}
-                    on:up={handleMouseup}
-                    on:leave={handleMouseleave}
-                    on:enter={handleMouseenter}
-                />
-            {/each}
-            
-        </div>
+    <div 
+        on:mouseleave={() => mousedown = false}
+        class="piano-keys"
+    >
+        {#each notes as note, i}
+            <Key 
+                note={note}
+                colour={[1,3,6,8,10].includes(i%12) ? 'black' : 'white'}
+                isActive={activeNotes.includes(note)}
+                on:down={handleMousedown}
+                on:up={handleMouseup}
+                on:leave={handleMouseleave}
+                on:enter={handleMouseenter}
+            />
+        {/each}
+        
+    </div>
 </div>
 
 <style>
@@ -88,6 +88,7 @@
         margin: 0 auto;
         height: 100%;
         box-shadow: 2px 3px 5px 1px var(--color-box-shadow);
+        max-height: 8rem;
     }
     
     .piano-keys{

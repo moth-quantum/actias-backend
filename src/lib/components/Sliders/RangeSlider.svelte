@@ -1,7 +1,4 @@
 <script>
-  import Controls from "./Controls/Controls.svelte";
-
-
     export let min = 0;
     export let max = 1;
     export let step = 0.01;

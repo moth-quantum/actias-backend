@@ -1,6 +1,6 @@
 <script>
     import { instrumentParameters, fxParameters, globalParameters } from '$lib/stores/parameters';
-    import RangeSlider from '$lib/components/RangeSlider.svelte';
+    import RangeSlider from '$lib/components/Sliders/RangeSlider.svelte';
     import Socket from '$lib/components/Patching/Socket.svelte';
 </script>
 
