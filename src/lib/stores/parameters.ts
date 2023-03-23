@@ -40,16 +40,12 @@ const iParams: {[key: string]: Parameter[]} = {
     ],
 };
 
-export const instrumentParameters = writable(iParams.fm);
-
 const gParams = [
     {key: 'dtune', name: 'dtune', rangeA: -12, rangeB: 12, min: -12, max: 12, step: 0.01, units: 'st'},
     {key: 'octave', name: 'Oct', rangeA: -3, rangeB: 3, min: -3, max: 3, step: 1, units: 'octs'},
     {key: 'gain', name: 'gain', rangeA: -50, rangeB: 5, min: -50, max: 5, step: 0.5, units: 'dB'},
     {key: 'pan', name: 'pan', rangeA: -100, rangeB: 100, min: -100, max: 100, step: 1, units: '%'},
 ]
-
-export const globalParameters = writable(gParams);
 
 const fxParams = [
     {key: 'reverb', name: 'Reverb', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
@@ -64,8 +60,9 @@ const fxParams = [
     {key: 'locut', name: 'locut', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
 ]
 
+export const instrumentParameters = writable(iParams.fm);
+export const globalParameters = writable(gParams);
 export const fxParameters = writable(fxParams);
-
 export const paramValues: Readable<{[key: string]: number}> = derived(
     [instrumentParameters, globalParameters, fxParameters, axes], 
     ([$instrumentParameters, $globalParameters, $fxParameters]) => {

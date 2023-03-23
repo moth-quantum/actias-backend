@@ -60,6 +60,10 @@
         </div>
     </div>
 
+    <div class="metrics">
+        Metrics go here
+    </div>
+
     <div class="controls">
         <Controls />
     </div>
@@ -108,7 +112,14 @@
         padding: 1rem 2rem;
     }
 
-    .axes {
+    .metrics {
+        grid-column-start: 3;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 3;
+        background-color: var(--color-grey-dark);
+        border-radius: 10px;
+        padding: 1rem 2rem;
     }
 
     .axes-sliders {
@@ -128,5 +139,7 @@
         grid-column-end: 2;
         grid-row-start: 3;
         grid-row-end: 4;
+        background-color: var(--color-grey-dark);
+        border-radius: 10px;
     }
 </style>

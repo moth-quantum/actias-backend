@@ -1,0 +1,3 @@
+[submodule "src/sound/ct-synths"]
+	path = src/sound/ct-synths
+	url = https://github.com/cephasteom/ct-synths.git
