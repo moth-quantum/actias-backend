@@ -13,7 +13,7 @@ interface Envelope {
 
 
 const instrumentEnvelopes: {[key: string]: Envelope[]} = {
-    fm: [
+    synth: [
         {key: 'amp', name: 'Amp', values: {att: 0.01, dec: 0.15, sus: 0.5, rel: 0.5}},
         {key: 'modulation', name: 'Mod', values: {att: 0.01, dec: 0.15, sus: 0.5, rel: 0.5}},
     ],
@@ -27,8 +27,8 @@ const instrumentEnvelopes: {[key: string]: Envelope[]} = {
     ],
 }
 
-export const envelopes = writable(instrumentEnvelopes.fm);
+export const envelopes = writable(instrumentEnvelopes.synth);
 
-export const setEnvelopes = (instrument: 'fm' | 'granular' | 'subtractive') => {
+export const setEnvelopes = (instrument: 'synth' | 'granular' | 'subtractive') => {
     envelopes.set(instrumentEnvelopes[instrument]);
 }

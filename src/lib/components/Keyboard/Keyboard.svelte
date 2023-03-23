@@ -1,6 +1,9 @@
-<script>
+<script lang="ts">
+    import { get } from 'svelte/store';
     import AudioKeys from 'audiokeys';
     import Key from './Key.svelte';
+    import { handleEvent } from '../../../sound';
+    import { synthValues } from '$lib/stores/parameters';
     
     const keyboard = new AudioKeys({
         polyphony: 4,
@@ -10,53 +13,41 @@
 
     let mousedown = false;
 
-    /**
-    * @type {number[]}
-    */
-    let notes = [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83];
-    
-    /**
-    * @type {number[]}
-    */
-    let activeNotes = [];
+    let notes: number[] = [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83];
+    let activeNotes: number[] = [];
 
-    /**
-    * @param {number} note
-    */
-    function depressKey(note) {
+    function depressKey(note: number) {
         activeNotes = [...activeNotes, note];
+        handleEvent({...get(synthValues), n: note, amp: 1})
     }
 
-    /**
-     * @param {number} note
-     */
-    function releaseKey(note) {
+    function releaseKey(note: number) {
         activeNotes = activeNotes.filter(n => n !== note);
     }
 
-    keyboard.down( function(note) {
-        depressKey(note.note);
+    keyboard.down( ({note} : {note: number}) => {
+        depressKey(note);
     });
 
-    keyboard.up( function(note) {
-        releaseKey(note.note);
+    keyboard.up( ({note} : {note: number}) => {
+        releaseKey(note);
     });
 
-    function handleMousedown(e) {
+    function handleMousedown(e: CustomEvent<any>) {
         mousedown = true;
         depressKey(e.detail);
     }
 
-    function handleMouseup(e) {
+    function handleMouseup(e: CustomEvent<any>) {
         mousedown = false;
         releaseKey(e.detail);
     }
 
-    function handleMouseleave(e) {
+    function handleMouseleave(e: CustomEvent<any>) {
         releaseKey(e.detail);
     }
 
-    function handleMouseenter(e) {
+    function handleMouseenter(e: CustomEvent<any>) {
         if(!mousedown) return;
         depressKey(e.detail);
     }

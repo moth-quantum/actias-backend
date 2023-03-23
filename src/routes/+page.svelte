@@ -2,7 +2,6 @@
     import { onMount } from 'svelte';
     import { instrument, instruments } from '$lib/stores/parameters';
     import { startAudio } from '../sound';
-    import { CtSynth } from '../sound/ct-synths';
     import { axes } from '$lib/stores/qubit';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
 
