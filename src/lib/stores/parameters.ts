@@ -107,26 +107,26 @@ instrument.subscribe((instrument) => {
     initConnections(instrument)
 });
 
-function scaleParamValue(param: Parameter) {
-    const value = get(paramValues)[param.key]
+function scaleParamValue(key: string, value: number) {
+    const param = get(allParameters).find((param) => param.key === key);
     
-    return param.outmin !== undefined && param.outmax !== undefined
+    return param && param.outmin !== undefined && param.outmax !== undefined
         ? mapToRange(value, param.min, param.max, param.outmin, param.outmax) 
         : value
 }
 
 // fetch and format parameters for synth event
 export const synthValues: Readable<{[key: string]: number | string}> = derived(
-    [allParameters], 
-    ([$allParameters]) => ({
+    [paramValues], 
+    ([$paramValues]) => ({
         inst: get(instrument),
-        ...$allParameters.reduce((obj, parameter) => ({
+        ...Object.entries($paramValues).reduce((obj, [key, value]) => ({
             ...obj,
-            [parameter.key]: scaleParamValue(parameter)
+            [key]: scaleParamValue(key, value)
         }), {})
     })
 )
 
-// synthValues.subscribe((values) => {
-//     handleMutation(values)
-// })
+synthValues.subscribe((values) => {
+    handleMutation(values)
+})

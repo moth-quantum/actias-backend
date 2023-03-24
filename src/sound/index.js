@@ -26,7 +26,6 @@ export const handleEvent = (params) => {
 }
 
 export const handleMutation = (params) => {
-    console.log(params)
-    // const { inst } = params
-    // synths[inst]?.mutate(params, immediate())
+    const { inst } = params
+    synths[inst]?.mutate(params, immediate())
 }
