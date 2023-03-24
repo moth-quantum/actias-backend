@@ -2,7 +2,7 @@
     import { get } from 'svelte/store';
     import AudioKeys from 'audiokeys';
     import Key from './Key.svelte';
-    import { handleEvent } from '../../../sound';
+    import { handleEvent, handleNoteOff } from '../../../sound';
     import { synthValues } from '$lib/stores/parameters';
     
     const keyboard = new AudioKeys({
@@ -23,6 +23,7 @@
 
     function releaseKey(note: number) {
         activeNotes = activeNotes.filter(n => n !== note);
+        handleNoteOff({...get(synthValues), n: note})
     }
 
     keyboard.down( ({note} : {note: number}) => {
