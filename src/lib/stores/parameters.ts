@@ -1,6 +1,6 @@
 import { writable, type Writable, get, derived, type Readable } from 'svelte/store';
 import { axes, type Axis } from '$lib/stores/qubit';
-import { setEnvelopes } from './envelopes';
+import { setEnvelopes, envelopeValues } from './envelopes';
 import { initialiseConnections, getConnections } from './patching';
 import { mapToStepRange } from '$lib/utils/utils';
 import { handleMutation } from '../../sound'
@@ -128,10 +128,11 @@ const defaults = {
 
 // fetch and format parameters for synth event
 export const synthValues: Readable<{[key: string]: number | string}> = derived(
-    [paramValues], 
-    ([$paramValues]) => ({
+    [paramValues, envelopeValues], 
+    ([$paramValues, $envelopeValues]) => ({
         ...defaults,
         inst: get(instrument),
+        ...get(envelopeValues),
         ...Object.entries($paramValues).reduce((obj, [key, value]) => ({
             ...obj,
             [key]: scaleParamValue(key, value)
