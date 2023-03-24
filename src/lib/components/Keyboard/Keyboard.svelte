@@ -22,8 +22,9 @@
     }
 
     function releaseKey(note: number) {
+        if(!activeNotes.includes(note)) return;
         activeNotes = activeNotes.filter(n => n !== note);
-        handleNoteOff({...get(synthValues), n: note})
+        handleNoteOff(get(synthValues).inst, note)
     }
 
     keyboard.down( ({note} : {note: number}) => {

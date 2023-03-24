@@ -125,7 +125,7 @@ const defaults = {
     fils: 1,
     lthresh: 0.75,
     gain: 0.75,
-    dur: 2000,
+    dur: 10000,
 }
 
 // fetch and format parameters for synth event

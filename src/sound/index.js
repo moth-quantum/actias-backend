@@ -26,12 +26,12 @@ export const handleEvent = (params) => {
     const { inst, n} = params
     // TODO: these need to be altered using an additional parameter, rather than the midinote, which is needed for note on / off
     // const n = params.n + (Math.round(octave) * 12) + semitone
-    synths[inst]?.play({...params, n}, immediate())
+    synths[inst]?.play({...params, n}, immediate() + 0.01)
     fx.set(params, immediate())
 }
 
-export const handleNoteOff = ({inst, n}) => {
-    // synths[inst]?.releaseNote(n, immediate())
+export const handleNoteOff = (inst, n) => {
+    synths[inst]?.release(n, immediate())
 }
 
 export const handleMutation = (params) => {
