@@ -19,11 +19,11 @@
                 <h3 class="knobs__title">Vol</h3>
             </span>
             <Knob name="Volume" pixelRange={200} bind:value={$volume}/>
-            {#each $envelopes as envelope}
+            {#each $envelopes as {name, values}}
                 <span>
-                    <h3 class="knobs__title">{envelope.name}</h3>
+                    <h3 class="knobs__title">{name}</h3>
                 </span>
-                {#each Object.entries(envelope.values) as [name, value]}
+                {#each Object.entries(values) as [name, value]}
                     <Knob bind:value={value} pixelRange={200} name={name}/>
                 {/each}
             {/each}
