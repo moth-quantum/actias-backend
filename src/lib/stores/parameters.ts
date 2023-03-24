@@ -117,7 +117,7 @@ function scaleParamValue(param: Parameter) {
 
 // fetch and format parameters for synth event
 export const synthValues: Readable<{[key: string]: number | string}> = derived(
-    [allParameters, axes], 
+    [allParameters], 
     ([$allParameters]) => ({
         inst: get(instrument),
         ...$allParameters.reduce((obj, parameter) => ({

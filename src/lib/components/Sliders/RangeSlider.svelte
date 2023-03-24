@@ -6,7 +6,6 @@
     export let rangeA = 0;
     export let rangeB = 1;
     export let value = 0.5;
-    export let classes = '';
 </script>
 
 <div class="range-slider">
