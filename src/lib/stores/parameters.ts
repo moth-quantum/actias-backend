@@ -21,15 +21,17 @@ export const instrument: Writable<'synth' | 'granular' | 'subtractive'> = writab
 export const instruments: ['synth', 'granular', 'subtractive'] = ['synth', 'granular', 'subtractive']
 
 const baseParams: Parameter[] = [
-    {key: 'cutoff', name: 'cutoff', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
-    {key: 'res', name: 'res', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
+    // Needs exponential range
+    {key: 'cutoff', name: 'cutoff', rangeA: 10, rangeB: 20, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 20000},
+    {key: 'res', name: 'res', rangeA: 0, rangeB: 25, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 0.95},
+    {key: 'fila', name: 'filter', rangeA: 0, rangeB: 25, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 2000},
 ];
 
 const iParams: {[key: string]: Parameter[]} = {
     synth: [
-        {key: 'modi', name: 'modi', rangeA: 0, rangeB: 50, min: 0, max: 50, step: 0.01, units: ''},
+        {key: 'modi', name: 'modi', rangeA: 0, rangeB: 10, min: 0, max: 50, step: 0.01, units: '%', outmin: 0, outmax: 50},
         {key: 'harm', name: 'harm', rangeA: 0.5, rangeB: 10, min: 0.5, max: 10, step: 0.05, units: ''},
-        {key: 'drift', name: 'drift', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 4},
+        {key: 'drift', name: 'drift', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 20},
         ...baseParams,
     ],
     granular: [
