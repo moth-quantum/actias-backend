@@ -10,7 +10,6 @@
         <div class="parameter">
             <h3>{name}</h3>
             <RangeSlider 
-                classes={"mr-4"} 
                 {min} {max} {step} {units} 
                 value={$paramValues[key]}
                 bind:rangeA={rangeA} 
@@ -27,7 +26,6 @@
         <div class="parameter">
             <h3>{name}</h3>
             <RangeSlider 
-                classes={"mr-4"} 
                 {min} {max} {step} {units} 
                 value={$paramValues[key]}
                 bind:rangeA={rangeA} 
@@ -44,7 +42,6 @@
         <div class="parameter">
             <h3>{name}</h3>
             <RangeSlider 
-                classes={"mr-4"} 
                 {min} {max} {step} {units} 
                 value={$paramValues[key]}
                 bind:rangeA={rangeA} 

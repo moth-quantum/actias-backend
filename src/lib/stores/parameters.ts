@@ -50,10 +50,9 @@ const iParams: {[key: string]: Parameter[]} = {
 };
 
 const gParams = [
-    {key: 'dtune', name: 'dtune', rangeA: -12, rangeB: 12, min: -12, max: 12, step: 0.01, units: 'st'},
-    {key: 'octave', name: 'Oct', rangeA: -3, rangeB: 3, min: -3, max: 3, step: 1, units: 'octs'},
-    // TODO: scale this properly
-    {key: 'gain', name: 'gain', rangeA: -50, rangeB: 5, min: -50, max: 5, step: 0.5, units: 'dB', outmin: 0, outmax: 1.1},
+    {key: 'semitone', name: 'dtune', rangeA: 0, rangeB: 0, min: -12, max: 12, step: 0.01, units: 'st'},
+    {key: 'octave', name: 'Oct', rangeA: -1, rangeB: 0, min: -3, max: 3, step: 1, units: 'octs'},
+    {key: 'vol', name: 'gain', rangeA: 0.75, rangeB: 0.75, min: 0, max: 1, step: 0.01, units: '', outmin: 0, outmax: 1},
     {key: 'pan', name: 'pan', rangeA: -0, rangeB: 0, min: -1, max: 1, step: 0.01, units: '', outmin: 0, outmax: 1},
 ]
 

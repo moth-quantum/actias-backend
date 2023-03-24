@@ -21,11 +21,12 @@ const synths = {
 }
 
 export const handleEvent = (params) => {
-    const { inst } = params
-    synths[inst]?.play(params, immediate())
+    const { inst, semitone, octave } = params
+    const n = params.n + (Math.round(octave) * 12) + semitone
+    synths[inst]?.play({...params, n}, immediate())
 }
 
 export const handleMutation = (params) => {
     const { inst } = params
-    synths[inst]?.mutate(params, immediate())
+    synths[inst]?.mutate({...params}, immediate())
 }

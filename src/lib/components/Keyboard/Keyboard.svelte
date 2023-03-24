@@ -18,7 +18,7 @@
 
     function depressKey(note: number) {
         activeNotes = [...activeNotes, note];
-        handleEvent({...get(synthValues), n: note - 12, amp: 1})
+        handleEvent({...get(synthValues), n: note, amp: 1})
     }
 
     function releaseKey(note: number) {
