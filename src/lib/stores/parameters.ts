@@ -2,7 +2,7 @@ import { writable, type Writable, get, derived, type Readable } from 'svelte/sto
 import { axes, type Axis } from '$lib/stores/qubit';
 import { setEnvelopes } from './envelopes';
 import { initialiseConnections, getConnections } from './patching';
-import { mapToRange } from '$lib/utils/utils';
+import { mapToStepRange } from '$lib/utils/utils';
 import { handleMutation } from '../../sound'
 interface Parameter {
     key: string;
@@ -30,7 +30,7 @@ const baseParams: Parameter[] = [
 const iParams: {[key: string]: Parameter[]} = {
     synth: [
         {key: 'modi', name: 'modi', rangeA: 0, rangeB: 10, min: 0, max: 50, step: 0.01, units: '%', outmin: 0, outmax: 50},
-        {key: 'harm', name: 'harm', rangeA: 0.5, rangeB: 10, min: 0.5, max: 10, step: 0.25, units: ''},
+        {key: 'harm', name: 'harm', rangeA: 2, rangeB: 2, min: 0.5, max: 10, step: 0.25, units: ''},
         {key: 'drift', name: 'drift', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 5},
         ...baseParams,
     ],
@@ -66,8 +66,8 @@ const fxParams = [
     {key: 'chdepth', name: 'CDepth', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
     {key: 'dist', name: 'dist', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
     // {key: 'drive', name: 'drive', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
-    // {key: 'hicut', name: 'hicut', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
-    // {key: 'locut', name: 'locut', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+    {key: 'hicut', name: 'hicut', rangeA: 0, rangeB: 0, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
+    {key: 'locut', name: 'locut', rangeA: 0, rangeB: 25, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
 ]
 
 export const instrumentParameters = writable(iParams.synth);
@@ -113,7 +113,7 @@ function scaleParamValue(key: string, value: number) {
     const param = get(allParameters).find((param) => param.key === key);
     
     return param && param.outmin !== undefined && param.outmax !== undefined
-        ? mapToRange(value, param.min, param.max, param.outmin, param.outmax) 
+        ? mapToStepRange(value, param.min, param.max, param.outmin, param.outmax, param.step) 
         : value
 }
 
@@ -121,6 +121,9 @@ const defaults = {
     dfilter: 0,
     dcolour: 0.5,
     drive: 0.5,
+    fils: 1,
+    lthresh: 0.75,
+    gain: 0.75
 }
 
 // fetch and format parameters for synth event
