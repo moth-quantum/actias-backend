@@ -1,30 +1,20 @@
 import { writable, get } from 'svelte/store';
-
-interface Socket {
-    id: string;
-    type: 'local' | 'remote';
-    colour: string;
-    offset: number;
-    active: boolean;
-    x: number;
-    y: number;
-    width: number;
-}
+import type { Socket } from '$lib/types';
 
 type Connection = [string, string];
 
-export const sockets = writable({} as {[key: string]: Socket[]});
+export const sockets = writable({} as {[key: string]: Socket});
 export const connections = writable([] as Connection[]);
 
 export const activateSocket = (id: string) => {
-    sockets.update((s: {[key: string]: Socket[]}) => Object.keys(s).reduce((sockets, socketId: string) => ({
+    sockets.update((s: {[key: string]: Socket}) => Object.keys(s).reduce((sockets, socketId: string) => ({
         ...sockets,
         [socketId]: {...s[socketId], active: socketId === id}
     }), {}));
 }
 
 export const deactivateSockets = () => {
-    sockets.update((s: {[key: string]: Socket[]}) => Object.keys(s).reduce((sockets, socketId) => ({
+    sockets.update((s: {[key: string]: Socket}) => Object.keys(s).reduce((sockets, socketId) => ({
         ...sockets,
         [socketId]: {...s[socketId], active: false}
     }), {}));
@@ -68,4 +58,18 @@ export const initialiseConnections = (groupA: string[], groupB: string[]) => {
 export const getConnections = (id: string) => {
     let all = get(connections)
     return all.filter(c => c[0] === id || c[1] === id).map(c => c[0] === id ? c[1] : c[0]);
+}
+
+export const randomiseConnections = () => {
+    // disconnect all sockets
+    connections.set([]);
+    // split sockets by type
+    const all = get(sockets);
+    const localSockets = Object.values(all).filter(s => s.type === 'origin');
+    const remoteSockets = Object.values(all).filter(s => s.type === 'remote');
+    // for each local socket, create a connection where the other socket is a random remote socket (x, y, z)
+    localSockets.forEach((socket: Socket) => {
+        const randomSocket = remoteSockets[Math.floor(Math.random() * remoteSockets.length)];
+        connectSockets(socket, randomSocket);
+    })
 }

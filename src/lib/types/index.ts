@@ -21,3 +21,14 @@ export interface Parameter {
     outmin?: number;
     outmax?: number;
 }
+
+export interface Socket {
+    id: string;
+    type: 'origin' | 'remote';
+    colour: string;
+    offset: number;
+    active: boolean;
+    x: number;
+    y: number;
+    width: number;
+}

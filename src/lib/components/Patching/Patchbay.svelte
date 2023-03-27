@@ -1,5 +1,6 @@
 <script lang="ts">
     import Socket from "./Socket.svelte";
+    import { randomiseConnections } from "$lib/stores/patching";
 
     export let ids: string[];
     export let labels: string[];
@@ -19,7 +20,9 @@
 </script>
 
 <div class="patchbay">
-    <h2>{title}</h2>
+    <h2
+        on:click={() => randomiseConnections()}
+    >{title}</h2>
     {#each ids as id, i}
         <div class="socket">
             <Socket {id} type="remote" colour={colours[i]} offset={offsets[i]}/>
@@ -43,6 +46,7 @@
     h2 {
         text-align: center;
         margin-bottom: 1rem;
+        cursor: pointer;
     }
 
     h3 {
