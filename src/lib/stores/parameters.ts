@@ -7,7 +7,7 @@ import { mapToStepRange, roundToFactor } from '$lib/utils/utils';
 import { handleMutation } from '../../sound'
 import type { InstrumentName, Parameter } from '$lib/types';
 
-export const instrument: Writable<InstrumentName> = writable('sampler');
+export const instrument: Writable<InstrumentName> = writable('synth');
 export const instruments: InstrumentName[] = ['synth', 'sampler', 'granular']
 
 const baseParams: Parameter[] = [
@@ -20,7 +20,6 @@ const iParams: {[key: string]: Parameter[]} = {
     synth: [
         {key: 'modi', name: 'modi', rangeA: 0, rangeB: 10, min: 0, max: 50, step: 0.01, units: '%', outmin: 0, outmax: 50},
         {key: 'harm', name: 'harm', rangeA: 2, rangeB: 2, min: 0.5, max: 10, step: 0.25, units: ''},
-        {key: 'shape', name: 'shape', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.001, units: ''},
         {key: 'drift', name: 'drift', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 5},
         ...baseParams,
     ],
