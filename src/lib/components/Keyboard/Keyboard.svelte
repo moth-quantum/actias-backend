@@ -6,7 +6,7 @@
     import { synthValues } from '$lib/stores/parameters';
     
     const keyboard = new AudioKeys({
-        polyphony: 4,
+        polyphony: 6,
         rows: 2,
         priority: 'last',
     });

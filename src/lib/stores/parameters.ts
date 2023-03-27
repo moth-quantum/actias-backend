@@ -14,22 +14,32 @@ const baseParams: Parameter[] = [
     // Needs exponential range
     {key: 'cutoff', name: 'cutoff', rangeA: 10, rangeB: 20, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 20000},
     {key: 'res', name: 'res', rangeA: 0, rangeB: 25, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 0.95},
-    {key: 'fila', name: 'filter', rangeA: 0, rangeB: 25, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 2000},
 ];
 
 const iParams: {[key: string]: Parameter[]} = {
     synth: [
         {key: 'modi', name: 'modi', rangeA: 0, rangeB: 10, min: 0, max: 50, step: 0.01, units: '%', outmin: 0, outmax: 50},
         {key: 'harm', name: 'harm', rangeA: 2, rangeB: 2, min: 0.5, max: 10, step: 0.25, units: ''},
+        {key: 'shape', name: 'shape', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.001, units: ''},
         {key: 'drift', name: 'drift', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 5},
         ...baseParams,
     ],
     sampler: [
         {key: 'i', name: 'src', rangeA: 0, rangeB: 0, min: 0, max: get(samples).length, step: 1, units: ''},
+        {key: 'loop', name: 'loop', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 1, units: ''},
+        {key: 'loopsize', name: 'size', rangeA: 1, rangeB: 1, min: 0.001, max: 1, step: 0.001, units: ''},
+        {key: 'rate', name: 'rate', rangeA: 1, rangeB: 1, min: -1, max: 2, step: 0.125, units: ''},
+        {key: 'begin', name: 'begin', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.001, units: ''},
+        {key: 'end', name: 'end', rangeA: 1, rangeB: 0, min: 0, max: 1, step: 0.001, units: ''},
         ...baseParams,
     ],
     granular: [
         {key: 'i', name: 'src', rangeA: 0, rangeB: 0, min: 0, max: get(samples).length, step: 1, units: ''},
+        {key: 'grainrate', name: 'rate', rangeA: 8, rangeB: 16, min: 1, max: 64, step: 1, units: ''},
+        {key: 'grainsize', name: 'size', rangeA: 0.1, rangeB: 1, min: 0.001, max: 1, step: 0.001, units: ''},
+        {key: 'grainpan', name: 'pan', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.001, units: ''},
+        {key: 'begin', name: 'begin', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.001, units: ''},
+        {key: 'end', name: 'end', rangeA: 1, rangeB: 0, min: 0, max: 1, step: 0.001, units: ''},
         ...baseParams,
     ],
 };
@@ -108,7 +118,7 @@ const defaults = {
     fils: 1,
     lthresh: 0.75,
     gain: 0.75,
-    dur: 10000,
+    dur: 20000,
 }
 
 // fetch and format parameters for synth event
