@@ -43,7 +43,7 @@ const iParams: {[key: string]: Parameter[]} = {
     ],
 };
 
-const gParams = [
+const gParams: Parameter[] = [
     // TODO: these need to be altered using an additional parameter, rather than the midinote, which is needed for note on / off
     // {key: 'semitone', name: 'dtune', rangeA: 0, rangeB: 0, min: -12, max: 12, step: 0.01, units: 'st'},
     // {key: 'octave', name: 'Oct', rangeA: -1, rangeB: 0, min: -3, max: 3, step: 1, units: 'octs'},
@@ -51,7 +51,7 @@ const gParams = [
     {key: 'pan', name: 'pan', rangeA: -0, rangeB: 0, min: -1, max: 1, step: 0.01, units: '', outmin: 0, outmax: 1},
 ]
 
-const fxParams = [
+const fxParams: Parameter[] = [
     {key: 'reverb', name: 'Reverb', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
     {key: 'rsize', name: 'RTime', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
     {key: 'delay', name: 'Delay', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
@@ -138,3 +138,15 @@ export const synthValues: Readable<{[key: string]: number | string}> = derived(
 synthValues.subscribe((values) => {
     handleMutation(values)
 })
+
+export function randomise(type: 'inst' | 'global' | 'fx') {
+    const func = (p: Parameter) => ({
+        ...p,
+        rangeA: mapToStepRange(Math.random(), 0, 1, p.min, p.max, p.step),
+        rangeB: mapToStepRange(Math.random(), 0, 1, p.min, p.max, p.step),
+    })
+
+    type === 'inst' && instrumentParameters.update((params: Parameter[]) => params.map(func));
+    type === 'global' && globalParameters.update((params: Parameter[]) => params.map(func));
+    type === 'fx' && fxParameters.update((params: Parameter[]) => params.map(func));
+}

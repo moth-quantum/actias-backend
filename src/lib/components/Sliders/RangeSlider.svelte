@@ -9,13 +9,13 @@
 </script>
 
 <div class="range-slider">
-    <span class="">{rangeA}{units}</span>
+    <span class="">{rangeA.toLocaleString('fullwide', {maximumFractionDigits: 2})}{units}</span>
     <div class="slider">
         <input class="min" type="range" {min} {max} {step} bind:value={rangeA} />
         <input class="track" type="range" {min} {max} {step} {value} disabled/>
         <input class="max" type="range" {min} {max} {step} bind:value={rangeB} />
     </div>
-    <span class="">{rangeB}{units}</span>
+    <span class="">{rangeB.toLocaleString('fullwide', {maximumFractionDigits: 2})}{units}</span>
 </div>
 
 <style>

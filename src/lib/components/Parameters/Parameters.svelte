@@ -1,11 +1,13 @@
 <script>
-    import { instrumentParameters, fxParameters, globalParameters, paramValues, instrument } from '$lib/stores/parameters';
+    import { instrumentParameters, fxParameters, globalParameters, paramValues, randomise } from '$lib/stores/parameters';
     import RangeSlider from '$lib/components/Sliders/RangeSlider.svelte';
     import Socket from '$lib/components/Patching/Socket.svelte';
 </script>
 
 <div class="group">
-    <h2>Instrument</h2>
+    <h2
+        on:click={() => randomise('inst')}
+    >Instrument</h2>
     {#each $instrumentParameters as {name, min, max, step, units, key, rangeA, rangeB} (key)}
         <div class="parameter">
             <h3>{name}</h3>
@@ -21,7 +23,9 @@
 </div>
 
 <div class="group">
-    <h2>Global</h2>
+    <h2
+        on:click={() => randomise('global')}
+    >Global</h2>
     {#each $globalParameters as {name, min, max, step, units, key, rangeA, rangeB} (key)}
         <div class="parameter">
             <h3>{name}</h3>
@@ -37,7 +41,9 @@
 </div>
 
 <div class="group">
-    <h2>Effects</h2>
+    <h2
+        on:click={() => randomise('fx')}
+    >Effects</h2>
     {#each $fxParameters as {name, min, max, step, units, key, rangeA, rangeB} (key)}
         <div class="parameter">
             <h3>{name}</h3>
@@ -71,6 +77,7 @@
         padding-bottom: 0.25rem;
         margin-bottom: 0.5rem;
         border-bottom: 0.5px solid var(--color-grey-light);
+        cursor: pointer;
     }
     h3 {
         display: flex;
