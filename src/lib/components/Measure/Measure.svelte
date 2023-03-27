@@ -1,14 +1,13 @@
 <script>
-    
+import Select from '$lib/components/Forms/Select.svelte';   
 </script>
 
 <div class="measure">
     <h2>Measure</h2>
     <form>
-        <select id="source">
-            <option>Seconds</option>
-            <option>Bars</option>
-        </select>
+        <div class="source">
+            <Select id="source" options={['Local', 'Remote']} />
+        </div>
         <input id="seconds" size="sm" placeholder={10.00} type="number" />
         <input id="bpm" size="sm" placeholder="BPM" type="number" />
         <input id="bars" size="sm" placeholder="Bars" type="number" />
@@ -30,7 +29,7 @@
         grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     }
 
-    input, select {
+    input {
         font-size: var(--text-sm);
         color: var(--color-grey-mid);
         text-transform: uppercase;
@@ -43,7 +42,7 @@
         color: var(--color-grey-mid);
     }
 
-    #source {
+    .source {
         grid-column: 1 / 3;
     }
 

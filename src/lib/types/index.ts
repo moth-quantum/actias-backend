@@ -1,0 +1,23 @@
+export type InstrumentName = 'synth' | 'sampler' | 'granular';
+
+export interface Envelope {
+    key: string;
+    name: string;
+    a: number;
+    d: number;
+    s: number;
+    r: number;
+}
+
+export interface Parameter {
+    key: string;
+    name: string;
+    rangeA: number;
+    rangeB: number;
+    min: number;
+    max: number;
+    step: number;
+    units: string;
+    outmin?: number;
+    outmax?: number;
+}

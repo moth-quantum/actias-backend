@@ -1,5 +1,5 @@
 <script>
-    import { instrumentParameters, fxParameters, globalParameters, paramValues } from '$lib/stores/parameters';
+    import { instrumentParameters, fxParameters, globalParameters, paramValues, instrument } from '$lib/stores/parameters';
     import RangeSlider from '$lib/components/Sliders/RangeSlider.svelte';
     import Socket from '$lib/components/Patching/Socket.svelte';
 </script>
@@ -53,6 +53,9 @@
 </div>
 
 <style>
+    .samples {
+        margin-bottom: 0.5rem;
+    }
     .parameter {
         display: grid;
         grid-template-columns: 2fr 9fr 1fr;

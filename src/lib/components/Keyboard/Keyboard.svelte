@@ -51,7 +51,8 @@
 
     function handleMouseenter(e: CustomEvent<any>) {
         if(!mousedown) return;
-        depressKey(e.detail);
+        // Suppressed for now, due to notes sticking
+        // depressKey(e.detail);
     }
 </script>
 

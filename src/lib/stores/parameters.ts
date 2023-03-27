@@ -1,24 +1,14 @@
 import { writable, type Writable, get, derived, type Readable } from 'svelte/store';
 import { axes, type Axis } from '$lib/stores/qubit';
+import { samples } from '$lib/stores/samples';
 import { setEnvelopes, envelopeValues } from './envelopes';
 import { initialiseConnections, getConnections } from './patching';
-import { mapToStepRange } from '$lib/utils/utils';
+import { mapToStepRange, roundToFactor } from '$lib/utils/utils';
 import { handleMutation } from '../../sound'
-interface Parameter {
-    key: string;
-    name: string;
-    rangeA: number;
-    rangeB: number;
-    min: number;
-    max: number;
-    step: number;
-    units: string;
-    outmin?: number;
-    outmax?: number;
-}
+import type { InstrumentName, Parameter } from '$lib/types';
 
-export const instrument: Writable<'synth' | 'granular' | 'subtractive'> = writable('synth');
-export const instruments: ['synth', 'granular', 'subtractive'] = ['synth', 'granular', 'subtractive']
+export const instrument: Writable<InstrumentName> = writable('sampler');
+export const instruments: InstrumentName[] = ['synth', 'sampler', 'granular']
 
 const baseParams: Parameter[] = [
     // Needs exponential range
@@ -34,17 +24,12 @@ const iParams: {[key: string]: Parameter[]} = {
         {key: 'drift', name: 'drift', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 5},
         ...baseParams,
     ],
-    granular: [
-        {key: 'size', name: 'size', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
-        {key: 'width', name: 'Width', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
-        {key: 'grainrate', name: 'grain rate', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
-        {key: 'grainsize', name: 'grain size', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
-        {key: 'rate', name: 'rate', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
-        {key: 'begin', name: 'begin', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
-        {key: 'end', name: 'end', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
+    sampler: [
+        {key: 'i', name: 'src', rangeA: 0, rangeB: 0, min: 0, max: get(samples).length, step: 1, units: ''},
         ...baseParams,
     ],
-    subtractive: [
+    granular: [
+        {key: 'i', name: 'src', rangeA: 0, rangeB: 0, min: 0, max: get(samples).length, step: 1, units: ''},
         ...baseParams,
     ],
 };
@@ -102,8 +87,6 @@ const initConnections = (instrument: string) => initialiseConnections([
     ...fxParams,
 ].map(({key}) => key), ['y', 'x', 'z']);
 
-initConnections('synth')
-
 instrument.subscribe((instrument) => {
     instrumentParameters.set(iParams[instrument]);
     setEnvelopes(instrument);
@@ -115,7 +98,7 @@ function scaleParamValue(key: string, value: number) {
     
     return param && param.outmin !== undefined && param.outmax !== undefined
         ? mapToStepRange(value, param.min, param.max, param.outmin, param.outmax, param.step) 
-        : value
+        : roundToFactor(value, param.step)
 }
 
 const defaults = {
@@ -130,11 +113,11 @@ const defaults = {
 
 // fetch and format parameters for synth event
 export const synthValues: Readable<{[key: string]: number | string}> = derived(
-    [paramValues, envelopeValues], 
-    ([$paramValues, $envelopeValues]) => ({
+    [paramValues, envelopeValues, instrument], 
+    ([$paramValues, $envelopeValues, $instrument]) => ({
         ...defaults,
-        inst: get(instrument),
-        ...get(envelopeValues),
+        inst: $instrument,
+        ...$envelopeValues,
         ...Object.entries($paramValues).reduce((obj, [key, value]) => ({
             ...obj,
             [key]: scaleParamValue(key, value)

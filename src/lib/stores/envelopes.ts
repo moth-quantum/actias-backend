@@ -1,24 +1,16 @@
 import { writable, derived, type Readable } from 'svelte/store';
-
-interface Envelope {
-    key: string;
-    name: string;
-    a: number;
-    d: number;
-    s: number;
-    r: number;
-}
+import type { Envelope, InstrumentName } from '$lib/types';
 
 const instrumentEnvelopes: {[key: string]: Envelope[]} = {
     synth: [
         {key: 'amp', name: 'Amp', a: 0.01, d: 0.15, s: 0.5, r: 0.125},
         {key: 'mod', name: 'Mod', a: 0.01, d: 0.15, s: 0.5, r: 0.125},
     ],
-    granular: [
+    sampler: [
         {key: 'amp', name: 'Amp', a: 0.01, d: 0.15, s: 0.5, r: 0.125},
         {key: 'fil', name: 'Fil', a: 0.01, d: 0.15, s: 1, r: 0.125},
     ],
-    subtractive: [
+    granular: [
         {key: 'amp', name: 'Amp', a: 0.01, d: 0.15, s: 0.5, r: 0.125},
         {key: 'fil', name: 'Fil', a: 0.01, d: 0.15, s: 1, r: 0.125},
     ],
@@ -26,7 +18,7 @@ const instrumentEnvelopes: {[key: string]: Envelope[]} = {
 
 export const envelopes = writable(instrumentEnvelopes.synth);
 
-export const setEnvelopes = (instrument: 'synth' | 'granular' | 'subtractive') => {
+export const setEnvelopes = (instrument: InstrumentName) => {
     envelopes.set(instrumentEnvelopes[instrument]);
 }
 
