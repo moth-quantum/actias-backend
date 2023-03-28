@@ -79,6 +79,10 @@
         border-bottom: 0.5px solid var(--color-grey-light);
         cursor: pointer;
     }
+    
+    h2:hover {
+        color: var(--color-theme-2);
+    }
     h3 {
         display: flex;
         align-items: center;

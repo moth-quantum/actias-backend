@@ -49,6 +49,10 @@
         cursor: pointer;
     }
 
+    h2:hover {
+        color: var(--color-theme-2);
+    }
+
     h3 {
         font-size: 1rem;
         text-align: right;
