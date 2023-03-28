@@ -10,9 +10,7 @@
     import Button from '$lib/components/Button/Button.svelte';
     import Measure from '$lib/components/Measure/Measure.svelte';
     import Slider from '$lib/components/Sliders/Slider.svelte';
-
-    let slidersW = 0;
-    let slidersH = 0;
+    import Qubit from '$lib/components/Qubit/Qubit.svelte';
 
     let axesIds = $axes.map(({key}) => key);
     let axesNames = $axes.map(({name}) => name);
@@ -58,8 +56,11 @@
                 labels={axesNames.reverse()} 
             />
         </div>
-        <div class="axes-sliders" bind:clientHeight={slidersH} bind:clientWidth={slidersW}>
-            <div style={`height: ${slidersW}px; width: ${slidersH}px;`}>
+        <div class="sphere">
+            <!-- <Qubit /> -->
+        </div>
+        <div class="axes-sliders">
+            <div>
                 {#each $axes as {value, min, max, step, name, colour} (name)}
                     <Slider 
                         {min} {max} {step} {name} {colour}
@@ -97,7 +98,7 @@
         grid-template-columns: 3fr 6fr 3fr;
         grid-template-rows: 1fr 1fr 1fr;
         grid-gap: 1rem;
-        /* min-height: 100vh; */
+        min-height: 100vh;
     }
 
     .parameters {
@@ -120,6 +121,7 @@
         background-color: var(--color-grey-dark);
         border-radius: 10px;
         padding: 1rem 2rem;
+        min-height: 30rem;
     }
 
     .metrics {
@@ -138,6 +140,9 @@
         grid-row-start: 1;
         grid-row-end: 3;
         display: flex;
+    }
+    .axes-sliders > div {
+        width: calc(30rem - 2rem);
     }
 
     .axes-sliders div {
