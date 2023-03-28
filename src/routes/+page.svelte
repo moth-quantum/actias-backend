@@ -14,6 +14,7 @@
 
     let axesIds = $axes.map(({key}) => key);
     let axesNames = $axes.map(({name}) => name);
+    let qubitH = 0;
 
     onMount(() => {
         window.addEventListener('keydown', startAudio)
@@ -56,8 +57,8 @@
                 labels={axesNames.reverse()} 
             />
         </div>
-        <div class="sphere">
-            <!-- <Qubit /> -->
+        <div class="sphere" bind:clientHeight={qubitH}>
+            <Qubit size={qubitH * 0.8} x={$axes[1].value} y={$axes[2].value} z={$axes[0].value} />
         </div>
         <div class="axes-sliders">
             <div>
@@ -124,6 +125,19 @@
         min-height: 30rem;
     }
 
+    .sphere {
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     .metrics {
         grid-column-start: 3;
         grid-column-end: 3;
@@ -134,12 +148,17 @@
         padding: 1rem 2rem;
     }
 
+    .axes {
+        z-index: 10;
+    }
+
     .axes-sliders {
         grid-column-start: 5;
         grid-column-end: 7;
         grid-row-start: 1;
         grid-row-end: 3;
         display: flex;
+        z-index: 10;
     }
     .axes-sliders > div {
         width: calc(30rem - 2rem);
