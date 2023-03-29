@@ -46,7 +46,7 @@
             let c = p5.color('rgb(255,255,255)')
             c.setAlpha(10)
             p5.stroke(c)
-            p5.sphere(radius - 1, 20, 20);
+            // p5.sphere(radius - 1, 20, 20);
             p5.pop()
             
             // Position
@@ -62,7 +62,7 @@
             p5.stroke('#FF695A')
             p5.strokeWeight(4)
             p5.rotateY(p5.radians(90))
-            p5.rotateY(p5.radians(vector.x))
+            p5.rotateY(p5.radians(x * 180))
             // p5.translate(0, 0, vector.x)
             p5.circle(0, 0, (radius * 2));
             p5.pop()
