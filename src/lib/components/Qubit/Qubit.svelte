@@ -8,13 +8,6 @@
 
     const sketch : Sketch = (p5: p5)=> {
         const radius = 150
-        const sphericalToCartesian = (r: number, theta: number, phi: number) => {
-            // p5.angleMode(p5.DEGREES)
-            const x = r * p5.sin(theta * 180) * p5.cos(phi * 180)
-            const y = r * p5.sin(theta * 180) * p5.sin(phi * 180)
-            const z = r * p5.cos(theta * 180)
-            return {x, y, z}
-        }
 
         p5.setup = () => {
             p5.createCanvas(size, size, p5.WEBGL)
@@ -25,16 +18,23 @@
         p5.draw = () => {
             p5.smooth()
             p5.background('#404040')
+
+            let locX = -p5.width / 4;
+            let locY = 0
+
+            p5.ambientLight(60, 60, 60);
+            p5.pointLight(255, 255, 255, locX, locY, 100);
             
             const vector = Vector.fromAngles(p5.radians(y * 180), p5.radians(x * 180), radius)
 
             // sphere
             p5.push()
-            p5.noFill()
+            // p5.noFill()
+            p5.ambientMaterial(194);
             let c = p5.color('rgb(255,255,255)')
             c.setAlpha(10)
             p5.stroke(c)
-            p5.sphere(radius - 1, 20, 20);
+            p5.sphere(radius - 2, 20, 20);
             p5.pop()
             
             // Position
