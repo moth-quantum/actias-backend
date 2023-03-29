@@ -61,7 +61,7 @@
             <Qubit size={qubitH * 0.8} phi={$axes[1].value} theta={$axes[2].value} phase={$axes[0].value} />
         </div>
         <div class="axes-sliders">
-            <div>
+            <div style={`width: ${qubitH}px;`}>
                 {#each $axes as {value, min, max, step, name, colour} (name)}
                     <Slider 
                         {min} {max} {step} {name} {colour}
@@ -122,7 +122,7 @@
         background-color: var(--color-grey-dark);
         border-radius: 10px;
         padding: 1rem 2rem;
-        height: 30rem;
+        /* height: 30rem; */
     }
 
     .sphere {
@@ -161,7 +161,9 @@
         z-index: 10;
     }
     .axes-sliders > div {
-        width: calc(30rem - 2rem);
+        padding: 0 1rem;
+        margin: 0 -1rem 0 0;
+        
     }
 
     .axes-sliders div {
