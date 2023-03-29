@@ -62,8 +62,9 @@
             p5.stroke('#FF695A')
             p5.strokeWeight(4)
             p5.rotateY(p5.radians(90))
-            p5.translate(0, 0, vector.x)
-            p5.circle(0, 0, (p5.cos(p5.radians(x * 180)) * radius * 2));
+            p5.rotateY(p5.radians(vector.x))
+            // p5.translate(0, 0, vector.x)
+            p5.circle(0, 0, (radius * 2));
             p5.pop()
 
             // inclination ring
