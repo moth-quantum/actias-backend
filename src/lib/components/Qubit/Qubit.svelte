@@ -49,10 +49,31 @@
             p5.sphere(radius - 1, 20, 20);
             p5.pop()
             
+            // Position
             p5.push()
             p5.stroke('white')
             p5.translate(vector.x, vector.y, vector.z)
             p5.sphere(4);
+            p5.pop()
+
+            // azimuth ring
+            p5.push()
+            p5.noFill()
+            p5.stroke('#FF695A')
+            p5.strokeWeight(4)
+            p5.rotateY(p5.radians(90))
+            p5.translate(0, 0, vector.x)
+            p5.circle(0, 0, (p5.cos(p5.radians(x * 180)) * radius * 2));
+            p5.pop()
+
+            // inclination ring
+            p5.push()
+            p5.noFill()
+            p5.stroke('#E5007F')
+            p5.strokeWeight(4)
+            p5.rotateX(p5.radians(90))
+            p5.translate(0, 0, -vector.y)
+            p5.circle(0, 0, (p5.sin(p5.radians(y * 180)) * radius * 2));
             p5.pop()
 
 
