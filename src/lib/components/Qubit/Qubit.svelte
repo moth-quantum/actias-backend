@@ -50,25 +50,26 @@
             p5.noFill()
             p5.stroke('#E5007F')
             p5.strokeWeight(4)
-
             p5.rotateX(90)
-            p5.translate(0, 0, radius - Math.sin(y) * (radius * 2))
-
-            p5.circle(0, 0, (radius * 2) + 4);
+            const yPos = radius - y * (radius * 2)
+            p5.translate(0, 0, yPos)
+            p5.circle(0, 0, p5.sin(y * 180) * (radius * 2) + 4);
             p5.pop()
-
+            
+            
             // Azimuth
             p5.applyMatrix(cos_x, 0.0, sin_x, 0.0, 0.0, 1.0, 0.0, 0.0, -sin_x, 0.0, cos_x, 0.0, 0.0, 0.0, 0.0, 1.0);
-
             // Inclination
             p5.applyMatrix(cos_y, sin_y, -sin_y, cos_y, 0, 0);
-
             // Phase
-            
             p5.applyMatrix(cos_z, 0.0, sin_z, 0.0, 0.0, 1.0, 0.0, 0.0, -sin_z, 0.0, cos_z, 0.0, 0.0, 0.0, 0.0, 1.0);
+
+            // position
             p5.translate(0, -radius - 2.5);
             p5.stroke('white')
             p5.sphere(4);
+
+
         }
     }
 
