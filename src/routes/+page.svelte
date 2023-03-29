@@ -122,7 +122,7 @@
         background-color: var(--color-grey-dark);
         border-radius: 10px;
         padding: 1rem 2rem;
-        min-height: 30rem;
+        height: 30rem;
     }
 
     .sphere {

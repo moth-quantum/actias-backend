@@ -1,7 +1,7 @@
 <script lang="ts">
     import P5 from 'p5-svelte'
     import type { p5, Sketch } from 'p5-svelte';
-    export let size: number = 1000;
+    export let size: number;
 
     export let x: number, y: number, z: number;
 
@@ -52,12 +52,9 @@
             p5.strokeWeight(4)
 
             p5.rotateX(90)
-            p5.translate(0, 0, radius - (y * (radius * 2)))
+            p5.translate(0, 0, radius - Math.sin(y) * (radius * 2))
 
-            // p5.applyMatrix(cos_y, sin_y, -sin_y, cos_y, 0, 0);
-            // p5.translate(0, -radius - 2.5);
-
-            p5.circle(0, 0, radius * 2 + 4);
+            p5.circle(0, 0, (radius * 2) + 4);
             p5.pop()
 
             // Azimuth
