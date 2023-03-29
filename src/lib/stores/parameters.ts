@@ -95,7 +95,7 @@ const initConnections = (instrument: string) => initialiseConnections([
     ...iParams[instrument],
     ...gParams,
     ...fxParams,
-].map(({key}) => key), ['y', 'x', 'z']);
+].map(({key}) => key), ['z', 'y', 'x']);
 
 instrument.subscribe((instrument) => {
     instrumentParameters.set(iParams[instrument]);

@@ -58,7 +58,7 @@
             />
         </div>
         <div class="sphere" bind:clientHeight={qubitH}>
-            <Qubit size={qubitH * 0.8} x={$axes[1].value} y={$axes[2].value} z={$axes[0].value} />
+            <Qubit size={qubitH * 0.8} phi={$axes[1].value} theta={$axes[2].value} phase={$axes[0].value} />
         </div>
         <div class="axes-sliders">
             <div>
