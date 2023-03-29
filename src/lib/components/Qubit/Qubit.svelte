@@ -51,11 +51,11 @@
             p5.stroke('#E5007F')
             p5.strokeWeight(4)
             p5.rotateX(90)
-            const yPos = radius - y * (radius * 2)
-            p5.translate(0, 0, yPos)
+            // const 
+            const yPos = y
+            p5.translate(0, 0, radius - yPos * radius * 2)
             p5.circle(0, 0, p5.sin(y * 180) * (radius * 2) + 4);
-            p5.pop()
-            
+            p5.pop()            
             
             // Azimuth
             p5.applyMatrix(cos_x, 0.0, sin_x, 0.0, 0.0, 1.0, 0.0, 0.0, -sin_x, 0.0, cos_x, 0.0, 0.0, 0.0, 0.0, 1.0);
