@@ -33,7 +33,8 @@ granular.banks = {default: get(samples)}
 granular.currentBank = 'default'
 granular.connect(crush)
 
-const instruments = { synth, sampler, granular }
+// const instruments = { synth, sampler, granular }
+const instruments = {}
 
 export const handleEvent = (params) => {
     const { inst, n} = params

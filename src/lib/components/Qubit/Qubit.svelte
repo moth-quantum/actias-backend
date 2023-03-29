@@ -18,22 +18,33 @@
         p5.draw = () => {
             p5.smooth()
             p5.background('#404040')
-
-            let locX = -p5.width / 4;
-            let locY = 0
-
-            p5.ambientLight(60, 60, 60);
-            p5.pointLight(255, 255, 255, locX, locY, 100);
             
             const vector = Vector.fromAngles(p5.radians(y * 180), p5.radians(x * 180), radius)
 
             // sphere
             p5.push()
-            // p5.noFill()
+            p5.rotateY(p5.radians(90))
             p5.ambientMaterial(194);
-            let c = p5.color('rgb(255,255,255)')
-            c.setAlpha(10)
+            let c = p5.color('rgb(209, 206, 199)')
+            c.setAlpha(50)
             p5.stroke(c)
+            p5.strokeWeight(0.25)
+            p5.noFill()
+            
+            // Azimuth
+            const cos_y = p5.cos(p5.radians(-x * 180));
+            const sin_y = p5.sin(p5.radians(-x * 180));
+            p5.applyMatrix(cos_y, 0.0, sin_y, 0.0, 0.0, 1.0, 0.0, 0.0, -sin_y, 0.0, cos_y, 0.0, 0.0, 0.0, 0.0, 1.0);
+
+            // Inclination
+            const cos_x = p5.cos(p5.radians(-y * 180));
+            const sin_x = p5.sin(p5.radians(-y * 180));
+            p5.applyMatrix(cos_x, sin_x, -sin_x, cos_x, 0, 0);
+
+            // Phase
+            const cos_z = p5.cos(p5.radians(z * 180));
+            const sin_z = p5.sin(p5.radians(z * 180));
+            p5.applyMatrix(cos_z, 0.0, sin_z, 0.0, 0.0, 1.0, 0.0, 0.0, -sin_z, 0.0, cos_z, 0.0, 0.0, 0.0, 0.0, 1.0);
             p5.sphere(radius - 2, 20, 20);
             p5.pop()
             
