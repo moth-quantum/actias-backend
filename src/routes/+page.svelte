@@ -49,25 +49,28 @@
         <Parameters />
     </div>
 
-    <div class="qubit">
-        <div class="axes">
-            <Patchbay 
-                title="axes"
-                ids={axesIds.reverse()} 
-                labels={axesNames.reverse()} 
-            />
-        </div>
-        <div class="sphere" bind:clientHeight={qubitH}>
-            <Qubit size={qubitH * 0.8} phi={$axes[1].value} theta={$axes[2].value} phase={$axes[0].value} />
-        </div>
-        <div class="axes-sliders">
-            <div style={`width: ${qubitH}px;`}>
-                {#each $axes as {value, min, max, step, name, colour} (name)}
-                    <Slider 
-                        {min} {max} {step} {name} {colour}
-                        bind:value={value}
-                    />
-                {/each}
+    <div class="visuals">
+        
+        <div class="qubit">
+            <div class="axes">
+                <Patchbay 
+                    title="axes"
+                    ids={axesIds.reverse()} 
+                    labels={axesNames.reverse()} 
+                />
+            </div>
+            <div class="sphere" bind:clientHeight={qubitH}>
+                <Qubit size={qubitH * 0.8} phi={$axes[1].value} theta={$axes[2].value} phase={$axes[0].value} />
+            </div>
+            <div class="axes-sliders">
+                <div style={`width: ${qubitH}px;`}>
+                    {#each $axes as {value, min, max, step, name, colour} (name)}
+                        <Slider 
+                            {min} {max} {step} {name} {colour}
+                            bind:value={value}
+                        />
+                    {/each}
+                </div>
             </div>
         </div>
     </div>
@@ -99,7 +102,6 @@
         grid-template-columns: 3fr 6fr 3fr;
         grid-template-rows: 1fr 1fr 0.5fr;
         grid-gap: 1rem;
-        min-height: 100vh;
     }
 
     .parameters {
@@ -111,18 +113,24 @@
         grid-row-end: 4;
     }
 
-    .qubit {
-        display: flex;
-        justify-content: space-between;
+    .visuals {
         grid-column-start: 2;
-        grid-column-end: 3;
-        position: relative;
+        grid-column-end: 4;
         grid-row-start: 1;
         grid-row-end: 3;
         background-color: var(--color-grey-dark);
         border-radius: 10px;
+
+        display: grid;
+        grid-template-columns: 6fr 3fr;
+    }
+
+    .qubit {
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        position: relative;
         padding: 1rem 2rem;
-        /* height: 30rem; */
     }
 
     .sphere {
@@ -143,9 +151,7 @@
         grid-column-end: 3;
         grid-row-start: 1;
         grid-row-end: 3;
-        background-color: var(--color-grey-dark);
-        border-radius: 10px;
-        padding: 1rem 2rem;
+        padding: 1rem;
     }
 
     .axes {
@@ -163,7 +169,6 @@
     .axes-sliders > div {
         padding: 0 1rem;
         margin: 0 -1rem 0 0;
-        
     }
 
     .axes-sliders div {

@@ -29,7 +29,6 @@ const iParams: {[key: string]: Parameter[]} = {
         {key: 'loopsize', name: 'size', rangeA: 1, rangeB: 1, min: 0.001, max: 1, step: 0.001, units: ''},
         {key: 'rate', name: 'rate', rangeA: 1, rangeB: 1, min: -1, max: 2, step: 0.125, units: ''},
         {key: 'begin', name: 'begin', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.001, units: ''},
-        {key: 'end', name: 'end', rangeA: 1, rangeB: 0, min: 0, max: 1, step: 0.001, units: ''},
         ...baseParams,
     ],
     granular: [
