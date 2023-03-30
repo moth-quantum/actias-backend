@@ -21,7 +21,7 @@
     </nav>
 </header>
 
-<style>
+<style lang="scss">
 	header {
 		display: flex;
 		justify-content: center;
@@ -33,6 +33,15 @@
         justify-content: space-between;
         padding-top: 1rem;
         padding-bottom: 1rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+
+        $var: calc(1600px - 4rem);
+
+        @media (min-width: 1664px) {
+            padding-left: 0rem;
+            padding-right: 0rem;
+        }
     }
 
     .menu {
