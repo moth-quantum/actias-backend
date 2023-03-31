@@ -1,4 +1,4 @@
-<div>
+<div class="knob__container">
     <div class="knob" style="--rotation: {rotation}" on:pointerdown={pointerDown}>
         <div class="knob__indicator"></div>
     </div>
@@ -44,6 +44,12 @@
 
 
 <style>
+
+    .knob__container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 	.knob {
 		background: lightgray;
 		width: 2rem;

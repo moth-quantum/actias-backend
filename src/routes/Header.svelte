@@ -31,10 +31,11 @@
     nav {
         display: flex;
         justify-content: space-between;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-        padding-left: 2rem;
-        padding-right: 2rem;
+        padding: 1rem;
+
+        @media (min-width: 1200px) {
+            padding: 1rem 2rem;
+        }
 
         $var: calc(1600px - 4rem);
 

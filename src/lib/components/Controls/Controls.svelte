@@ -12,30 +12,37 @@
         <Button text="Midi" colour="primary" />
         <Button text="Drone" colour="secondary" />
     </div>
-    <div class="keysAndKnobs">
+    <div class="controller">
         <Keyboard />
         <div class="knobs">
-            <span>
-                <h3 class="knobs__title">Vol</h3>
-            </span>
-            <Knob name="Volume" pixelRange={200} bind:value={$volume}/>
-            {#each $envelopes as {name, a, d, s, r}}
+            <div class="volume">
                 <span>
-                    <h3 class="knobs__title">{name}</h3>
+                    <h3 class="knobs__title">Vol</h3>
                 </span>
-                <Knob bind:value={a} pixelRange={200} min={0.01} name="a"/>
-                <Knob bind:value={d} pixelRange={200} min={0.01} name="d"/>
-                <Knob bind:value={s} pixelRange={200} min={0.01} name="s"/>
-                <Knob bind:value={r} pixelRange={200} min={0.01} name="r"/>
+                <Knob name="Volume" pixelRange={200} bind:value={$volume}/>
+            </div>
+            {#each $envelopes as {name, a, d, s, r}, i}
+                <div class={`envelope envelope__${i}`}>
+                    <span>
+                        <h3 class="knobs__title">{name}</h3>
+                    </span>
+                    <Knob bind:value={a} pixelRange={200} min={0.01} name="a"/>
+                    <Knob bind:value={d} pixelRange={200} min={0.01} name="d"/>
+                    <Knob bind:value={s} pixelRange={200} min={0.01} name="s"/>
+                    <Knob bind:value={r} pixelRange={200} min={0.01} name="r"/>
+                </div>
             {/each}
         </div>
     </div>
 </div>
         
-<style>
+<style lang="scss">
     .controls {
         display: flex;
-        padding: 1rem 2rem;
+        padding: 1rem;
+        @media (min-width: 1200px) {
+            padding: 1rem 2rem;
+        }
         height: 100%;
         min-height: 14rem;
     }
@@ -43,11 +50,21 @@
     .buttons {
         display: flex;
         flex-direction: column;
-        width: 4.5rem;
-        margin-right: 1.5rem;
+        margin-right: 1rem;
+        width: 4rem;
+        @media (min-width: 400px) {
+            width: 8rem;
+        }
+        @media (min-width: 650px) {
+            width: 10rem;
+            margin-right: 1.5rem;
+        }
+        @media (min-width: 1200px) {
+            width: 4.5rem;
+        }
     }
 
-    .keysAndKnobs {
+    .controller {
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -55,10 +72,51 @@
     }
 
     .knobs {
-        margin-top: 1.5rem;
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        grid-template-rows: 1fr 1fr;
         width: 100%;
-        justify-content: space-between;
+        margin-top: 1.5rem;
+
+        @media (min-width: 650px) {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        &__title {
+            writing-mode: vertical-rl;
+            text-orientation: sideways;
+            color: var(--color-grey-light);
+            transform: rotate(180deg);
+            font-size: var(--text-sm);
+        } 
+
+        & .volume, & .envelope {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        & .volume {
+            grid-column: 1;
+            @media (min-width: 650px) {
+                width: 16.66%;
+            }
+        }
+
+        & .envelope {
+            margin-left: 1rem;
+            grid-column-start: 2;
+            grid-column-end: 3;
+            @media (min-width: 650px) {
+                width: 41.66%;
+            }
+
+            &:last-of-type {
+                margin-bottom: 0;
+            }
+        }
     }
 
     span {
@@ -67,13 +125,5 @@
         align-items: center;
         border-left: 1px solid var(--color-grey-light);
         padding: 0 0 0 0.5rem;
-    }
-
-    .knobs__title {
-        writing-mode: vertical-rl;
-        text-orientation: sideways;
-        color: var(--color-grey-light);
-        transform: rotate(180deg);
-        font-size: var(--text-sm);
     }
 </style>

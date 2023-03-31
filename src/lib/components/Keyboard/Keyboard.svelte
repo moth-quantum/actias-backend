@@ -88,13 +88,15 @@
 
 <svelte:window on:resize={() => isMobile = window.innerWidth < 650} />
 
-<style>
+<style lang="scss">
     .piano {
         width: 100%;
         margin: 0 auto;
         height: 100%;
         box-shadow: 2px 3px 5px 1px var(--color-box-shadow);
-        max-height: 8rem;
+        @media (min-width: 650px) {
+            max-height: 8rem;
+        }
     }
     
     .piano-keys{

@@ -100,7 +100,12 @@
 
 <style lang="scss">
     .buttons {
-        padding: 0.75rem 2rem;
+        display: none;
+        padding: 1rem;
+        @media (min-width: 1200px) {
+            display: block;
+            padding: 1rem 2rem;
+        }
         background-color: var(--color-grey-mid);
         box-shadow: 0 0.5rem 0.5rem 0.25rem var(--color-box-shadow);
 	}
@@ -109,7 +114,10 @@
         display: grid;
         grid-gap: 0rem;
         grid-template-columns: 1fr;
-        grid-template-rows: 3fr 1fr 1fr;
+        grid-template-rows: 2fr 1.19fr 1fr;
+        @media (min-width: 650px) {
+            grid-template-rows: 3fr 1fr 1fr;
+        }
         
         @media (min-width: 1200px) {
             padding: 1.5rem 2rem;
@@ -162,11 +170,12 @@
             flex-direction: column;
             justify-content: space-between;
             position: relative;
-            padding: 1rem 2rem;
+            padding: 1rem;
 
             @media (min-width: 1200px) {
                 height: 100%;
                 flex-direction: row;
+                padding: 1rem 2rem;
             }
         }
 
