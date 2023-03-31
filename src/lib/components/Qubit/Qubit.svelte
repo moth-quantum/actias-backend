@@ -83,3 +83,9 @@
 </script>
   
 <P5 {sketch} />
+
+<style lang="scss">
+    canvas { 
+        max-width: 50vw;
+    }
+</style>

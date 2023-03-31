@@ -106,13 +106,14 @@
 	}
 
     .synth {
-        padding: 1.5rem 2rem;
         display: grid;
-        grid-gap: 1rem;
+        grid-gap: 0rem;
         grid-template-columns: 1fr;
         grid-template-rows: 3fr 1fr 1fr;
-
+        
         @media (min-width: 1200px) {
+            padding: 1.5rem 2rem;
+            grid-gap: 1rem;
             grid-template-columns: 3fr 6fr 3fr;
             grid-template-rows: 1fr 1fr 0.5fr;
         }
@@ -137,6 +138,8 @@
         grid-row-start: 1;
         grid-row-end: 1;
 
+        display: flex;
+        align-items: center;
         overflow: hidden;
 
         @media (min-width: 1200px) {
@@ -146,12 +149,15 @@
             grid-row-end: 3;
             display: grid;
             grid-template-columns: 6fr 3fr;
+            width: 100%;
+            border-radius: 10px;
+
         }
         
         background-color: var(--color-grey-dark);
-        border-radius: 10px;
 
         &__inner {
+            width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -165,7 +171,6 @@
         }
 
         &__sphere {
-            width: 100%;
             height: 100%;
             display: flex;
             align-items: center;
@@ -173,6 +178,7 @@
             margin-bottom: 2rem;
 
             @media (min-width: 1200px) {
+                width: 100%;
                 position: absolute;
                 top: 0%;
                 left: 0%;
@@ -200,10 +206,14 @@
             margin: 0 -0.8rem 0 0;
 
             & > div {
-                width: 80%;
+                width: 100%;
                 margin: 0 auto;
                 display: flex;
                 flex-direction: column-reverse;
+                
+                @media (min-width: 600px) {
+                    width: 80%;
+                }
                 @media (min-width: 1200px) {
                     width: 100%;
                     transform: rotate(90deg);
@@ -238,9 +248,9 @@
             grid-column-end: 2;
             grid-row-start: 3;
             grid-row-end: 4;
+            border-radius: 10px;
         }
         background-color: var(--color-grey-dark);
-        border-radius: 10px;
     }
 
     .measure {

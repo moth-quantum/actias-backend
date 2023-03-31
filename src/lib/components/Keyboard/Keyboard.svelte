@@ -4,6 +4,7 @@
     import Key from './Key.svelte';
     import { handleEvent, handleNoteOff } from '../../../sound';
     import { synthValues } from '$lib/stores/parameters';
+  import { onMount } from 'svelte';
     
     const keyboard = new AudioKeys({
         polyphony: 6,
@@ -14,7 +15,9 @@
     let mousedown = false;
 
     let notes: number[] = [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83];
+    let keys: number[] = notes
     let activeNotes: number[] = [];
+    let isMobile = false;
 
     function depressKey(note: number) {
         activeNotes = [...activeNotes, note];
@@ -54,6 +57,13 @@
         // Suppressed for now, due to notes sticking
         // depressKey(e.detail);
     }
+
+    onMount(() => {
+        isMobile = window.innerWidth < 650;
+    })
+
+    $: keys = isMobile ? notes.slice(0, 12) : notes;
+    
 </script>
 
 <div class="piano">
@@ -61,7 +71,7 @@
         on:mouseleave={() => mousedown = false}
         class="piano-keys"
     >
-        {#each notes as note, i}
+        {#each keys as note, i}
             <Key 
                 note={note}
                 colour={[1,3,6,8,10].includes(i%12) ? 'black' : 'white'}
@@ -75,6 +85,8 @@
         
     </div>
 </div>
+
+<svelte:window on:resize={() => isMobile = window.innerWidth < 650} />
 
 <style>
     .piano {

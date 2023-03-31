@@ -15,11 +15,22 @@ import Select from '$lib/components/Forms/Select.svelte';
     </form>
 </div>
 
-<style>
+<style lang="scss">
+    .measure {
+        padding: 1.5rem 2rem;
+        @media (min-width: 1200px) {
+            padding: 0;
+        }
+    }
     h2 {
+        display: none;
         padding-bottom: 0.25rem;
         margin-bottom: 0.5rem;
         border-bottom: 0.5px solid var(--color-grey-light);
+
+        @media (min-width: 1200px) {
+            display: block;
+        }
     }
 
     form {
