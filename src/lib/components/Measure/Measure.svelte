@@ -17,7 +17,7 @@ import Select from '$lib/components/Forms/Select.svelte';
 
 <style lang="scss">
     .measure {
-        padding: 1.5rem 1rem;
+        padding: 1rem 1rem;
         @media (min-width: 1200px) {
             padding: 0;
         }

@@ -12,14 +12,16 @@
         <slot />
     </main>
 
-    <footer class="footer container w-full m-auto">
-        <span>Moth Quantum™ 2023</span>
+    <footer class="footer container">
+        <span>Build <a href="https://cephasteom.co.uk">Cephas Teom</a> | Design James Cameron</span>
+        <br>
+        <span>© Moth Quantum / <a href="https://cmr.soc.plymouth.ac.uk/">ICCMR</a> 2023</span>
     </footer>
         
 
 </div>
 
-<style>
+<style lang="scss">
     .app {
         display: flex;
         flex-direction: column;
@@ -37,9 +39,22 @@
 
     footer {
         width: 100%;
-        text-align: right;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
+        padding: 1rem;
+        margin: 0 auto;
+        color: var(--color-grey-light);
+        text-align: center;
+        @media (min-width: 1200px) {
+            text-align: right;
+            padding: 1rem 2rem;
+        }
+
+        @media (min-width: 1600px) {
+            padding: 1rem 0;
+        }
+
+        span {
+            font-size: var(--text-sm);
+        }
     }
 
 </style>

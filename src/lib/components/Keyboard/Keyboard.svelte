@@ -93,10 +93,9 @@
         width: 100%;
         margin: 0 auto;
         height: 100%;
+        max-height: 8rem;
+        min-height: 7rem;
         box-shadow: 2px 3px 5px 1px var(--color-box-shadow);
-        @media (min-width: 650px) {
-            max-height: 8rem;
-        }
     }
     
     .piano-keys{

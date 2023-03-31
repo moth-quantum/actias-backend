@@ -40,6 +40,7 @@
     .controls {
         display: flex;
         padding: 1rem;
+        overflow-x: scroll;
         @media (min-width: 1200px) {
             padding: 1rem 2rem;
         }

@@ -25,8 +25,6 @@
         isDesktop = window.innerWidth > 1200
     });
 
-    $: console.log(qubitH)
-
 </script>
 
 <svelte:head>
@@ -111,15 +109,10 @@
 	}
 
     .synth {
-        display: grid;
-        grid-gap: 0rem;
-        grid-template-columns: 1fr;
-        grid-template-rows: 2fr 1.19fr 1fr;
-        @media (min-width: 650px) {
-            grid-template-rows: 3fr 1fr 1fr;
-        }
+        display: block;
         
         @media (min-width: 1200px) {
+            display: grid;
             padding: 1.5rem 2rem;
             grid-gap: 1rem;
             grid-template-columns: 3fr 6fr 3fr;
