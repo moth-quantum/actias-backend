@@ -10,12 +10,12 @@
         const radius = 150
 
         p5.setup = () => {
-            p5.createCanvas(size, size, p5.WEBGL)
+            p5.createCanvas(size || 400, size || 400, p5.WEBGL)
             p5.smooth()
         }
-        p5.resize = () => {
-            p5.resizeCanvas(size, size)
-        }
+        // p5.resize = () => {
+        //     p5.resizeCanvas(size, size)
+        // }
 
         p5.draw = () => {
             p5.smooth()

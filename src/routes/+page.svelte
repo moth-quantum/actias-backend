@@ -14,13 +14,18 @@
 
     let axesIds = $axes.map(({key}) => key);
     let axesNames = $axes.map(({name}) => name);
+    let isDesktop = false;
     let qubitH = 0;
 
     onMount(() => {
         window.addEventListener('keydown', startAudio)
         window.addEventListener('click', startAudio)
         window.addEventListener('touchstart', startAudio)
+
+        isDesktop = window.innerWidth > 1200
     });
+
+    $: console.log(qubitH)
 
 </script>
 
@@ -29,7 +34,10 @@
 	<meta name="description" content="TODO: please write a description" />
 </svelte:head>
 
-<svelte:window on:click={startAudio} />
+<svelte:window 
+    on:click={startAudio} 
+    on:resize={() => isDesktop = window.innerWidth > 1200} 
+/>
 
 <section class="buttons container mx-auto">
     {#each instruments as inst}
@@ -60,10 +68,10 @@
             </div>
             
             <div class="qubit__sphere" bind:clientHeight={qubitH}>
-                <!-- <Qubit size={qubitH * 0.8} phi={$axes[1].value} theta={$axes[2].value} phase={$axes[0].value} /> -->
+                <Qubit size={qubitH} phi={$axes[1].value} theta={$axes[2].value} phase={$axes[0].value} />
             </div>
 
-            <div class="qubit__sliders" style={`width: ${qubitH}px;`}>
+            <div class="qubit__sliders" style={`width: ${isDesktop ? qubitH + 'px' : '100%'};`}>
                 <div>
                     {#each $axes as {value, min, max, step, name, colour} (name)}
                         <Slider 
@@ -129,6 +137,8 @@
         grid-row-start: 1;
         grid-row-end: 1;
 
+        overflow: hidden;
+
         @media (min-width: 1200px) {
             grid-column-start: 2;
             grid-column-end: 4;
@@ -142,24 +152,34 @@
         border-radius: 10px;
 
         &__inner {
-            height: 100%;
             display: flex;
+            flex-direction: column;
             justify-content: space-between;
             position: relative;
             padding: 1rem 2rem;
+
+            @media (min-width: 1200px) {
+                height: 100%;
+                flex-direction: row;
+            }
         }
 
         &__sphere {
-            position: absolute;
-            top: 0%;
-            left: 0%;
-            bottom: 0;
-            right: 0;
             width: 100%;
             height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-bottom: 2rem;
+
+            @media (min-width: 1200px) {
+                position: absolute;
+                top: 0%;
+                left: 0%;
+                bottom: 0;
+                right: 0;
+                margin-bottom: 0;
+            }
         }
 
         &__patchbay {
@@ -180,9 +200,14 @@
             margin: 0 -0.8rem 0 0;
 
             & > div {
-                width: 100%;
+                width: 80%;
+                margin: 0 auto;
+                display: flex;
+                flex-direction: column-reverse;
                 @media (min-width: 1200px) {
+                    width: 100%;
                     transform: rotate(90deg);
+                    flex-direction: column;
                 }
             }
         }
