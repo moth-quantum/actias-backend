@@ -60,11 +60,11 @@
             </div>
             
             <div class="qubit__sphere" bind:clientHeight={qubitH}>
-                <Qubit size={qubitH * 0.8} phi={$axes[1].value} theta={$axes[2].value} phase={$axes[0].value} />
+                <!-- <Qubit size={qubitH * 0.8} phi={$axes[1].value} theta={$axes[2].value} phase={$axes[0].value} /> -->
             </div>
 
-            <div class="qubit__sliders">
-                <div style={`width: ${qubitH}px;`}>
+            <div class="qubit__sliders" style={`width: ${qubitH}px;`}>
+                <div>
                     {#each $axes as {value, min, max, step, name, colour} (name)}
                         <Slider 
                             {min} {max} {step} {name} {colour}
@@ -100,9 +100,14 @@
     .synth {
         padding: 1.5rem 2rem;
         display: grid;
-        grid-template-columns: 3fr 6fr 3fr;
-        grid-template-rows: 1fr 1fr 0.5fr;
         grid-gap: 1rem;
+        grid-template-columns: 1fr;
+        grid-template-rows: 3fr 1fr 1fr;
+
+        @media (min-width: 1200px) {
+            grid-template-columns: 3fr 6fr 3fr;
+            grid-template-rows: 1fr 1fr 0.5fr;
+        }
     }
 
     .parameters {
@@ -119,15 +124,22 @@
     }
 
     .qubit {
-        grid-column-start: 2;
-        grid-column-end: 4;
+        grid-column-start: 1;
+        grid-column-end: 1;
         grid-row-start: 1;
-        grid-row-end: 3;
+        grid-row-end: 1;
+
+        @media (min-width: 1200px) {
+            grid-column-start: 2;
+            grid-column-end: 4;
+            grid-row-start: 1;
+            grid-row-end: 3;
+            display: grid;
+            grid-template-columns: 6fr 3fr;
+        }
+        
         background-color: var(--color-grey-dark);
         border-radius: 10px;
-
-        display: grid;
-        grid-template-columns: 6fr 3fr;
 
         &__inner {
             height: 100%;
@@ -152,42 +164,70 @@
 
         &__patchbay {
             z-index: 10;
+            display: none;
+            @media (min-width: 1200px) {
+                display: block;
+            }
         }
         &__sliders {
+            display: flex;
             grid-column-start: 5;
             grid-column-end: 7;
             grid-row-start: 1;
             grid-row-end: 3;
-            display: flex;
             z-index: 10;
+            padding: 0 1rem;
+            margin: 0 -0.8rem 0 0;
 
             & > div {
-                padding: 0 1rem;
-                margin: 0 -1rem 0 0;
-                transform: rotate(90deg);
+                width: 100%;
+                @media (min-width: 1200px) {
+                    transform: rotate(90deg);
+                }
             }
         }
     }
 
-
-
-
     .metrics {
+        display: none;
         grid-column-start: 3;
         grid-column-end: 3;
         grid-row-start: 1;
         grid-row-end: 3;
         padding: 1rem;
+        
+        @media (min-width: 1200px) {
+            display: block;
+        }
+        
     }
 
-
-
     .controls {
-        grid-column-start: 2;
-        grid-column-end: 2;
-        grid-row-start: 3;
-        grid-row-end: 4;
+        grid-column-start: 1;
+        grid-column-end: 1;
+        grid-row-start: 2;
+        grid-row-end: 2;
+
+        @media (min-width: 1200px) {
+            grid-column-start: 2;
+            grid-column-end: 2;
+            grid-row-start: 3;
+            grid-row-end: 4;
+        }
         background-color: var(--color-grey-dark);
         border-radius: 10px;
+    }
+
+    .measure {
+        grid-column-start: 1;
+        grid-column-end: 1;
+        grid-row-start: 3;
+        grid-row-end: 3;
+        @media (min-width: 1200px) {
+            grid-column-start: 3;
+            grid-column-end: 3;
+            grid-row-start: 3;
+            grid-row-end: 4;   
+        }
     }
 </style>

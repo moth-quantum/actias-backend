@@ -21,7 +21,7 @@
     />
 </div>
 
-<style>
+<style lang="scss">
     .slider {
         display: flex;
         align-items: center;
@@ -35,11 +35,13 @@
         text-align: left;
         margin-right: 1rem;
         min-width: 1rem;
-    }
 
-    .label--vertical {
-        text-align: center;
-        transform: rotate(-90deg);
+        &--vertical {
+            text-align: center;
+            @media (min-width: 1200px) {
+                transform: rotate(-90deg);
+            }
+        }
     }
 
     input[type=range] {
