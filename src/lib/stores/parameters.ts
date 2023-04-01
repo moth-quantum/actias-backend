@@ -2,7 +2,7 @@ import { writable, type Writable, get, derived, type Readable } from 'svelte/sto
 import { axes, type Axis } from '$lib/stores/qubit';
 import { samples } from '$lib/stores/samples';
 import { setEnvelopes, envelopeValues } from './envelopes';
-import { initialiseConnections, getConnections } from './patching';
+import { initialiseConnections, getConnections, connections} from './patching';
 import { mapToStepRange, roundToFactor } from '$lib/utils/utils';
 import { handleMutation } from '../../sound'
 import type { InstrumentName, Parameter } from '$lib/types';
@@ -76,8 +76,8 @@ export const allParameters: Readable<Parameter[]> = derived(
 );
 
 export const paramValues: Readable<{[key: string]: number}> = derived(
-    [allParameters, axes], 
-    ([$allParameters]) => {
+    [allParameters, axes, connections], 
+    ([$allParameters, $axes, $connections]) => {
         return $allParameters.reduce((obj, param) => ({
             ...obj,
             [param.key]: param.rangeA + (param.rangeB - param.rangeA) * getAxis(param.key).value || 0

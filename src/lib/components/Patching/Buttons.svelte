@@ -4,14 +4,16 @@
     export let options: string[];
     
     const colours = [
-        '#FF695A',
+        '#00A399',
         '#E5007F',
-        '#00A399'
+        '#FF695A',
     ]
+
+    let i = 0
 </script>
 
 <div class="buttons">
-    {#each options as option, i}
+    {#each options as option, i (option)}
         <button
             style="background-color: {colours[i%3]}"
             on:click={() => connectSockets($sockets[option], $sockets[id])}
@@ -23,7 +25,8 @@
 <style lang="scss">
     .buttons {
         display: flex;
-        justify-content: flex-end;
+        flex-direction: row-reverse;
+        justify-content: flex-start;
     }
     button {
         border: 1px solid white;
@@ -36,6 +39,10 @@
 
         &.active {
             opacity: 1;
+        }
+
+        &:focus {
+            outline: none;
         }
     }
 </style>

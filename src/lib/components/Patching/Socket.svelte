@@ -16,6 +16,7 @@
     export let offset = 0;
 
     let thisSocket;
+    let allSockets;
     let connectedTo = [];
     let position = {x: 0, y: 0};
 
@@ -69,11 +70,15 @@
 
     onMount(() => {
         init();
+        const unsubscribeSockets = sockets.subscribe(sockets => {
+            active = sockets[id]?.active;
+        });
         const unsubscribeConnections = connections.subscribe(connections => {
             connectedTo = connections.filter(c => c[0] === id)?.map(c => c[1]) || [];
         })
 
         return () => {
+            unsubscribeSockets();
             unsubscribeConnections();
             unsubscribeInstrumentParameters();
         }
@@ -89,7 +94,7 @@
 <div class={`socket__container socket__container--${align}`}>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div 
-        class={`socket socket--${type} socket--${id} ${$sockets[id].active ? " active" : ""}`}
+        class={`socket socket--${type} socket--${id} ${active ? " active" : ""}`}
         bind:this={thisSocket}
         use:draggable={{bounds: 'body', position}}
         on:neodrag={handleDragStart}

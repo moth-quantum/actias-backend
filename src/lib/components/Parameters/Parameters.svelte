@@ -5,6 +5,8 @@
     import Socket from '$lib/components/Patching/Socket.svelte';
     import Buttons from '$lib/components/Patching/Buttons.svelte';
     export let showSockets = true;
+
+    let axesIds = $axes.map(({key}) => key);
 </script>
 
 <div class="group">
@@ -21,7 +23,7 @@
             {#if showSockets}
                 <Socket id={key} type="origin" align="right"/>
             {:else}
-                <Buttons id={key} options={$axes.map(({key}) => key)}/>
+                <Buttons id={key} options={axesIds}/>
             {/if}
         </div>
     {/each}
@@ -41,7 +43,7 @@
             {#if showSockets}
                 <Socket id={key} type="origin" align="right"/>
             {:else}
-                <Buttons id={key} options={$axes.map(({key}) => key)}/>
+                <Buttons id={key} options={axesIds}/>
             {/if}
         </div>
     {/each}
@@ -63,7 +65,7 @@
             {#if showSockets}
                 <Socket id={key} type="origin" align="right"/>
             {:else}
-                <Buttons id={key} options={$axes.map(({key}) => key)}/>
+                <Buttons id={key} options={axesIds}/>
             {/if}
         </div>
     {/each}
