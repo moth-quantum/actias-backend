@@ -1,7 +1,5 @@
 import { writable, get } from 'svelte/store';
-import type { Socket } from '$lib/types';
-
-type Connection = [string, string];
+import type { Socket, Connection } from '$lib/types';
 
 export const sockets = writable({} as {[key: string]: Socket});
 export const connections = writable([] as Connection[]);

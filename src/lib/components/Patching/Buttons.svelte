@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { connections } from "$lib/stores/patching";
+    import { connections, sockets, connectSockets } from "$lib/stores/patching";
     export let id: string;
     export let options: string[];
     
@@ -13,9 +13,9 @@
 <div class="buttons">
     {#each options as option, i}
         <button
-            style="background-color: {colours[i]}"
-            on:click={() => console.log(option)}
-            class:active={$connections.some(([c1,c2]) => c1 === id && c2 === option)}
+            style="background-color: {colours[i%3]}"
+            on:click={() => connectSockets($sockets[option], $sockets[id])}
+            class:active={$connections.some(arr => arr.includes(id) && arr.includes(option))}
         >{'.'}</button>
     {/each}
 </div>

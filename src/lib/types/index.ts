@@ -32,3 +32,5 @@ export interface Socket {
     y: number;
     width: number;
 }
+
+export type Connection = [string, string];

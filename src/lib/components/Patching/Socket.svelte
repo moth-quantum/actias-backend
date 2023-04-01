@@ -16,7 +16,6 @@
     export let offset = 0;
 
     let thisSocket;
-    let allSockets;
     let connectedTo = [];
     let position = {x: 0, y: 0};
 
@@ -31,13 +30,13 @@
         const targetY = target.y + window.scrollY;
         
         // find connecting socket
-        const socketId = Object.keys(allSockets).find(id => {
-            const {x, y, width} = allSockets[id];
+        const socketId = Object.keys($sockets).find(id => {
+            const {x, y, width} = $sockets[id];
             return targetX > x - width && targetX < x + width && targetY > y - width && targetY < y + width;
         });
         
         // if socket found and not of same type, connect
-        socketId && connectSockets(allSockets[id], allSockets[socketId]);
+        socketId && connectSockets($sockets[id], $sockets[socketId]);
         
         // return to original position
         position = {x: 0, y: 0}
@@ -70,16 +69,11 @@
 
     onMount(() => {
         init();
-        const unsubscribeSockets = sockets.subscribe(sockets => {
-            allSockets = sockets;
-            active = sockets[id]?.active;
-        });
         const unsubscribeConnections = connections.subscribe(connections => {
             connectedTo = connections.filter(c => c[0] === id)?.map(c => c[1]) || [];
         })
 
         return () => {
-            unsubscribeSockets();
             unsubscribeConnections();
             unsubscribeInstrumentParameters();
         }
@@ -95,7 +89,7 @@
 <div class={`socket__container socket__container--${align}`}>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div 
-        class={`socket socket--${type} socket--${id} ${active ? " active" : ""}`}
+        class={`socket socket--${type} socket--${id} ${$sockets[id].active ? " active" : ""}`}
         bind:this={thisSocket}
         use:draggable={{bounds: 'body', position}}
         on:neodrag={handleDragStart}
@@ -104,10 +98,10 @@
     ></div>
     {#each connectedTo as socketId (socketId)}
         <Cable
-            colour={allSockets[socketId].colour}
-            offset={allSockets[socketId].offset}
-            from={{x: allSockets[id].x + allSockets[id].width/2, y: allSockets[id].y + allSockets[id].width/2}}
-            to={{x: allSockets[socketId].x + allSockets[socketId].width/2 - 0.5, y: allSockets[socketId].y + allSockets[socketId].width/2}}
+            colour={$sockets[socketId].colour}
+            offset={$sockets[socketId].offset}
+            from={{x: $sockets[id].x + $sockets[id].width/2, y: $sockets[id].y + $sockets[id].width/2}}
+            to={{x: $sockets[socketId].x + $sockets[socketId].width/2 - 0.5, y: $sockets[socketId].y + $sockets[socketId].width/2}}
         ></Cable>
     {/each}
 </div>
