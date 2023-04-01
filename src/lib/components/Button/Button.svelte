@@ -1,4 +1,5 @@
 <script lang='ts'>
+    export let classes: string = '';
     export let text: string;
     export let icon: string = '';
     export let active: boolean;
@@ -9,7 +10,7 @@
 
 <button
     class:active={active}
-    class={`btn btn--${colour} ${disabled ? 'btn--disabled' : ''}`}
+    class={`btn btn--${colour} ${disabled ? 'btn--disabled' : ''} ${classes}`}
     on:click={onClick}
 >
     {#if icon}

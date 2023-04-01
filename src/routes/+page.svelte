@@ -5,6 +5,9 @@
     import { axes } from '$lib/stores/qubit';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
 
+    import { Drawer, CloseButton } from 'flowbite-svelte';
+    import { sineIn } from 'svelte/easing';
+
     import Parameters from '$lib/components/Parameters/Parameters.svelte';
     import Controls from '$lib/components/Controls/Controls.svelte';
     import Button from '$lib/components/Button/Button.svelte';
@@ -16,6 +19,12 @@
     let axesNames = $axes.map(({name}) => name);
     let isDesktop = false;
     let qubitH = 0;
+    let sidebarIsHidden = true; 
+    let transitionParams = {
+        x: -320,
+        duration: 200,
+        easing: sineIn
+    };
 
     onMount(() => {
         window.addEventListener('keydown', startAudio)
@@ -37,16 +46,51 @@
     on:resize={() => isDesktop = window.innerWidth > 1200} 
 />
 
+<Drawer 
+    transitionType="fly" {transitionParams} 
+    bind:hidden={sidebarIsHidden} 
+    id='sidebar'
+>
+    <div class="sidebar">
+        <CloseButton on:click={() => (sidebarIsHidden = true)} class='mb-4'/>
+        <div class="sidebar__instruments">
+            {#each instruments as inst}
+                <Button 
+                    onClick={() => instrument.set(inst)} 
+                    active={$instrument === inst} 
+                    disabled={$instrument !== inst}
+                    colour="yellow" 
+                    text={inst} 
+                    classes={'mb-2 w-full'}
+                />
+            {/each}
+        </div>
+        <Parameters showSockets={false}/>
+    </div>
+</Drawer>
+
 <section class="buttons container mx-auto">
-    {#each instruments as inst}
+    <div class="buttons__instruments">
+        {#each instruments as inst}
+            <Button 
+                onClick={() => instrument.set(inst)} 
+                active={$instrument === inst} 
+                disabled={$instrument !== inst}
+                colour="yellow" 
+                text={inst} 
+            />
+        {/each}
+    </div>
+
+    <div class="buttons__parameters">
         <Button 
-            onClick={() => instrument.set(inst)} 
-            active={$instrument === inst} 
-            disabled={$instrument !== inst}
+            onClick={() => (sidebarIsHidden = false)} 
+            active={!sidebarIsHidden} 
             colour="yellow" 
-            text={inst} 
+            text="Parameters" 
         />
-    {/each}
+    </div>
+
 </section>
 
 <section class="synth container mx-auto">
@@ -97,15 +141,39 @@
 </section>
 
 <style lang="scss">
-    .buttons {
-        display: none;
-        padding: 1rem;
-        @media (min-width: 1200px) {
-            display: block;
-            padding: 1rem 2rem;
+    #sidebar {
+        background-color: var(--color-grey-mid);
+    }
+    .sidebar {
+        &__instruments {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1rem;
         }
+    }
+    .buttons {
+        padding: 1rem;
         background-color: var(--color-grey-mid);
         box-shadow: 0 0.5rem 0.5rem 0.25rem var(--color-box-shadow);
+        
+        @media (min-width: 1200px) {
+            padding: 1rem 2rem;
+        }
+
+        &__instruments {
+            display: none;
+            @media (min-width: 1200px) {
+                display: block
+            }
+        }
+
+        &__parameters {
+            display: block;
+            @media (min-width: 1200px) {
+                display: none
+            }
+        }
+
 	}
 
     .synth {

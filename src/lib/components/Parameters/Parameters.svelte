@@ -1,13 +1,14 @@
 <script>
     import { instrumentParameters, fxParameters, globalParameters, paramValues, randomise } from '$lib/stores/parameters';
+    import { axes } from '$lib/stores/qubit';
     import RangeSlider from '$lib/components/Sliders/RangeSlider.svelte';
     import Socket from '$lib/components/Patching/Socket.svelte';
+    import Buttons from '$lib/components/Patching/Buttons.svelte';
+    export let showSockets = true;
 </script>
 
 <div class="group">
-    <h2
-        on:click={() => randomise('inst')}
-    >Instrument</h2>
+    <h2 on:click={() => randomise('inst')}>Instrument</h2>
     {#each $instrumentParameters as {name, min, max, step, units, key, rangeA, rangeB} (key)}
         <div class="parameter">
             <h3>{name}</h3>
@@ -17,15 +18,17 @@
                 bind:rangeA={rangeA} 
                 bind:rangeB={rangeB} 
             />
-            <Socket id={key} type="origin" align="right"/>
+            {#if showSockets}
+                <Socket id={key} type="origin" align="right"/>
+            {:else}
+                <Buttons id={key} options={$axes.map(({key}) => key)}/>
+            {/if}
         </div>
     {/each}
 </div>
 
 <div class="group">
-    <h2
-        on:click={() => randomise('global')}
-    >Global</h2>
+    <h2 on:click={() => randomise('global')}>Global</h2>
     {#each $globalParameters as {name, min, max, step, units, key, rangeA, rangeB} (key)}
         <div class="parameter">
             <h3>{name}</h3>
@@ -35,15 +38,19 @@
                 bind:rangeA={rangeA} 
                 bind:rangeB={rangeB} 
             />
-            <Socket id={key} type="origin" align="right"/>
+            {#if showSockets}
+                <Socket id={key} type="origin" align="right"/>
+            {:else}
+                <Buttons id={key} options={$axes.map(({key}) => key)}/>
+            {/if}
         </div>
     {/each}
 </div>
 
 <div class="group">
-    <h2
-        on:click={() => randomise('fx')}
-    >Effects</h2>
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <h2 on:click={() => randomise('fx')}>Effects</h2>
+
     {#each $fxParameters as {name, min, max, step, units, key, rangeA, rangeB} (key)}
         <div class="parameter">
             <h3>{name}</h3>
@@ -53,18 +60,25 @@
                 bind:rangeA={rangeA} 
                 bind:rangeB={rangeB} 
             />
-            <Socket id={key} type="origin" align="right"/>
+            {#if showSockets}
+                <Socket id={key} type="origin" align="right"/>
+            {:else}
+                <Buttons id={key} options={$axes.map(({key}) => key)}/>
+            {/if}
         </div>
     {/each}
 </div>
 
-<style>
+<style lang="scss">
     .samples {
         margin-bottom: 0.5rem;
     }
     .parameter {
         display: grid;
-        grid-template-columns: 2fr 9fr 1fr;
+        grid-template-columns: 2fr 7fr 3fr;
+        @media (min-width: 1200px) {
+            grid-template-columns: 2fr 9fr 1fr;
+        }
         margin-bottom: 0rem;
     }
 
