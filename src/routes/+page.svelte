@@ -15,6 +15,7 @@
     import Slider from '$lib/components/Sliders/Slider.svelte';
     import Qubit from '$lib/components/Qubit/Qubit.svelte';
     import Meter from '$lib/components/Meter/Meter.svelte';
+    import DataStream from '$lib/components/DataStream/Datastream.svelte';
 
     let axesIds = $axes.map(({key}) => key);
     let axesNames = $axes.map(({name}) => name);
@@ -129,6 +130,12 @@
 
     <div class="metrics">
         <Meter node={output}/>
+        <div class="data-stream">
+            <DataStream 
+                data={$axes.map(({value}) => +(value * Math.PI).toFixed(2)).reverse()}
+                labels={$axes.map(({name}) => name).reverse()}
+            />
+        </div>
     </div>
 
     <div class="controls">
@@ -226,7 +233,6 @@
             grid-template-columns: 6fr 3fr;
             width: 100%;
             border-radius: 10px;
-
         }
         
         background-color: var(--color-grey-dark);
@@ -312,7 +318,15 @@
         padding: 1rem;
         
         @media (min-width: 1200px) {
-            display: block;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .data-stream {
+            height: 100%;
+            display: flex;
+            align-items: center;
+
         }
         
     }
