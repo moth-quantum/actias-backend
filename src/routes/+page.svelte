@@ -1,11 +1,11 @@
 <script>
     import { onMount } from 'svelte';
     import { instrument, instruments } from '$lib/stores/parameters';
-    import { startAudio } from '../sound';
+    import { startAudio, output } from '../sound';
     import { axes } from '$lib/stores/qubit';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
 
-    import { Drawer, CloseButton } from 'flowbite-svelte';
+    import { Drawer } from 'flowbite-svelte';
     import { sineIn } from 'svelte/easing';
 
     import Parameters from '$lib/components/Parameters/Parameters.svelte';
@@ -14,6 +14,7 @@
     import Measure from '$lib/components/Measure/Measure.svelte';
     import Slider from '$lib/components/Sliders/Slider.svelte';
     import Qubit from '$lib/components/Qubit/Qubit.svelte';
+    import Meter from '$lib/components/Meter/Meter.svelte';
 
     let axesIds = $axes.map(({key}) => key);
     let axesNames = $axes.map(({name}) => name);
@@ -127,7 +128,7 @@
     </div>
 
     <div class="metrics">
-        Metrics go here
+        <Meter node={output}/>
     </div>
 
     <div class="controls">

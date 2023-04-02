@@ -3,7 +3,7 @@
 import { immediate } from 'tone'
 import { get } from 'svelte/store'
 import { CtSynth, CtSampler, CtGranulator, CtFXChain } from './ct-synths'
-import { start, Limiter, BitCrusher } from 'tone'
+import { start, Limiter, BitCrusher, Gain } from 'tone'
 import { samples } from '$lib/stores/samples'
 import { mapToStepRange } from '$lib/utils/utils'
 
@@ -15,7 +15,8 @@ export async function startAudio() {
     window.removeEventListener('touchstart', startAudio)
 }
 
-const limiter = new Limiter(-20).toDestination();
+export const output = new Gain(1).toDestination();
+const limiter = new Limiter(-20).connect(output);
 const fx = new CtFXChain()
 fx.connect(limiter)
 const crush = new BitCrusher({bits: 4, wet: 0}).connect(fx.input);
