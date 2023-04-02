@@ -8,8 +8,6 @@
         '#E5007F',
         '#FF695A',
     ]
-
-    let i = 0
 </script>
 
 <div class="buttons">
@@ -36,6 +34,10 @@
         margin-right: 0.25rem;
         color: transparent;
         opacity: 0.5;
+
+        &:first-of-type {
+            margin-right: 0;
+        }
 
         &.active {
             opacity: 1;

@@ -18,10 +18,12 @@
     <span class="">{rangeB.toLocaleString('fullwide', {maximumFractionDigits: 2})}{units}</span>
 </div>
 
-<style>
+<style lang="scss">
     .range-slider {
         display: grid;
-        grid-template-columns: 1fr 4fr 1fr;
+        @media (min-width: 1200px) {
+            grid-template-columns: 1fr 4fr 1fr;
+        }
         align-items: center;
     }
     .slider {
@@ -35,6 +37,10 @@
     }
 
     span {
+        display: none;
+        @media (min-width: 1200px) {
+            display: block;
+        }
         color: var(--color-grey-light);
         font-size: var(--text-xxs);
         text-align: center;
