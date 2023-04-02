@@ -18,6 +18,10 @@ import Select from '$lib/components/Forms/Select.svelte';
 <style lang="scss">
     .measure {
         padding: 1rem 1rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         @media (min-width: 1200px) {
             padding: 0;
         }
@@ -38,6 +42,7 @@ import Select from '$lib/components/Forms/Select.svelte';
         grid-template-columns: 1fr 1fr;
         grid-gap: 0.5rem;
         grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+        height: 100%;
     }
 
     input {

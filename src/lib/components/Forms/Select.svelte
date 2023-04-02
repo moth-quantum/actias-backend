@@ -17,5 +17,6 @@ select {
     padding: 0.125rem 0.75rem;
     width: 100%;
     border-radius: 5px;
+    height: 100%;
 }
 </style>

@@ -101,8 +101,22 @@
 
         & .volume {
             grid-column: 1;
+            grid-row: 1 / 3;
+            margin-bottom: 0;
+            justify-content: start;
+
+            & > span {
+                margin-right: 1rem;
+            }
+
             @media (min-width: 650px) {
                 width: 16.66%;
+                margin-bottom: 0.5rem;
+                justify-content: space-between;
+
+                & > span {
+                   margin-right: 0;
+                }
             }
         }
 
