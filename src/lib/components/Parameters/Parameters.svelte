@@ -86,7 +86,6 @@
 
     .parameter:nth-child(1) {
         grid-column: 1;
-        
     }
     
     h2 {

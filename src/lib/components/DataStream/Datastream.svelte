@@ -22,9 +22,7 @@
 
 <style lang="scss">
     .datastream {
-        padding: 0 2rem;
         width: 100%;
-        
 
         &__labels {
             font-size: var(--text-base);
