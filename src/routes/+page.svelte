@@ -342,7 +342,7 @@
             grid-column-end: 2;
             grid-row-start: 3;
             grid-row-end: 4;
-            border-radius: 10px;
+            border-radius: 5px;
         }
         background-color: var(--color-grey-dark);
     }
