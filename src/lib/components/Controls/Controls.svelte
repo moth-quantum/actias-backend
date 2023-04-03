@@ -19,7 +19,7 @@
                 <span>
                     <h3 class="knobs__title">Vol</h3>
                 </span>
-                <Knob name="Volume" pixelRange={200} bind:value={$volume}/>
+                <Knob name="Vol" pixelRange={200} bind:value={$volume}/>
             </div>
             {#each $envelopes as {name, a, d, s, r}, i}
                 <div class={`envelope envelope__${i}`}>
@@ -78,6 +78,7 @@
         grid-template-rows: 1fr 1fr;
         width: 100%;
         margin-top: 1.5rem;
+        background: linear-gradient(var(--color-grey-dark), #454545, var(--color-grey-dark));
 
         @media (min-width: 650px) {
             display: flex;
