@@ -14,3 +14,7 @@ export function roundToFactor(n: number, factor: number = 1) {
     const quotient = n / factor;
     return Math.round(quotient) * factor;
 }
+
+export function clamp(n: number, min: number, max: number) {
+    return Math.min(Math.max(n, min), max);
+}

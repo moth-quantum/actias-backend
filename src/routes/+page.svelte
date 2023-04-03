@@ -326,7 +326,6 @@
         .data-stream {
             height: 100%;
             display: flex;
-            // align-items: center;
             padding: 2rem;
         }
         
