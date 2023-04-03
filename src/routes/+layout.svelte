@@ -15,7 +15,7 @@
     <footer class="footer container">
         <span>Build <a href="https://cephasteom.co.uk">Cephas Teom</a> | Design James Cameron</span>
         <br>
-        <span>© Moth Quantum / <a href="https://cmr.soc.plymouth.ac.uk/">ICCMR</a> 2023</span>
+        <span>© <a href="https://mothquantum.com/">Moth Quantum</a> / <a href="https://cmr.soc.plymouth.ac.uk/">ICCMR</a> 2023</span>
     </footer>
         
 

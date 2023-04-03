@@ -2,9 +2,10 @@
     <svg viewBox="-10 -10 20 20">
         <circle r="9" stroke="var(--color-grey-mid)" stroke-width="0.5" fill="none" />
     </svg>
-    <div class="knob" style="--rotation: {rotation}" on:pointerdown={pointerDown}>
-        <div class="knob__indicator"></div>
-        <!-- svg circle around the knob -->
+    <div class="knob" >
+        <div class="knob__inner" style="--rotation: {rotation}" on:pointerdown={pointerDown}>
+            <div class="knob__indicator"></div>
+        </div>
     </div>
     <div class="knob__label">{name}</div>
 </div>
@@ -47,23 +48,32 @@
 </script>
 
 
-<style>
+<style lang="scss">
 
-    .knob__container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: relative;
-    }
 	.knob {
 		background: var(--color-grey-mid);
 		width: 2.5rem;
 		height: 2.5rem;
 		user-select: none;
 		border-radius: 50%;
-		transform: rotate(calc(var(--rotation) * 1rad));
+        border: 1px solid black;
         margin-bottom: 0.5rem;
         z-index: 10;
+        box-shadow: 0px 10px 10px 0px var(--color-grey-darker);
+
+        &__container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        &__inner {
+            width: 100%;
+            height: 100%;
+            user-select: none;
+    		transform: rotate(calc(var(--rotation) * 1rad));
+        }
 	}
 
     .knob__indicator {
@@ -86,8 +96,8 @@
         color: var(--color-yellow);
         text-transform: uppercase;
         text-align: center;
-        width: 80%;
-        height: 1.5rem;
+        width: 100%;
+        height: 2.5rem;
         background-color: var(--color-grey-dark);
         position: absolute;
         bottom: -0.5rem;
