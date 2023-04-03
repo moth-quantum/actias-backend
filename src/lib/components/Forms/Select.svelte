@@ -1,9 +1,13 @@
 <script lang="ts">
     export let id: string;
     export let options: string[];
+    export let onChange: (e: Event) => void;
 </script>
 
-<select id={id}>
+<select 
+    id={id}
+    on:change={onChange}
+>
     {#each options as option}
         <option>{option}</option>
     {/each}
@@ -18,5 +22,6 @@ select {
     width: 100%;
     border-radius: 5px;
     height: 100%;
+    text-transform: uppercase;
 }
 </style>

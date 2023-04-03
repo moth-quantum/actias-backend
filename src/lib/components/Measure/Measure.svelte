@@ -1,21 +1,19 @@
 <script>
     import Select from '$lib/components/Forms/Select.svelte';   
-    import { measure, seconds, bpm, beats } from '$lib/stores/qubit';
+    import { measure, seconds, bpm, beats, source } from '$lib/stores/qubit';
 </script>
 
 <div class="measure">
     <h2>Measure</h2>
     <form>
         <div class="source">
-            <Select id="source" options={['LOCAL', 'REMOTE']} />
+            <Select id="source" options={['local', 'remote']} onChange={e => source.update(() => e.target?.value || 'local')} />
         </div>
         <input id="seconds" placeholder="Seconds" type="number" on:change={e => seconds.update(() => +e.target?.value || 0)}/>
         <input id="bpm" placeholder="BPM" type="number" on:change={e => bpm.update(() => +e.target?.value || 0)}/>
         <input id="beats" placeholder="Beats" type="number" on:change={e => beats.update(() => +e.target?.value || 0)}/>
         <button
-            on:click|preventDefault={() => {
-                measure()
-            }}
+            on:click|preventDefault={() => measure()}
         >Measure</button>
     </form>
 </div>

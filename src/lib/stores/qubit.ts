@@ -22,6 +22,7 @@ export const axes = writable<Axis[]>([
 export const seconds = writable<number>(0);
 export const bpm = writable<number>(0);
 export const beats = writable<number>(0);
+export const source = writable<'local' | 'remote'>('local');
 
 export const collapseTime = derived([seconds, bpm, beats], ([$seconds, $bpm, $beats]) => {
     if ($bpm > 0 && $beats > 0) return 60 / $bpm * $beats;
@@ -32,10 +33,9 @@ export const collapseTime = derived([seconds, bpm, beats], ([$seconds, $bpm, $be
 export const measure = () => {
     const theta = get(axes)[2].value;
     
-    // weighted coin toss
-    const dest = (Math.random() < theta) ? 1 : 0;
-    
-    collapse(dest, get(collapseTime))
+    get(source) === 'local'
+        ? collapse((Math.random() < theta) ? 1 : 0, get(collapseTime))
+        : 0; // TODO: remote measurement
 }
 
 function collapse(dest: 0 | 1, seconds: number) {
