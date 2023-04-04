@@ -1,16 +1,9 @@
 <div class="knob__container">
+    <div class="knob__gradient" style="--rotation: {rotation}"></div>
     <svg viewBox="-10 -10 20 20">
-        <defs>
-            <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="var(--color-theme-1)"/>
-            <stop offset="{`${gradientRotation/2}%`}" stop-color="#FFF"/>
-            <stop offset="{`${gradientRotation}%`}" stop-color="#FFF"/>
-            <stop offset="{`${gradientRotation+1}%`}" stop-color="var(--color-grey-mid)"/>
-            </linearGradient>
-        </defs>
-        <circle r="9" stroke="url(#linear)" stroke-width="0.5" fill="none" />
+        <circle r="9" stroke="none" stroke-width="0.5" fill="var(--color-grey-mid)"/>
     </svg>
-    <div class="knob" >
+    <div class="knob">
         <div class="knob__inner" style="--rotation: {rotation}" on:pointerdown={pointerDown}>
             <div class="knob__indicator"></div>
         </div>
@@ -105,13 +98,13 @@
         color: var(--color-yellow);
         text-transform: uppercase;
         text-align: center;
-        width: 100%;
+        width: 97%;
         height: 2.5rem;
         background-color: var(--color-grey-dark);
         position: absolute;
         bottom: -0.5rem;
         display: flex;
-        align-items: end;
+        align-items: flex-end;
         justify-content: center;
         padding-bottom: 0.1rem;
     }
@@ -124,6 +117,18 @@
         left: -0.3rem;
         bottom: -0.3rem;
         right: -0.3rem;
-        
+    }
+
+    .knob__gradient {
+        position: absolute;
+        width: 3rem;
+        height: 3rem;
+        top: -0.25rem;
+        left: -0.25rem;
+        bottom: -0.25rem;
+        right: -0.25rem;
+        border-radius: 50%;
+        background: conic-gradient(grey, grey, var(--color-theme-1), white);
+        transform: rotate(calc(var(--rotation) * 1rad));
     }
 </style>
