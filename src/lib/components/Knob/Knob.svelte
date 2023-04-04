@@ -1,6 +1,14 @@
 <div class="knob__container">
     <svg viewBox="-10 -10 20 20">
-        <circle r="9" stroke="var(--color-grey-mid)" stroke-width="0.5" fill="none" />
+        <defs>
+            <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="var(--color-theme-1)"/>
+            <stop offset="{`${gradientRotation/2}%`}" stop-color="#FFF"/>
+            <stop offset="{`${gradientRotation}%`}" stop-color="#FFF"/>
+            <stop offset="{`${gradientRotation+1}%`}" stop-color="var(--color-grey-mid)"/>
+            </linearGradient>
+        </defs>
+        <circle r="9" stroke="url(#linear)" stroke-width="0.5" fill="none" />
     </svg>
     <div class="knob" >
         <div class="knob__inner" style="--rotation: {rotation}" on:pointerdown={pointerDown}>
@@ -21,9 +29,10 @@
 	export let pixelRange = 200;
 	export let startRotation = -Math.PI * 0.8;
 	
-	let startY, startValue;
+	let startY, startValue, gradientRotation;
 	$: valueRange = max - min;
 	$: rotation = startRotation + (value - min) / valueRange * rotRange;
+    $: gradientRotation = (value - min) / valueRange * 100;
 	
 	function clamp(num, min, max) {
 		return Math.max(min, Math.min(num, max));

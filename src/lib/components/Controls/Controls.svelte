@@ -21,7 +21,7 @@
                 </span>
                 <Knob name="Vol" pixelRange={200} bind:value={$volume}/>
             </div>
-            {#each $envelopes as {name, a, d, s, r}, i}
+            {#each $envelopes as {name, a, d, s, r}, i (name)}
                 <div class={`envelope envelope__${i}`}>
                     <span>
                         <h3 class="knobs__title">{name}</h3>
