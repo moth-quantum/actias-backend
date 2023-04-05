@@ -72,9 +72,6 @@
 </div>
 
 <style lang="scss">
-    .samples {
-        margin-bottom: 0.5rem;
-    }
     .parameter {
         display: grid;
         grid-template-columns: 2fr 7fr 3fr;

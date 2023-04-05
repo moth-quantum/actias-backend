@@ -15,20 +15,26 @@
     <div class="controller">
         <Keyboard />
         <div class="knobs">
-            <div class="volume">
-                <span>
-                    <h3 class="knobs__title">Vol</h3>
-                </span>
+            <div class="knobs__title knobs__title--volume">
+                <h3>Vol</h3>
+            </div>
+            <div class="knobs__knob knobs__knob--vol">
                 <Knob name="Vol" pixelRange={200} bind:value={$volume}/>
             </div>
             {#each $envelopes as {name, a, d, s, r}, i (name)}
-                <div class={`envelope envelope__${i}`}>
-                    <span>
-                        <h3 class="knobs__title">{name}</h3>
-                    </span>
+                <div class="knobs__title knobs__title--envelope__{i}">
+                    <h3>{name}</h3>
+                </div>
+                <div class="knobs__knob knobs__knob--{`${name}_a`}">
                     <Knob bind:value={a} pixelRange={200} min={0.01} name="a"/>
+                </div>
+                <div class="knobs__knob knobs__knob--{`${name}_d`}">
                     <Knob bind:value={d} pixelRange={200} min={0.01} name="d"/>
+                </div>
+                <div class="knobs__knob knobs__knob--{`${name}_s`}">
                     <Knob bind:value={s} pixelRange={200} min={0.01} name="s"/>
+                </div>
+                <div class="knobs__knob knobs__knob--{`${name}_r`}">
                     <Knob bind:value={r} pixelRange={200} min={0.01} name="r"/>
                 </div>
             {/each}
@@ -74,72 +80,105 @@
 
     .knobs {
         display: grid;
-        grid-template-columns: 1fr 3fr;
+        grid-template-columns: 0.5fr 1fr 0.5fr 1fr 1fr 1fr 1fr;
         grid-template-rows: 1fr 1fr;
+        grid-gap: 0.5rem;
+        justify-content: space-between;
+
         width: 100%;
         margin-top: 1.5rem;
+        background: linear-gradient(var(--color-grey-dark), #454545, var(--color-grey-dark));
 
-        @media (min-width: 650px) {
+        @media (min-width: 700px) {
             display: flex;
-            justify-content: space-between;
+        }
+        
+        @media (min-width: 1200px) {
+            display: grid;
+        }
+        @media (min-width: 1400px) {
+            display: flex;
         }
 
         &__title {
-            writing-mode: vertical-rl;
-            text-orientation: sideways;
-            color: var(--color-grey-light);
-            transform: rotate(180deg);
-            font-size: var(--text-sm);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            border-left: 1px solid var(--color-grey-light);
+            padding: 0 0 0 0.5rem;
+            & h3 {
+                writing-mode: vertical-rl;
+                text-orientation: sideways;
+                color: var(--color-grey-light);
+                transform: rotate(180deg);
+                font-size: var(--text-sm);
+            }
+
+            &--volume {
+                grid-column: 1 / span 1;
+                grid-row: 1 / span 2;
+            }
+
+            &--envelope__0 {
+                grid-column: 3 / span 1;
+                grid-row: 1 / span 1;
+            }
+
+            &--envelope__1 {
+                grid-column: 3 / span 1;
+                grid-row: 2 / span 1;
+            }
         } 
 
-        & .volume, & .envelope {
-            background: linear-gradient(var(--color-grey-dark), #454545, var(--color-grey-dark));
+        &__knob {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.5rem;
+            justify-content: center;
+            // padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+            &--vol {
+                grid-column: 2 / span 1;
+                grid-row: 1 / span 2;
+            }
+            
+            &--Amp_a {
+                grid-column: 4 / span 1;
+                grid-row: 1 / span 1;
+            }
+
+            &--Amp_d {
+                grid-column: 5 / span 1;
+                grid-row: 1 / span 1;
+            }
+
+            &--Amp_s {
+                grid-column: 6 / span 1;
+                grid-row: 1 / span 1;
+            }
+
+            &--Amp_r {
+                grid-column: 7 / span 1;
+                grid-row: 1 / span 1;
+            }
+
+            &--Filter_a, &--Mod_a {
+                grid-column: 4 / span 1;
+                grid-row: 2 / span 1;
+            }
+
+            &--Filter_d, &--Mod_d {
+                grid-column: 5 / span 1;
+                grid-row: 2 / span 1;
+            }
+
+            &--Filter_s, &--Mod_s {
+                grid-column: 6 / span 1;
+                grid-row: 2 / span 1;
+            }
+
+            &--Filter_r, &--Mod_r {
+                grid-column: 7 / span 1;
+                grid-row: 2 / span 1;
+            }
         }
-
-        & .volume {
-            grid-column: 1;
-            grid-row: 1 / 3;
-            margin-bottom: 0;
-            justify-content: start;
-
-            & > span {
-                margin-right: 1rem;
-            }
-
-            @media (min-width: 650px) {
-                width: 16.66%;
-                margin-bottom: 0.5rem;
-                justify-content: space-between;
-
-                & > span {
-                   margin-right: 0;
-                }
-            }
-        }
-
-        & .envelope {
-            margin-left: 1rem;
-            grid-column-start: 2;
-            grid-column-end: 3;
-            @media (min-width: 650px) {
-                width: 41.66%;
-            }
-
-            &:last-of-type {
-                margin-bottom: 0;
-            }
-        }
-    }
-
-    span {
-        height: 100%;
-        display: flex;
-        align-items: center;
-        border-left: 1px solid var(--color-grey-light);
-        padding: 0 0 0 0.5rem;
     }
 </style>

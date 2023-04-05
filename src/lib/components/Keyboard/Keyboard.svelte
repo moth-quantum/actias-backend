@@ -18,6 +18,7 @@
     let keys: number[] = notes
     let activeNotes: number[] = [];
     let isMobile = false;
+    let isTouch = false;
 
     function depressKey(note: number) {
         activeNotes = [...activeNotes, note];
@@ -49,13 +50,14 @@
     }
 
     function handleMouseleave(e: CustomEvent<any>) {
+        // mousedown = false;
         releaseKey(e.detail);
     }
 
     function handleMouseenter(e: CustomEvent<any>) {
         if(!mousedown) return;
         // Suppressed for now, due to notes sticking
-        // depressKey(e.detail);
+        depressKey(e.detail);
     }
 
     onMount(() => {
@@ -68,7 +70,9 @@
 
 <div class="piano">
     <div 
-        on:mouseleave={() => mousedown = false}
+        on:mouseleave={() => {
+            // mousedown = false
+        }}
         class="piano-keys"
     >
         {#each keys as note, i}
