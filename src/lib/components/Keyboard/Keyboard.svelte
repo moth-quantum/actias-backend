@@ -1,10 +1,11 @@
 <script lang="ts">
+    import { WebMidi } from 'webmidi';
     import { get } from 'svelte/store';
     import AudioKeys from 'audiokeys';
     import Key from './Key.svelte';
     import { handleEvent, handleNoteOff } from '../../../sound';
     import { synthValues } from '$lib/stores/parameters';
-  import { onMount } from 'svelte';
+    import { onMount } from 'svelte';
     
     const keyboard = new AudioKeys({
         polyphony: 6,
@@ -20,9 +21,9 @@
     let isMobile = false;
     let isTouch = false;
 
-    function depressKey(note: number) {
-        activeNotes = [...activeNotes, note];
-        handleEvent({...get(synthValues), n: note, amp: 1})
+    function depressKey(n: number, amp: number = 1) {
+        activeNotes = [...activeNotes, n];
+        handleEvent({...get(synthValues), n, amp})
     }
 
     function releaseKey(note: number) {
@@ -62,6 +63,20 @@
 
     onMount(() => {
         isMobile = window.innerWidth < 650;
+        WebMidi
+            .enable()
+            .then(() => {
+                WebMidi.inputs.forEach(input => {
+                    input.addListener("noteon", e => {
+                        depressKey(e.note.number, e.velocity);
+                    })
+
+                    input.addListener("noteoff", e => {
+                        releaseKey(e.note.number);
+                    })
+                })
+                
+            })
     })
 
     $: keys = isMobile ? notes.slice(0, 12) : notes;
@@ -97,7 +112,6 @@
         width: 100%;
         margin: 0 auto;
         height: 100%;
-        // max-height: 8rem;
         min-height: 7rem;
         box-shadow: 2px 3px 5px 1px var(--color-box-shadow);
     }
