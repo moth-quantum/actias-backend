@@ -1,7 +1,43 @@
+<script>
+    // @ts-nocheck
+    export let name;
+    export let value; 
+    export let min = 0;
+    export let max = 1;
+    export let rotRange = 2 * Math.PI * 0.8;
+    export let pixelRange = 200;
+    export let startRotation = -Math.PI * 0.8;
+    
+    let startY, startValue;
+    $: valueRange = max - min;
+    $: rotation = startRotation + (value - min) / valueRange * rotRange;
+    
+    function clamp(num, min, max) {
+        return Math.max(min, Math.min(num, max));
+    }
+    
+    function pointerMove({ clientY }) {
+        const valueDiff = valueRange * (clientY - startY) / pixelRange;
+        value = clamp(startValue - valueDiff, min, max)
+    }
+    
+    function pointerDown({ clientY }) {
+        startY = clientY;
+        startValue = value;
+        window.addEventListener('pointermove', pointerMove);
+        window.addEventListener('pointerup', pointerUp);
+    }
+    
+    function pointerUp() {
+        window.removeEventListener('pointermove', pointerMove);
+        window.removeEventListener('pointerup', pointerUp);
+    }
+</script>
+
 <div class="knob__container">
     <div class="knob__gradient" style="--rotation: {rotation}"></div>
     <svg viewBox="-10 -10 20 20">
-        <circle r="9" stroke="none" stroke-width="0.5" fill="var(--color-grey-mid)"/>
+        <circle r="9" stroke="none" stroke-width="0.5" fill="var(--color-grey-dark)"/>
     </svg>
     <div class="knob">
         <div class="knob__inner" style="--rotation: {rotation}" on:pointerdown={pointerDown}>
@@ -10,45 +46,6 @@
     </div>
     <div class="knob__label">{name}</div>
 </div>
-
-
-<script>
-    // @ts-nocheck
-    export let name;
-	export let value; 
-    export let min = 0;
-    export let max = 1;
-	export let rotRange = 2 * Math.PI * 0.8;
-	export let pixelRange = 200;
-	export let startRotation = -Math.PI * 0.8;
-	
-	let startY, startValue, gradientRotation;
-	$: valueRange = max - min;
-	$: rotation = startRotation + (value - min) / valueRange * rotRange;
-    $: gradientRotation = (value - min) / valueRange * 100;
-	
-	function clamp(num, min, max) {
-		return Math.max(min, Math.min(num, max));
-	}
-	
-	function pointerMove({ clientY }) {
-		const valueDiff = valueRange * (clientY - startY) / pixelRange;
-		value = clamp(startValue - valueDiff, min, max)
-	}
-	
-	function pointerDown({ clientY }) {
-		startY = clientY;
-		startValue = value;
-		window.addEventListener('pointermove', pointerMove);
-		window.addEventListener('pointerup', pointerUp);
-	}
-	
-	function pointerUp() {
-		window.removeEventListener('pointermove', pointerMove);
-		window.removeEventListener('pointerup', pointerUp);
-	}
-</script>
-
 
 <style lang="scss">
 
@@ -128,7 +125,7 @@
         bottom: -0.25rem;
         right: -0.25rem;
         border-radius: 50%;
-        background: conic-gradient(grey, grey, var(--color-theme-1), white);
+        background: conic-gradient(var(--color-grey-mid) #{calc(3.14rad - var(--rotation) * 1rad)}, var(--color-theme-1), white);
         transform: rotate(calc(var(--rotation) * 1rad));
     }
 </style>
