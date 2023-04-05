@@ -13,7 +13,9 @@
         <Button text="Drone" colour="secondary" />
     </div>
     <div class="controller">
-        <Keyboard />
+        <div class="keys">
+            <Keyboard />
+        </div>
         <div class="knobs">
             <div class="knobs__title knobs__title--volume">
                 <h3>Vol</h3>
@@ -64,9 +66,9 @@
         }
         @media (min-width: 650px) {
             width: 10rem;
-            margin-right: 1.5rem;
         }
         @media (min-width: 1200px) {
+
             width: 4.5rem;
         }
     }
@@ -78,6 +80,14 @@
         justify-content: space-between;
     }
 
+    .keys {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1rem;
+        height: 100%;
+    }
+
     .knobs {
         display: grid;
         grid-template-columns: 0.5fr 1fr 0.5fr 1fr 1fr 1fr 1fr;
@@ -86,7 +96,6 @@
         justify-content: space-between;
 
         width: 100%;
-        margin-top: 1.5rem;
         background: linear-gradient(var(--color-grey-dark), #454545, var(--color-grey-dark));
 
         @media (min-width: 700px) {
