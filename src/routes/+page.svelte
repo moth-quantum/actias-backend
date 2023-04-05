@@ -204,7 +204,6 @@
     .parameters {
         display: none;
         flex-direction: column;
-        // justify-content: space-between;
         grid-column-start: 1;
         grid-column-end: 1;
         grid-row-start: 1;
@@ -226,12 +225,14 @@
         overflow: hidden;
 
         @media (min-width: 1200px) {
+            display: grid;
+            grid-template-columns: 6fr 3fr;
+            
             grid-column-start: 2;
             grid-column-end: 4;
             grid-row-start: 1;
             grid-row-end: 3;
-            display: grid;
-            grid-template-columns: 6fr 3fr;
+            
             width: 100%;
             border-radius: 10px;
         }

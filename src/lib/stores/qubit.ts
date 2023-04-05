@@ -22,7 +22,8 @@ export const axes = writable<Axis[]>([
 export const seconds = writable<number>(0);
 export const bpm = writable<number>(0);
 export const beats = writable<number>(0);
-export const source = writable<'local' | 'remote'>('local');
+export const source = writable<string>('local');
+export const password = writable<string>('');
 
 export const collapseTime = derived([seconds, bpm, beats], ([$seconds, $bpm, $beats]) => {
     if ($bpm > 0 && $beats > 0) return 60 / $bpm * $beats;
