@@ -21,7 +21,7 @@
     let isMobile = false;
     let isTouch = false;
 
-    function depressKey(n: number, amp: number = 1) {
+    function depressKey(n: number, amp: number = 0.5) {
         activeNotes = [...activeNotes, n];
         handleEvent({...get(synthValues), n, amp})
     }
