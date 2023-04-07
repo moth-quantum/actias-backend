@@ -4,7 +4,7 @@ import { samples } from '$lib/stores/samples';
 import { setEnvelopes, envelopeValues } from './envelopes';
 import { initialiseConnections, getConnections, connections} from './patching';
 import { mapToStepRange, roundToFactor } from '$lib/utils/utils';
-import { handleMutation } from '../../sound'
+import { handleMutation, cut } from '../../sound'
 import type { InstrumentName, Parameter } from '$lib/types';
 
 export const instrument: Writable<InstrumentName> = writable('synth');
@@ -117,7 +117,7 @@ const defaults = {
     fils: 1,
     lthresh: 0.75,
     gain: 1,
-    dur: 40000,
+    dur: 60000,
 }
 
 // fetch and format parameters for synth event
@@ -149,3 +149,11 @@ export function randomise(type: 'inst' | 'global' | 'fx') {
     type === 'global' && globalParameters.update((params: Parameter[]) => params.map(func));
     type === 'fx' && fxParameters.update((params: Parameter[]) => params.map(func));
 }
+
+export const drone = writable(false);
+
+
+drone.subscribe(d => {
+    !d && cut();
+    return d;
+})

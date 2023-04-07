@@ -1,7 +1,7 @@
 <script lang='ts'>
     export let text: string;
     export let icon: string = '';
-    export let active: boolean = true;
+    export let active: boolean = false;
     export let disabled: boolean = false;
     export let colour: string;
     export let onClick: () => void = () => {};
@@ -39,10 +39,13 @@
         margin-bottom: 0;
     }
 
-    
-
     .btn--disabled {
         background-color: var(--color-grey-light);
         opacity: 0.5;
+    }
+
+    .active {
+        background-color: var(--color-yellow);
+        color: var(--color-white);
     }
 </style>

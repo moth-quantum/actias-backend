@@ -5,6 +5,7 @@ import { get } from 'svelte/store'
 import { CtSynth, CtSampler, CtGranulator, CtFXChain } from './ct-synths'
 import { start, Limiter, BitCrusher, Gain } from 'tone'
 import { samples } from '$lib/stores/samples'
+import { drone } from '$lib/stores/parameters'
 import { mapToStepRange } from '$lib/utils/utils'
 
 export async function startAudio() {
@@ -34,13 +35,14 @@ granular.banks = {default: get(samples)}
 granular.currentBank = 'default'
 granular.connect(crush)
 
-const instruments = { synth, sampler, granular }
+export const instruments = { synth, sampler, granular }
 // const instruments = {}
 
 export const handleEvent = (params) => {
     const { inst, n} = params
     // TODO: these need to be altered using an additional parameter, rather than the midinote, which is needed for note on / off
     // const n = params.n + (Math.round(octave) * 12) + semitone
+    get(drone) && instruments[inst]?.cut(immediate());
     instruments[inst]?.play({...params, n}, immediate() + 0.01)
     fx.set(params, immediate())
     crush.wet.value = params.crush
@@ -48,7 +50,13 @@ export const handleEvent = (params) => {
 }
 
 export const handleNoteOff = (inst, n) => {
-    instruments[inst]?.release(n, immediate())
+    !get(drone) && instruments[inst]?.release(n, immediate())
+}
+
+export const cut = () => {
+    instruments.synth?.cut(immediate());
+    instruments.sampler?.cut(immediate());
+    instruments.granular?.cut(immediate());
 }
 
 export const handleMutation = (params) => {

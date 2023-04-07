@@ -1,6 +1,7 @@
 <script>
     import { envelopes } from '$lib/stores/envelopes';
     import { volume } from '$lib/stores/global';
+    import { drone } from '$lib/stores/parameters';
     import Knob from '$lib/components/Knob/Knob.svelte';
     import Keyboard from '$lib/components/Keyboard/Keyboard.svelte';
     import Button from '$lib/components/Button/ButtonLarge.svelte';
@@ -10,7 +11,7 @@
     <h2 class="visually-hidden">Controls</h2>
     <div class="buttons">
         <Button text="Midi" colour="primary" />
-        <Button text="Drone" colour="secondary" />
+        <Button text="Drone" colour="secondary" active={$drone} onClick={() => drone.update(d => !d)} />
     </div>
     <div class="controller">
         <div class="keys">
