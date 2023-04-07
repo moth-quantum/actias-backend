@@ -1,40 +1,4 @@
 import { writable } from 'svelte/store';
 
-export const samples = writable([
-    "http://localhost:5000/samples/atmos/Atmos-ASceneByTheSea.wav",
-    "http://localhost:5000/samples/atmos/Atmos-ChibaCity.wav",
-    "http://localhost:5000/samples/atmos/Atmos-DystopianVibes.wav",
-    "http://localhost:5000/samples/atmos/Atmos-IcecreamPool.wav",
-    "http://localhost:5000/samples/atmos/Atmos-MostBeautifull.wav",
-    "http://localhost:5000/samples/atmos/Atmos-PearGarden.wav",
-    "http://localhost:5000/samples/atmos/Atmos-RecordingsOfEden.wav",
-    "http://localhost:5000/samples/atmos/Atmos-RoboRuin.wav",
-    "http://localhost:5000/samples/atmos/Atmos-SirangiLa.wav",
-    "http://localhost:5000/samples/atmos/Atmos-SmallVillageHarbour.wav",
-    "http://localhost:5000/samples/atmos/Atmos-SynthWeather.wav",
-    "http://localhost:5000/samples/atmos/Atmos-SynthWeather2.wav",
-    "http://localhost:5000/samples/atmos/Atmos-TempleOfMIDI.wav",
-    "http://localhost:5000/samples/atmos/atmos-EquestrialSwimming 1.wav",
-    "http://localhost:5000/samples/atmos/atmos-EquestrialSwimming 2.wav",
-    "http://localhost:5000/samples/atmos/atmos-GongAcid 1.wav",
-    "http://localhost:5000/samples/atmos/atmos-GongAcid 2.wav",
-    "http://localhost:5000/samples/atmos/atmos-GongAcid 3.wav",
-    "http://localhost:5000/samples/atmos/atmos-GongAcid 4.wav",
-    "http://localhost:5000/samples/atmos/atmos-GongVibes 1.wav",
-    "http://localhost:5000/samples/atmos/atmos-GongVibes 2.wav",
-    "http://localhost:5000/samples/atmos/atmos-GongVibes 3.wav",
-    "http://localhost:5000/samples/atmos/atmos-GongVibes 4.wav",
-    "http://localhost:5000/samples/atmos/atmos-HauntedSeaCucumber 1.wav",
-    "http://localhost:5000/samples/atmos/atmos-HauntedSeaCucumber 2.wav",
-    "http://localhost:5000/samples/atmos/atmos-HauntedSeaCucumber 3.wav",
-    "http://localhost:5000/samples/atmos/atmos-HauntedSeaCucumber 4.wav",
-    "http://localhost:5000/samples/atmos/atmos-MistyBell 1.wav",
-    "http://localhost:5000/samples/atmos/atmos-MistyBell 2.wav",
-    "http://localhost:5000/samples/atmos/atmos-MistyBell 3.wav",
-    "http://localhost:5000/samples/atmos/atmos-MistyBell 4.wav",
-    "http://localhost:5000/samples/atmos/atmos-NoordzeeGong 1.wav",
-    "http://localhost:5000/samples/atmos/atmos-NoordzeeGong 2.wav",
-    "http://localhost:5000/samples/atmos/atmos-NoordzeeGong 3.wav",
-    "http://localhost:5000/samples/atmos/atmos-NoordzeeGong 4.wav"
-]);
+export const samples = writable(["/samples/01.wav","/samples/02.wav","/samples/03.wav","/samples/04.wav","/samples/Atmos-ASceneByTheSea.wav","/samples/Atmos-ChibaCity.wav","/samples/Atmos-DystopianVibes.wav","/samples/atmos-EquestrialSwimming 1.wav","/samples/atmos-EquestrialSwimming 2.wav","/samples/atmos-GongAcid 1.wav","/samples/glass.wav"]);
     

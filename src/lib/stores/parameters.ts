@@ -12,7 +12,7 @@ export const instruments: InstrumentName[] = ['synth', 'sampler', 'granular']
 
 const baseParams: Parameter[] = [
     // Needs exponential range
-    {key: 'cutoff', name: 'cutoff', rangeA: 10, rangeB: 20, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 20000},
+    {key: 'cutoff', name: 'cutoff', rangeA: 50, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 20000},
     {key: 'res', name: 'res', rangeA: 0, rangeB: 25, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 0.95},
 ];
 
