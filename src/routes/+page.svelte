@@ -132,7 +132,7 @@
         <Meter node={output}/>
         <div class="data-stream">
             <DataStream 
-                data={$axes.map(({value}) => +(value * Math.PI).toFixed(2)).reverse()}
+                data={$axes.map(({value}) => +(value * (Math.PI/2)).toFixed(2)).reverse()}
                 labels={$axes.map(({name}) => name).reverse()}
             />
         </div>
