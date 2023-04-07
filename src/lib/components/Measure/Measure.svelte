@@ -1,6 +1,7 @@
 <script>
     import Select from '$lib/components/Forms/Select.svelte';   
     import { measure, seconds, bpm, beats, source, password } from '$lib/stores/qubit';
+    import { mute } from '$lib/stores/global';
 </script>
 
 <div class="measure">
@@ -16,9 +17,24 @@
                 </div>
             {/if}
         </div>
-        <input id="seconds" placeholder="Seconds" type="number" on:change={e => seconds.update(() => +e.target?.value || 0)}/>
-        <input id="bpm" placeholder="BPM" type="number" on:change={e => bpm.update(() => +e.target?.value || 0)}/>
-        <input id="beats" placeholder="Beats" type="number" on:change={e => beats.update(() => +e.target?.value || 0)}/>
+        <input 
+            id="seconds" placeholder="Seconds" type="number" 
+            on:change={e => seconds.set(+e.target?.value || 0)}
+            on:focus={() => mute.set(true)}
+            on:focusout={() => mute.set(false)}
+        />
+        <input 
+            id="bpm" placeholder="BPM" type="number" 
+            on:change={e => bpm.set(+e.target?.value || 0)}
+            on:focus={() => mute.set(true)}
+            on:focusout={() => mute.set(false)}
+        />
+        <input 
+            id="beats" placeholder="Beats" type="number" 
+            on:change={e => beats.set(+e.target?.value || 0)}
+            on:focus={() => mute.set(true)}
+            on:focusout={() => mute.set(false)}
+        />
     </form>
     <div class="button">
         <button

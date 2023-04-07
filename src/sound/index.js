@@ -6,6 +6,7 @@ import { CtSynth, CtSampler, CtGranulator, CtFXChain } from './ct-synths'
 import { start, Limiter, BitCrusher, Gain } from 'tone'
 import { samples } from '$lib/stores/samples'
 import { drone } from '$lib/stores/parameters'
+import { volume, mute } from '$lib/stores/global'
 import { mapToStepRange } from '$lib/utils/utils'
 
 export async function startAudio() {
@@ -17,7 +18,11 @@ export async function startAudio() {
 }
 
 export const output = new Gain(1).toDestination();
-const limiter = new Limiter(-20).connect(output);
+volume.subscribe((value) => {
+    output.gain.value = value;
+});
+
+const limiter = new Limiter(-10).connect(output);
 const fx = new CtFXChain()
 fx.connect(limiter)
 const crush = new BitCrusher({bits: 4, wet: 0}).connect(fx.input);
@@ -39,6 +44,8 @@ export const instruments = { synth, sampler, granular }
 // const instruments = {}
 
 export const handleEvent = (params) => {
+    if(get(mute)) return
+    
     const { inst, n} = params
     // TODO: these need to be altered using an additional parameter, rather than the midinote, which is needed for note on / off
     // const n = params.n + (Math.round(octave) * 12) + semitone
