@@ -44,8 +44,8 @@ const iParams: {[key: string]: Parameter[]} = {
 
 const gParams: Parameter[] = [
     // TODO: these need to be altered using an additional parameter, rather than the midinote, which is needed for note on / off
-    // {key: 'semitone', name: 'dtune', rangeA: 0, rangeB: 0, min: -12, max: 12, step: 0.01, units: 'st'},
-    // {key: 'octave', name: 'Oct', rangeA: -1, rangeB: 0, min: -3, max: 3, step: 1, units: 'octs'},
+    {key: 'semitone', name: 'dtune', rangeA: 0, rangeB: 0, min: -12, max: 12, step: 0.1, units: 'st'},
+    {key: 'octave', name: 'Oct', rangeA: 0, rangeB: 0, min: -3, max: 3, step: 1, units: 'octs'},
     {key: 'vol', name: 'gain', rangeA: 0.75, rangeB: 0.75, min: 0, max: 1, step: 0.01, units: '', outmin: 0, outmax: 1},
     {key: 'pan', name: 'pan', rangeA: -0, rangeB: 0, min: -1, max: 1, step: 0.01, units: '', outmin: 0, outmax: 1},
 ]

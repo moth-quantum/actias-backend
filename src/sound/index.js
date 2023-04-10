@@ -46,11 +46,11 @@ export const instruments = { synth, sampler, granular }
 export const handleEvent = (params) => {
     if(get(mute)) return
     
-    const { inst, n} = params
-    // TODO: these need to be altered using an additional parameter, rather than the midinote, which is needed for note on / off
-    // const n = params.n + (Math.round(octave) * 12) + semitone
+    const { inst, n, semitone, octave} = params
+    const detune = semitone + (octave * 12)
+
     get(drone) && instruments[inst]?.cut(immediate());
-    instruments[inst]?.play({...params, n}, immediate() + 0.01)
+    instruments[inst]?.play({...params, n, detune}, immediate() + 0.01)
     fx.set(params, immediate())
     crush.wet.value = params.crush
     crush.set({bits: mapToStepRange(params.crush, 0, 1, 16, 4, 1)})
@@ -67,8 +67,10 @@ export const cut = () => {
 }
 
 export const handleMutation = (params) => {
-    const { inst } = params
-    instruments[inst]?.mutate({...params}, immediate())
+    const { inst, semitone, octave} = params
+    const detune = semitone + (octave * 12)
+
+    instruments[inst]?.mutate({...params, detune}, immediate())
     fx.mutate(params, immediate())
     crush.wet.value = params.crush
     crush.set({bits: mapToStepRange(params.crush, 0, 1, 16, 4, 1)})
