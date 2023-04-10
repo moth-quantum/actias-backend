@@ -55,6 +55,7 @@ const fxParams: Parameter[] = [
     {key: 'rsize', name: 'RTime', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
     {key: 'delay', name: 'Delay', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
     {key: 'dtime', name: 'Dtime', rangeA: 10, rangeB: 2000, min: 10, max: 2000, step: 1, units: 'ms'},
+    {key: 'dcolour', name: 'DColour', rangeA: 25, rangeB: 50, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
     {key: 'dfb', name: 'Fback', rangeA: 10, rangeB: 50, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 0.99},
     {key: 'chorus', name: 'Chorus', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
     {key: 'chdepth', name: 'CDepth', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
