@@ -42,31 +42,47 @@
     });
 
     function handleMousedown(e: CustomEvent<any>) {
+        if(isTouch) return;
         mousedown = true;
         depressKey(e.detail);
+        console.log('down')
     }
 
     function handleMouseup(e: CustomEvent<any>) {
+        if(isTouch) return;
         mousedown = false;
         releaseKey(e.detail);
+        console.log('up')
     }
 
     function handleMouseleave(e: CustomEvent<any>) {
+        if(isTouch) return;
         // mousedown = false;
         releaseKey(e.detail);
     }
 
     function handleMouseenter(e: CustomEvent<any>) {
-        if(!mousedown) return;
+        if(isTouch || !mousedown) return;
         // Suppressed for now, due to notes sticking
         depressKey(e.detail);
     }
 
-    function noteOn (e: any) {
+    function handleTouchStart(e: CustomEvent<any>) {
+        isTouch = true;
+        depressKey(e.detail);
+        console.log('touchstart')
+    }
+
+    function handleTouchEnd(e: CustomEvent<any>) {
+        releaseKey(e.detail);
+        console.log('touchend')
+    }
+
+    function noteOn(e: any) {
         depressKey(e.note.number, e.velocity);
     }
 
-    function noteOff (e: any) {
+    function noteOff(e: any) {
         releaseKey(e.note.number);
     }
 
@@ -109,6 +125,8 @@
                 on:up={handleMouseup}
                 on:leave={handleMouseleave}
                 on:enter={handleMouseenter}
+                on:touchstart={handleTouchStart}
+                on:touchend={handleTouchEnd}
             />
         {/each}
         
