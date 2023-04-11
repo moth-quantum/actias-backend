@@ -62,22 +62,24 @@
         depressKey(e.detail);
     }
 
+    function noteOn (e: any) {
+        depressKey(e.note.number, e.velocity);
+    }
+
+    function noteOff (e: any) {
+        releaseKey(e.note.number);
+    }
+
     function activateInput(name: string) {
         const input = WebMidi.getInputByName(name);
-
-        input?.addListener("noteon", e => {
-            depressKey(e.note.number, e.velocity);
-        })
-
-        input?.addListener("noteoff", e => {
-            releaseKey(e.note.number);
-        })
+        input?.addListener("noteon", noteOn)
+        input?.addListener("noteoff", noteOff)
     }
 
     function deactivateInput(name: string) {
         const input = WebMidi.getInputByName(name);
-        input?.removeListener("noteon");
-        input?.removeListener("noteoff");
+        input?.removeListener("noteon", noteOn);
+        input?.removeListener("noteoff", noteOff);
     }
 
     inputs.subscribe($inputs => {
@@ -90,9 +92,7 @@
             }))
     })
 
-    onMount(() => {
-        isMobile = window.innerWidth < 650;
-    })
+    onMount(() => isMobile = window.innerWidth < 650)
 
     $: keys = isMobile ? notes.slice(0, 12) : notes;
     
