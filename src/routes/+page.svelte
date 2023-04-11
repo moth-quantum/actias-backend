@@ -149,9 +149,6 @@
 </section>
 
 <style lang="scss">
-    #sidebar {
-        background-color: var(--color-grey-mid);
-    }
     .sidebar {
         &__instruments {
             display: flex;

@@ -5,6 +5,7 @@
     import Key from './Key.svelte';
     import { handleEvent, handleNoteOff } from '../../../sound';
     import { synthValues } from '$lib/stores/parameters';
+    import { inputs } from '$lib/stores/midi';
     import { onMount } from 'svelte';
     
     const keyboard = new AudioKeys({
@@ -61,22 +62,36 @@
         depressKey(e.detail);
     }
 
-    onMount(() => {
-        isMobile = window.innerWidth < 650;
+    function activateInput(name: string) {
+        const input = WebMidi.getInputByName(name);
+
+        input?.addListener("noteon", e => {
+            depressKey(e.note.number, e.velocity);
+        })
+
+        input?.addListener("noteoff", e => {
+            releaseKey(e.note.number);
+        })
+    }
+
+    function deactivateInput(name: string) {
+        const input = WebMidi.getInputByName(name);
+        input?.removeListener("noteon");
+        input?.removeListener("noteoff");
+    }
+
+    inputs.subscribe($inputs => {
         WebMidi
             .enable()
-            .then(() => {
-                WebMidi.inputs.forEach(input => {
-                    input.addListener("noteon", e => {
-                        depressKey(e.note.number, e.velocity);
-                    })
+            .then(() => $inputs.forEach(({name, active}) => {
+                active 
+                    ? activateInput(name)
+                    : deactivateInput(name)
+            }))
+    })
 
-                    input.addListener("noteoff", e => {
-                        releaseKey(e.note.number);
-                    })
-                })
-                
-            })
+    onMount(() => {
+        isMobile = window.innerWidth < 650;
     })
 
     $: keys = isMobile ? notes.slice(0, 12) : notes;
@@ -84,12 +99,7 @@
 </script>
 
 <div class="piano">
-    <div 
-        on:mouseleave={() => {
-            // mousedown = false
-        }}
-        class="piano-keys"
-    >
+    <div class="piano-keys">
         {#each keys as note, i}
             <Key 
                 note={note}

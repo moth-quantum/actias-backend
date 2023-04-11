@@ -2,15 +2,51 @@
     import { envelopes } from '$lib/stores/envelopes';
     import { volume } from '$lib/stores/global';
     import { drone } from '$lib/stores/parameters';
+    import { inputs } from '$lib/stores/midi';
     import Knob from '$lib/components/Knob/Knob.svelte';
     import Keyboard from '$lib/components/Keyboard/Keyboard.svelte';
     import Button from '$lib/components/Button/ButtonLarge.svelte';
+    import Checkbox from '$lib/components/Forms/Checkbox.svelte';
+    import { Drawer } from 'flowbite-svelte';
+    import { sineIn } from 'svelte/easing';
+
+    let sidebarIsHidden = true; 
+    let transitionParams = {
+        x: -320,
+        duration: 200,
+        easing: sineIn
+    };
+    
 </script>
 
 <div class="controls">
     <h2 class="visually-hidden">Controls</h2>
+
+    <Drawer 
+        transitionType="fly" {transitionParams} 
+        bind:hidden={sidebarIsHidden} 
+        id='sidebar'
+    >
+        <div class="sidebar">
+            <svg on:click={() => (sidebarIsHidden = true)} class="sidebar__close w-5 h-5 mb-4" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            <h2 class="sidebar__title">Midi Input Devices</h2>
+            <div class="sidebar__inputs">
+                {#each $inputs as {name, active}, i (name)}
+                    <div class="sidebar__input">
+                        <h3>{name}</h3>
+                        <Checkbox checked={active} onChange={(checked) => {
+                            inputs.update(inputs => {
+                                inputs[i].active = checked || false;
+                                return inputs;
+                            })
+                        }} />
+                    </div>
+                {/each}
+        </div>
+    </Drawer>
+    
     <div class="buttons">
-        <Button text="Midi" colour="primary" />
+        <Button text="Midi" colour="primary" onClick={() => (sidebarIsHidden = false)} />
         <Button text="Drone" colour="secondary" active={$drone} onClick={() => drone.update(d => !d)} />
     </div>
     <div class="controller">
@@ -46,6 +82,22 @@
 </div>
         
 <style lang="scss">
+    .sidebar {
+        &__title {
+            margin-bottom: 1.25rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--color-yellow);
+        }
+        &__input {
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        &__close {
+            cursor: pointer;
+            fill: var(--color-grey-darkest)
+        }
+    }
     .controls {
         display: flex;
         padding: 1rem;
