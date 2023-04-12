@@ -98,17 +98,15 @@
         input?.removeListener("noteoff", noteOff);
     }
 
-    inputs.subscribe($inputs => {
-        WebMidi
-            .enable()
-            .then(() => $inputs.forEach(({name, active}) => {
-                active 
-                    ? activateInput(name)
-                    : deactivateInput(name)
-            }))
+    onMount(() => {
+      isMobile = window.innerWidth < 650
+        inputs.subscribe(inputs => {
+            inputs.forEach(({name, active}) => active 
+                ? activateInput(name)
+                : deactivateInput(name)
+            )
+        })
     })
-
-    onMount(() => isMobile = window.innerWidth < 650)
 
     $: keys = isMobile ? notes.slice(0, 12) : notes;
     

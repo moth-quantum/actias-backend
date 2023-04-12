@@ -15,6 +15,8 @@
         on:mouseup={() => dispatch('up', note)}
         on:mouseleave={() => dispatch('leave', note)}
         on:mouseenter={() => dispatch('enter' ,note)}
+        on:touchstart={() => dispatch('touchstart', note)}
+        on:touchend={() => dispatch('touchend', note)}
         class="inner piano-{colour} note-{note} {isActive ? 'active' : ''}"
     >
         <span class="label">{noteToKey(note)}</span>
