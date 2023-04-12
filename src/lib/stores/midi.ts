@@ -9,4 +9,3 @@ WebMidi
         console.log("WebMidi enabled!")
         inputs.update(() => WebMidi.inputs.map(({name}) => ({name, active: true})));
     })
-    .catch(err => alert(err));
