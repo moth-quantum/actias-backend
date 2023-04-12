@@ -108,7 +108,7 @@
             </div>
             
             <div class="qubit__sphere" bind:clientHeight={qubitH}>
-                <Qubit size={qubitH} phi={$axes[1].value} theta={$axes[2].value} phase={$axes[0].value} />
+                <Qubit size={qubitH} />
             </div>
 
             <div class="qubit__sliders" style={`width: ${isDesktop ? qubitH + 'px' : '100%'};`}>

@@ -2,9 +2,14 @@
     import P5 from 'p5-svelte'
     import type { p5, Sketch } from 'p5-svelte';
     import { Vector } from 'p5'
+    import { axes } from '$lib/stores/qubit';
+    
+    let p5Instance: p5;
     export let size: number;
 
-    export let phi: number, theta: number, phase: number;
+    axes.subscribe(() => p5Instance && p5Instance.draw())
+
+    const handleInstance = (p5: p5) => p5Instance = p5.detail;
 
     const sketch : Sketch = (p5: p5)=> {
         const radius = 150
@@ -12,12 +17,19 @@
         p5.setup = () => {
             p5.createCanvas(size || 400, size || 400, p5.WEBGL)
             p5.smooth()
+            p5.noLoop()
         }
-        // p5.resize = () => {
-        //     p5.resizeCanvas(size, size)
-        // }
+        
+        p5.resize = () => {
+            p5.resizeCanvas(size, size)
+            p5.redraw()
+        }
 
         p5.draw = () => {
+            const phi = $axes[1].value
+            const theta = $axes[2].value
+            const phase = $axes[0].value
+            // console.log('drawing')
             p5.smooth()
             p5.background('#404040')
             
@@ -80,9 +92,11 @@
         }
     }
 
+    $: console.log('hello')
+
 </script>
   
-<P5 {sketch} />
+<P5 {sketch} on:instance={handleInstance} />
 
 <style lang="scss">
     canvas { 
