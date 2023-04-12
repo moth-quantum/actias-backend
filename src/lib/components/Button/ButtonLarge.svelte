@@ -23,7 +23,7 @@
 <style>
     .btn {
         font-size: var(--text-sm);
-        padding: 0;
+        padding: 1rem;
         text-transform: uppercase;
         color: var(--color-grey-light);
         border-radius: 5px;

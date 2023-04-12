@@ -113,7 +113,7 @@
         display: flex;
         flex-direction: column;
         margin-right: 1rem;
-        width: 4rem;
+        // width: 4rem;
         @media (min-width: 400px) {
             width: 8rem;
         }
@@ -196,7 +196,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            // padding: 0.5rem 0.5rem 0.5rem 0.5rem;
             &--vol {
                 grid-column: 2 / span 1;
                 grid-row: 1 / span 2;
