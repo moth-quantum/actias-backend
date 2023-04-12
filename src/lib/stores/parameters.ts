@@ -135,9 +135,7 @@ export const synthValues: Readable<{[key: string]: number | string}> = derived(
     })
 )
 
-synthValues.subscribe((values) => {
-    handleMutation(values)
-})
+synthValues.subscribe(values => handleMutation(values))
 
 export function randomise(type: 'inst' | 'global' | 'fx') {
     const func = (p: Parameter) => ({

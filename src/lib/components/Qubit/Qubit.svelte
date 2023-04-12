@@ -92,8 +92,6 @@
         }
     }
 
-    $: console.log('hello')
-
 </script>
   
 <P5 {sketch} on:instance={handleInstance} />
