@@ -50,6 +50,7 @@
 <style lang="scss">
 
 	.knob {
+        touch-action: none;
 		background: var(--color-grey-mid);
 		width: 2.5rem;
 		height: 2.5rem;

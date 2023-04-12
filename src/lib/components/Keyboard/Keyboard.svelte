@@ -45,14 +45,12 @@
         if(isTouch) return;
         mousedown = true;
         depressKey(e.detail);
-        console.log('down')
     }
 
     function handleMouseup(e: CustomEvent<any>) {
         if(isTouch) return;
         mousedown = false;
         releaseKey(e.detail);
-        console.log('up')
     }
 
     function handleMouseleave(e: CustomEvent<any>) {
@@ -70,12 +68,10 @@
     function handleTouchStart(e: CustomEvent<any>) {
         isTouch = true;
         depressKey(e.detail);
-        console.log('touchstart')
     }
 
     function handleTouchEnd(e: CustomEvent<any>) {
         releaseKey(e.detail);
-        console.log('touchend')
     }
 
     function noteOn(e: any) {
