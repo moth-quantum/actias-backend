@@ -28,13 +28,7 @@
         easing: sineIn
     };
 
-    onMount(() => {
-        window.addEventListener('keydown', startAudio)
-        window.addEventListener('click', startAudio)
-        window.addEventListener('touchstart', startAudio)
-
-        isDesktop = window.innerWidth > 1200
-    });
+    onMount(() => isDesktop = window.innerWidth > 1200);
 
 </script>
 
@@ -45,7 +39,9 @@
 
 <svelte:window 
     on:click={startAudio} 
-    on:resize={() => isDesktop = window.innerWidth > 1200} 
+    on:touchstart={startAudio}
+    on:keydown={startAudio}
+    on:resize={() => isDesktop = window.innerWidth > 1200}
 />
 
 <Drawer 
