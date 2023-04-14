@@ -1,7 +1,10 @@
 <script lang='ts'>
+    import { type IconDefinition } from '@fortawesome/fontawesome-svg-core';
+    import { FontAwesomeIcon } from 'fontawesome-svelte';
+
     export let classes: string = '';
     export let text: string;
-    export let icon: string = '';
+    export let icon: IconDefinition | null = null;
     export let active: boolean;
     export let disabled: boolean = false;
     export let colour: string;
@@ -14,14 +17,16 @@
     on:click={onClick}
 >
     {#if icon}
-        <span class="material-icons">{icon}</span>
+        <span class="btn__icon">
+            <FontAwesomeIcon {icon} />
+        </span>
     {/if}
     {#if text}
         <span class="ml-2">{text}</span>
     {/if}
 </button>
 
-<style>
+<style lang="scss">
     .btn {
         font-size: var(--text-sm);
         padding: 0.25rem 2rem;
@@ -29,12 +34,16 @@
         color: var(--color-grey-mid);
         border-radius: 5px;
         font-weight: 500;
-        margin-right: 0.5rem;
+
+        &:last-child {
+            margin-right: 0;
+        }
+
+        &__icon {
+            margin-right: 0.5rem;
+        }
     }
 
-    .btn:last-child {
-        margin-right: 0;
-    }
     span {
         margin: 0
     }

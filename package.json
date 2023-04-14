@@ -29,12 +29,16 @@
   },
   "type": "module",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-regular-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@neodrag/svelte": "^2.0.3",
     "@popperjs/core": "^2.11.6",
     "audiokeys": "^0.1.1",
     "classnames": "^2.3.2",
     "flowbite": "^1.6.3",
     "flowbite-svelte": "^0.30.6",
+    "fontawesome-svelte": "^2.0.1",
     "p5-svelte": "^3.1.2",
     "tone": "^14.7.77",
     "webmidi": "^3.1.5"

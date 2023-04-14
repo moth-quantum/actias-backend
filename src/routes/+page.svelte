@@ -16,6 +16,7 @@
     import Qubit from '$lib/components/Qubit/Qubit.svelte';
     import Meter from '$lib/components/Meter/Meter.svelte';
     import DataStream from '$lib/components/DataStream/Datastream.svelte';
+    import InstrumentButtons from '$lib/components/InstrumentButtons/index.svelte';
 
     let axesIds = $axes.map(({key}) => key);
     let axesNames = $axes.map(({name}) => name);
@@ -52,16 +53,7 @@
     <div class="sidebar">
         <svg on:click={() => (sidebarIsHidden = true)} class="sidebar__close w-5 h-5 mb-4" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
         <div class="sidebar__instruments">
-            {#each instruments as inst}
-                <Button 
-                    onClick={() => instrument.set(inst)} 
-                    active={$instrument === inst} 
-                    disabled={$instrument !== inst}
-                    colour="yellow" 
-                    text={inst} 
-                    classes={'mb-2 w-full'}
-                />
-            {/each}
+            <InstrumentButtons orientation="vertical"/>
         </div>
         <Parameters showSockets={false}/>
     </div>
@@ -69,15 +61,7 @@
 
 <section class="buttons container mx-auto">
     <div class="buttons__instruments">
-        {#each instruments as inst}
-            <Button 
-                onClick={() => instrument.set(inst)} 
-                active={$instrument === inst} 
-                disabled={$instrument !== inst}
-                colour="yellow" 
-                text={inst} 
-            />
-        {/each}
+        <InstrumentButtons />
     </div>
 
     <div class="buttons__parameters">
@@ -147,11 +131,8 @@
 <style lang="scss">
     .sidebar {
         &__instruments {
-            display: flex;
-            flex-direction: column;
             margin-bottom: 1rem;
         }
-
         &__close {
             cursor: pointer;
             fill: var(--color-grey-darkest)
