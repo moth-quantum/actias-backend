@@ -99,5 +99,6 @@
 <style lang="scss">
     canvas { 
         max-width: 50vw;
+        contain: paint;
     }
 </style>
