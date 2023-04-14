@@ -9,7 +9,7 @@
 
     axes.subscribe(() => p5Instance && p5Instance.draw())
 
-    const handleInstance = (p5: p5) => p5Instance = p5.detail;
+    const handleInstance = (e: CustomEvent<p5>) => p5Instance = e.detail;
 
     const sketch : Sketch = (p5: p5)=> {
         const radius = 150
@@ -29,7 +29,6 @@
             const phi = $axes[1].value
             const theta = $axes[2].value
             const phase = $axes[0].value
-            // console.log('drawing')
             p5.smooth()
             p5.background('#404040')
             
