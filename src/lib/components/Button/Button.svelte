@@ -38,10 +38,6 @@
         &:last-child {
             margin-right: 0;
         }
-
-        &__icon {
-            margin-right: 0.5rem;
-        }
     }
 
     .btn--primary {
