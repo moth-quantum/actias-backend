@@ -44,10 +44,6 @@
         }
     }
 
-    span {
-        margin: 0
-    }
-
     .btn--primary {
         background-color: var(--color-theme-1);
     }

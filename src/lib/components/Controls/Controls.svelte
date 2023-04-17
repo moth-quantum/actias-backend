@@ -10,6 +10,10 @@
     import { Drawer } from 'flowbite-svelte';
     import { sineIn } from 'svelte/easing';
 
+    import { library } from '@fortawesome/fontawesome-svg-core';
+    import { faSignal, faCircle } from '@fortawesome/free-solid-svg-icons';
+    library.add(faSignal, faCircle);
+
     let sidebarIsHidden = true; 
     let transitionParams = {
         x: -320,
@@ -46,8 +50,8 @@
     </Drawer>
     
     <div class="buttons">
-        <Button text="Midi" colour="primary" onClick={() => (sidebarIsHidden = false)} />
-        <Button text="Drone" colour="secondary" active={$drone} onClick={() => drone.update(d => !d)} />
+        <Button text="Midi" colour="primary" onClick={() => (sidebarIsHidden = false)} icon={faCircle} />
+        <Button text="Drone" colour="secondary" active={$drone} onClick={() => drone.update(d => !d)} icon={faSignal} />
     </div>
     <div class="controller">
         <div class="keys">
@@ -113,7 +117,6 @@
         display: flex;
         flex-direction: column;
         margin-right: 1rem;
-        // width: 4rem;
         @media (min-width: 400px) {
             width: 8rem;
         }
@@ -121,7 +124,6 @@
             width: 10rem;
         }
         @media (min-width: 1200px) {
-
             width: 4.5rem;
         }
     }

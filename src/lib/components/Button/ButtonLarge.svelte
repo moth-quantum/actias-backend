@@ -1,6 +1,8 @@
 <script lang='ts'>
+    import { type IconDefinition } from '@fortawesome/fontawesome-svg-core';
+    import { FontAwesomeIcon } from 'fontawesome-svelte';
     export let text: string;
-    export let icon: string = '';
+    export let icon: IconDefinition | null = null;
     export let active: boolean = false;
     export let disabled: boolean = false;
     export let colour: string;
@@ -12,15 +14,17 @@
     class={`btn btn--${colour} ${disabled ? 'btn--disabled' : ''}`}
     on:click={onClick}
 >
-    {#if icon}
-        <span class="material-icons">{icon}</span>
-    {/if}
     {#if text}
-        <span class="ml-2">{text}</span>
+        <span>{text}</span>
+    {/if}
+    {#if icon}
+    <span class="btn__icon">
+        <FontAwesomeIcon {icon} size="2x"/>
+    </span>
     {/if}
 </button>
 
-<style>
+<style lang="scss">
     .btn {
         font-size: var(--text-sm);
         padding: 1rem;
@@ -31,18 +35,21 @@
         background-color: var(--color-grey-mid);
         height: 100%;
         margin-bottom: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        
+        &:last-child {
+            margin-bottom: 0;
+        }
+    
+        &--disabled {
+            background-color: var(--color-grey-light);
+            opacity: 0.5;
+        }
     }
 
-    span { margin: 0}
-
-    .btn:last-child {
-        margin-bottom: 0;
-    }
-
-    .btn--disabled {
-        background-color: var(--color-grey-light);
-        opacity: 0.5;
-    }
 
     .active {
         background-color: var(--color-yellow);

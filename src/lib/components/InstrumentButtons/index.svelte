@@ -4,7 +4,6 @@
 
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faSmileWink, faNetworkWired, faCompactDisc, faBraille } from '@fortawesome/free-solid-svg-icons';
-    // import { farChartScatter3d } from '@fortawesome/free-regular-svg-icons';
     library.add(faSmileWink, faNetworkWired, faCompactDisc, faBraille);
 
     const icons = {
