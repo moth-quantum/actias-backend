@@ -1,13 +1,9 @@
 <script>
     import { onMount } from 'svelte';
-    import { instrument, instruments } from '$lib/stores/parameters';
     import { startAudio, output } from '../sound';
     import { axes } from '$lib/stores/qubit';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
-
-    import { Drawer } from 'flowbite-svelte';
-    import { sineIn } from 'svelte/easing';
-
+    import Presets from '$lib/components/Presets/Presets.svelte';
     import Parameters from '$lib/components/Parameters/Parameters.svelte';
     import Controls from '$lib/components/Controls/Controls.svelte';
     import Button from '$lib/components/Button/Button.svelte';
@@ -17,6 +13,9 @@
     import Meter from '$lib/components/Meter/Meter.svelte';
     import DataStream from '$lib/components/DataStream/Datastream.svelte';
     import InstrumentButtons from '$lib/components/InstrumentButtons/index.svelte';
+
+    import { Drawer } from 'flowbite-svelte';
+    import { sineIn } from 'svelte/easing';
 
     let axesIds = $axes.map(({key}) => key);
     let axesNames = $axes.map(({name}) => name);
@@ -72,6 +71,8 @@
             text="Parameters" 
         />
     </div>
+
+    <Presets />
 
 </section>
 
@@ -142,6 +143,8 @@
         padding: 1rem;
         background-color: var(--color-grey-mid);
         box-shadow: 0 0.5rem 0.5rem 0.25rem var(--color-box-shadow);
+        display: flex;
+        justify-content: space-between;
         
         @media (min-width: 1200px) {
             padding: 1rem 2rem;
