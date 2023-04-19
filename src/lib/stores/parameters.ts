@@ -4,7 +4,6 @@ import { samples } from '$lib/stores/samples';
 import { setEnvelopes, envelopeValues } from './envelopes';
 import { initialiseConnections, getConnections, connections} from './patching';
 import { mapToStepRange, roundToFactor } from '$lib/utils/utils';
-import { handleMutation, cut } from '../../sound'
 import type { InstrumentName, Parameter } from '$lib/types';
 
 export const instrument: Writable<InstrumentName> = writable('synth');
@@ -135,8 +134,6 @@ export const synthValues: Readable<{[key: string]: number | string}> = derived(
     })
 )
 
-synthValues.subscribe(values => handleMutation(values))
-
 export function randomise(type: 'inst' | 'global' | 'fx') {
     const func = (p: Parameter) => ({
         ...p,
@@ -150,9 +147,3 @@ export function randomise(type: 'inst' | 'global' | 'fx') {
 }
 
 export const drone = writable(false);
-
-
-drone.subscribe(d => {
-    !d && cut();
-    return d;
-})

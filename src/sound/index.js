@@ -5,7 +5,7 @@ import { get } from 'svelte/store'
 import { CtSynth, CtSampler, CtGranulator, CtFXChain } from './ct-synths'
 import { start, Limiter, BitCrusher, Gain } from 'tone'
 import { samples } from '$lib/stores/samples'
-import { drone } from '$lib/stores/parameters'
+import { drone, synthValues } from '$lib/stores/parameters'
 import { volume, mute } from '$lib/stores/global'
 import { mapToStepRange } from '$lib/utils/utils'
 
@@ -49,7 +49,7 @@ export const handleEvent = (params) => {
     const { inst, n, semitone, octave} = params
     const detune = semitone + (octave * 12)
 
-    get(drone) && instruments[inst]?.cut(immediate());
+    // get(drone) && instruments[inst]?.cut(immediate());
     instruments[inst]?.play({...params, n, detune}, immediate() + 0.01)
     fx.set(params, immediate())
     crush.wet.value = params.crush
@@ -75,3 +75,10 @@ export const handleMutation = (params) => {
     crush.wet.value = params.crush
     crush.set({bits: mapToStepRange(params.crush, 0, 1, 16, 4, 1)})
 }
+
+synthValues.subscribe(values => handleMutation(values))
+
+drone.subscribe(d => {
+    !d && cut();
+    return d;
+})
