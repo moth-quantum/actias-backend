@@ -1,6 +1,7 @@
 import { writable, get } from 'svelte/store';
 import { instrument, allParameters } from '$lib/stores/parameters';
 import { envelopes } from '$lib/stores/envelopes';
+import { connections } from '$lib/stores/patching';
 
 export const presetKeys = writable([
     'Preset 1',
@@ -32,8 +33,14 @@ activePreset.subscribe((i) => {
     
     envelopes.set(preset.envelopes);
     instrument.set(preset.instrument);
-    // preset.params.forEach(({key, rangeA, rangeB}) => {
+    // connections.set(preset.connections);
+    preset.params.forEach(({key, rangeA, rangeB} : {key: string, rangeA: number, rangeB: number}) => {
+        const param = get(allParameters).find((param) => param.key === key);
+        if(!param) return
 
+        param.rangeA = rangeA;
+        param.rangeB = rangeB;
+    })
 })
 
 export const storePreset = (key: string) => {
@@ -43,8 +50,8 @@ export const storePreset = (key: string) => {
     presets[key] = {
         instrument: get(instrument),
         envelopes: get(envelopes),
-        params: get(allParameters).map(({key, rangeA, rangeB}) => ({key, rangeA, rangeB}))
-        // TODO: connections
+        params: get(allParameters).map(({key, rangeA, rangeB}) => ({key, rangeA, rangeB})),
+        connections: get(connections)
     };
     localStorage.setItem('q1synth-presets', JSON.stringify(presets));
 }
