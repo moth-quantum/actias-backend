@@ -2,29 +2,30 @@
     import { presetKeys, activePreset } from '$lib/stores/presets';
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { library } from '@fortawesome/fontawesome-svg-core';
-    import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-    library.add(faChevronLeft, faChevronRight);
+    import { faChevronLeft, faChevronRight, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
+    library.add(faChevronLeft, faChevronRight, faFloppyDisk);
 
     const onNext = () => $activePreset < $presetKeys.length && activePreset.set($activePreset + 1)
     const onPrev = () => $activePreset > 0 && activePreset.set($activePreset - 1)
-
-    const handleChange = (e) => {
-        presetKeys.set($presetKeys.map((key, i) => i === $activePreset ? e.target.value : key))
-    }
 
 </script>
 
 <div class="presets">
     <button class="presets__chevron" on:click={onPrev} disabled={$activePreset === 0}>
-        <FontAwesomeIcon icon="chevron-left" />
+        <FontAwesomeIcon icon={faChevronLeft} class={$activePreset === 0 && 'opacity-20'} />
     </button>
 
-    <span class="mx-4">
-        <input type="text" class="presets__input" value={$presetKeys[$activePreset]} on:change={handleChange}/>
+    <span class="presets__input">
+        <input type="text" class="presets__input" bind:value={$presetKeys[$activePreset]} />
     </span>
 
+    <span class="presets__store">
+        <FontAwesomeIcon icon={faFloppyDisk} />
+    </span>
+    
+
     <button class="presets__chevron" on:click={onNext} disabled={$activePreset === $presetKeys.length - 1}>
-        <FontAwesomeIcon icon="chevron-right" />
+        <FontAwesomeIcon icon={faChevronRight} />
     </button>
 
 </div>
@@ -40,6 +41,7 @@
         border-radius: 5px;
         font-weight: 500;
         display: flex;
+        align-items: center;
         &__chevron {
             width: 1.5rem;
             text-align: center;
@@ -55,6 +57,11 @@
             text-align: center;
             width: 5rem;
             padding: 0;
+        }
+
+        &__store {
+            margin: 0 0.5rem;
+            cursor: pointer;
         }
     }
 
