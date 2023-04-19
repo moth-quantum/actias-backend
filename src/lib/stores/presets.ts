@@ -30,9 +30,8 @@ activePreset.subscribe((i) => {
     const preset = JSON.parse(presets)[get(presetKeys)[i]]
     if(!preset) return;
     
-    console.log(preset.envelopes)
+    envelopes.set(preset.envelopes);
     instrument.set(preset.instrument);
-    // envelopes.set(preset.envelopes);
     // preset.params.forEach(({key, rangeA, rangeB}) => {
 
 })
@@ -45,6 +44,7 @@ export const storePreset = (key: string) => {
         instrument: get(instrument),
         envelopes: get(envelopes),
         params: get(allParameters).map(({key, rangeA, rangeB}) => ({key, rangeA, rangeB}))
+        // TODO: connections
     };
     localStorage.setItem('q1synth-presets', JSON.stringify(presets));
 }

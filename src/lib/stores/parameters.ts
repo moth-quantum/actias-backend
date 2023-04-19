@@ -1,7 +1,7 @@
 import { writable, type Writable, get, derived, type Readable } from 'svelte/store';
 import { axes, type Axis } from '$lib/stores/qubit';
 import { samples } from '$lib/stores/samples';
-import { setEnvelopes, envelopeValues } from './envelopes';
+import { envelopeValues } from './envelopes';
 import { initialiseConnections, getConnections, connections} from './patching';
 import { mapToStepRange, roundToFactor } from '$lib/utils/utils';
 import type { InstrumentName, Parameter } from '$lib/types';
@@ -98,7 +98,6 @@ const initConnections = (instrument: string) => initialiseConnections([
 
 instrument.subscribe((instrument) => {
     instrumentParameters.set(iParams[instrument]);
-    setEnvelopes(instrument);
     initConnections(instrument)
 });
 
@@ -120,13 +119,25 @@ const defaults = {
     dur: 60000,
 }
 
+const formatEnvelopeValues = (values, instrument: string) => {
+    const { a1, d1, s1, r1 } = values;   
+    const key = instrument === 'synth' ? 'mod' : 'fil';
+    return {
+        ...values,
+        [`${key}a`]: a1,
+        [`${key}d`]: d1,
+        [`${key}s`]: s1,
+        [`${key}r`]: r1
+    }
+}
+
 // fetch and format parameters for synth event
 export const synthValues: Readable<{[key: string]: number | string}> = derived(
     [paramValues, envelopeValues, instrument], 
     ([$paramValues, $envelopeValues, $instrument]) => ({
         ...defaults,
         inst: $instrument,
-        ...$envelopeValues,
+        ...formatEnvelopeValues($envelopeValues, $instrument),
         ...Object.entries($paramValues).reduce((obj, [key, value]) => ({
             ...obj,
             [key]: scaleParamValue(key, value)
