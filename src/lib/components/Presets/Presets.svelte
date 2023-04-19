@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { presetKeys, activePreset } from '$lib/stores/presets';
+    import { presetKeys, activePreset, storePreset } from '$lib/stores/presets';
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faChevronLeft, faChevronRight, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
@@ -19,9 +19,9 @@
         <input type="text" class="presets__input" bind:value={$presetKeys[$activePreset]} />
     </span>
 
-    <span class="presets__store">
+    <button class="presets__store" on:click={() => storePreset($presetKeys[$activePreset])}>
         <FontAwesomeIcon icon={faFloppyDisk} />
-    </span>
+    </button>
     
 
     <button class="presets__chevron" on:click={onNext} disabled={$activePreset === $presetKeys.length - 1}>
