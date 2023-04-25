@@ -2,7 +2,7 @@ import { writable, get } from 'svelte/store';
 import { instrument, allParameters } from '$lib/stores/parameters';
 import { envelopes } from '$lib/stores/envelopes';
 import { connections } from '$lib/stores/patching';
-import type { Envelope, Connection } from '$lib/types';
+import type { Envelope } from '$lib/types';
 
 export const presetKeys = writable([
     'Preset 1',

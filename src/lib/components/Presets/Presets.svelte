@@ -8,6 +8,14 @@
     const onNext = () => $activePreset < $presetKeys.length && activePreset.set($activePreset + 1)
     const onPrev = () => $activePreset > 0 && activePreset.set($activePreset - 1)
 
+    const handleNameChange = (e: Event) => {
+        presetKeys.update((keys: string[]) => {
+            const newKeys = [...keys]
+            newKeys[$activePreset] = e.target?.value || ''
+            return newKeys;
+        })
+    }
+
 </script>
 
 <div class="presets">
@@ -16,13 +24,12 @@
     </button>
 
     <span class="presets__input">
-        <input type="text" class="presets__input" bind:value={$presetKeys[$activePreset]} />
+        <input type="text" class="presets__input" bind:value={$presetKeys[$activePreset]} on:change={handleNameChange}/>
     </span>
 
     <button class="presets__store" on:click={() => storePreset($presetKeys[$activePreset])}>
         <FontAwesomeIcon icon={faFloppyDisk} />
     </button>
-    
 
     <button class="presets__chevron" on:click={onNext} disabled={$activePreset === $presetKeys.length - 1}>
         <FontAwesomeIcon icon={faChevronRight} />
