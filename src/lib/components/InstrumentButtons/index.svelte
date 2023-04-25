@@ -32,6 +32,7 @@
 <style lang="scss">
     .instrument-buttons {
         display: flex;
+        height: 100%;
 
         &--horizontal {
             flex-direction: row;
