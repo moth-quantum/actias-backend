@@ -24,19 +24,22 @@ export const connectSockets = (a: Socket, b: Socket) => {
 
     // Disconnect origin sockets, which have a one to one connection
     [a,b].forEach(socket => {
+        // ignore remote sockets
         if(socket.type === 'remote') return
-        connections.update(prev => prev.filter(c => c[0] !== socket.id && c[1] !== socket.id));
+        // filter out origin sockets 
+        connections.update(connections => connections.filter(c => c[0] !== socket.id && c[1] !== socket.id));
     })
 
     // Connect sockets
-    connections.update((prev: Connection[]) => {
+    connections.update((connections: Connection[]) => {
+        // sort alphabetically so there is only one way of storing a connection
         const connection = [a.id, b.id].sort((a, b) => a.localeCompare(b)) as Connection;
-        return [...prev, connection]
+        return [...connections, connection]
     })
 }
 
 export const disconnectSocket = (id: string) => {
-    connections.update(prev => prev.filter(c => c[0] !== id && c[1] !== id));
+    connections.update(connections => connections.filter(c => c[0] !== id && c[1] !== id));
 };
 
 export const initialiseConnections = (groupA: string[], groupB: string[]) => {
@@ -46,9 +49,9 @@ export const initialiseConnections = (groupA: string[], groupB: string[]) => {
     // connect sockets
     groupA.forEach((a, i) => {
         const b = groupB[Math.floor(i / (groupA.length / groupB.length))];
-        connections.update((prev: Connection[]) => {
+        connections.update((connections: Connection[]) => {
             const connection = [a, b].sort((a, b) => a.localeCompare(b)) as Connection;
-            return [...prev, connection]
+            return [...connections, connection]
         })
     })
 }
