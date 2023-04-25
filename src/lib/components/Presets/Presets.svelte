@@ -1,42 +1,44 @@
 <script lang="ts">
-    import { presetKeys, activePreset, storePreset } from '$lib/stores/presets';
+    import { presetKeys, storePreset, active } from '$lib/stores/presets';
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faChevronLeft, faChevronRight, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
     library.add(faChevronLeft, faChevronRight, faFloppyDisk);
 
-    const onNext = () => $activePreset < $presetKeys.length && activePreset.set($activePreset + 1)
-    const onPrev = () => $activePreset > 0 && activePreset.set($activePreset - 1)
+    const onNext = () => {
+        const i = $presetKeys.indexOf($active)
+        active.set($presetKeys[(i+1) % $presetKeys.length])
+    }
+    const onPrev = () => {
+        const i = $presetKeys.indexOf($active)
+        const size = $presetKeys.length
+        active.set($presetKeys[((i-1) + size) % size])
+        i > 0 && active.set($presetKeys[i - 1])
+    }
 
     const handleNameChange = (e: Event) => {
         const name = e.target?.value
         if(!name) return
-        
-        presetKeys.update((keys: string[]) => {
-            const newKeys = [...keys]
-            newKeys[$activePreset] = name 
-            return newKeys;
-        })
-        
+
         storePreset(name)
     }
 
 </script>
 
 <div class="presets">
-    <button class="presets__chevron" on:click={onPrev} disabled={$activePreset === 0}>
-        <FontAwesomeIcon icon={faChevronLeft} class={$activePreset === 0 && 'opacity-20'} />
+    <button class="presets__chevron" on:click={onPrev}>
+        <FontAwesomeIcon icon={faChevronLeft} />
     </button>
 
     <span class="presets__input">
-        <input type="text" class="presets__input" bind:value={$presetKeys[$activePreset]} on:change={handleNameChange}/>
+        <input type="text" class="presets__input" bind:value={$active} on:change={handleNameChange}/>
     </span>
 
-    <button class="presets__store" on:click={() => storePreset($presetKeys[$activePreset])}>
+    <button class="presets__store" on:click={() => storePreset($active)}>
         <FontAwesomeIcon icon={faFloppyDisk} />
     </button>
 
-    <button class="presets__chevron" on:click={onNext} disabled={$activePreset === $presetKeys.length - 1}>
+    <button class="presets__chevron" on:click={onNext}>
         <FontAwesomeIcon icon={faChevronRight} />
     </button>
 

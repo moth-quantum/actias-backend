@@ -34,3 +34,10 @@ export interface Socket {
 }
 
 export type Connection = [string, string];
+
+export interface Preset {
+    instrument: InstrumentName;
+    connections: Connection[];
+    params: Parameter[];
+    envelopes: Envelope[];
+};

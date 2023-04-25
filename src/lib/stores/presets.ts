@@ -2,15 +2,16 @@ import { writable, derived, get } from 'svelte/store';
 import { instrument, allParameters } from '$lib/stores/parameters';
 import { envelopes } from '$lib/stores/envelopes';
 import { connections } from '$lib/stores/patching';
-import type { Envelope } from '$lib/types';
+import type { Envelope, Preset } from '$lib/types';
 
-export const presets = writable({
-    empty: {},
-})
+export const presets = writable({} as {[key: string]: Preset})
+
+export const active = writable('')
 
 const initPresets = () => {
-    const storedPresets = localStorage.getItem('q1synth-presets');
-    storedPresets && presets.update(presets => ({...presets, ...JSON.parse(storedPresets)}))
+    const stored = JSON.parse(localStorage.getItem('q1synth-presets') || '{}');
+    presets.update(presets => ({...presets, ...stored}))
+    active.set(Object.keys(stored)[0])
 }
 
 initPresets();
@@ -20,18 +21,13 @@ export const presetKeys = derived(
     $presets => Object.keys($presets)
 )
 
-export const activePreset = writable(0);
-
-activePreset.subscribe((i) => {
-    const presets = localStorage.getItem('q1synth-presets');
-    if(!presets) return;
-    
-    const preset = JSON.parse(presets)[get(presetKeys)[i]]
+active.subscribe((key) => {
+    const preset = get(presets)[key]
     if(!preset) return;
     
     // update envelope values
-    envelopes.update(envelopes => {
-        return preset.envelopes.reduce((arr: [], envelope: Envelope, i: number) => ([
+    envelopes.update((envelopes: Envelope[]) => {
+        return preset.envelopes.reduce((arr: Envelope[], envelope: Envelope, i: number) => ([
             ...arr,
             {...envelopes[i], a: envelope.a, d: envelope.d, s: envelope.s, r: envelope.r}
         ]), []);
@@ -53,7 +49,7 @@ activePreset.subscribe((i) => {
 })
 
 export const storePreset = (key: string) => {
-    const stored = JSON.parse(localStorage.getItem('q1synth-presets') || "");
+    const stored = JSON.parse(localStorage.getItem('q1synth-presets') || "{}");
 
     stored[key] = {
         instrument: get(instrument),
