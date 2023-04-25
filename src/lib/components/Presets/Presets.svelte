@@ -9,11 +9,16 @@
     const onPrev = () => $activePreset > 0 && activePreset.set($activePreset - 1)
 
     const handleNameChange = (e: Event) => {
+        const name = e.target?.value
+        if(!name) return
+        
         presetKeys.update((keys: string[]) => {
             const newKeys = [...keys]
-            newKeys[$activePreset] = e.target?.value || ''
+            newKeys[$activePreset] = name 
             return newKeys;
         })
+        
+        storePreset(name)
     }
 
 </script>
