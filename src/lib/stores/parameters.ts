@@ -89,9 +89,10 @@ const initConnections = () => initialiseConnections([
     ...fxParams,
 ].map(({key}) => key), ['z', 'y', 'x']);
 
+initConnections()
+
 instrument.subscribe((instrument) => {
     keys.set(instrumentKeys[instrument]);
-    initConnections()
 });
 
 function scaleParamValue(key: string, value: number) {

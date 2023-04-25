@@ -44,9 +44,7 @@ activePreset.subscribe((i) => {
     instrument.set(preset.instrument);
 
     // update connections
-    // preset.connections.forEach((connection: Connection) => {
-    //     connections.update(connections => ([...connections.filter(c => c !== connection), connection]))
-    // })
+    connections.set(preset.connections);
 
     preset.params.forEach(({key, rangeA, rangeB} : {key: string, rangeA: number, rangeB: number}) => {
         const param = get(allParameters).find((param) => param.key === key);

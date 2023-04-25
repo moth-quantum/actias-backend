@@ -1,5 +1,3 @@
-<!-- TODO: add in patch cord here -->
-
 <script>
     // @ts-nocheck
     import { onMount, tick } from 'svelte';
@@ -16,7 +14,6 @@
     export let offset = 0;
 
     let thisSocket;
-    let allSockets;
     let connectedTo = [];
     let position = {x: 0, y: 0};
 
