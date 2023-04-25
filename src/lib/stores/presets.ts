@@ -13,12 +13,12 @@ function initPresets() {
     presets.update(presets => ({
         ...presets, 
         ...stored, 
-        ['preset 1']: null,
-        ['preset 2']: null,
-        ['preset 3']: null,
-        ['preset 4']: null,
+        ['custom 1']: null,
+        ['custom 2']: null,
+        ['custom 3']: null,
+        ['custom 4']: null,
     }))
-    active.set(Object.keys(get(presets))[0])
+    active.set(Object.keys(get(presets)).sort((a, b) => a.localeCompare(b))[0])
 }
 
 initPresets();
@@ -26,7 +26,7 @@ presets.subscribe(presets => localStorage.setItem('q1synth-presets', JSON.string
 
 export const presetKeys = derived(
     presets,
-    $presets => Object.keys($presets)
+    $presets => Object.keys($presets).sort((a, b) => a.localeCompare(b))
 )
 
 active.subscribe(loadPreset)

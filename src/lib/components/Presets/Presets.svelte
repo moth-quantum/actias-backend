@@ -21,7 +21,6 @@
     }
 
     const handleNameChange = (e: Event) => {
-        console.log(e)
         const name = e.target?.value
         if(!name) return
 
