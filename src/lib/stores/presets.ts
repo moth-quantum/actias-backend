@@ -1,27 +1,24 @@
-import { writable, get } from 'svelte/store';
+import { writable, derived, get } from 'svelte/store';
 import { instrument, allParameters } from '$lib/stores/parameters';
 import { envelopes } from '$lib/stores/envelopes';
 import { connections } from '$lib/stores/patching';
 import type { Envelope } from '$lib/types';
 
-export const presetKeys = writable([
-    'Preset 1',
-    'Preset 2',
-    'Preset 3',
-    'Preset 4',
-    'Preset 5',
-    'Preset 6',
-    'Preset 7',
-    'Preset 8',
-    'Preset 9',
-    'Preset 10',
-    'Preset 11',
-    'Preset 12',
-    'Preset 13',
-    'Preset 14',
-    'Preset 15',
-    'Preset 16',
-])
+export const presets = writable({
+    empty: {},
+})
+
+const initPresets = () => {
+    const storedPresets = localStorage.getItem('q1synth-presets');
+    storedPresets && presets.update(presets => ({...presets, ...JSON.parse(storedPresets)}))
+}
+
+initPresets();
+
+export const presetKeys = derived(
+    presets,
+    $presets => Object.keys($presets)
+)
 
 export const activePreset = writable(0);
 
@@ -56,14 +53,15 @@ activePreset.subscribe((i) => {
 })
 
 export const storePreset = (key: string) => {
-    const stored = localStorage.getItem('q1synth-presets');
-    const presets = stored ? JSON.parse(stored) : {};
+    const stored = JSON.parse(localStorage.getItem('q1synth-presets') || "");
 
-    presets[key] = {
+    stored[key] = {
         instrument: get(instrument),
         envelopes: get(envelopes),
         params: get(allParameters).map(({key, rangeA, rangeB}) => ({key, rangeA, rangeB})),
         connections: get(connections)
     };
-    localStorage.setItem('q1synth-presets', JSON.stringify(presets));
+    localStorage.setItem('q1synth-presets', JSON.stringify(stored));
+
+    presets.update(presets => ({...presets, ...stored}))
 }
