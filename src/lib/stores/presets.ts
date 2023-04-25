@@ -4,24 +4,34 @@ import { envelopes } from '$lib/stores/envelopes';
 import { connections } from '$lib/stores/patching';
 import type { Envelope, Preset } from '$lib/types';
 
-export const presets = writable({} as {[key: string]: Preset})
+export const presets = writable({} as {[key: string]: Preset | null})
 
 export const active = writable('')
 
-const initPresets = () => {
+function initPresets() {
     const stored = JSON.parse(localStorage.getItem('q1synth-presets') || '{}');
-    presets.update(presets => ({...presets, ...stored}))
-    active.set(Object.keys(stored)[0])
+    presets.update(presets => ({
+        ...presets, 
+        ...stored, 
+        ['preset 1']: null,
+        ['preset 2']: null,
+        ['preset 3']: null,
+        ['preset 4']: null,
+    }))
+    active.set(Object.keys(get(presets))[0])
 }
 
 initPresets();
+presets.subscribe(presets => localStorage.setItem('q1synth-presets', JSON.stringify(presets)))
 
 export const presetKeys = derived(
     presets,
     $presets => Object.keys($presets)
 )
 
-active.subscribe((key) => {
+active.subscribe(loadPreset)
+
+function loadPreset(key: string) {
     const preset = get(presets)[key]
     if(!preset) return;
     
@@ -39,6 +49,7 @@ active.subscribe((key) => {
     // update connections
     connections.set(preset.connections);
 
+    // update params
     preset.params.forEach(({key, rangeA, rangeB} : {key: string, rangeA: number, rangeB: number}) => {
         const param = get(allParameters).find((param) => param.key === key);
         if(!param) return
@@ -46,9 +57,9 @@ active.subscribe((key) => {
         param.rangeA = rangeA;
         param.rangeB = rangeB;
     })
-})
+}
 
-export const storePreset = (key: string) => {
+export function savePreset(key: string) {
     const stored = JSON.parse(localStorage.getItem('q1synth-presets') || "{}");
 
     stored[key] = {
@@ -61,8 +72,3 @@ export const storePreset = (key: string) => {
 
     presets.update(presets => ({...presets, ...stored}))
 }
-
-presets.subscribe(presets => {
-    console.log('storing!', presets)
-    localStorage.setItem('q1synth-presets', JSON.stringify(presets));
-})
