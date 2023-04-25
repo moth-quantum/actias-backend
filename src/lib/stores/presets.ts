@@ -61,3 +61,8 @@ export const storePreset = (key: string) => {
 
     presets.update(presets => ({...presets, ...stored}))
 }
+
+presets.subscribe(presets => {
+    console.log('storing!', presets)
+    localStorage.setItem('q1synth-presets', JSON.stringify(presets));
+})

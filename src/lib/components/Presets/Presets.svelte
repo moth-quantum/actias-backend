@@ -1,26 +1,37 @@
 <script lang="ts">
-    import { presetKeys, storePreset, active } from '$lib/stores/presets';
+    import { presetKeys, presets, storePreset, active } from '$lib/stores/presets';
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faChevronLeft, faChevronRight, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
     library.add(faChevronLeft, faChevronRight, faFloppyDisk);
 
+    let current = $active
+
     const onNext = () => {
         const i = $presetKeys.indexOf($active)
         active.set($presetKeys[(i+1) % $presetKeys.length])
+        current = $active
     }
     const onPrev = () => {
         const i = $presetKeys.indexOf($active)
         const size = $presetKeys.length
         active.set($presetKeys[((i-1) + size) % size])
         i > 0 && active.set($presetKeys[i - 1])
+        current = $active
     }
 
     const handleNameChange = (e: Event) => {
+        console.log(e)
         const name = e.target?.value
         if(!name) return
 
-        storePreset(name)
+        presets.update(presets => {
+            const newPresets = {...presets}
+            newPresets[name] = newPresets[current]
+            delete newPresets[current]
+            current = $active    
+            return newPresets
+        })
     }
 
 </script>
