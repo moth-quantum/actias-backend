@@ -96,7 +96,7 @@
                 <Qubit size={qubitH} />
             </div>
 
-            <div class="qubit__sliders" style={`width: ${isDesktop ? qubitH + 'px' : '100%'};`}>
+            <div class="qubit__sliders">
                 <div>
                     {#each $axes as {value, min, max, step, name, colour} (name)}
                         <Slider 
@@ -278,7 +278,6 @@
             grid-row-start: 1;
             grid-row-end: 3;
             z-index: 10;
-            
 
             @media (min-width: 1200px) {
                 padding: 0 1rem;
@@ -286,19 +285,19 @@
             }
 
             & > div {
-                width: 100%;
-                margin: 0 auto;
+                // width: 100%;
+                // margin: 0 auto;
                 display: flex;
-                flex-direction: column-reverse;
+                flex-direction: row-reverse;
                 
-                @media (min-width: 600px) {
-                    width: 80%;
-                }
-                @media (min-width: 1200px) {
-                    width: 100%;
-                    transform: rotate(90deg);
-                    flex-direction: column;
-                }
+                // @media (min-width: 600px) {
+                //     width: 80%;
+                // }
+                // @media (min-width: 1200px) {
+                //     width: 100%;
+                //     transform: rotate(90deg);
+                //     flex-direction: column;
+                // }
             }
         }
     }

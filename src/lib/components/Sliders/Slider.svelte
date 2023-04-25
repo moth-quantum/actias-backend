@@ -8,40 +8,51 @@
     export let orientation: string = 'vertical';
 </script>
 
-<div class="slider">
+<div class="slider__container">
     <span 
         class={'label label--' + orientation}
         style={`color: ${colour}`}    
     >{name}</span>
-    <input 
+    <!-- <input 
         class={`${orientation}`} 
         type="range" {min} {max} {step}
         bind:value={value}
         style={`background: ${colour}`}
-    />
+    /> -->
+
+    <div class="slider">
+        <div class="slider__track" style={`background: ${colour}`}></div>
+        <div class="slider__thumb"></div>
+    </div>
 </div>
 
 <style lang="scss">
+
+    .slider__container {
+        display: flex;
+        flex-direction: column;
+    }
     .slider {
         display: flex;
-        align-items: center;
+        justify-content: center;
         position: relative;
         width: 100%;
+        height: 100%;
+        &__track {
+            width: 2px;
+            height: 100%;
+            background-color: blue;
+        }
     }
 
     .label {
         color: var(--color-grey-light);
         font-size: var(--text-base);
-        text-align: left;
+        text-align: center;
         margin-right: 1rem;
-        min-width: 1rem;
-
-        &--vertical {
-            text-align: center;
-            @media (min-width: 1200px) {
-                transform: rotate(-90deg);
-            }
-        }
+        margin-bottom: 0.5rem;
+        min-width: 0.5rem;
+        width: 100%;
     }
 
     input[type=range] {
