@@ -1,5 +1,5 @@
 <script>
-    import { instrumentParameters, fxParameters, globalParameters, paramValues, randomise } from '$lib/stores/parameters';
+    import { instrumentParameters, fxParameters, globalParameters, paramValues, randomise, keys } from '$lib/stores/parameters';
     import { axes } from '$lib/stores/qubit';
     import RangeSlider from '$lib/components/Sliders/RangeSlider.svelte';
     import Socket from '$lib/components/Patching/Socket.svelte';
@@ -11,7 +11,9 @@
 
 <div class="group">
     <h2 on:click={() => randomise('inst')}>Instrument</h2>
-    {#each $instrumentParameters as {name, min, max, step, units, key, rangeA, rangeB} (key)}
+    {#each $instrumentParameters.filter(({key}) => $keys.includes(key)) 
+        as {name, min, max, step, units, key, rangeA, rangeB} (key)
+    }
         <div class="parameter">
             <h3>{name}</h3>
             <RangeSlider 

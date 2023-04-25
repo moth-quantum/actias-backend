@@ -9,40 +9,33 @@ import type { InstrumentName, Parameter } from '$lib/types';
 export const instrument: Writable<InstrumentName> = writable('synth');
 export const instruments: InstrumentName[] = ['synth', 'sampler', 'granular']
 
-const baseParams: Parameter[] = [
+const instrumentKeys = {
+    synth: ['modi', 'harm', 'drift', 'cutoff', 'res'],
+    sampler: ['i', 'loop', 'loopsize', 'rate', 'begin', 'cutoff', 'res'],
+    granular: ['i', 'grainsize', 'grainpan', 'begin', 'end', 'cutoff', 'res']
+}
+
+export const keys = writable(instrumentKeys.synth);
+
+const instParams: Parameter[] = [
+    {key: 'modi', name: 'modi', rangeA: 0, rangeB: 10, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 50},
+    {key: 'harm', name: 'harm', rangeA: 2, rangeB: 2, min: 0.5, max: 10, step: 0.25, units: ''},
+    {key: 'drift', name: 'drift', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 5},
+    {key: 'i', name: 'src', rangeA: 0, rangeB: 0, min: 0, max: get(samples).length, step: 1, units: ''},
+    {key: 'loop', name: 'loop', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 1, units: ''},
+    {key: 'loopsize', name: 'size', rangeA: 1, rangeB: 1, min: 0.001, max: 1, step: 0.001, units: ''},
+    {key: 'rate', name: 'rate', rangeA: 1, rangeB: 1, min: -1, max: 2, step: 0.125, units: ''},
+    {key: 'begin', name: 'begin', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.001, units: ''},
+    {key: 'end', name: 'end', rangeA: 1, rangeB: 0, min: 0, max: 1, step: 0.001, units: ''},
+    {key: 'grainrate', name: 'rate', rangeA: 8, rangeB: 16, min: 1, max: 64, step: 1, units: ''},
+    {key: 'grainsize', name: 'size', rangeA: 0.1, rangeB: 1, min: 0.001, max: 1, step: 0.001, units: ''},
+    {key: 'grainpan', name: 'pan', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.001, units: ''},
     // Needs exponential range
     {key: 'cutoff', name: 'cutoff', rangeA: 50, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 20000},
     {key: 'res', name: 'res', rangeA: 0, rangeB: 25, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 0.95},
-];
-
-const iParams: {[key: string]: Parameter[]} = {
-    synth: [
-        {key: 'modi', name: 'modi', rangeA: 0, rangeB: 10, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 50},
-        {key: 'harm', name: 'harm', rangeA: 2, rangeB: 2, min: 0.5, max: 10, step: 0.25, units: ''},
-        {key: 'drift', name: 'drift', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 5},
-        ...baseParams,
-    ],
-    sampler: [
-        {key: 'i', name: 'src', rangeA: 0, rangeB: 0, min: 0, max: get(samples).length, step: 1, units: ''},
-        {key: 'loop', name: 'loop', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 1, units: ''},
-        {key: 'loopsize', name: 'size', rangeA: 1, rangeB: 1, min: 0.001, max: 1, step: 0.001, units: ''},
-        {key: 'rate', name: 'rate', rangeA: 1, rangeB: 1, min: -1, max: 2, step: 0.125, units: ''},
-        {key: 'begin', name: 'begin', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.001, units: ''},
-        ...baseParams,
-    ],
-    granular: [
-        {key: 'i', name: 'src', rangeA: 0, rangeB: 0, min: 0, max: get(samples).length, step: 1, units: ''},
-        {key: 'grainrate', name: 'rate', rangeA: 8, rangeB: 16, min: 1, max: 64, step: 1, units: ''},
-        {key: 'grainsize', name: 'size', rangeA: 0.1, rangeB: 1, min: 0.001, max: 1, step: 0.001, units: ''},
-        {key: 'grainpan', name: 'pan', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.001, units: ''},
-        {key: 'begin', name: 'begin', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.001, units: ''},
-        {key: 'end', name: 'end', rangeA: 1, rangeB: 0, min: 0, max: 1, step: 0.001, units: ''},
-        ...baseParams,
-    ],
-};
+]
 
 const gParams: Parameter[] = [
-    // TODO: these need to be altered using an additional parameter, rather than the midinote, which is needed for note on / off
     {key: 'semitone', name: 'dtune', rangeA: 0, rangeB: 0, min: -12, max: 12, step: 0.1, units: 'st'},
     {key: 'octave', name: 'Oct', rangeA: 0, rangeB: 0, min: -3, max: 3, step: 1, units: 'octs'},
     {key: 'vol', name: 'gain', rangeA: 0.75, rangeB: 0.75, min: 0, max: 1, step: 0.01, units: '', outmin: 0, outmax: 1},
@@ -65,7 +58,7 @@ const fxParams: Parameter[] = [
     {key: 'locut', name: 'locut', rangeA: 0, rangeB: 25, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
 ]
 
-export const instrumentParameters = writable(iParams.synth);
+export const instrumentParameters = writable(instParams);
 export const globalParameters = writable(gParams);
 export const fxParameters = writable(fxParams);
 export const allParameters: Readable<Parameter[]> = derived(
@@ -90,15 +83,15 @@ function getAxis(key: string) : Axis {
     return currentAxes.find((axis) => connections.includes(axis.key)) || currentAxes[0]
 }
 
-const initConnections = (instrument: string) => initialiseConnections([
-    ...iParams[instrument],
+const initConnections = () => initialiseConnections([
+    ...instParams,
     ...gParams,
     ...fxParams,
 ].map(({key}) => key), ['z', 'y', 'x']);
 
 instrument.subscribe((instrument) => {
-    instrumentParameters.set(iParams[instrument]);
-    initConnections(instrument)
+    keys.set(instrumentKeys[instrument]);
+    initConnections()
 });
 
 function scaleParamValue(key: string, value: number) {
