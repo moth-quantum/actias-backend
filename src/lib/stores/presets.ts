@@ -13,10 +13,10 @@ function initPresets() {
     presets.update(presets => ({
         ...presets, 
         ...stored, 
-        ['custom 1']: null,
-        ['custom 2']: null,
-        ['custom 3']: null,
-        ['custom 4']: null,
+        ['user 1']: null,
+        ['user 2']: null,
+        ['user 3']: null,
+        ['user 4']: null,
     }))
     active.set(Object.keys(get(presets)).sort((a, b) => a.localeCompare(b))[0])
 }

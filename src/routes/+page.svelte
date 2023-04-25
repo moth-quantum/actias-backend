@@ -201,6 +201,21 @@
         align-items: center;
         overflow: hidden;
 
+        &--fullscreen {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+
+            .qubit__patchbay { display: none; }
+
+            & ~ .metrics, & ~ .measure {
+                z-index: 1001;
+            }
+        }
+
         @media (min-width: 1200px) {
             display: grid;
             grid-template-columns: 6fr 3fr;

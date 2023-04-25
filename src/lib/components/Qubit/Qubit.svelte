@@ -9,7 +9,9 @@
 
     axes.subscribe(() => p5Instance && p5Instance.draw())
 
-    const handleInstance = (e: CustomEvent<p5>) => p5Instance = e.detail;
+    const handleInstance = (e: CustomEvent<p5>) => {
+        p5Instance = e.detail
+    };
 
     const sketch : Sketch = (p5: p5)=> {
         const radius = 150
