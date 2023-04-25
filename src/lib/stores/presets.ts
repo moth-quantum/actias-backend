@@ -2,7 +2,7 @@ import { writable, get } from 'svelte/store';
 import { instrument, allParameters } from '$lib/stores/parameters';
 import { envelopes } from '$lib/stores/envelopes';
 import { connections } from '$lib/stores/patching';
-import type { Envelope } from '$lib/types';
+import type { Envelope, Connection } from '$lib/types';
 
 export const presetKeys = writable([
     'Preset 1',
@@ -32,14 +32,22 @@ activePreset.subscribe((i) => {
     const preset = JSON.parse(presets)[get(presetKeys)[i]]
     if(!preset) return;
     
+    // update envelope values
     envelopes.update(envelopes => {
         return preset.envelopes.reduce((arr: [], envelope: Envelope, i: number) => ([
             ...arr,
             {...envelopes[i], a: envelope.a, d: envelope.d, s: envelope.s, r: envelope.r}
         ]), []);
     });
+    
+    // update instrument
     instrument.set(preset.instrument);
-    // connections.set(preset.connections);
+
+    // update connections
+    // preset.connections.forEach((connection: Connection) => {
+    //     connections.update(connections => ([...connections.filter(c => c !== connection), connection]))
+    // })
+
     preset.params.forEach(({key, rangeA, rangeB} : {key: string, rangeA: number, rangeB: number}) => {
         const param = get(allParameters).find((param) => param.key === key);
         if(!param) return

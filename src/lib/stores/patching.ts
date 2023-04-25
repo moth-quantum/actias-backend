@@ -54,6 +54,8 @@ export const initialiseConnections = (groupA: string[], groupB: string[]) => {
             return [...connections, connection]
         })
     })
+
+    console.log(get(connections))
 }
 
 export const getConnections = (id: string) => {
