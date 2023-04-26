@@ -5,7 +5,6 @@
     import { axes } from '$lib/stores/qubit';
     
     let p5Instance: p5;
-    export let size: number;
 
     axes.subscribe(() => p5Instance && p5Instance.draw())
 
@@ -17,15 +16,15 @@
         const radius = 150
 
         p5.setup = () => {
-            p5.createCanvas(size || 400, size || 400, p5.WEBGL)
+            p5.createCanvas(400, 400, p5.WEBGL)
             p5.smooth()
             p5.noLoop()
         }
         
-        p5.resize = () => {
-            p5.resizeCanvas(size, size)
-            p5.redraw()
-        }
+        // p5.resize = () => {
+        //     p5.resizeCanvas(size, size)
+        //     p5.redraw()
+        // }
 
         p5.draw = () => {
             const phi = $axes[1].value

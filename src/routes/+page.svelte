@@ -20,7 +20,6 @@
     let axesIds = $axes.map(({key}) => key);
     let axesNames = $axes.map(({name}) => name);
     let isDesktop = false;
-    let qubitH = 0;
     let sidebarIsHidden = true; 
     let transitionParams = {
         x: -320,
@@ -92,8 +91,8 @@
                 />
             </div>
             
-            <div class="qubit__sphere" bind:clientHeight={qubitH}>
-                <Qubit size={qubitH} />
+            <div class="qubit__sphere">
+                <Qubit />
             </div>
 
             <div class="qubit__sliders">
