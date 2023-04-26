@@ -18,18 +18,22 @@
     let slider: HTMLElement;
     let isActive: boolean = false;
     
-    function setValue(pageY: number) {
-        const { height } = slider?.getBoundingClientRect();
-        const offsetY = pageY - (slider.getBoundingClientRect().top + window.scrollY)
-        sliderValue.set(clamp(1 - (height - offsetY) / height, 0, 1));
+    function setValue(e: MouseEvent) {
+        const { height, width, top, left } = slider?.getBoundingClientRect();
+        const { pageY, pageX } = e;
+        const position = orientation === 'vertical' ? height : width;
+        const offsetY = pageY - (top + window.scrollY)
+        const offsetX = pageX - (left + window.scrollX)
+        const offset = orientation === 'vertical' ? offsetY : offsetX;
+        sliderValue.set(clamp(1 - (position - offset) / position, 0, 1));
     }
     const handleMove = (e: MouseEvent) => {
         if(!isActive) return;
-        setValue(e.pageY);
+        setValue(e);
     }
     const handleClick = (e: MouseEvent) => {
         isActive = true;
-        setValue(e.pageY);
+        setValue(e);
     }
 
     onMount(() => sliderValue.subscribe(debounce((v: number) => value = v, 10)))
