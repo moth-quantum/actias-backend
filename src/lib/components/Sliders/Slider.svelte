@@ -9,10 +9,16 @@
     
     let isActive: boolean = false;
     const handleMove = (e: MouseEvent) => {
-        if (isActive) {
-            const { height } = e.target?.getBoundingClientRect();
-            value = 1 - (height - e.offsetY) / height;
-        }
+        console.log(e)
+        // if (isActive) {
+        //     const { height } = e.target?.getBoundingClientRect();
+        //     value = 1 - (height - e.offsetY) / height;
+        // }
+    }
+    const handleClick = (e: MouseEvent) => {
+        isActive = true;
+        const { height } = e.target?.getBoundingClientRect();
+        value = 1 - (height - e.offsetY) / height;
     }
 </script>
 
@@ -24,13 +30,16 @@
 
 
     <div class="slider" 
-        on:mousedown={() => isActive = true}
+        on:mousedown={handleClick}
         on:mouseup={() => isActive = false}
-        on:mousemove={handleMove}
+        on:mouseleave={() => isActive = false}
     >
         
         <div class="slider__track" style={`background: ${colour}`}></div>
-        <div class="slider__thumb" style={`top: ${value * 100}%`}></div>
+        <div 
+            class="slider__thumb" style={`top: ${value * 100}%`}
+            on:mousemove={handleMove}
+        ></div>
     </div>
 </div>
 
@@ -49,6 +58,7 @@
         width: 100%;
         height: 100%;
         width: 16px;
+        cursor: pointer;
         &__track {
             width: 2px;
             height: 100%;
@@ -57,8 +67,7 @@
         &__thumb {
             position: absolute;
             top: 0;
-            right: 0;
-            left: 0;
+            left: 0rem;
             width: 100%;
             height: 8px;
             background: linear-gradient(to bottom, #000, #000 35%, var(--color-grey-light) 35%, var(--color-grey-light) 65%, #000 65%);
