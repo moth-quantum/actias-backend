@@ -3,6 +3,7 @@
 	import { cubicOut } from 'svelte/easing';
     import { onMount } from 'svelte';
     import debounce from 'lodash.debounce';
+    import { clamp } from "$lib/utils/utils";
     export let name: string = '';
     export let value: number = 0;
     export let colour: string = '#000';
@@ -19,7 +20,7 @@
     function setValue(pageY: number) {
         const { height } = slider?.getBoundingClientRect();
         const offsetY = pageY - (slider.getBoundingClientRect().top + window.scrollY)
-        sliderValue.set(1 - (height - offsetY) / height);
+        sliderValue.set(clamp(1 - (height - offsetY) / height, 0, 1));
     }
     const handleMove = (e: MouseEvent) => {
         if(!isActive) return;

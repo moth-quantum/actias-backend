@@ -1,5 +1,6 @@
 <script>
     // @ts-nocheck
+    import { clamp } from "$lib/utils/utils";
     export let name;
     export let value; 
     export let min = 0;
@@ -11,10 +12,6 @@
     let startY, startValue;
     $: valueRange = max - min;
     $: rotation = startRotation + (value - min) / valueRange * rotRange;
-    
-    function clamp(num, min, max) {
-        return Math.max(min, Math.min(num, max));
-    }
     
     function pointerMove({ clientY }) {
         const valueDiff = valueRange * (clientY - startY) / pixelRange;

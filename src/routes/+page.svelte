@@ -219,6 +219,7 @@
         @media (min-width: 1200px) {
             display: grid;
             grid-template-columns: 6fr 3fr;
+            grid-gap: 1rem;
             
             grid-column-start: 2;
             grid-column-end: 4;
@@ -280,8 +281,7 @@
             z-index: 10;
 
             @media (min-width: 1200px) {
-                padding: 0 1rem;
-                margin: 0 -0.8rem 0 0;
+                margin: 0 -0.5rem 0 0;
             }
 
             & > div {
