@@ -2,33 +2,36 @@
     import { tweened, type Tweened } from 'svelte/motion';
 	import { cubicOut } from 'svelte/easing';
     import { onMount } from 'svelte';
+    import debounce from 'lodash.debounce';
     export let name: string = '';
     export let value: number = 0;
-    
+    export let colour: string = '#000';
+    export let orientation: string = 'vertical';
+
     let sliderValue: Tweened<number> = tweened(0, {
 		duration: 400,
 		easing: cubicOut
 	});
-    export let colour: string = '#000';
-    export let orientation: string = 'vertical';
     
+    let slider: HTMLElement;
     let isActive: boolean = false;
+    
+    function setValue(pageY: number) {
+        const { height } = slider?.getBoundingClientRect();
+        const offsetY = pageY - (slider.getBoundingClientRect().top + window.scrollY)
+        sliderValue.set(1 - (height - offsetY) / height);
+    }
     const handleMove = (e: MouseEvent) => {
-        console.log(e)
-        // if (isActive) {
-        //     const { height } = e.target?.getBoundingClientRect();
-        //     value = 1 - (height - e.offsetY) / height;
-        // }
+        if(!isActive) return;
+        setValue(e.pageY);
+
     }
     const handleClick = (e: MouseEvent) => {
         isActive = true;
-        const { height } = e.target?.getBoundingClientRect();
-        sliderValue.set(1 - (height - e.offsetY) / height);
+        setValue(e.pageY);
     }
 
-    onMount(() => {
-        sliderValue.subscribe(v => value = v);
-    })
+    onMount(() => sliderValue.subscribe(debounce((v: number) => value = v, 10)))
 </script>
 
 <div class="slider__container">
@@ -41,16 +44,14 @@
     <div class="slider" 
         on:mousedown={handleClick}
         on:mouseup={() => isActive = false}
-        on:mouseleave={() => isActive = false}
+        bind:this={slider}
     >
-        
         <div class="slider__track" style={`background: ${colour}`}></div>
-        <div 
-            class="slider__thumb" style={`top: ${$sliderValue * 100}%`}
-            on:mousemove={handleMove}
-        ></div>
+        <div class="slider__thumb" style={`top: calc(${$sliderValue * 100}% - 4px)`}></div>
     </div>
 </div>
+
+<svelte:window on:mousemove={handleMove} />
 
 <style lang="scss">
 
@@ -66,7 +67,7 @@
         position: relative;
         width: 100%;
         height: 100%;
-        width: 16px;
+        width: 1.25rem;
         cursor: pointer;
         &__track {
             width: 2px;
