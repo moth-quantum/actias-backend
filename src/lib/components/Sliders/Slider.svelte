@@ -1,9 +1,14 @@
 <script lang="ts">
-    export let min: number = 0;
-    export let max: number = 1;
-    export let step: number = 0.01;
+    import { tweened, type Tweened } from 'svelte/motion';
+	import { cubicOut } from 'svelte/easing';
+    import { onMount } from 'svelte';
     export let name: string = '';
-    export let value: number = 0.5;
+    export let value: number = 0;
+    
+    let sliderValue: Tweened<number> = tweened(0, {
+		duration: 400,
+		easing: cubicOut
+	});
     export let colour: string = '#000';
     export let orientation: string = 'vertical';
     
@@ -18,8 +23,12 @@
     const handleClick = (e: MouseEvent) => {
         isActive = true;
         const { height } = e.target?.getBoundingClientRect();
-        value = 1 - (height - e.offsetY) / height;
+        sliderValue.set(1 - (height - e.offsetY) / height);
     }
+
+    onMount(() => {
+        sliderValue.subscribe(v => value = v);
+    })
 </script>
 
 <div class="slider__container">
@@ -37,7 +46,7 @@
         
         <div class="slider__track" style={`background: ${colour}`}></div>
         <div 
-            class="slider__thumb" style={`top: ${value * 100}%`}
+            class="slider__thumb" style={`top: ${$sliderValue * 100}%`}
             on:mousemove={handleMove}
         ></div>
     </div>
