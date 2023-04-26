@@ -98,9 +98,10 @@
 
             <div class="qubit__sliders">
                 <div>
-                    {#each $axes as {value, min, max, step, name, colour} (name)}
+                    {#each $axes as {value, name, colour} (name)}
                         <Slider 
-                            {min} {max} {step} {name} {colour}
+                            orientation={isDesktop ? 'vertical' : 'horizontal'}
+                            {name} {colour}
                             bind:value={value}
                         />
                     {/each}
@@ -285,19 +286,18 @@
             }
 
             & > div {
-                // width: 100%;
-                // margin: 0 auto;
+                width: 100%;
+                margin: 0 auto;
                 display: flex;
-                flex-direction: row-reverse;
+                flex-direction: column-reverse;
                 
-                // @media (min-width: 600px) {
-                //     width: 80%;
-                // }
-                // @media (min-width: 1200px) {
-                //     width: 100%;
-                //     transform: rotate(90deg);
-                //     flex-direction: column;
-                // }
+                @media (min-width: 600px) {
+                    width: 80%;
+                }
+                @media (min-width: 1200px) {
+                    flex-direction: row-reverse;
+                    width: 100%;
+                }
             }
         }
     }
