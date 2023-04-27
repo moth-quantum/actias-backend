@@ -1,6 +1,8 @@
 export type InstrumentName = 'synth' | 'sampler' | 'granular';
 
-export interface Envelope {
+type Dictionary = {[key: string]: any};
+
+export interface Envelope extends Dictionary {
     key: string;
     name: string;
     a: number;

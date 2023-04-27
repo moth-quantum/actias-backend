@@ -1,6 +1,7 @@
 import { writable, derived, type Readable } from 'svelte/store';
+import type { Envelope } from '$lib/types';
 
-export const envelopes = writable([
+export const envelopes= writable<Envelope[]>([
     {key: 'amp', name: 'Amp', a: 0.01, d: 0.15, s: 0.5, r: 0.125},
     {key: 'mod', name: 'Mod', a: 0.01, d: 0.15, s: 0.5, r: 0.125}
 ]);
