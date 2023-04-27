@@ -77,7 +77,7 @@
 
 </section>
 
-<section class="synth container mx-auto">
+<section class={`container synth ${ $fs ? 'synth--fullscreen' : ''}`}>
     
     <div class="parameters">
         <Parameters />
@@ -111,18 +111,19 @@
                     {/each}
                 </div>
             </div>
+
+        </div>
+        <div class="metrics">
+            <Meter node={output}/>
+            <div class="data-stream">
+                <DataStream 
+                    data={$axes.map(({value}) => +(value * (Math.PI/2)).toFixed(2)).reverse()}
+                    labels={$axes.map(({name}) => name).reverse()}
+                />
+            </div>
         </div>
     </div>
 
-    <div class="metrics">
-        <Meter node={output}/>
-        <div class="data-stream">
-            <DataStream 
-                data={$axes.map(({value}) => +(value * (Math.PI/2)).toFixed(2)).reverse()}
-                labels={$axes.map(({name}) => name).reverse()}
-            />
-        </div>
-    </div>
 
     <div class="controls">
         <Controls />
@@ -173,6 +174,7 @@
 
     .synth {
         display: block;
+        margin: 0 auto;
         
         @media (min-width: 1200px) {
             display: grid;
@@ -180,6 +182,15 @@
             grid-gap: 1rem;
             grid-template-columns: 3fr 6fr 3fr;
             grid-template-rows: 1fr 1fr 0.5fr;
+        }
+
+        &--fullscreen {
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
         }
     }
 
@@ -206,27 +217,28 @@
         align-items: center;
         overflow: hidden;
 
-        &__fullscreen {
-            position: absolute;
-            bottom: 1rem;
-        }
-
-        &--fullscreen {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-
-            .qubit__patchbay { display: none; }
-
-            & ~ .metrics, & ~ .measure {
-                z-index: 1001;
-            }
-        }
-
         @media (min-width: 1200px) {
+            &--fullscreen {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                z-index: 1000;
+                padding: 4rem;
+    
+                .qubit__patchbay { display: none; }
+    
+                & > .metrics {
+                    z-index: 1001;
+                    justify-content: center;
+                    height: auto;
+                }
+    
+                & .qubit__inner {
+                    justify-content: end;
+                }
+            }
+
             display: grid;
             grid-template-columns: 6fr 3fr;
             grid-gap: 1rem;
@@ -249,11 +261,23 @@
             justify-content: space-between;
             position: relative;
             padding: 1rem;
+            grid-column-start: 1;
+            grid-column-end: 1;
 
             @media (min-width: 1200px) {
                 height: 100%;
                 flex-direction: row;
                 padding: 1rem 2rem;
+            }
+        }
+
+        &__fullscreen {
+            position: absolute;
+            top: 1rem;
+            left: 2rem;
+            @media (min-width: 1200px) {
+                top: auto;
+                bottom: 1rem;
             }
         }
 
@@ -284,11 +308,6 @@
         }
         &__sliders {
             display: flex;
-            grid-column-start: 5;
-            grid-column-end: 7;
-            grid-row-start: 1;
-            grid-row-end: 3;
-            z-index: 10;
 
             @media (min-width: 1200px) {
                 margin: 0 -0.5rem 0 0;
@@ -313,15 +332,16 @@
 
     .metrics {
         display: none;
-        grid-column-start: 3;
-        grid-column-end: 3;
-        grid-row-start: 1;
-        grid-row-end: 3;
+        grid-column-start: 2;
+        grid-column-end: 2;
         padding: 1rem;
+        height: 100%;
         
         @media (min-width: 1200px) {
+            padding-left: 0;
             display: flex;
             flex-direction: column;
+            justify-content: start;
         }
 
         .data-stream {

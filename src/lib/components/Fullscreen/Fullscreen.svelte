@@ -11,19 +11,22 @@
 </button>
 
 <svelte:window on:keydown={e => {
-    console.log(e);
     e.key === 'f' && fullscreen.set(!$fullscreen);
     e.key === 'Escape' && fullscreen.set(false);
 }}/>
 
 <style lang="scss">
     button {
-        position: relative;
-        font-size: 2rem;
-        color: var(--color-grey-light);
-        display: flex;
-        align-items: end;
-        cursor: pointer;
-        z-index: 100;
+        display: none;
+        @media (min-width: 1200px) {
+            position: relative;
+            font-size: 1.5rem;
+            color: var(--color-grey-light);
+            opacity: 0.5;
+            display: flex;
+            align-items: end;
+            cursor: pointer;
+            z-index: 100;
+        }
     }
 </style>

@@ -3,28 +3,38 @@
     import type { p5, Sketch } from 'p5-svelte';
     import { Vector } from 'p5'
     import { axes } from '$lib/stores/qubit';
+    import { fullscreen } from '$lib/stores/global';
+    import { onMount } from 'svelte';
     
     let p5Instance: p5;
+    let radius: number;
+    let height: number;
 
     axes.subscribe(() => p5Instance && p5Instance.draw())
+    fullscreen.subscribe(fs => {
+        if(!p5Instance) return
+
+        height = fs ? window.innerHeight * 0.75 : 400
+        radius = height / 2.5;
+        p5Instance.resizeCanvas(height, height)
+        p5Instance.redraw()
+    })
 
     const handleInstance = (e: CustomEvent<p5>) => {
         p5Instance = e.detail
-    };
+    }
+
+    onMount(() => {
+        radius = height / 3;
+    })
 
     const sketch : Sketch = (p5: p5)=> {
-        const radius = 150
 
         p5.setup = () => {
-            p5.createCanvas(400, 400, p5.WEBGL)
+            p5.createCanvas(height, height, p5.WEBGL)
             p5.smooth()
             p5.noLoop()
         }
-        
-        // p5.resize = () => {
-        //     p5.resizeCanvas(size, size)
-        //     p5.redraw()
-        // }
 
         p5.draw = () => {
             const phi = $axes[1].value
@@ -93,12 +103,20 @@
     }
 
 </script>
-  
-<P5 {sketch} on:instance={handleInstance} />
+    <div class="qubit" >
+        <P5 {sketch} on:instance={handleInstance} />
+    </div>
 
 <style lang="scss">
+    .qubit {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
     canvas { 
-        max-width: 50vw;
+        // max-width: 50vw;
         contain: paint;
     }
 </style>
