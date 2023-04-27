@@ -12,7 +12,7 @@ export const instruments: InstrumentName[] = ['synth', 'sampler', 'granular']
 const instrumentKeys = {
     synth: ['modi', 'harm', 'drift', 'cutoff', 'res'],
     sampler: ['i', 'loop', 'loopsize', 'rate', 'begin', 'cutoff', 'res'],
-    granular: ['i', 'grainsize', 'grainpan', 'begin', 'end', 'cutoff', 'res']
+    granular: ['i', 'grainrate', 'grainsize', 'grainpan', 'begin', 'end', 'cutoff', 'res']
 }
 
 export const keys = writable(instrumentKeys.synth);
