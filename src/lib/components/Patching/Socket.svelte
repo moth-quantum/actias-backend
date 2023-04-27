@@ -132,7 +132,7 @@
         
         cursor: pointer;
         display: inline-block;
-        z-index: 999;
+        z-index: 15;
     }
 
     .socket--origin {

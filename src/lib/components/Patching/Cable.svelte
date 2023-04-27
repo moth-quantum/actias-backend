@@ -59,7 +59,7 @@
         right: 0;
         width: 100%;
         pointer-events: none;
-        z-index: 1000;
+        z-index: 20;
     }
 
     .socket {

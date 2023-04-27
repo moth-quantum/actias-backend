@@ -15,3 +15,5 @@ export const ccMap = readable({
     y: 2,
     z: 3,
 })
+
+inputs.subscribe(console.log)

@@ -84,6 +84,8 @@
 
     function activateInput(name: string) {
         const input = WebMidi.getInputByName(name);
+        if(input?.hasListener("noteon", noteOn) && input?.hasListener("noteoff", noteOff)) return
+
         input?.addListener("noteon", noteOn)
         input?.addListener("noteoff", noteOff)
     }
