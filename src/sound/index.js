@@ -49,7 +49,7 @@ export const handleEvent = (params) => {
     const { inst, n, semitone, octave} = params
     const detune = semitone + (octave * 12)
 
-    // get(drone) && instruments[inst]?.cut(immediate());
+    get(drone) && instruments[inst]?.cut(immediate());
     instruments[inst]?.play({...params, n, detune}, immediate() + 0.01)
     fx.set(params, immediate())
     crush.wet.value = params.crush

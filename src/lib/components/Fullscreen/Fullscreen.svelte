@@ -2,12 +2,12 @@
     import { fullscreen } from '$lib/stores/global';
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { library } from '@fortawesome/fontawesome-svg-core';
-    import { faExpand } from '@fortawesome/free-solid-svg-icons';
-    library.add(faExpand);
+    import { faExpand, faCompress } from '@fortawesome/free-solid-svg-icons';
+    library.add(faExpand, faCompress);
 </script>
 
 <button on:click={() => fullscreen.set(!$fullscreen)}>
-    <FontAwesomeIcon icon={faExpand}/>
+    <FontAwesomeIcon icon={!$fullscreen ? faExpand : faCompress}/>
 </button>
 
 <svelte:window on:keydown={e => {
