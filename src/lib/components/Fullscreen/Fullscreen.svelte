@@ -24,7 +24,7 @@
             color: var(--color-grey-light);
             opacity: 0.5;
             display: flex;
-            align-items: end;
+            align-items: flex-end;
             cursor: pointer;
             z-index: 100;
         }
