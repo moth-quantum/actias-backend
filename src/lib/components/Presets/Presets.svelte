@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { presetKeys, presets, savePreset, active } from '$lib/stores/presets';
+    import { presetKeys, presets, savePreset, activePreset as active } from '$lib/stores/presets';
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faChevronLeft, faChevronRight, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';

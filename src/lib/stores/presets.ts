@@ -6,7 +6,7 @@ import type { Envelope, Preset } from '$lib/types';
 
 export const presets = writable({} as {[key: string]: Preset | null})
 
-export const active = writable('')
+export const activePreset = writable('')
 
 function initPresets() {
     const stored = JSON.parse(localStorage.getItem('q1synth-presets') || '{}');
@@ -18,7 +18,7 @@ function initPresets() {
         ['user 3']: null,
         ['user 4']: null,
     }))
-    active.set(Object.keys(get(presets)).sort((a, b) => a.localeCompare(b))[0])
+    activePreset.set(Object.keys(get(presets)).sort((a, b) => a.localeCompare(b))[0])
 }
 
 initPresets();
@@ -29,7 +29,7 @@ export const presetKeys = derived(
     $presets => Object.keys($presets).sort((a, b) => a.localeCompare(b))
 )
 
-active.subscribe(loadPreset)
+activePreset.subscribe(loadPreset)
 
 function loadPreset(key: string) {
     const preset = get(presets)[key]
