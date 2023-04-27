@@ -8,14 +8,14 @@
     
     let p5Instance: p5;
     let radius: number;
-    let height: number;
+    let height: number = 400;
 
     axes.subscribe(() => p5Instance && p5Instance.draw())
-    fullscreen.subscribe(fs => {
+    fullscreen.subscribe((fs: boolean) => {
         if(!p5Instance) return
 
         height = fs ? window.innerHeight * 0.75 : 400
-        radius = height / 2.5;
+        radius = height / 3;
         p5Instance.resizeCanvas(height, height)
         p5Instance.redraw()
     })

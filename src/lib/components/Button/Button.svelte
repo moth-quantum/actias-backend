@@ -34,6 +34,7 @@
         color: var(--color-grey-mid);
         border-radius: 5px;
         font-weight: 500;
+        height: 100%;
 
         &:last-child {
             margin-right: 0;
