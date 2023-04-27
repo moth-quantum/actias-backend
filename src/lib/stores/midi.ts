@@ -21,9 +21,9 @@ function removeCCListeners(name: string) {
     input?.removeListener("controlchange", handleControlChange);
 }
     
-function handleControlChange(e: any) {
-    // TODO
-    console.log(e)
+function handleControlChange(e) {
+    const { value, controller: {number} } = e;
+    console.log(value, number)
 }
     
 inputs.subscribe(inputs => {
