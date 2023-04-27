@@ -12,9 +12,9 @@ export interface Axis {
 }
 
 export const axes = writable<Axis[]>([
-    {key: 'x', name: 'λ', value: 0, min: 0, max: 1, step: 0.001, colour: '#00A399'},
+    {key: 'x', name: 'λ', value: 0.5, min: 0, max: 1, step: 0.001, colour: '#00A399'},
     // phi
-    {key: 'y', name: 'φ', value: 0, min: 0, max: 1, step: 0.001, colour: '#E5007F'},
+    {key: 'y', name: 'φ', value: 1, min: 0, max: 1, step: 0.001, colour: '#E5007F'},
     // theta
     {key: 'z', name: 'θ', value: 0, min: 0, max: 1, step: 0.001, colour: '#FF695A'},
 ]);

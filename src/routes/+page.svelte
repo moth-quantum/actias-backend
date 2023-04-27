@@ -74,7 +74,6 @@
     </div>
 
     <Presets />
-
 </section>
 
 <section class={`container synth ${ $fs ? 'synth--fullscreen' : ''}`}>

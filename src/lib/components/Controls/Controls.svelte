@@ -3,12 +3,12 @@
     import { volume } from '$lib/stores/global';
     import { drone } from '$lib/stores/parameters';
     import { inputs } from '$lib/stores/midi';
+    import { Drawer } from 'flowbite-svelte';
+    import { sineIn } from 'svelte/easing';
     import Knob from '$lib/components/Knob/Knob.svelte';
     import Keyboard from '$lib/components/Keyboard/Keyboard.svelte';
     import Button from '$lib/components/Button/ButtonLarge.svelte';
     import Checkbox from '$lib/components/Forms/Checkbox.svelte';
-    import { Drawer } from 'flowbite-svelte';
-    import { sineIn } from 'svelte/easing';
 
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faSignal, faCircle } from '@fortawesome/free-solid-svg-icons';

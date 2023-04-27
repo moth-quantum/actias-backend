@@ -51,7 +51,7 @@
         bind:this={slider}
     >
         <div class="slider__track" style={`background: ${colour}`}></div>
-        <div class="slider__thumb" style={`${orientation === 'vertical' ? 'top' : 'left'}: calc(${$sliderValue * 100}% - 4px)`}></div>
+        <div class="slider__thumb" style={`${orientation === 'vertical' ? 'top' : 'left'}: calc(${value * 100}% - 4px)`}></div>
     </div>
 </div>
 
@@ -123,6 +123,7 @@
         color: var(--color-grey-light);
         font-size: var(--text-base);
         min-width: 1rem;
+        z-index: 10;
         &--vertical {
             width: 100%;
             height: auto;
@@ -135,9 +136,5 @@
             margin-right: 0.5rem;
             text-align: left;
         }
-    }
-
-    input {
-        display: none;
     }
 </style>
