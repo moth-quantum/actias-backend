@@ -149,6 +149,8 @@ export function randomise(type: 'inst' | 'global' | 'fx') {
     type === 'inst' && instrumentParameters.update((params: Parameter[]) => params.map(func));
     type === 'global' && globalParameters.update((params: Parameter[]) => params.map(func));
     type === 'fx' && fxParameters.update((params: Parameter[]) => params.map(func));
+    
+    return true;
 }
 
 export const drone = writable(false);

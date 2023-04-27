@@ -1,11 +1,12 @@
 import { get, writable, type Writable} from 'svelte/store';
 import { WebMidi } from "webmidi";
 import { axes } from './qubit';
-import { instruments, instrument } from '$lib/stores/parameters';
+import { instruments, instrument, randomise } from '$lib/stores/parameters';
+import { randomiseConnections } from '$lib/stores/patching';
 import { presetKeys, activePreset } from '$lib/stores/presets';
 import { volume } from '$lib/stores/global';
-import { envelopes } from '$lib/stores/envelopes';
-import type { Envelope } from '$lib/types';
+import { updateEnvelopeValue } from '$lib/stores/envelopes';
+import { measure } from '$lib/stores/qubit';
 
 export const inputs: Writable<{name: string, active: boolean}[]> = writable([]);
 
@@ -27,13 +28,6 @@ function removeCCListeners(name: string) {
     input?.removeListener("controlchange", handleControlChange);
 }
 
-function updateEnvelope(i: number, key: string, value: number) {
-    envelopes.update((envelopes: Envelope[]) => {
-        envelopes[i][key] = value
-        return envelopes
-    })
-}
-
 const actions: {[key: number]: (value: number) => void} = {
     1: (value: number) => axes.update(a => a.map(a => a.key === 'z' ? {...a, value} : a)),
     2: (value: number) => axes.update(a => a.map(a => a.key === 'y' ? {...a, value} : a)),
@@ -41,14 +35,20 @@ const actions: {[key: number]: (value: number) => void} = {
     4: (value: number) => instrument.set(instruments[Math.floor(value * instruments.length)]),
     5: (value: number) => activePreset.set(get(presetKeys)[Math.floor(value * get(presetKeys).length)]),
     6: (value: number) => volume.set(value),
-    7: (value: number) => updateEnvelope(0, 'a', value),
-    8: (value: number) => updateEnvelope(0, 'd', value),
-    9: (value: number) => updateEnvelope(0, 's', value),
-    10: (value: number) => updateEnvelope(0, 'r', value),
-    11: (value: number) => updateEnvelope(1, 'a', value),
-    12: (value: number) => updateEnvelope(1, 'd', value),
-    13: (value: number) => updateEnvelope(1, 's', value),
-    14: (value: number) => updateEnvelope(1, 'r', value),
+    7: (value: number) => updateEnvelopeValue(0, 'a', value),
+    8: (value: number) => updateEnvelopeValue(0, 'd', value),
+    9: (value: number) => updateEnvelopeValue(0, 's', value),
+    10: (value: number) => updateEnvelopeValue(0, 'r', value),
+    11: (value: number) => updateEnvelopeValue(1, 'a', value),
+    12: (value: number) => updateEnvelopeValue(1, 'd', value),
+    13: (value: number) => updateEnvelopeValue(1, 's', value),
+    14: (value: number) => updateEnvelopeValue(1, 'r', value),
+    15: (value: number) => value && measure(),
+    16: (value: number) => value && randomise('inst'),
+    17: (value: number) => value && randomise('global'),
+    18: (value: number) => value && randomise('fx'),
+    19: (value: number) => value && randomise('inst') && randomise('global') && randomise('fx'),
+    20: (value: number) => value && randomiseConnections(),
 }
     
 function handleControlChange(e: any) {

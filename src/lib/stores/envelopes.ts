@@ -19,3 +19,10 @@ export const envelopeValues: Readable<{[key: string]: number}> = derived(
         r1: $envelopes[1].r * 4000,
     })
 )
+
+export function updateEnvelopeValue(i: number, key: string, value: number) {
+    envelopes.update((envelopes: Envelope[]) => {
+        envelopes[i][key] = value
+        return envelopes
+    })
+}

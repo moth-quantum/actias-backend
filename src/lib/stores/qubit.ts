@@ -19,6 +19,7 @@ export const axes = writable<Axis[]>([
     {key: 'z', name: 'θ', value: 0, min: 0, max: 1, step: 0.001, colour: '#FF695A'},
 ]);
 
+export const isMeasuring = writable<boolean>(false);
 export const seconds = writable<number>(0);
 export const bpm = writable<number>(0);
 export const beats = writable<number>(0);
@@ -32,6 +33,7 @@ export const collapseTime = derived([seconds, bpm, beats], ([$seconds, $bpm, $be
 });
 
 export const measure = () => {
+    if (get(isMeasuring)) return;
     const theta = get(axes)[2].value;
     
     get(source) === 'local'
@@ -40,6 +42,7 @@ export const measure = () => {
 }
 
 function collapse(dest: 0 | 1, seconds: number) {
+    isMeasuring.set(true);
     const currentAxes = get(axes);
     
     const startTime = new Date().getTime();
@@ -56,7 +59,10 @@ function collapse(dest: 0 | 1, seconds: number) {
     const interval = setInterval(() => {
         const now = new Date().getTime();
         const progress = (now - startTime) / (endTime - startTime);
-        if (progress > 1) clearInterval(interval);
+        if (progress > 1) {
+            clearInterval(interval);
+            isMeasuring.set(false);
+        }
         axes.update(a => {
             return a.map(axis => ({
                 ...axis, 
