@@ -1,4 +1,4 @@
-import { writable, readable, type Writable} from 'svelte/store';
+import { writable, type Writable} from 'svelte/store';
 import { WebMidi } from "webmidi";
 
 export const inputs: Writable<{name: string, active: boolean}[]> = writable([]);
@@ -10,10 +10,25 @@ WebMidi
         inputs.update(() => WebMidi.inputs.map(({name}) => ({name, active: true})));
     })
 
-export const ccMap = readable({
-    x: 1,
-    y: 2,
-    z: 3,
-})
+function addCCListeners(name: string) {
+    const input = WebMidi.getInputByName(name);
+    if(input?.hasListener("controlchange", handleControlChange)) return
+    input?.addListener("controlchange", handleControlChange);
+}
 
-inputs.subscribe(console.log)
+function removeCCListeners(name: string) {
+    const input = WebMidi.getInputByName(name);
+    input?.removeListener("controlchange", handleControlChange);
+}
+    
+function handleControlChange(e: any) {
+    // TODO
+    console.log(e)
+}
+    
+inputs.subscribe(inputs => {
+    inputs.forEach(({name, active}) => active 
+        ? addCCListeners(name)
+        : removeCCListeners(name)
+    )
+})
