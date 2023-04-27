@@ -1,5 +1,5 @@
 <script lang='ts'>
-    import { type IconDefinition } from '@fortawesome/fontawesome-svg-core';
+    import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
     import { FontAwesomeIcon } from 'fontawesome-svelte';
 
     export let classes: string = '';

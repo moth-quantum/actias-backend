@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     import { startAudio, output } from '../sound';
     import { axes } from '$lib/stores/qubit';
+    import { fullscreen as fs } from '$lib/stores/global';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
     import Presets from '$lib/components/Presets/Presets.svelte';
     import Parameters from '$lib/components/Parameters/Parameters.svelte';
@@ -13,6 +14,7 @@
     import Meter from '$lib/components/Meter/Meter.svelte';
     import DataStream from '$lib/components/DataStream/Datastream.svelte';
     import InstrumentButtons from '$lib/components/InstrumentButtons/index.svelte';
+    import Fullscreen from '$lib/components/Fullscreen/Fullscreen.svelte';
 
     import { Drawer } from 'flowbite-svelte';
     import { sineIn } from 'svelte/easing';
@@ -81,8 +83,11 @@
         <Parameters />
     </div>
 
-    <div class="qubit">
+    <div class={`qubit ${ $fs ? 'qubit--fullscreen' : ''}`}>
         <div class="qubit__inner">
+            <div class="qubit__fullscreen">
+                <Fullscreen />
+            </div>
             <div class="qubit__patchbay">
                 <Patchbay 
                     title="axes"
@@ -200,6 +205,11 @@
         display: flex;
         align-items: center;
         overflow: hidden;
+
+        &__fullscreen {
+            position: absolute;
+            bottom: 1rem;
+        }
 
         &--fullscreen {
             position: fixed;

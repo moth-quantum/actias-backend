@@ -2,7 +2,7 @@
     export let data: number[];
     export let labels: string[];
     export let stream: number[][] = [];
-    $: stream = [...stream.slice(-11), data];
+    $: stream = [...stream.slice(-14), data];
 </script>
 
 <div class="datastream">
