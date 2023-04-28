@@ -39,6 +39,10 @@
         &:last-child {
             margin-right: 0;
         }
+
+        &:hover {
+            background-color: auto;
+        }
     }
 
     .btn--primary {
