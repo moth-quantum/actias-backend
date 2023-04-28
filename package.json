@@ -6,7 +6,10 @@
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "osc-udp": "node src/osc/socket-to-udp.cjs",
+    "ensemble": "concurrently \"npm run preview\" \"npm run osc-udp\"",
+    "dev-ensemble": "concurrently \"npm run dev\" \"npm run osc-udp\""
   },
   "devDependencies": {
     "@fontsource/fira-mono": "^4.5.10",
@@ -36,10 +39,12 @@
     "@popperjs/core": "^2.11.6",
     "audiokeys": "^0.1.1",
     "classnames": "^2.3.2",
+    "concurrently": "^8.0.1",
     "flowbite": "^1.6.3",
     "flowbite-svelte": "^0.30.6",
     "fontawesome-svelte": "^2.0.1",
     "lodash.debounce": "^4.0.8",
+    "osc": "^2.4.4",
     "p5-svelte": "^3.1.2",
     "tone": "^14.7.77",
     "webmidi": "^3.1.5"

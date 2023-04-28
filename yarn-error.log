@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/peterthomas/.nvm/versions/node/v18.14.1/bin/node /usr/local/Cellar/yarn/1.22.18/libexec/bin/yarn.js add @types/fontawesome-svelte
+  /Users/peterthomas/.nvm/versions/node/v18.14.1/bin/node /usr/local/Cellar/yarn/1.22.18/libexec/bin/yarn.js add @types/osc
 
 PATH: 
   /Users/peterthomas/.phpenv/shims:/Users/peterthomas/.phpenv/bin:/Users/peterthomas/.pyenv/shims:/Users/peterthomas/google-cloud-sdk/bin:/Users/peterthomas/.nvm/versions/node/v18.14.1/bin:/Users/peterthomas/.composer/vendor/bin:/Users/peterthomas/Library/Python/3.7/bin:/Users/peterthomas/.cabal/bin:/Users/peterthomas/.ghcup/bin:/Applications/CMake.app/Contents/bin:/Users/peterthomas/Library/Haskell/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2ffontawesome-svelte: Not found
+  Error: https://registry.yarnpkg.com/@types%2fosc: Not found
       at params.callback [as _callback] (/usr/local/Cellar/yarn/1.22.18/libexec/lib/cli.js:66138:18)
       at self.callback (/usr/local/Cellar/yarn/1.22.18/libexec/lib/cli.js:140883:22)
       at Request.emit (node:events:513:28)
@@ -59,6 +59,7 @@ npm manifest:
     "type": "module",
     "dependencies": {
       "@fortawesome/fontawesome-svg-core": "^6.4.0",
+      "@fortawesome/free-regular-svg-icons": "^6.4.0",
       "@fortawesome/free-solid-svg-icons": "^6.4.0",
       "@neodrag/svelte": "^2.0.3",
       "@popperjs/core": "^2.11.6",
@@ -67,6 +68,8 @@ npm manifest:
       "flowbite": "^1.6.3",
       "flowbite-svelte": "^0.30.6",
       "fontawesome-svelte": "^2.0.1",
+      "lodash.debounce": "^4.0.8",
+      "osc": "^2.4.4",
       "p5-svelte": "^3.1.2",
       "tone": "^14.7.77",
       "webmidi": "^3.1.5"
@@ -215,6 +218,13 @@ Lockfile:
     dependencies:
       "@fortawesome/fontawesome-common-types" "6.4.0"
   
+  "@fortawesome/free-regular-svg-icons@^6.4.0":
+    version "6.4.0"
+    resolved "https://registry.yarnpkg.com/@fortawesome/free-regular-svg-icons/-/free-regular-svg-icons-6.4.0.tgz#cacc53bd8d832d46feead412d9ea9ce80a55e13a"
+    integrity sha512-ZfycI7D0KWPZtf7wtMFnQxs8qjBXArRzczABuMQqecA/nXohquJ5J/RCR77PmY5qGWkxAZDxpnUFVXKwtY/jPw==
+    dependencies:
+      "@fortawesome/fontawesome-common-types" "6.4.0"
+  
   "@fortawesome/free-solid-svg-icons@^6.4.0":
     version "6.4.0"
     resolved "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-6.4.0.tgz#48c0e790847fa56299e2f26b82b39663b8ad7119"
@@ -280,6 +290,90 @@ Lockfile:
     version "2.11.6"
     resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
     integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
+  
+  "@serialport/binding-mock@10.2.2":
+    version "10.2.2"
+    resolved "https://registry.yarnpkg.com/@serialport/binding-mock/-/binding-mock-10.2.2.tgz#d322a8116a97806addda13c62f50e73d16125874"
+    integrity sha512-HAFzGhk9OuFMpuor7aT5G1ChPgn5qSsklTFOTUX72Rl6p0xwcSVsRtG/xaGp6bxpN7fI9D/S8THLBWbBgS6ldw==
+    dependencies:
+      "@serialport/bindings-interface" "^1.2.1"
+      debug "^4.3.3"
+  
+  "@serialport/bindings-cpp@10.8.0":
+    version "10.8.0"
+    resolved "https://registry.yarnpkg.com/@serialport/bindings-cpp/-/bindings-cpp-10.8.0.tgz#79507b57022ac264e963e7fbf3647a3821569a20"
+    integrity sha512-OMQNJz5kJblbmZN5UgJXLwi2XNtVLxSKmq5VyWuXQVsUIJD4l9UGHnLPqM5LD9u3HPZgDI5w7iYN7gxkQNZJUw==
+    dependencies:
+      "@serialport/bindings-interface" "1.2.2"
+      "@serialport/parser-readline" "^10.2.1"
+      debug "^4.3.2"
+      node-addon-api "^5.0.0"
+      node-gyp-build "^4.3.0"
+  
+  "@serialport/bindings-interface@1.2.2", "@serialport/bindings-interface@^1.2.1":
+    version "1.2.2"
+    resolved "https://registry.yarnpkg.com/@serialport/bindings-interface/-/bindings-interface-1.2.2.tgz#c4ae9c1c85e26b02293f62f37435478d90baa460"
+    integrity sha512-CJaUd5bLvtM9c5dmO9rPBHPXTa9R2UwpkJ0wdh9JCYcbrPWsKz+ErvR0hBLeo7NPeiFdjFO4sonRljiw4d2XiA==
+  
+  "@serialport/parser-byte-length@10.5.0":
+    version "10.5.0"
+    resolved "https://registry.yarnpkg.com/@serialport/parser-byte-length/-/parser-byte-length-10.5.0.tgz#f3d4c1c7923222df2f3d3c7c8aaaa207fe373b49"
+    integrity sha512-eHhr4lHKboq1OagyaXAqkemQ1XyoqbLQC8XJbvccm95o476TmEdW5d7AElwZV28kWprPW68ZXdGF2VXCkJgS2w==
+  
+  "@serialport/parser-cctalk@10.5.0":
+    version "10.5.0"
+    resolved "https://registry.yarnpkg.com/@serialport/parser-cctalk/-/parser-cctalk-10.5.0.tgz#0ee88db0768a361b7cfb9a394b74e480c38e1992"
+    integrity sha512-Iwsdr03xmCKAiibLSr7b3w6ZUTBNiS+PwbDQXdKU/clutXjuoex83XvsOtYVcNZmwJlVNhAUbkG+FJzWwIa4DA==
+  
+  "@serialport/parser-delimiter@10.5.0":
+    version "10.5.0"
+    resolved "https://registry.yarnpkg.com/@serialport/parser-delimiter/-/parser-delimiter-10.5.0.tgz#b0d93100cdfd0619d020a427d652495073f3b828"
+    integrity sha512-/uR/yT3jmrcwnl2FJU/2ySvwgo5+XpksDUR4NF/nwTS5i3CcuKS+FKi/tLzy1k8F+rCx5JzpiK+koqPqOUWArA==
+  
+  "@serialport/parser-inter-byte-timeout@10.5.0":
+    version "10.5.0"
+    resolved "https://registry.yarnpkg.com/@serialport/parser-inter-byte-timeout/-/parser-inter-byte-timeout-10.5.0.tgz#8665ee5e6138f794ac055e83ef2d1c3653a577c0"
+    integrity sha512-WPvVlSx98HmmUF9jjK6y9mMp3Wnv6JQA0cUxLeZBgS74TibOuYG3fuUxUWGJALgAXotOYMxfXSezJ/vSnQrkhQ==
+  
+  "@serialport/parser-packet-length@10.5.0":
+    version "10.5.0"
+    resolved "https://registry.yarnpkg.com/@serialport/parser-packet-length/-/parser-packet-length-10.5.0.tgz#4c4d733bdff8cc4749f2bd750e42e66f8f478def"
+    integrity sha512-jkpC/8w4/gUBRa2Teyn7URv1D7T//0lGj27/4u9AojpDVXsR6dtdcTG7b7dNirXDlOrSLvvN7aS5/GNaRlEByw==
+  
+  "@serialport/parser-readline@10.5.0", "@serialport/parser-readline@^10.2.1":
+    version "10.5.0"
+    resolved "https://registry.yarnpkg.com/@serialport/parser-readline/-/parser-readline-10.5.0.tgz#df23365ae7f45679b1735deae26f72ba42802862"
+    integrity sha512-0aXJknodcl94W9zSjvU+sLdXiyEG2rqjQmvBWZCr8wJZjWEtv3RgrnYiWq4i2OTOyC8C/oPK8ZjpBjQptRsoJQ==
+    dependencies:
+      "@serialport/parser-delimiter" "10.5.0"
+  
+  "@serialport/parser-ready@10.5.0":
+    version "10.5.0"
+    resolved "https://registry.yarnpkg.com/@serialport/parser-ready/-/parser-ready-10.5.0.tgz#1d9029f57b1abd664cb468e21bfccf7b44c6e8ea"
+    integrity sha512-QIf65LTvUoxqWWHBpgYOL+soldLIIyD1bwuWelukem2yDZVWwEjR288cLQ558BgYxH4U+jLAQahhqoyN1I7BaA==
+  
+  "@serialport/parser-regex@10.5.0":
+    version "10.5.0"
+    resolved "https://registry.yarnpkg.com/@serialport/parser-regex/-/parser-regex-10.5.0.tgz#f98eab6e3d9bc99086269e9acf39a82db36d245f"
+    integrity sha512-9jnr9+PCxRoLjtGs7uxwsFqvho+rxuJlW6ZWSB7oqfzshEZWXtTJgJRgac/RuLft4hRlrmRz5XU40i3uoL4HKw==
+  
+  "@serialport/parser-slip-encoder@10.5.0":
+    version "10.5.0"
+    resolved "https://registry.yarnpkg.com/@serialport/parser-slip-encoder/-/parser-slip-encoder-10.5.0.tgz#cb79ac0fda1fc87f049690ff7b498c787da67991"
+    integrity sha512-wP8m+uXQdkWSa//3n+VvfjLthlabwd9NiG6kegf0fYweLWio8j4pJRL7t9eTh2Lbc7zdxuO0r8ducFzO0m8CQw==
+  
+  "@serialport/parser-spacepacket@10.5.0":
+    version "10.5.0"
+    resolved "https://registry.yarnpkg.com/@serialport/parser-spacepacket/-/parser-spacepacket-10.5.0.tgz#2fc077c0ec16a9532c511ad5f2ab12d588796bc7"
+    integrity sha512-BEZ/HAEMwOd8xfuJSeI/823IR/jtnThovh7ils90rXD4DPL1ZmrP4abAIEktwe42RobZjIPfA4PaVfyO0Fjfhg==
+  
+  "@serialport/stream@10.5.0":
+    version "10.5.0"
+    resolved "https://registry.yarnpkg.com/@serialport/stream/-/stream-10.5.0.tgz#cda8fb3e8d03094b0962a3d14b73adfcd591be58"
+    integrity sha512-gbcUdvq9Kyv2HsnywS7QjnEB28g+6OGB5Z8TLP7X+UPpoMIWoUsoQIq5Kt0ZTgMoWn3JGM2lqwTsSHF+1qhniA==
+    dependencies:
+      "@serialport/bindings-interface" "1.2.2"
+      debug "^4.3.2"
   
   "@sveltejs/adapter-auto@^2.0.0":
     version "2.0.0"
@@ -505,7 +599,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/cssesc/-/cssesc-3.0.0.tgz#37741919903b868565e1c09ea747445cd18983ee"
     integrity sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==
   
-  debug@^4.3.4:
+  debug@^4.3.2, debug@^4.3.3, debug@^4.3.4:
     version "4.3.4"
     resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
     integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
@@ -806,6 +900,16 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/lilconfig/-/lilconfig-2.1.0.tgz#78e23ac89ebb7e1bfbf25b18043de756548e7f52"
     integrity sha512-utWOt/GHzuUxnLKxB6dk81RoOeoNeHgbrXiuGk4yyF5qlRz+iIVWu56E2fqGHFrXz0QNUhLB/8nKqvRH66JKGQ==
   
+  lodash.debounce@^4.0.8:
+    version "4.0.8"
+    resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+    integrity sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==
+  
+  long@4.0.0:
+    version "4.0.0"
+    resolved "https://registry.yarnpkg.com/long/-/long-4.0.0.tgz#9a7b71cfb7d361a194ea555241c92f7468d5bf28"
+    integrity sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==
+  
   magic-string@^0.25.7:
     version "0.25.9"
     resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.9.tgz#de7f9faf91ef8a1c91d02c2e5314c8277dbcdd1c"
@@ -901,6 +1005,16 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.4.tgz#730b67e3cd09e2deacf03c027c81c9d9dbc5e8ab"
     integrity sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==
   
+  node-addon-api@^5.0.0:
+    version "5.1.0"
+    resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-5.1.0.tgz#49da1ca055e109a23d537e9de43c09cca21eb762"
+    integrity sha512-eh0GgfEkpnoWDq+VY8OyvYhFEzBk6jIYbRKdIlyTiAXIVJ8PyBaKb0rp7oDtoddbdoHWhq8wwr+XZ81F1rpNdA==
+  
+  node-gyp-build@^4.3.0:
+    version "4.6.0"
+    resolved "https://registry.yarnpkg.com/node-gyp-build/-/node-gyp-build-4.6.0.tgz#0c52e4cbf54bbd28b709820ef7b6a3c2d6209055"
+    integrity sha512-NTZVKn9IylLwUzaKjkas1e4u2DLNcV4rdYagA4PWdPwW87Bi7z+BznyKSRwS/761tV/lzCGXplWsiaMjLqP2zQ==
+  
   node-releases@^2.0.8:
     version "2.0.10"
     resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.10.tgz#c311ebae3b6a148c89b1813fd7c4d3c024ef537f"
@@ -927,6 +1041,18 @@ Lockfile:
     integrity sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==
     dependencies:
       wrappy "1"
+  
+  osc@^2.4.4:
+    version "2.4.4"
+    resolved "https://registry.yarnpkg.com/osc/-/osc-2.4.4.tgz#52b2e914253b04a792d28ee892b0fa1ca8bdc1a2"
+    integrity sha512-YJr2bUCQMc9BIaq1LXgqYpt5Ii7wNy2n0e0BkQiCSziMNrrsYHhH5OlExNBgCrQsum60EgXZ32lFsvR4aUf+ew==
+    dependencies:
+      long "4.0.0"
+      slip "1.0.2"
+      wolfy87-eventemitter "5.2.9"
+      ws "8.13.0"
+    optionalDependencies:
+      serialport "10.5.0"
   
   p5-svelte@^3.1.2:
     version "3.1.2"
@@ -1137,6 +1263,26 @@ Lockfile:
       immutable "^4.0.0"
       source-map-js ">=0.6.2 <2.0.0"
   
+  serialport@10.5.0:
+    version "10.5.0"
+    resolved "https://registry.yarnpkg.com/serialport/-/serialport-10.5.0.tgz#b85f614def6e8914e5865c798b0555330903a0f8"
+    integrity sha512-7OYLDsu5i6bbv3lU81pGy076xe0JwpK6b49G6RjNvGibstUqQkI+I3/X491yBGtf4gaqUdOgoU1/5KZ/XxL4dw==
+    dependencies:
+      "@serialport/binding-mock" "10.2.2"
+      "@serialport/bindings-cpp" "10.8.0"
+      "@serialport/parser-byte-length" "10.5.0"
+      "@serialport/parser-cctalk" "10.5.0"
+      "@serialport/parser-delimiter" "10.5.0"
+      "@serialport/parser-inter-byte-timeout" "10.5.0"
+      "@serialport/parser-packet-length" "10.5.0"
+      "@serialport/parser-readline" "10.5.0"
+      "@serialport/parser-ready" "10.5.0"
+      "@serialport/parser-regex" "10.5.0"
+      "@serialport/parser-slip-encoder" "10.5.0"
+      "@serialport/parser-spacepacket" "10.5.0"
+      "@serialport/stream" "10.5.0"
+      debug "^4.3.3"
+  
   set-cookie-parser@^2.5.1:
     version "2.5.1"
     resolved "https://registry.yarnpkg.com/set-cookie-parser/-/set-cookie-parser-2.5.1.tgz#ddd3e9a566b0e8e0862aca974a6ac0e01349430b"
@@ -1150,6 +1296,11 @@ Lockfile:
       "@polka/url" "^1.0.0-next.20"
       mrmime "^1.0.0"
       totalist "^3.0.0"
+  
+  slip@1.0.2:
+    version "1.0.2"
+    resolved "https://registry.yarnpkg.com/slip/-/slip-1.0.2.tgz#ba45a923034d6cf41b1a27aebe7128282c8d551f"
+    integrity sha512-XrcHe3NAcyD3wO+O4I13RcS4/3AF+S9RvGNj9JhJeS02HyImwD2E3QWLrmn9hBfL+fB6yapagwxRkeyYzhk98g==
   
   sorcery@^0.10.0:
     version "0.10.0"
@@ -1368,10 +1519,20 @@ Lockfile:
     optionalDependencies:
       jzz "^1.5.6"
   
+  wolfy87-eventemitter@5.2.9:
+    version "5.2.9"
+    resolved "https://registry.yarnpkg.com/wolfy87-eventemitter/-/wolfy87-eventemitter-5.2.9.tgz#e879f770b30fbb6512a8afbb330c388591099c2a"
+    integrity sha512-P+6vtWyuDw+MB01X7UeF8TaHBvbCovf4HPEMF/SV7BdDc1SMTiBy13SRD71lQh4ExFTG1d/WNzDGDCyOKSMblw==
+  
   wrappy@1:
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
     integrity sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==
+  
+  ws@8.13.0:
+    version "8.13.0"
+    resolved "https://registry.yarnpkg.com/ws/-/ws-8.13.0.tgz#9a9fb92f93cf41512a0735c8f4dd09b8a1211cd0"
+    integrity sha512-x9vcZYTrFPC7aSIbj7sRCYo7L/Xb8Iy+pW0ng0wt2vCJv7M9HOMy0UoN3rr+IFC7hb7vXoqS+P9ktyLLLhO+LA==
   
   xtend@^4.0.2:
     version "4.0.2"
