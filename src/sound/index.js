@@ -6,6 +6,7 @@ import { CtSynth, CtSampler, CtGranulator, CtFXChain } from './ct-synths'
 import { start, Limiter, BitCrusher, Gain } from 'tone'
 import { samples } from '$lib/stores/samples'
 import { drone, synthValues } from '$lib/stores/parameters'
+import { envelopeValues } from '$lib/stores/envelopes'
 import { volume, mute } from '$lib/stores/global'
 import { mapToStepRange } from '$lib/utils/utils'
 
@@ -41,7 +42,6 @@ granular.currentBank = 'default'
 granular.connect(crush)
 
 export const instruments = { synth, sampler, granular }
-// const instruments = {}
 
 export const handleEvent = (params) => {
     if(get(mute)) return
@@ -61,9 +61,10 @@ export const handleNoteOff = (inst, n) => {
 }
 
 export const cut = () => {
-    instruments.synth?.cut(immediate());
-    instruments.sampler?.cut(immediate());
-    instruments.granular?.cut(immediate());
+    const r = get(envelopeValues).r
+    instruments.synth?.cut(immediate(), r);
+    instruments.sampler?.cut(immediate(), r);
+    instruments.granular?.cut(immediate(), r);
 }
 
 export const handleMutation = (params) => {

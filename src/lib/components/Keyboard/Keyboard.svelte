@@ -4,7 +4,7 @@
     import AudioKeys from 'audiokeys';
     import Key from './Key.svelte';
     import { handleEvent, handleNoteOff } from '../../../sound';
-    import { synthValues } from '$lib/stores/parameters';
+    import { synthValues, drone } from '$lib/stores/parameters';
     import { inputs } from '$lib/stores/midi';
     import { onMount } from 'svelte';
     
@@ -22,14 +22,18 @@
     let isMobile = false;
     let isTouch = false;
 
+    drone.subscribe(d => !d && (activeNotes = []));
+
     function depressKey(n: number, amp: number = 0.5) {
-        activeNotes = [...activeNotes, n];
+        activeNotes = get(drone)
+            ? [n]
+            : [...activeNotes, n] 
         handleEvent({...get(synthValues), n, amp})
     }
 
     function releaseKey(note: number) {
         if(!activeNotes.includes(note)) return;
-        activeNotes = activeNotes.filter(n => n !== note);
+        !get(drone) && (activeNotes = activeNotes.filter(n => n !== note));
         handleNoteOff(get(synthValues).inst, note)
     }
 
@@ -55,13 +59,11 @@
 
     function handleMouseleave(e: CustomEvent<any>) {
         if(isTouch) return;
-        // mousedown = false;
         releaseKey(e.detail);
     }
 
     function handleMouseenter(e: CustomEvent<any>) {
         if(isTouch || !mousedown) return;
-        // Suppressed for now, due to notes sticking
         depressKey(e.detail);
     }
 
