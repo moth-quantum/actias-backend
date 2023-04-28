@@ -21,7 +21,7 @@ export const axes = writable<Axis[]>([
     {key: 'z', name: 'θ', value: 0, min: 0, max: 1, step: 0.001, colour: '#FF695A'},
 ]);
 
-axes.subscribe(axes => Config.ENSEMBLE_MODE && sendXyz(axes[0].value, axes[1].value, axes[2].value, Config.ENSEMBLE_ID))
+// axes.subscribe(axes => Config.ENSEMBLE_MODE && sendXyz(axes[0].value, axes[1].value, axes[2].value, Config.ENSEMBLE_ID))
 
 export const isMeasuring = writable<boolean>(false);
 export const seconds = writable<number>(0);

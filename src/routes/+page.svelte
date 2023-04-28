@@ -18,7 +18,7 @@
     import Fullscreen from '$lib/components/Fullscreen/Fullscreen.svelte';
     import Config from '../config';
 
-    import { CloseButton, Drawer } from 'flowbite-svelte';
+    import { Drawer } from 'flowbite-svelte';
     import { sineIn } from 'svelte/easing';
 
     let axesIds = $axes.map(({key}) => key);
@@ -32,7 +32,7 @@
     };
 
     onMount(() => {
-        Config.ENSEMBLE_MODE && connectOsc();
+        // Config.ENSEMBLE_MODE && connectOsc();
         isDesktop = window.innerWidth > 1200;
     });
 
