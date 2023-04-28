@@ -14,7 +14,7 @@ https://q1synthv2.cephasteom.co.uk/
 
 ## Ensemble mode
 
-Copy `src/config-example.js` to `src/config.js`. Fill out the details.
+Turn on ensemble mode in `src/config.js` and give yourself an id.
 
 * npm run build
 * npm run ensemble

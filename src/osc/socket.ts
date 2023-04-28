@@ -15,7 +15,7 @@ export function connectOsc() {
     });
 }
 
-export function sendXyz(x: number, y: number, z: number, id: string) {
+export function sendXyz(x: number, y: number, z: number, id: number) {
     oscSocketIsConnected && oscSocket.send({
         address: `/q1synth/${id}/xyz`,
         args: [
