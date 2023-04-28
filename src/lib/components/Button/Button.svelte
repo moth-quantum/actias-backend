@@ -5,7 +5,7 @@
     export let classes: string = '';
     export let text: string;
     export let icon: IconDefinition | null = null;
-    export let active: boolean;
+    export let active: boolean = true;
     export let disabled: boolean = false;
     export let colour: string;
     export let onClick: () => void;
