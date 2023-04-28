@@ -20,9 +20,9 @@
 </script>
 
 <div class="patchbay">
-    <h2
-        on:click={() => randomiseConnections()}
-    >{title}</h2>
+    <button on:click={() => randomiseConnections()}>
+        <h2>{title}</h2>
+    </button>
     {#each ids as id, i}
         <div class="socket">
             <Socket {id} type="remote" colour={colours[i]} offset={offsets[i]}/>
