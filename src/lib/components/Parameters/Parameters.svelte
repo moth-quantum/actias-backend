@@ -10,7 +10,9 @@
 </script>
 
 <div class="group">
-    <h2 on:click={() => randomise('inst')}>Instrument</h2>
+    <button on:click={() => randomise('inst')}>
+        <h2>Instrument</h2>
+    </button>
     {#each $instrumentParameters.filter(({key}) => $keys.includes(key)) 
         as {name, min, max, step, units, key, rangeA, rangeB} (key)
     }
@@ -32,7 +34,9 @@
 </div>
 
 <div class="group">
-    <h2 on:click={() => randomise('global')}>Global</h2>
+    <button on:click={() => randomise('global')}>
+        <h2>Global</h2>
+    </button>
     {#each $globalParameters as {name, min, max, step, units, key, rangeA, rangeB} (key)}
         <div class="parameter">
             <h3>{name}</h3>
@@ -52,8 +56,9 @@
 </div>
 
 <div class="group">
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <h2 on:click={() => randomise('fx')}>Effects</h2>
+    <button on:click={() => randomise('fx')}>
+        <h2>Effects</h2>
+    </button>
 
     {#each $fxParameters as {name, min, max, step, units, key, rangeA, rangeB} (key)}
         <div class="parameter">
@@ -118,6 +123,10 @@
 
     .group {
         margin-bottom: 1rem;
+        & > button {
+            width: 100%;
+            text-align: left;
+        }
     }
 
     .group:last-of-type {
