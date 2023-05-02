@@ -15,6 +15,7 @@
     import DataStream from '$lib/components/DataStream/Datastream.svelte';
     import InstrumentButtons from '$lib/components/InstrumentButtons/index.svelte';
     import Fullscreen from '$lib/components/Fullscreen/Fullscreen.svelte';
+    import { socket } from '../soc-qasm';
     // import { connectOsc } from '../osc/socket';
     // import Config from '../config';
 

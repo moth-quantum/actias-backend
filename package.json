@@ -46,6 +46,7 @@
     "lodash.debounce": "^4.0.8",
     "osc": "^2.4.4",
     "p5-svelte": "^3.1.2",
+    "socket.io-client": "^4.6.1",
     "tone": "^14.7.77",
     "webmidi": "^3.1.5"
   }
