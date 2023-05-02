@@ -3,7 +3,7 @@
     import { startAudio, output } from '../sound';
     import { axes } from '$lib/stores/qubit';
     import { fullscreen as fs } from '$lib/stores/global';
-    import { connectOsc } from '../osc/socket';
+    // import { connectOsc } from '../osc/socket';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
     import Presets from '$lib/components/Presets/Presets.svelte';
     import Parameters from '$lib/components/Parameters/Parameters.svelte';
@@ -16,7 +16,7 @@
     import DataStream from '$lib/components/DataStream/Datastream.svelte';
     import InstrumentButtons from '$lib/components/InstrumentButtons/index.svelte';
     import Fullscreen from '$lib/components/Fullscreen/Fullscreen.svelte';
-    import Config from '../config';
+    // import Config from '../config';
 
     import { Drawer } from 'flowbite-svelte';
     import { sineIn } from 'svelte/easing';
