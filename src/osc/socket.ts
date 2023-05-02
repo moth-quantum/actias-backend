@@ -1,9 +1,12 @@
 import osc from 'osc'
+import Config from '../config';
 
-export const oscSocket = osc && new osc.WebSocketPort({
-    url: "ws://localhost:8080",
-    metadata: true
-});
+export const oscSocket = Config.ENSEMBLE_MODE 
+    ? new osc.WebSocketPort({
+        url: "ws://localhost:8080",
+        metadata: true
+    })
+    : null
 
 let oscSocketIsConnected = false
 
