@@ -1,6 +1,6 @@
 import osc from 'osc'
 
-export const oscSocket = new osc.WebSocketPort({
+export const oscSocket = osc && new osc.WebSocketPort({
     url: "ws://localhost:8080",
     metadata: true
 });
