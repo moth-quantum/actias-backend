@@ -1,7 +1,7 @@
 import { writable, get, derived } from 'svelte/store';
 import { mapToRange, clamp } from '../utils/utils';
-import Config from '../../config';
-import { sendXyz } from '../../osc/socket';
+// import Config from '../../config';
+// import { sendXyz } from '../../osc/socket';
 
 export interface Axis {
     key: string;
