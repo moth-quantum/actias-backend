@@ -9,7 +9,7 @@
     <form>
         <div class="source">
             <div>
-                <Select id="source" options={['local', 'ibm_foo', 'ibm_bar']} onChange={e => source.update(() => e.target?.value || 'local')} />
+                <Select id="source" options={['local', 'qasm_simulator', 'ibm_foo', 'ibm_bar']} onChange={e => source.update(() => e.target?.value || 'local')} />
             </div>
             {#if $source !== 'local'}
                 <div>

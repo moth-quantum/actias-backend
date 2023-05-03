@@ -1,5 +1,6 @@
 import { writable, get, derived } from 'svelte/store';
 import { mapToRange, clamp } from '../utils/utils';
+import { socket, sendQasm } from '../../soc-qasm';
 // import Config from '../../config';
 // import { sendXyz } from '../../osc/socket';
 
@@ -38,19 +39,23 @@ export const collapseTime = derived([seconds, bpm, beats], ([$seconds, $bpm, $be
 
 export const measure = () => {
     if (get(isMeasuring)) return;
+    console.log(socket)
+    const { connected } = socket
     const theta = get(axes)[2].value;
+    const phi = get(axes)[1].value;
+    const lambda = get(axes)[0].value;
     
-    get(source) === 'local'
-        ? collapse((Math.random() < theta) ? 1 : 0, get(collapseTime))
-        : 0; // TODO: remote measurement
+    get(source) === 'local' || !connected
+        ? collapse((Math.random() < theta) ? 1 : 0)
+        : sendQasm(theta, phi, lambda, get(source), get(password))
 }
 
-function collapse(dest: 0 | 1, seconds: number) {
+export function collapse(dest: 0 | 1) {
     isMeasuring.set(true);
     const currentAxes = get(axes);
     
     const startTime = new Date().getTime();
-    const endTime = startTime + (seconds * 1000);
+    const endTime = startTime + (get(collapseTime) * 1000);
     
     const startValues: {[key: string]: number} = {
         x: currentAxes[0].value, 

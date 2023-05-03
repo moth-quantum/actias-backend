@@ -15,7 +15,7 @@
     import DataStream from '$lib/components/DataStream/Datastream.svelte';
     import InstrumentButtons from '$lib/components/InstrumentButtons/index.svelte';
     import Fullscreen from '$lib/components/Fullscreen/Fullscreen.svelte';
-    import { socket } from '../soc-qasm';
+    import Toasts from '$lib/components/Toasts/Toasts.svelte';
     // import { connectOsc } from '../osc/socket';
     // import Config from '../config';
 
@@ -66,6 +66,8 @@
         <Parameters showSockets={false}/>
     </div>
 </Drawer>
+
+<Toasts />
 
 <section class="buttons container mx-auto">
     <div class="buttons__instruments">

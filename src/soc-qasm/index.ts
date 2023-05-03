@@ -1,14 +1,17 @@
 import { io } from 'socket.io-client';
+import { collapse } from '$lib/stores/qubit';
+import { addToast } from '$lib/stores/toasts';
 
-export const socket = io("http://soc-qasm.cephasteom.co.uk");
+export const socket = io("http://127.0.0.1:5000");
 
-console.log(socket)
+socket.on('connect', () => addToast('Connected to qasm server'))
+socket.on('disconnect', () => addToast('Qasm server was disconnected'))
+socket.on('response', ([type, message]) => {
+    type === 'info' && addToast(message);
+    type === 'counts' && collapse(+message[0]);
+});
 
-socket.on('connect', () => console.log('connected'))
-socket.on('disconnect', () => console.log('disconnected'))
-socket.on('response', data => data[0] === 'info' && console.log(data[1]));
-
-export function sendQasm(x: number, y: number, z: number, backend: string, password: string) {
-    const qasm = `OPENQASM 2.0;\ninclude "qelib1.inc";\nqreg q[1];\ncreg c[1];\nu(${(x * Math.PI)/2},${(y * Math.PI)/2},${(z * Math.PI)/2}) q[0];\nmeasure q[0] -> c[0];\n`
-    socket.emit('QuTune', [password, qasm, 1, backend])
+export function sendQasm(theta: number, phi: number, lambda: number, backend: string, password: string) {
+    const qasm = `OPENQASM 2.0;\ninclude "qelib1.inc";\nqreg q[1];\ncreg c[1];\nu(${theta * Math.PI},${phi * Math.PI},${lambda * Math.PI}) q[0];\nmeasure q[0] -> c[0];\n`
+    socket.emit('QuTune', qasm, 1, backend)
 }
