@@ -1,5 +1,4 @@
 <script>
-	import { page } from '$app/stores';
     import logo from '$lib/images/q1synth-icon.svg';
 </script>
 

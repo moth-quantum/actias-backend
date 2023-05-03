@@ -2,7 +2,7 @@ import { io } from 'socket.io-client';
 import { collapse } from '$lib/stores/qubit';
 import { addToast } from '$lib/stores/toasts';
 
-export const socket = io("http://127.0.0.1:5000");
+export const socket = io("http://127.0.0.1:5000", {reconnectionAttempts: 1})
 
 socket.on('connect', () => addToast('Connected to qasm server'))
 socket.on('disconnect', () => addToast('Qasm server was disconnected'))

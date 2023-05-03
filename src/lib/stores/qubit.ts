@@ -39,11 +39,11 @@ export const collapseTime = derived([seconds, bpm, beats], ([$seconds, $bpm, $be
 
 export const measure = () => {
     if (get(isMeasuring)) return;
-    console.log(socket)
     const { connected } = socket
     const theta = get(axes)[2].value;
     const phi = get(axes)[1].value;
     const lambda = get(axes)[0].value;
+    const backend = get(source);
     
     get(source) === 'local' || !connected
         ? collapse((Math.random() < theta) ? 1 : 0)

@@ -152,6 +152,6 @@ button:focus:not(:focus-visible) {
 .toasts > div {
     background-color: var(--color-yellow);
     color: var(--color-grey-dark);
-    border: none;
+    border: 1px solid var(--color-grey-light);
     box-shadow: 2px 2px 6px rgb(255 255 255 / 25%);
 }
