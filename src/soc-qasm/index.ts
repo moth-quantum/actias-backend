@@ -2,7 +2,7 @@ import { io } from 'socket.io-client';
 import { collapse } from '$lib/stores/qubit';
 import { addToast } from '$lib/stores/toasts';
 
-export const socket = io("http://soc-qasm.cephasteom.co.uk", {
+export const socket = io("https://soc-qasm.cephasteom.co.uk", {
     reconnectionAttempts: 1,
     transports: ['polling']
 })
