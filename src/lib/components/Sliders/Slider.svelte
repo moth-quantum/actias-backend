@@ -18,22 +18,33 @@
     let slider: HTMLElement;
     let isActive: boolean = false;
     
-    function setValue(e: MouseEvent) {
+    function setValue(pageX: number, pageY: number) {
         const { height, width, top, left } = slider?.getBoundingClientRect();
-        const { pageY, pageX } = e;
         const position = orientation === 'vertical' ? height : width;
         const offsetY = pageY - (top + window.scrollY)
         const offsetX = pageX - (left + window.scrollX)
         const offset = orientation === 'vertical' ? offsetY : offsetX;
         sliderValue.set(clamp(1 - (position - offset) / position, 0, 1));
     }
-    const handleMove = (e: MouseEvent) => {
-        if(!isActive) return;
-        setValue(e);
-    }
     const handleClick = (e: MouseEvent) => {
         isActive = true;
-        setValue(e);
+        const { pageX, pageY } = e;
+        setValue(pageX, pageY);
+    }
+    const handleTouch = (e: TouchEvent) => {
+        isActive = true;
+        const { pageX, pageY } = e.touches[0];
+        setValue(pageX, pageY);
+    }
+    const handleMove = (e: MouseEvent) => {
+        if(!isActive) return;
+        const { pageX, pageY } = e;
+        setValue(pageX, pageY);
+    }
+    const handleSwipe = (e: TouchEvent) => {
+        if(!isActive) return;
+        const { pageX, pageY } = e.touches[0];
+        setValue(pageX, pageY);
     }
 
     onMount(() => sliderValue.subscribe(debounce((v: number) => value = v, 10)))
@@ -47,7 +58,7 @@
 
     <div class={`slider slider--${orientation}`} 
         on:mousedown={handleClick}
-        on:mouseup={() => isActive = false}
+        on:touchstart={handleTouch}
         bind:this={slider}
     >
         <div class="slider__track" style={`background: ${colour}`}></div>
@@ -55,11 +66,16 @@
     </div>
 </div>
 
-<svelte:window on:mousemove={handleMove} />
+<svelte:window 
+    on:mousemove={handleMove} 
+    on:touchmove={handleSwipe}
+    on:mouseup={() => isActive = false} 
+    on:touchend={() => isActive = false}
+/>
 
 <style lang="scss">
-
     .slider__container {
+        touch-action: none;
         display: flex;
         align-items: center;
         justify-content: center;

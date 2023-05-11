@@ -11,4 +11,6 @@
     controls="{false}"
     renderer="svg"
     background="transparent"
+    width="100%"
+    height="100%"
 />
