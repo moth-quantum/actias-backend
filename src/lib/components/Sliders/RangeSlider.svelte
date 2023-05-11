@@ -59,6 +59,10 @@
     input[type=range].track {
         background: var(--color-grey-dark);
     }
+
+    input[type=range]::-moz-range-progress {
+        background-color: transparent;
+    }
     
     /* Annoyingly, lots of repeated css, but doesn't work otherwise */
     .min::-webkit-slider-thumb, .max::-webkit-slider-thumb {
@@ -71,6 +75,7 @@
         cursor: pointer;
         position: relative;
         box-shadow: 2px 3px 5px 1px var(--color-box-shadow);
+        z-index: 10;
     }
 
     .min::-webkit-slider-thumb {
@@ -81,23 +86,23 @@
         top: -2px;
     }
 
+    // firefox
     .min::-moz-range-thumb, .max::-moz-range-thumb {
         -webkit-appearance: none;
-        appearance: none;
+        // appearance: none;
         width: 8px;
         height: 16px;
         background: linear-gradient(to left, var(--color-grey-dark), var(--color-grey-dark) 33%, var(--color-grey-light) 34%, var(--color-grey-light) 66%, var(--color-grey-dark) 66%);
         border-radius: 0;
-        cursor: pointer;
-        position: relative;
+        position: absolute;
     }
 
     .min::-moz-range-thumb {
-        top: 2px;
+        transform: translateY(2px);
     }
 
     .max::-moz-range-thumb {
-        top: -2px;
+        transform: translateY(-2px);
     }
 
     .track::-webkit-slider-thumb {
@@ -108,14 +113,16 @@
         border-radius: 0;
         background: var(--color-theme-1);
         cursor: pointer;
+        z-index: -10;
     }
 
     .track::-moz-range-thumb {
         -webkit-appearance: none;
         appearance: none;
-        width: 14px;
-        height: 10px;
+        width: 2px;
+        height: 16px;
         background: var(--color-theme-1);
         cursor: pointer;
+        z-index: -10;
     }
 </style>

@@ -12,11 +12,13 @@ socket.on('connect', () => {
     addToast('Qasm server: connected', 'success')
 })
 
-socket.on('disconnect', () => addToast('Qasm server was disconnected', 'error'))
+socket.on('disconnect', () => {
+    isMeasuring.set(false);
+    addToast('Qasm server was disconnected', 'error')
+})
 socket.on("connect_error", err => addToast('Qasm server: ' + err.message, 'error'))
 
 function handleError(message: string) {
-    console.log(message)
     isMeasuring.set(false);
     addToast(message, 'error');
 }
