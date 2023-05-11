@@ -18,3 +18,7 @@ export function roundToFactor(n: number, factor: number = 1) {
 export function clamp(n: number, min: number, max: number) {
     return Math.min(Math.max(n, min), max);
 }
+
+export function isChrome() {
+    return navigator.userAgent.indexOf('Chrome') > -1;
+}

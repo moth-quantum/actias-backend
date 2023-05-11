@@ -9,7 +9,7 @@ export const socket = io("https://soc-qasm.cephasteom.co.uk", {
 })
 
 socket.on('connect', () => {
-    addToast('Connected to qasm server')
+    addToast('Connected to qasm server', 'success')
 })
 
 socket.on("connect_error", (err) => {
@@ -17,7 +17,8 @@ socket.on("connect_error", (err) => {
 });
 socket.on('disconnect', () => addToast('Qasm server was disconnected'))
 socket.on('response', ([type, message]) => {
-    (type === 'info' || type === 'error') && addToast(message);
+    type === 'info' && addToast(message, 'success');
+    type === 'error' && addToast(message, 'error');
     type === 'counts' && collapse(+message[0]);
 });
 

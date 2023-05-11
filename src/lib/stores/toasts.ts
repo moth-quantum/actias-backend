@@ -1,11 +1,14 @@
-import { writable, get } from 'svelte/store';
+import { writable } from 'svelte/store';
+import { isChrome } from '$lib/utils/utils';
 
-export const toasts = writable<{message: string, type: string}[]>([
-    {message: 'Welcome to the Q1 Synth. Please use Chrome for optimum performance.', type: 'info'},
-]);
+export const toasts = writable<{message: string, type: string}[]>([]);
 
-// toasts.subscribe(() => setTimeout(() => toasts.set(get(toasts).slice(1)), 5000))
-
-export function addToast(message: string, type: string = 'info') {
+export function addToast(message: string, type: string = 'success') {
     toasts.update(toasts => [...toasts, {message, type}]);
 }
+
+export function removeToast(message: string) {
+    toasts.update(toasts => toasts.filter(toast => toast.message !== message));
+}
+
+isChrome() || addToast('Please use Chrome for optimum performance.', 'warning');

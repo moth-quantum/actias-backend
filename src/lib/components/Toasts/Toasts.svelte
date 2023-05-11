@@ -5,8 +5,8 @@
 </script>
 
 <div class="toasts">
-    {#each $toasts as {message}}
-        <Toast {message} /> 
+    {#each $toasts as {message, type}}
+        <Toast {message} {type} /> 
     {/each}
 </div>
 
