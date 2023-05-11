@@ -168,6 +168,13 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@lottiefiles/svelte-lottie-player@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@lottiefiles/svelte-lottie-player/-/svelte-lottie-player-0.3.0.tgz#05fab9c2ac09144c877cdea7e3cfa06cd1b2c8e7"
+  integrity sha512-u7kwq6YlNYCN7pRO3er+1/uDDwBX12c8hnKFxmRejAW78d3Ps6Hdq9XDUYHNAr+0euEf9p2RvpDmZaKQzcJXVw==
+  dependencies:
+    lottie-web "^5.10.0"
+
 "@neoconfetti/svelte@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@neoconfetti/svelte/-/svelte-1.0.0.tgz#84a7f98981ad546d959d8c99460da8cebdf70301"
@@ -929,6 +936,11 @@ long@4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/long/-/long-4.0.0.tgz#9a7b71cfb7d361a194ea555241c92f7468d5bf28"
   integrity sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==
+
+lottie-web@^5.10.0:
+  version "5.11.0"
+  resolved "https://registry.yarnpkg.com/lottie-web/-/lottie-web-5.11.0.tgz#04bb9fd6cdfbb10e586985dd666de6c727619d95"
+  integrity sha512-9vSt0AtdOH98GKDXwD5LPfFg9Pcmxt5+1BllAbudKM5iqPxpJnJUfuGaP45OyudDrESCOBgsjnntVUTygBNlzw==
 
 magic-string@^0.25.7:
   version "0.25.9"

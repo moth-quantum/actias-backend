@@ -39,6 +39,7 @@ export const collapseTime = derived([seconds, bpm, beats], ([$seconds, $bpm, $be
 
 export const measure = () => {
     if (get(isMeasuring)) return;
+    isMeasuring.set(true);
     const { connected } = socket
     const theta = get(axes)[2].value;
     const phi = get(axes)[1].value;
@@ -47,11 +48,10 @@ export const measure = () => {
     
     get(source) === 'local' || !connected
         ? collapse((Math.random() < theta) ? 1 : 0)
-        : sendQasm(theta, phi, lambda, get(source), get(password))
+        : sendQasm(theta, phi, lambda, backend, get(password))
 }
 
 export function collapse(dest: 0 | 1) {
-    isMeasuring.set(true);
     const currentAxes = get(axes);
     
     const startTime = new Date().getTime();

@@ -1,7 +1,9 @@
 <script>
     import Select from '$lib/components/Forms/Select.svelte';   
-    import { measure, seconds, bpm, beats, source, password } from '$lib/stores/qubit';
+    import { measure, seconds, bpm, beats, source, password, isMeasuring } from '$lib/stores/qubit';
     import { mute } from '$lib/stores/global';
+    import Lottie from '$lib/components/Lottie/Lottie.svelte';
+    import lottieSrc from '$lib/images/measuring.json';
 </script>
 
 <div class="measure">
@@ -9,7 +11,7 @@
     <form>
         <div class="source">
             <div>
-                <Select id="source" options={['local', 'qasm_simulator', 'ibmq_qasm_simulator']} onChange={e => source.update(() => e.target?.value || 'local')} />
+                <Select id="source" options={['local', 'qasm_simulator', 'ibmq_qasm_simulator', 'ibmq_belem']} onChange={e => source.update(() => e.target?.value || 'local')} />
             </div>
             {#if $source !== 'local'}
                 <div>
@@ -46,7 +48,14 @@
     <div class="button">
         <button
             on:click|preventDefault={() => measure()}
-        >Measure</button>
+        >
+            {#if $isMeasuring}
+                <Lottie src={lottieSrc} />
+            {:else}
+                <span class="button__text">Measure</span>
+            {/if}
+
+        </button>
     </div>
 </div>
 
@@ -132,6 +141,11 @@
         width: 30%;
         margin-left: 0.5rem;
 
+        &__text {
+            display: block;
+            padding: 1rem;
+        }
+
         @media (min-width: 1200px) {
             margin-left: 0;
             width: 100%;
@@ -145,7 +159,7 @@
             text-transform: uppercase;
             border: 0;
             border-radius: 5px;
-            padding: 1.75rem 0.75rem;
+            padding: 0.75rem;
             width: 100%;
             height: 100%;
             font-weight: 600;

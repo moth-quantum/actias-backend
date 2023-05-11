@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client';
-import { collapse } from '$lib/stores/qubit';
+import { collapse, isMeasuring } from '$lib/stores/qubit';
 import { addToast } from '$lib/stores/toasts';
 
 export const socket = io("https://soc-qasm.cephasteom.co.uk", {
@@ -9,16 +9,21 @@ export const socket = io("https://soc-qasm.cephasteom.co.uk", {
 })
 
 socket.on('connect', () => {
-    addToast('Connected to qasm server', 'success')
+    addToast('Qasm server: connected', 'success')
 })
 
-socket.on("connect_error", (err) => {
-    console.log(`connect_error due to ${err.message}`, err);
-});
-socket.on('disconnect', () => addToast('Qasm server was disconnected'))
+socket.on('disconnect', () => addToast('Qasm server was disconnected', 'error'))
+socket.on("connect_error", err => addToast('Qasm server: ' + err.message, 'error'))
+
+function handleError(message: string) {
+    console.log(message)
+    isMeasuring.set(false);
+    addToast(message, 'error');
+}
+
 socket.on('response', ([type, message]) => {
     type === 'info' && addToast(message, 'success');
-    type === 'error' && addToast(message, 'error');
+    type === 'error' && handleError(message);
     type === 'counts' && collapse(+message[0]);
 });
 

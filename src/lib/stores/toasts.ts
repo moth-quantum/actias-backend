@@ -11,4 +11,4 @@ export function removeToast(message: string) {
     toasts.update(toasts => toasts.filter(toast => toast.message !== message));
 }
 
-isChrome() || addToast('Please use Chrome for optimum performance.', 'warning');
+isChrome() || addToast('Please use Chrome for optimum audio performance', 'warning');
