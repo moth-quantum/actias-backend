@@ -48,6 +48,7 @@
     <div class="button">
         <button
             on:click|preventDefault={() => measure()}
+            disabled={$isMeasuring}
         >
             {#if $isMeasuring}
                 <Lottie src={lottieSrc} />
@@ -164,6 +165,9 @@
             height: 100%;
             font-weight: 600;
             cursor: pointer;
+            &:disabled {
+                cursor: not-allowed;
+            }
         }
 
     }
