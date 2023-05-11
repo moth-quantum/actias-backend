@@ -31,8 +31,6 @@ export const beats = writable<number>();
 export const source = writable<string>('local');
 export const password = writable<string>('');
 
-seconds.subscribe(seconds => console.log(seconds))
-
 export const collapseTime = derived([seconds, bpm, beats], ([$seconds, $bpm, $beats]) => {
     if ($bpm > 0 && $beats > 0) return 60 / $bpm * $beats;
     if ($seconds) return $seconds;

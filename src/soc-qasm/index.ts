@@ -7,7 +7,6 @@ export const socket = io("https://soc-qasm.cephasteom.co.uk", {
     reconnectionAttempts: 1,
     transports: ['polling']
 })
-console.log(socket)
 
 socket.on('connect', () => {
     addToast('Connected to qasm server')
