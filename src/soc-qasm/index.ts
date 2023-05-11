@@ -3,8 +3,8 @@ import { collapse, isMeasuring } from '$lib/stores/qubit';
 import { addToast } from '$lib/stores/toasts';
 
 export const socket = io("https://soc-qasm.cephasteom.co.uk", {
-    timeout: 20000,
-    reconnectionAttempts: 1,
+    timeout: 10000,
+    reconnectionAttempts: 2,
     transports: ['polling']
 })
 
@@ -16,11 +16,15 @@ socket.on('disconnect', () => {
     isMeasuring.set(false);
     addToast('Qasm server was disconnected', 'error')
 })
-socket.on("connect_error", err => addToast('Qasm server: ' + err.message, 'error'))
+socket.on("connect_error", err => {
+    addToast('Qasm server: connection error ' + err.message, 'error')
+    addToast('Qasm server: attempting to reconnect', 'warning')
+})
 
 function handleError(message: string) {
     isMeasuring.set(false);
     addToast(message, 'error');
+    console.log(message);
 }
 
 socket.on('response', ([type, message]) => {
