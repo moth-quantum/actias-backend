@@ -13,7 +13,7 @@
             </div>
             {#if $source !== 'local'}
                 <div>
-                    <input id="password" placeholder="Password" type="password" on:change={e => password.update(() => +e.target?.value || '')}/>
+                    <input id="password" placeholder="Password" type="password" bind:value={$password}/>
                 </div>
             {/if}
         </div>
