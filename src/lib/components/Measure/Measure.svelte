@@ -9,29 +9,36 @@
     <form>
         <div class="source">
             <div>
-                <Select id="source" options={['local', 'qasm_simulator', 'ibm_foo', 'ibm_bar']} onChange={e => source.update(() => e.target?.value || 'local')} />
+                <Select id="source" options={['local', 'qasm_simulator', 'ibmq_qasm_simulator']} onChange={e => source.update(() => e.target?.value || 'local')} />
             </div>
             {#if $source !== 'local'}
                 <div>
-                    <input id="password" placeholder="Password" type="password" bind:value={$password}/>
+                    <input 
+                        id="password" 
+                        placeholder="Password" 
+                        type="password" 
+                        bind:value={$password}
+                        on:focus={() => mute.set(true)}
+                        on:focusout={() => mute.set(false)}
+                    />
                 </div>
             {/if}
         </div>
         <input 
             id="seconds" placeholder="Seconds" type="number" 
-            on:change={e => seconds.set(+e.target?.value || 0)}
+            bind:value={$seconds}
             on:focus={() => mute.set(true)}
             on:focusout={() => mute.set(false)}
         />
         <input 
             id="bpm" placeholder="BPM" type="number" 
-            on:change={e => bpm.set(+e.target?.value || 0)}
+            bind:value={$bpm}
             on:focus={() => mute.set(true)}
             on:focusout={() => mute.set(false)}
         />
         <input 
             id="beats" placeholder="Beats" type="number" 
-            on:change={e => beats.set(+e.target?.value || 0)}
+            bind:value={$beats}
             on:focus={() => mute.set(true)}
             on:focusout={() => mute.set(false)}
         />

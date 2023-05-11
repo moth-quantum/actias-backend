@@ -3,6 +3,7 @@ import { collapse } from '$lib/stores/qubit';
 import { addToast } from '$lib/stores/toasts';
 
 export const socket = io("https://soc-qasm.cephasteom.co.uk", {
+    timeout: 20000,
     reconnectionAttempts: 1,
     transports: ['polling']
 })

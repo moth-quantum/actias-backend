@@ -25,11 +25,13 @@ export const axes = writable<Axis[]>([
 // axes.subscribe(axes => Config.ENSEMBLE_MODE && sendXyz(axes[0].value, axes[1].value, axes[2].value, Config.ENSEMBLE_ID))
 
 export const isMeasuring = writable<boolean>(false);
-export const seconds = writable<number>(0);
-export const bpm = writable<number>(0);
-export const beats = writable<number>(0);
+export const seconds = writable<number>();
+export const bpm = writable<number>();
+export const beats = writable<number>();
 export const source = writable<string>('local');
 export const password = writable<string>('');
+
+seconds.subscribe(seconds => console.log(seconds))
 
 export const collapseTime = derived([seconds, bpm, beats], ([$seconds, $bpm, $beats]) => {
     if ($bpm > 0 && $beats > 0) return 60 / $bpm * $beats;
