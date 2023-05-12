@@ -4,6 +4,8 @@
     import { mute } from '$lib/stores/global';
     import Lottie from '$lib/components/Lottie/Lottie.svelte';
     import lottieSrc from '$lib/images/measuring.json';
+
+    const machines = [{name: 'local', active: true}, {name: 'qasm_simulator', active: true}, {name: 'ibmq_belem', active: false}];
 </script>
 
 <div class="measure">
@@ -11,7 +13,7 @@
     <form>
         <div class="source">
             <div>
-                <Select id="source" options={['local', 'qasm_simulator', 'ibmq_qasm_simulator', 'ibmq_belem']} onChange={e => source.update(() => e.target?.value || 'local')} />
+                <Select id="source" options={machines} onChange={e => source.update(() => e.target?.value || 'local')} />
             </div>
             {#if $source !== 'local'}
                 <div>
