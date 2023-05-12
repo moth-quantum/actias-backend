@@ -38,7 +38,7 @@
         
         // return to original position
         position = {x: 0, y: 0}
-        thisSocket.style.zIndex = 999;
+        thisSocket.style.zIndex = 10;
     }
 
     function handleClick() {

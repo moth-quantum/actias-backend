@@ -63,9 +63,9 @@
     }
 
     .socket {
-        z-index: 1001;
+        z-index: 19;
     }
     .cable {
-        z-index: 1000;
+        z-index: 18;
     }
 </style>
