@@ -1,6 +1,6 @@
 <script>
     import Select from '$lib/components/Forms/Select.svelte';   
-    import { measure, seconds, bpm, beats, source, password, isMeasuring } from '$lib/stores/qubit';
+    import { measure, seconds, bpm, beats, source, password, token, isMeasuring } from '$lib/stores/qubit';
     import { mute } from '$lib/stores/global';
     import Lottie from '$lib/components/Lottie/Lottie.svelte';
     import lottieSrc from '$lib/images/measuring.json';
@@ -27,7 +27,23 @@
                     />
                 </div>
             {/if}
+            {#if $source !== 'local' && $source !== 'qasm_simulator'}
+                <div>
+                    <input 
+                        id="token" placeholder="Token" type="text" 
+                        bind:value={$token}
+                        on:focus={() => mute.set(true)}
+                        on:focusout={() => mute.set(false)}
+                    />
+                </div>
+            {/if}
         </div>
+        <input 
+            id="seconds" placeholder="Seconds" type="number" 
+            bind:value={$seconds}
+            on:focus={() => mute.set(true)}
+            on:focusout={() => mute.set(false)}
+        />
         <input 
             id="seconds" placeholder="Seconds" type="number" 
             bind:value={$seconds}
@@ -115,12 +131,13 @@
         grid-column: 1 / 3;
         display: flex;
 
-        & > div{
+        & > div {
             width: 100%;
             height: 100%;
+            margin-right: 0.5rem;
 
-            &:nth-of-type(2n) {
-                margin-left: 0.5rem;
+            &:last-of-type {
+                margin-right: 0;
             }
         }
     }
