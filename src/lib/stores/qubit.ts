@@ -49,7 +49,7 @@ export const measure = () => {
     
     get(source) === 'local' || !connected
         ? collapse((Math.random() < theta) ? 1 : 0)
-        : sendQasm(theta, phi, lambda, backend, get(password))
+        : sendQasm(theta, phi, lambda, backend, get(password), get(token))
 }
 
 export function collapse(dest: 0 | 1) {

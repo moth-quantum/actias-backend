@@ -33,7 +33,7 @@ socket.on('response', ([type, message]) => {
     type === 'counts' && collapse(+message[0]);
 });
 
-export function sendQasm(theta: number, phi: number, lambda: number, backend: string, password: string) {
+export function sendQasm(theta: number, phi: number, lambda: number, backend: string, password: string, token: string) {
     const qasm = `OPENQASM 2.0;\ninclude "qelib1.inc";\nqreg q[1];\ncreg c[1];\nu(${theta * Math.PI},${phi * Math.PI},${lambda * Math.PI}) q[0];\nmeasure q[0] -> c[0];\n`
-    socket.emit('QuTune', password, qasm, 1, backend)
+    socket.emit('QuTune', password, qasm, 1, backend, token)
 }
