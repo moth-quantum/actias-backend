@@ -23,7 +23,7 @@ Set ensemble mode to true in `src/config.js` and give yourself an id.
 Custom samples can only be used with a local version of the synth
 * create `custom-samples` directory in `static/samples`
 * .gitignore `custom-samples`
-* drag audio files or folders of audio files into `static/samples`. You can have 32 max.
+* drag audio files or folders of audio files into `static/samples`. You can have 32 max and file names should not contain spaces.
 * run `yarn samples` to generate `samples.json` file
 * for now, you need to paste the contents of `samples.json` into the writeable store at `src/lib/stores/samples.ts`
 * run `yarn dev` to spin up local version of site with access to local samples
