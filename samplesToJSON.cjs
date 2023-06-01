@@ -21,10 +21,7 @@ function compile(array) {
 }
 
 const result = compile(tree.children)
-    .reduce((obj, item) => ({
-        ...obj,
-        [item.group]: obj[item.group] ? [...obj[item.group], item.url] : [item.url]
-    }), {})
+    .reduce((arr, item) => ([...arr, item.url]), [])
 
 const json = JSON.stringify(result);
 
