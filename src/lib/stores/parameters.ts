@@ -21,7 +21,7 @@ const instParams: Parameter[] = [
     {key: 'modi', name: 'modi', rangeA: 0, rangeB: 10, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 50},
     {key: 'harm', name: 'harm', rangeA: 2, rangeB: 2, min: 0.5, max: 10, step: 0.25, units: ''},
     {key: 'drift', name: 'drift', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 5},
-    {key: 'i', name: 'src', rangeA: 0, rangeB: 0, min: 0, max: get(samples).length, step: 1, units: ''},
+    {key: 'i', name: 'sample', rangeA: 0, rangeB: 0, min: 0, max: get(samples).length, step: 1, units: ''},
     {key: 'loop', name: 'loop', rangeA: 1, rangeB: 1, min: 0, max: 1, step: 1, units: ''},
     {key: 'loopsize', name: 'size', rangeA: 1, rangeB: 1, min: 0.001, max: 1, step: 0.001, units: ''},
     {key: 'rate', name: 'rate', rangeA: 1, rangeB: 1, min: -1, max: 2, step: 0.125, units: ''},
@@ -59,6 +59,14 @@ const fxParams: Parameter[] = [
 ]
 
 export const instrumentParameters = writable(instParams);
+
+samples.subscribe(s => {
+    instrumentParameters.update(params => params.map((param) => param.key === 'i' 
+        ? {...param, max: s.length} 
+        : param
+    ))
+});
+
 export const globalParameters = writable(gParams);
 export const fxParameters = writable(fxParams);
 export const allParameters: Readable<Parameter[]> = derived(
