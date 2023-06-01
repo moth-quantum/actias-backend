@@ -9,7 +9,8 @@
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "osc-udp": "node src/osc/socket-to-udp.cjs",
     "ensemble": "concurrently \"npm run preview\" \"npm run osc-udp\"",
-    "dev-ensemble": "concurrently \"npm run dev\" \"npm run osc-udp\""
+    "dev-ensemble": "concurrently \"npm run dev\" \"npm run osc-udp\"",
+    "samples": "node ./samplesToJSON.cjs"
   },
   "devDependencies": {
     "@fontsource/fira-mono": "^4.5.10",
@@ -41,9 +42,11 @@
     "audiokeys": "^0.1.1",
     "classnames": "^2.3.2",
     "concurrently": "^8.0.1",
+    "directory-tree": "^3.5.1",
     "flowbite": "^1.6.3",
     "flowbite-svelte": "^0.30.6",
     "fontawesome-svelte": "^2.0.1",
+    "fs": "^0.0.1-security",
     "lodash.debounce": "^4.0.8",
     "osc": "^2.4.4",
     "p5-svelte": "^3.1.2",
