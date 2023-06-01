@@ -27,3 +27,14 @@ Custom samples can only be used with a local version of the synth
 * run `yarn samples` to generate `samples.json` file
 * for now, you need to paste the contents of `samples.json` into the writeable store at `src/lib/stores/samples.ts`
 * run `yarn dev` to spin up local version of site with access to local samples
+
+### Ignored files
+So that using custom samples doesn't disrupt git, we have used chose to ignore future changes to the following file, using:
+```bash
+git update-index --skip-worktree src/lib/stores/samples.ts
+```
+
+To make changes to this file again, use:
+```bash
+git update-index --no-skip-worktree src/lib/stores/samples.ts
+```
