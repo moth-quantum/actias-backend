@@ -15,6 +15,8 @@
     <footer class="footer container">
         <span>Build <a href="https://cephasteom.co.uk">Cephas Teom</a> | Design James Cameron</span>
         <br>
+        <span>Quantum integration using <a href="https://zenodo.org/record/6640160">SOC-QASM</a></span>
+        <br>
         <span>© <a href="https://mothquantum.com/">Moth Quantum</a> / <a href="https://cmr.soc.plymouth.ac.uk/">ICCMR</a> 2023</span>
     </footer>
         
