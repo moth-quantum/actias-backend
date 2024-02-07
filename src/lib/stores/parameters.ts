@@ -13,7 +13,7 @@ const instrumentKeys = {
     synth: ['op1ratio', 'op1gain', 'op2ratio', 'op2gain', 'op2a', 'op3ratio', 'op3gain', 'op3a'],
     sampler: ['i', 'loop', 'loopsize', 'rate', 'begin', 'cutoff', 'res'],
     granular: ['i', 'grainrate', 'grainsize', 'grainpan', 'begin', 'end', 'cutoff', 'res'],
-    wavetable: ['i', 'tablesize', 'rows', 'xlfo', 'ylfo']
+    wavetable: ['i', 'tablesize', 'rows', 'xlfo', 'ylfo', 'cutoff', 'res']
 }
 
 export const keys = writable(instrumentKeys.synth);

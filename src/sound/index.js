@@ -2,7 +2,7 @@
 // @ts-nocheck
 import { immediate } from 'tone'
 import { get } from 'svelte/store'
-import { CtSuperFM, CtSampler, CtGranulator, CtFXChain } from './ct-synths'
+import { CtSuperFM, CtSampler, CtGranulator, CtWavetable, CtFXChain } from './ct-synths'
 import { start, Limiter, BitCrusher, Gain } from 'tone'
 import { samples } from '$lib/stores/samples'
 import { drone, synthValues } from '$lib/stores/parameters'
@@ -31,22 +31,28 @@ const crush = new BitCrusher({bits: 4, wet: 0}).connect(fx.input);
 const synth = new CtSuperFM()
 synth.connect(crush)
 
-const sampler = new CtSampler(get(samples))
+const sampler = new CtSampler()
 sampler.banks = {default: get(samples)}
 sampler.bank('default')
 sampler.connect(crush)
 
-const granular = new CtGranulator(get(samples))
+const granular = new CtGranulator()
 granular.banks = {default: get(samples)}
 granular.bank('default')
 granular.connect(crush)
 
+const wavetable = new CtWavetable()
+wavetable.banks = {default: get(samples)}
+wavetable.bank('default')
+wavetable.connect(crush)
+
 samples.subscribe(s => {
     sampler.banks = {default: s}
     granular.banks = {default: s}
+    wavetable.banks = {default: s}
 })
 
-export const instruments = { synth, sampler, granular }
+export const instruments = { synth, sampler, granular, wavetable }
 
 export const handleEvent = (params) => {
     if(get(mute)) return
