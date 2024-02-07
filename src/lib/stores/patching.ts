@@ -33,8 +33,8 @@ export const connectSockets = (a: Socket, b: Socket) => {
 
     // Connect sockets
     connections.update((connections: Connection[]) => {
-        // sort alphabetically so there is only one way of storing a connection
-        const connection = [a.id, b.id].sort((a, b) => a.localeCompare(b)) as Connection;
+        // sort by type so there is only one way of storing a connection
+        const connection = [a,b].sort(a => a.type === 'remote' ? 1 : -1).map(({id}) => id) as Connection;
         return [...connections, connection]
     })
 }
@@ -43,15 +43,15 @@ export const disconnectSocket = (id: string) => {
     connections.update(connections => connections.filter(c => c[0] !== id && c[1] !== id));
 };
 
-export const initialiseConnections = (groupA: string[], groupB: string[]) => {
+export const initialiseConnections = (originSockets: string[], remoteSockets: string[]) => {
     // remove all connections
     connections.set([]);
 
     // connect sockets
-    groupA.forEach((a, i) => {
-        const b = groupB[Math.floor(i / (groupA.length / groupB.length))];
+    originSockets.forEach((a, i) => {
+        const b = remoteSockets[Math.floor(i / (originSockets.length / remoteSockets.length))];
         connections.update((connections: Connection[]) => {
-            const connection = [a, b].sort((a, b) => a.localeCompare(b)) as Connection;
+            const connection = [a, b] as Connection;
             return [...connections, connection]
         })
     })
@@ -67,10 +67,10 @@ export const randomiseConnections = () => {
     connections.set([]);
     // split sockets by type
     const all = get(sockets);
-    const localSockets = Object.values(all).filter(s => s.type === 'origin');
+    const originSockets = Object.values(all).filter(s => s.type === 'origin');
     const remoteSockets = Object.values(all).filter(s => s.type === 'remote');
     // for each local socket, create a connection where the other socket is a random remote socket (x, y, z)
-    localSockets.forEach((socket: Socket) => {
+    originSockets.forEach((socket: Socket) => {
         const randomSocket = remoteSockets[Math.floor(Math.random() * remoteSockets.length)];
         connectSockets(socket, randomSocket);
     })

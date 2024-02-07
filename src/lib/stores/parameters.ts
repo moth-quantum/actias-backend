@@ -44,7 +44,7 @@ const instParams: Parameter[] = [
     {key: 'tablesize', name: 'size', rangeA: 256, rangeB: 256, min: 16, max: 1024, step: 1, units: ''},
     {key: 'rows', name: 'rows', rangeA: 16, rangeB: 16, min: 2, max: 64, step: 1, units: ''},
     {key: 'xlfo', name: 'xlfo', rangeA: 0.02, rangeB: 0.3, min: 0.01, max: 2, step: 0.01, units: ''},
-    // {key: 'ylfo', name: 'ylfo', rangeA: 0.2, rangeB: 0.03, min: 0.01, max: 2, step: 0.01, units: ''},
+    {key: 'ylfo', name: 'ylfo', rangeA: 0.2, rangeB: 0.03, min: 0.01, max: 2, step: 0.01, units: ''},
 ]
 
 const gParams: Parameter[] = [
