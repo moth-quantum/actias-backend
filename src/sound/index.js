@@ -33,12 +33,12 @@ synth.connect(crush)
 
 const sampler = new CtSampler(get(samples))
 sampler.banks = {default: get(samples)}
-sampler.currentBank = 'default'
+sampler.bank('default')
 sampler.connect(crush)
 
 const granular = new CtGranulator(get(samples))
 granular.banks = {default: get(samples)}
-granular.currentBank = 'default'
+granular.bank('default')
 granular.connect(crush)
 
 samples.subscribe(s => {

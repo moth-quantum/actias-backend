@@ -265,6 +265,11 @@
     replace-in-file "^6.3.5"
     tiny-glob "^0.2.9"
 
+"@rnbo/js@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@rnbo/js/-/js-1.2.4.tgz#595c0ebd869da5adbc23bb5bc57d213ba5b8592d"
+  integrity sha512-NYz7rLU9tgQwXK5kjusaVgO4WI9zL+4QTBwuodQ8O0v49KYXE7D9nUdb5oJedabrCb+RbZ/PrETr4k8WHClwXw==
+
 "@serialport/binding-mock@10.2.2":
   version "10.2.2"
   resolved "https://registry.yarnpkg.com/@serialport/binding-mock/-/binding-mock-10.2.2.tgz#d322a8116a97806addda13c62f50e73d16125874"
