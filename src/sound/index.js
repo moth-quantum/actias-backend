@@ -2,7 +2,7 @@
 // @ts-nocheck
 import { immediate } from 'tone'
 import { get } from 'svelte/store'
-import { CtSynth, CtSampler, CtGranulator, CtFXChain } from './ct-synths'
+import { CtSuperFM, CtSampler, CtGranulator, CtFXChain } from './ct-synths'
 import { start, Limiter, BitCrusher, Gain } from 'tone'
 import { samples } from '$lib/stores/samples'
 import { drone, synthValues } from '$lib/stores/parameters'
@@ -28,7 +28,7 @@ const fx = new CtFXChain()
 fx.connect(limiter)
 const crush = new BitCrusher({bits: 4, wet: 0}).connect(fx.input);
 
-const synth = new CtSynth()
+const synth = new CtSuperFM()
 synth.connect(crush)
 
 const sampler = new CtSampler(get(samples))
@@ -62,6 +62,7 @@ export const handleEvent = (params) => {
 }
 
 export const handleNoteOff = (inst, n) => {
+    console.log('note off', inst, n)
     !get(drone) && instruments[inst]?.release(n, immediate())
 }
 

@@ -10,7 +10,7 @@ export const instrument: Writable<InstrumentName> = writable('synth');
 export const instruments: InstrumentName[] = ['synth', 'sampler', 'granular']
 
 const instrumentKeys = {
-    synth: ['modi', 'harm', 'drift', 'cutoff', 'res'],
+    synth: ['op1ratio', 'op1gain', 'op2ratio', 'op2gain', 'op2a', 'op3ratio', 'op3gain', 'op3a'],
     sampler: ['i', 'loop', 'loopsize', 'rate', 'begin', 'cutoff', 'res'],
     granular: ['i', 'grainrate', 'grainsize', 'grainpan', 'begin', 'end', 'cutoff', 'res']
 }
@@ -18,9 +18,15 @@ const instrumentKeys = {
 export const keys = writable(instrumentKeys.synth);
 
 const instParams: Parameter[] = [
-    {key: 'modi', name: 'modi', rangeA: 0, rangeB: 10, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 50},
-    {key: 'harm', name: 'harm', rangeA: 2, rangeB: 2, min: 0.5, max: 10, step: 0.25, units: ''},
-    {key: 'drift', name: 'drift', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 5},
+    {key: 'op1ratio', name: 'ratio1', rangeA: 1, rangeB: 1, min: 0.25, max: 5, step: 0.25, units: ''},
+    {key: 'op1gain', name: 'gain1', rangeA: 1, rangeB: 1, min: 0.5, max: 2, step: 0.01, units: ''},
+    {key: 'op2ratio', name: 'ratio2', rangeA: 0.5, rangeB: 5, min: 0.25, max: 50, step: 0.125, units: ''},
+    {key: 'op2gain', name: 'gain2', rangeA: 1, rangeB: 1, min: 0, max: 10, step: 0.01, units: ''},
+    {key: 'op2a', name: 'att2', rangeA: 10, rangeB: 1000, min: 5, max: 2000, step: 1, units: ''},
+    {key: 'op3ratio', name: 'ratio3', rangeA: 0.5, rangeB: 21, min: 0.25, max: 50, step: 0.01, units: ''},
+    {key: 'op3gain', name: 'gain3', rangeA: 0.25, rangeB: 10, min: 0, max: 10, step: 0.01, units: ''},
+    {key: 'op3a', name: 'att3', rangeA: 10, rangeB: 1000, min: 5, max: 2000, step: 1, units: ''},
+    
     {key: 'i', name: 'sample', rangeA: 0, rangeB: 0, min: 0, max: get(samples).length, step: 1, units: ''},
     {key: 'loop', name: 'loop', rangeA: 1, rangeB: 1, min: 0, max: 1, step: 1, units: ''},
     {key: 'loopsize', name: 'size', rangeA: 1, rangeB: 1, min: 0.001, max: 1, step: 0.001, units: ''},
