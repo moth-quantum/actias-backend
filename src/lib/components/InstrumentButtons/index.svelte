@@ -3,13 +3,14 @@
     import Button from '$lib/components/Button/Button.svelte';
 
     import { library } from '@fortawesome/fontawesome-svg-core';
-    import { faSmileWink, faNetworkWired, faCompactDisc, faBraille } from '@fortawesome/free-solid-svg-icons';
-    library.add(faSmileWink, faNetworkWired, faCompactDisc, faBraille);
+    import { faSmileWink, faNetworkWired, faCompactDisc, faBraille, faTable } from '@fortawesome/free-solid-svg-icons';
+    library.add(faSmileWink, faNetworkWired, faCompactDisc, faBraille, faTable);
 
     const icons = {
         'synth': faNetworkWired,
         'sampler': faCompactDisc,
-        'granular': faBraille
+        'granular': faBraille,
+        'wavetable': faTable,
     }
 
     export let orientation: 'horizontal' | 'vertical' = 'horizontal';

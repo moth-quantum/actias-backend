@@ -7,12 +7,13 @@ import { mapToStepRange, roundToFactor } from '$lib/utils/utils';
 import type { InstrumentName, Parameter } from '$lib/types';
 
 export const instrument: Writable<InstrumentName> = writable('synth');
-export const instruments: InstrumentName[] = ['synth', 'sampler', 'granular']
+export const instruments: InstrumentName[] = ['synth', 'sampler', 'granular', 'wavetable']
 
 const instrumentKeys = {
     synth: ['op1ratio', 'op1gain', 'op2ratio', 'op2gain', 'op2a', 'op3ratio', 'op3gain', 'op3a'],
     sampler: ['i', 'loop', 'loopsize', 'rate', 'begin', 'cutoff', 'res'],
-    granular: ['i', 'grainrate', 'grainsize', 'grainpan', 'begin', 'end', 'cutoff', 'res']
+    granular: ['i', 'grainrate', 'grainsize', 'grainpan', 'begin', 'end', 'cutoff', 'res'],
+    wavetable: ['i', 'tablesize', 'rows', 'xlfo', 'ylfo']
 }
 
 export const keys = writable(instrumentKeys.synth);
@@ -39,6 +40,11 @@ const instParams: Parameter[] = [
     // Needs exponential range
     {key: 'cutoff', name: 'cutoff', rangeA: 50, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 20000},
     {key: 'res', name: 'res', rangeA: 0, rangeB: 25, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 0.95},
+
+    {key: 'tablesize', name: 'size', rangeA: 256, rangeB: 256, min: 16, max: 1024, step: 1, units: ''},
+    {key: 'rows', name: 'rows', rangeA: 16, rangeB: 16, min: 2, max: 64, step: 1, units: ''},
+    {key: 'xlfo', name: 'xlfo', rangeA: 0.02, rangeB: 0.3, min: 0.01, max: 2, step: 0.01, units: ''},
+    // {key: 'ylfo', name: 'ylfo', rangeA: 0.2, rangeB: 0.03, min: 0.01, max: 2, step: 0.01, units: ''},
 ]
 
 const gParams: Parameter[] = [

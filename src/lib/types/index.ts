@@ -1,4 +1,4 @@
-export type InstrumentName = 'synth' | 'sampler' | 'granular';
+export type InstrumentName = 'synth' | 'sampler' | 'granular' | 'wavetable';
 
 type Dictionary = {[key: string]: any};
 

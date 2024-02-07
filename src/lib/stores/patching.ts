@@ -21,6 +21,7 @@ export const deactivateSockets = () => {
 export const connectSockets = (a: Socket, b: Socket) => {
     // Don't connect sockets of the same type
     if(a.type === b.type) return
+    
 
     // Disconnect origin sockets, which have a one to one connection
     [a,b].forEach(socket => {
