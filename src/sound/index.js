@@ -18,16 +18,19 @@ export async function startAudio() {
     window.removeEventListener('touchstart', startAudio)
 }
 
+// destination
 export const output = new Gain(1).toDestination();
 volume.subscribe((value) => {
     output.gain.value = value;
 });
 
+// chain of fx pre-desination
 const limiter = new Limiter(-10).connect(output);
 const fx = new CtFXChain()
 fx.connect(limiter)
 const crush = new BitCrusher({bits: 4, wet: 0}).connect(fx.input);
 
+// initialize instruments
 const synth = new CtSuperFM()
 synth.connect(crush)
 
@@ -46,11 +49,8 @@ wavetable.banks = {default: get(samples)}
 wavetable.bank('default')
 wavetable.connect(crush)
 
-samples.subscribe(s => {
-    sampler.banks = {default: s}
-    granular.banks = {default: s}
-    wavetable.banks = {default: s}
-})
+// load samples where applicable
+samples.subscribe(s => [sampler, granular, wavetable].forEach(inst => inst.banks = {default: s}))
 
 export const instruments = { synth, sampler, granular, wavetable }
 
