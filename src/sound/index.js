@@ -62,7 +62,6 @@ export const handleEvent = (params) => {
 }
 
 export const handleNoteOff = (inst, n) => {
-    console.log('note off', inst, n)
     !get(drone) && instruments[inst]?.release(n, immediate())
 }
 
