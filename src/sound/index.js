@@ -76,6 +76,7 @@ export const cut = () => {
     instruments.synth?.cut(immediate(), r);
     instruments.sampler?.cut(immediate(), r);
     instruments.granular?.cut(immediate(), r);
+    instruments.wavetable?.cut(immediate(), r);
 }
 
 export const handleMutation = (params) => {
