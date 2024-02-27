@@ -10,7 +10,7 @@ export const instrument: Writable<InstrumentName> = writable('synth');
 export const instruments: InstrumentName[] = ['synth', 'sampler', 'granular', 'wavetable']
 
 const instrumentKeys = {
-    synth: ['op2ratio', 'op2gain', 'op2a', 'op3ratio', 'op3gain', 'op3a'],
+    synth: ['op1fb','op2ratio', 'op2gain', 'op2fb', 'op3ratio', 'op3gain', 'op3fb'],
     sampler: ['i', 'loop', 'loopsize', 'rate', 'begin', 'cutoff', 'res'],
     granular: ['i', 'grainrate', 'grainsize', 'grainpan', 'begin', 'end', 'cutoff', 'res'],
     wavetable: ['i', 'tablesize', 'rows', 'xlfo', 'ylfo', 'cutoff', 'res']
@@ -19,11 +19,13 @@ const instrumentKeys = {
 export const keys = writable(instrumentKeys.synth);
 
 const instParams: Parameter[] = [
+    {key: 'op1fb', name: 'op1fb', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.01, units: '', outmin: 0, outmax: 1},
     {key: 'op2ratio', name: 'op2r', rangeA: 0.5, rangeB: 5, min: 0.5, max: 20, step: 0.5, units: ''},
     {key: 'op2gain', name: 'op2g', rangeA: 0, rangeB: 1, min: 0, max: 10, step: 0.01, units: ''},
+    {key: 'op2fb', name: 'op2fb', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.01, units: '', outmin: 0, outmax: 1},
     {key: 'op3ratio', name: 'op3r', rangeA: 0.5, rangeB: 11, min: 0.5, max: 20, step: 0.25, units: ''},
     {key: 'op3gain', name: 'op3g', rangeA: 0.25, rangeB: 1, min: 0, max: 1, step: 0.01, units: ''},
-    {key: 'op3a', name: 'op3env', rangeA: 10, rangeB: 1000, min: 5, max: 2000, step: 1, units: ''},
+    {key: 'op3fb', name: 'op3fb', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.01, units: '', outmin: 0, outmax: 1},
     
     {key: 'i', name: 'sample', rangeA: 0, rangeB: 0, min: 0, max: get(samples).length, step: 1, units: ''},
     {key: 'loop', name: 'loop', rangeA: 1, rangeB: 1, min: 0, max: 1, step: 1, units: ''},
