@@ -1,6 +1,7 @@
 <script>
     import { instrumentParameters, fxParameters, globalParameters, paramValues, randomise, keys } from '$lib/stores/parameters';
     import { axes } from '$lib/stores/qubit';
+    import { samples } from '$lib/stores/samples'
     import RangeSlider from '$lib/components/Sliders/RangeSlider.svelte';
     import Socket from '$lib/components/Patching/Socket.svelte';
     import Buttons from '$lib/components/Patching/Buttons.svelte';
@@ -14,16 +15,30 @@
         <h2>Instrument</h2>
     </button>
     {#each $instrumentParameters.filter(({key}) => $keys.includes(key)) 
-        as {name, min, max, step, units, key, rangeA, rangeB} (key)
+        as {type, name, min, max, step, units, key, rangeA, rangeB} (key)
     }
         <div class="parameter">
             <h3>{name}</h3>
-            <RangeSlider 
-                {min} {max} {step} {units} 
-                value={$paramValues[key]}
-                bind:rangeA={rangeA} 
-                bind:rangeB={rangeB} 
-            />
+            {#if type === 'range'}
+                <RangeSlider 
+                    {min} {max} {step} {units} 
+                    value={$paramValues[key]}
+                    bind:rangeA={rangeA} 
+                    bind:rangeB={rangeB} 
+                />
+            {/if}
+            {#if type === 'select'}
+                <select 
+                    bind:value={$paramValues[key]}
+                    on:change={(e) => {
+                        rangeA = rangeB = ++e.target.value
+                    }}
+                >
+                    {#each $samples as url,i (i)}
+                        <option value={i}>{url}</option>
+                    {/each}
+                </select>
+            {/if}
             {#if showSockets}
                 <Socket id={key} type="origin" align="right"/>
             {:else}

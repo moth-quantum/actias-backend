@@ -12,6 +12,7 @@ export interface Envelope extends Dictionary {
 }
 
 export interface Parameter {
+    type: string
     key: string;
     name: string;
     rangeA: number;
