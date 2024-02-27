@@ -1,4 +1,5 @@
 <script>
+    import Select from '$lib/components/Forms/Select.svelte';   
     import { instrumentParameters, fxParameters, globalParameters, paramValues, randomise, keys } from '$lib/stores/parameters';
     import { axes } from '$lib/stores/qubit';
     import { samples } from '$lib/stores/samples'
@@ -28,16 +29,11 @@
                 />
             {/if}
             {#if type === 'select'}
-                <select 
-                    value={$paramValues[key]}
-                    on:change={(e) => {
-                        rangeA = rangeB = (++e.target.value || 0);
-                    }}
-                >
-                    {#each $samples as url,i (i)}
-                        <option value={i}>{url}</option>
-                    {/each}
-                </select>
+                <Select 
+                    id={key} 
+                    options={$samples.map((url, i) => ({name: url, value: i, active: true}))} 
+                    onChange={e => rangeA = rangeB = (++e.target.value || 0)} 
+                />
             {/if}
             {#if showSockets}
                 <Socket id={key} type="origin" align="right"/>

@@ -1,6 +1,6 @@
 <script lang="ts">
     export let id: string;
-    export let options: {name: string, active: boolean}[];
+    export let options: {name: string, value?: string | number, active: boolean}[];
     export let onChange: (e: Event) => void;
 </script>
 
@@ -8,8 +8,11 @@
     id={id}
     on:change={onChange}
 >
-    {#each options as {name, active}}
-        <option disabled={!active}>{name}</option>
+    {#each options as {name, value, active}}
+        <option 
+            disabled={!active}
+            value={value || name}
+        >{name}</option>
     {/each}
 </select>
 
