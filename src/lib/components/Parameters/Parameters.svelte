@@ -29,9 +29,9 @@
             {/if}
             {#if type === 'select'}
                 <select 
-                    bind:value={$paramValues[key]}
+                    value={$paramValues[key]}
                     on:change={(e) => {
-                        rangeA = rangeB = ++e.target.value
+                        rangeA = rangeB = (++e.target.value || 0);
                     }}
                 >
                     {#each $samples as url,i (i)}
