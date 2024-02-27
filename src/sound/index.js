@@ -50,7 +50,12 @@ wavetable.bank('default')
 wavetable.connect(crush)
 
 // load samples where applicable
-samples.subscribe(s => [sampler, granular, wavetable].forEach(inst => inst.banks = {default: s}))
+samples.subscribe(s => [sampler, granular, wavetable]
+        .forEach(inst => {
+            // update default sample bank with list of urls
+            inst.banks = {default: s}
+        })
+    )
 
 export const instruments = { synth, sampler, granular, wavetable }
 
