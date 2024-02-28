@@ -1,11 +1,12 @@
 <script>
     import Select from '$lib/components/Forms/Select.svelte';   
-    import { instrumentParameters, fxParameters, globalParameters, paramValues, randomise, keys } from '$lib/stores/parameters';
+    import { instrument, instrumentParameters, fxParameters, globalParameters, paramValues, randomise, keys } from '$lib/stores/parameters';
     import { axes } from '$lib/stores/qubit';
     import { samples } from '$lib/stores/samples'
     import RangeSlider from '$lib/components/Sliders/RangeSlider.svelte';
     import Socket from '$lib/components/Patching/Socket.svelte';
     import Buttons from '$lib/components/Patching/Buttons.svelte';
+    import { loadSample } from '../../../sound';
     export let showSockets = true;
 
     let axesIds = $axes.map(({key}) => key);
@@ -25,7 +26,11 @@
                     <Select 
                         id={key} 
                         options={sampleOptions} 
-                        onChange={e => rangeA = rangeB = (++e.target.value || 0)} 
+                        onChange={e => {
+                            const i = +e.target.value;
+                            rangeA = rangeB = (i || 0)
+                            loadSample($instrument, i)
+                        }} 
                     />
                 </div>
             {/if}

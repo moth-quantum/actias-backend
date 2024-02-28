@@ -94,6 +94,10 @@ export const handleMutation = (params) => {
     crush.set({bits: mapToStepRange(params.crush, 0, 1, 16, 4, 1)})
 }
 
+export const loadSample = (inst, i) => {
+    instruments[inst].loadSample('default', i)
+}
+
 synthValues.subscribe(values => handleMutation(values))
 
 drone.subscribe(d => {
