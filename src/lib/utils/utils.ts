@@ -15,7 +15,7 @@ export function roundToFactor(n: number, factor: number = 1) {
     return Math.round(quotient) * factor;
 }
 
-export function clamp(n: number, min: number, max: number) {
+export function clamp(n: number, min: number = 0, max: number = 1) {
     return Math.min(Math.max(n, min), max);
 }
 

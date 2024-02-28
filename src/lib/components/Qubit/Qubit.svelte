@@ -5,6 +5,7 @@
     import { axes } from '$lib/stores/qubit';
     import { fullscreen } from '$lib/stores/global';
     import { onMount } from 'svelte';
+    import { clamp } from '../../utils/utils';
     
     let p5Instance: p5;
     let radius: number;
@@ -29,11 +30,26 @@
     })
 
     const sketch : Sketch = (p5: p5)=> {
-
+        function isWithinCanvas(x: number, y: number) {
+            return x > 0 && x < p5.height && y > 0 && y < p5.height
+        }
         p5.setup = () => {
             p5.createCanvas(height, height, p5.WEBGL)
             p5.smooth()
             p5.noLoop()
+        }
+
+        p5.mouseDragged = () => {
+            if(!isWithinCanvas(p5.mouseX, p5.mouseY)) return
+            
+            const phi = clamp(p5.mouseX/(p5.width * 0.95))
+            const theta = clamp(p5.mouseY/(p5.height * 0.95))
+            axes.update((a) => {
+                a[1].value = phi
+                a[2].value = theta
+                return a
+            })
+            return false
         }
 
         p5.draw = () => {
