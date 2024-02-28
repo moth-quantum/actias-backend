@@ -17,14 +17,14 @@
 </script>
 
 <div class={`instrument-buttons instrument-buttons--${orientation}`}>
-    {#each instruments as inst} 
+    {#each instruments as {name}}
         <Button 
-            onClick={() => instrument.set(inst)} 
-            active={$instrument === inst} 
-            disabled={$instrument !== inst}
+            onClick={() => instrument.set(name)} 
+            active={$instrument === name} 
+            disabled={$instrument !== name}
             colour="yellow" 
-            text={inst} 
-            icon={icons[inst]}
+            text={name} 
+            icon={icons[name]}
             classes={orientation === 'horizontal' ? 'mr-2' : 'mb-2'}
         />
     {/each}

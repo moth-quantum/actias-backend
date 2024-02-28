@@ -32,7 +32,7 @@ const actions: {[key: number]: (value: number) => void} = {
     1: (value: number) => axes.update(a => a.map(a => a.key === 'z' ? {...a, value} : a)),
     2: (value: number) => axes.update(a => a.map(a => a.key === 'y' ? {...a, value} : a)),
     3: (value: number) => axes.update(a => a.map(a => a.key === 'x' ? {...a, value} : a)),
-    4: (value: number) => instrument.set(instruments[Math.floor(value * instruments.length)]),
+    4: (value: number) => instrument.set(instruments[Math.floor(value * instruments.length)].name),
     5: (value: number) => activePreset.set(get(presetKeys)[Math.floor(value * get(presetKeys).length)]),
     6: (value: number) => volume.set(value),
     7: (value: number) => updateEnvelopeValue(0, 'a', value),
