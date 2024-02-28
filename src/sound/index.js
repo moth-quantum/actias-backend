@@ -95,7 +95,7 @@ export const handleMutation = (params) => {
 }
 
 export const loadSample = (i) => {
-    Object.values(instruments).map(inst => inst.loadSample('default', i))
+    Object.values(instruments).map(inst => inst.loadSample && inst.loadSample('default', i))
 }
 
 synthValues.subscribe(values => handleMutation(values))
