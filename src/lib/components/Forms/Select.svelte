@@ -26,5 +26,6 @@ select {
     border-radius: 5px;
     height: 100%;
     text-transform: uppercase;
+    letter-spacing: 0.0625rem;
 }
 </style>

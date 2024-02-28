@@ -81,6 +81,7 @@
             text-align: center;
             width: 5rem;
             padding: 0;
+            letter-spacing: 0.0625rem;
 
             &--inactive {
                 color: var(--color-grey-light);

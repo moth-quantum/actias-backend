@@ -35,6 +35,7 @@
         border-radius: 5px;
         font-weight: 500;
         height: 100%;
+        letter-spacing: 0.0625rem;
 
         &:last-child {
             margin-right: 0;

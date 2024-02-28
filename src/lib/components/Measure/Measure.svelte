@@ -160,10 +160,12 @@
     .button {
         width: 30%;
         margin-left: 0.5rem;
+        
 
         &__text {
             display: block;
             padding: 1rem;
+            letter-spacing: 0.0625rem;
         }
 
         @media (min-width: 1200px) {

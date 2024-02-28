@@ -9,6 +9,7 @@
     export let showSockets = true;
 
     let axesIds = $axes.map(({key}) => key);
+    let sampleOptions = $samples.map((url, i) => ({name: url.split('/').pop() || '', value: i, active: true}));
 </script>
 
 <div class="group">
@@ -19,26 +20,29 @@
         as {type, name, min, max, step, units, key, rangeA, rangeB} (key)
     }
         <div class="parameter">
-            <h3>{name}</h3>
+            {#if type === 'select'}
+                <div class="samples">
+                    <Select 
+                        id={key} 
+                        options={sampleOptions} 
+                        onChange={e => rangeA = rangeB = (++e.target.value || 0)} 
+                    />
+                </div>
+            {/if}
             {#if type === 'range'}
+                <h3>{name}</h3>
+
                 <RangeSlider 
                     {min} {max} {step} {units} 
                     value={$paramValues[key]}
                     bind:rangeA={rangeA} 
                     bind:rangeB={rangeB} 
                 />
-            {/if}
-            {#if type === 'select'}
-                <Select 
-                    id={key} 
-                    options={$samples.map((url, i) => ({name: url, value: i, active: true}))} 
-                    onChange={e => rangeA = rangeB = (++e.target.value || 0)} 
-                />
-            {/if}
-            {#if showSockets}
-                <Socket id={key} type="origin" align="right"/>
-            {:else}
-                <Buttons id={key} options={axesIds}/>
+                {#if showSockets}
+                    <Socket id={key} type="origin" align="right"/>
+                {:else}
+                    <Buttons id={key} options={axesIds}/>
+                {/if}
             {/if}
         </div>
     {/each}
@@ -90,6 +94,10 @@
 </div>
 
 <style lang="scss">
+    .samples { 
+        grid-column: 1 / 3;
+        margin-bottom: 0.5rem;
+    }
     .parameter {
         display: grid;
         grid-template-columns: 2fr 7fr 3fr;
