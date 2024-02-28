@@ -41,10 +41,18 @@
 
         p5.mouseDragged = () => {
             if(!isWithinCanvas(p5.mouseX, p5.mouseY)) return
+
+            const setPhase = p5.keyIsPressed && p5.key === 'Shift'
             
+            const phase = clamp(p5.mouseX/(p5.width * 0.95))
             const phi = clamp(p5.mouseX/(p5.width * 0.95))
             const theta = clamp(p5.mouseY/(p5.height * 0.95))
+
             axes.update((a) => {
+                if(setPhase) {
+                    a[0].value = phase
+                    return a
+                }
                 a[1].value = phi
                 a[2].value = theta
                 return a
