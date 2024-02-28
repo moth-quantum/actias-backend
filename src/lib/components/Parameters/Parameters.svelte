@@ -1,6 +1,6 @@
 <script>
     import Select from '$lib/components/Forms/Select.svelte';   
-    import { instrument, instrumentParameters, fxParameters, globalParameters, paramValues, randomise, keys } from '$lib/stores/parameters';
+    import { instrumentParameters, fxParameters, globalParameters, paramValues, randomise, keys } from '$lib/stores/parameters';
     import { axes } from '$lib/stores/qubit';
     import { samples } from '$lib/stores/samples'
     import RangeSlider from '$lib/components/Sliders/RangeSlider.svelte';
@@ -27,9 +27,9 @@
                         id={key} 
                         options={sampleOptions} 
                         onChange={e => {
-                            const i = +e.target.value;
+                            const i = +e.target?.value;
                             rangeA = rangeB = (i || 0)
-                            loadSample($instrument, i)
+                            loadSample(i)
                         }} 
                     />
                 </div>

@@ -118,12 +118,13 @@ initConnections()
 instrument.subscribe((instrument) => {
     // update available keys
     keys.set(instrumentKeys[instrument]);
-    
-    const i = instruments.findIndex((i) => i.name === instrument)
-    if(i < 0 || instruments[i].active) return
-    // if instrument has not been used yet, set its patching cables
     initConnections()
-    instruments[i].active = true;
+    
+    // const i = instruments.findIndex((i) => i.name === instrument)
+    // if(i < 0 || instruments[i].active) return
+    // // if instrument has not been used yet, set its patching cables
+    // initConnections()
+    // instruments[i].active = true;
 });
 
 function scaleParamValue(key: string, value: number) {
