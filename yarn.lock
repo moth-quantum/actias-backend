@@ -265,10 +265,10 @@
     replace-in-file "^6.3.5"
     tiny-glob "^0.2.9"
 
-"@rnbo/js@^1.2.4":
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/@rnbo/js/-/js-1.2.4.tgz#595c0ebd869da5adbc23bb5bc57d213ba5b8592d"
-  integrity sha512-NYz7rLU9tgQwXK5kjusaVgO4WI9zL+4QTBwuodQ8O0v49KYXE7D9nUdb5oJedabrCb+RbZ/PrETr4k8WHClwXw==
+"@rnbo/js@^1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@rnbo/js/-/js-1.2.5.tgz#71ccd62ef5594951b7d606fbe79944c21ae80465"
+  integrity sha512-0dI9MTSlhoKz46fRZIzwWsajBTvpW4pb3X5W/8UOraWHmhO3mIAxFco7DY4g1ZqiIrzQ0a/4xNjV6qcAlGv22Q==
 
 "@serialport/binding-mock@10.2.2":
   version "10.2.2"
