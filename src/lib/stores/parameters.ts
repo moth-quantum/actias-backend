@@ -11,14 +11,14 @@ export const instruments: {name: InstrumentName, active: boolean}[] = [
     {name: 'synth', active: true},
     {name: 'sampler', active: false},
     {name: 'granular', active: false},
-    // {name: 'wavetable', active: false},
+    {name: 'wavetable', active: false},
 ]
 
 const instrumentKeys = {
     synth: ['op1fb','op2ratio', 'op2gain', 'op2fb', 'op3ratio', 'op3gain', 'op3fb'],
     sampler: ['i', 'loop', 'loopsize', 'rate', 'begin', 'cutoff', 'res'],
     granular: ['i', 'grainrate', 'grainsize', 'grainpan', 'begin', 'end', 'cutoff', 'res'],
-    // wavetable: ['i', 'tablesize', 'rows', 'xlfo', 'ylfo', 'cutoff', 'res']
+    wavetable: ['i', 'tablesize', 'rows', 'xlfo', 'ylfo', 'cutoff', 'res']
 }
 
 export const keys = writable(instrumentKeys.synth);
