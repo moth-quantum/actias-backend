@@ -7,13 +7,18 @@ import { mapToStepRange, roundToFactor } from '$lib/utils/utils';
 import type { InstrumentName, Parameter } from '$lib/types';
 
 export const instrument: Writable<InstrumentName> = writable('synth');
-export const instruments: InstrumentName[] = ['synth', 'sampler', 'granular', 'wavetable']
+export const instruments: InstrumentName[] = [
+    'synth', 
+    'sampler', 
+    'granular', 
+    // 'wavetable'
+]
 
 const instrumentKeys = {
     synth: ['op1fb','op2ratio', 'op2gain', 'op2fb', 'op3ratio', 'op3gain', 'op3fb'],
     sampler: ['i', 'loop', 'loopsize', 'rate', 'begin', 'cutoff', 'res'],
     granular: ['i', 'grainrate', 'grainsize', 'grainpan', 'begin', 'end', 'cutoff', 'res'],
-    wavetable: ['i', 'tablesize', 'rows', 'xlfo', 'ylfo', 'cutoff', 'res']
+    // wavetable: ['i', 'tablesize', 'rows', 'xlfo', 'ylfo', 'cutoff', 'res']
 }
 
 export const keys = writable(instrumentKeys.synth);
