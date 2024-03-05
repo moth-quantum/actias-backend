@@ -2,6 +2,7 @@ import { writable, derived, get } from 'svelte/store';
 import { instrument, allParameters } from '$lib/stores/parameters';
 import { envelopes } from '$lib/stores/envelopes';
 import { connections } from '$lib/stores/patching';
+import { isApp } from '$lib/stores/global';
 import type { Envelope, Preset } from '$lib/types';
 
 export const presets = writable({} as {[key: string]: Preset | null})
@@ -22,7 +23,11 @@ function initPresets() {
 }
 
 initPresets();
-presets.subscribe(presets => localStorage.setItem('q1synth-presets', JSON.stringify(presets)))
+
+presets.subscribe(presets => {
+    localStorage.setItem('q1synth-presets', JSON.stringify(presets))
+    isApp() && window.electronAPI.setUserPresets(presets)
+})
 
 export const presetKeys = derived(
     presets,

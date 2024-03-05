@@ -1,6 +1,5 @@
 <script>
     import { onMount } from 'svelte';
-    import { writable, readable, get } from 'svelte/store';
     import { startAudio, output } from '../sound';
     import { axes } from '$lib/stores/qubit';
     import { fullscreen as fs, isApp } from '$lib/stores/global';
@@ -79,7 +78,7 @@
         />
     </div>
 
-    {#if !get(isApp)}
+    {#if isApp()}
         <Presets />
     {/if}
 </section>

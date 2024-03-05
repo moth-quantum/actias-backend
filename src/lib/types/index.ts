@@ -44,3 +44,13 @@ export interface Preset {
     params: Parameter[];
     envelopes: Envelope[];
 };
+
+// Electron types
+declare global {
+    interface Window {
+        isApp: boolean;
+        electronAPI: {
+            setUserPresets(data: {[key: string]: Preset}): void;
+        };
+    }
+}

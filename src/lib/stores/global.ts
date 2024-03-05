@@ -6,6 +6,6 @@ export const mute = writable(false);
 
 export const fullscreen = writable(false);
 
-// @ts-ignore
-export const isApp = readable(!!window.isApp); // used for conditional functionality between web and app
-console.log(get(isApp))
+export function isApp() {
+    return !!window.isApp;
+}
