@@ -41,8 +41,6 @@ activePreset.subscribe(loadPreset)
 function loadPreset(key: string) {
     const preset = get(presets)[key]
     if(!preset) return;
-
-    console.log(preset, get(presets))
     
     // update envelope values
     envelopes.update((envelopes: Envelope[]) => {
