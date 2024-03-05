@@ -78,9 +78,9 @@
         />
     </div>
 
-    {#if isApp()}
+    <!-- {#if !isApp()} -->
         <Presets />
-    {/if}
+    <!-- {/if} -->
 </section>
 
 <section class={`container synth ${ $fs ? 'synth--fullscreen' : ''}`}>

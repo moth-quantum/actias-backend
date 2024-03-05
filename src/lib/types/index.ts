@@ -50,7 +50,8 @@ declare global {
     interface Window {
         isApp: boolean;
         electronAPI: {
-            setUserPresets(data: {[key: string]: Preset}): void;
+            setUserPresets(data: {[key: string]: Preset | null}): void;
+            onSetPreset(callback: (key: string) => void): void;
         };
     }
 }

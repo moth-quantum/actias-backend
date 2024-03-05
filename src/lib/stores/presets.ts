@@ -1,5 +1,5 @@
 import { writable, derived, get } from 'svelte/store';
-import { instrument, allParameters } from '$lib/stores/parameters';
+import { instrument, instrumentParameters, globalParameters, fxParameters, allParameters } from '$lib/stores/parameters';
 import { envelopes } from '$lib/stores/envelopes';
 import { connections } from '$lib/stores/patching';
 import { isApp } from '$lib/stores/global';
@@ -29,6 +29,8 @@ presets.subscribe(presets => {
     isApp() && window.electronAPI.setUserPresets(presets)
 })
 
+isApp() && window.electronAPI.onSetPreset((key: string) => activePreset.set(key))
+
 export const presetKeys = derived(
     presets,
     $presets => Object.keys($presets).sort((a, b) => a.localeCompare(b))
@@ -39,6 +41,8 @@ activePreset.subscribe(loadPreset)
 function loadPreset(key: string) {
     const preset = get(presets)[key]
     if(!preset) return;
+
+    console.log(preset, get(presets))
     
     // update envelope values
     envelopes.update((envelopes: Envelope[]) => {
@@ -54,14 +58,19 @@ function loadPreset(key: string) {
     // update connections
     connections.set(preset.connections);
 
-    // update params
-    preset.params.forEach(({key, rangeA, rangeB} : {key: string, rangeA: number, rangeB: number}) => {
-        const param = get(allParameters).find((param) => param.key === key);
-        if(!param) return
+    [instrumentParameters, globalParameters, fxParameters]
+        .forEach((store) => store.update((params) => {
+            return params.map((param) => {
+                const presetParam = preset.params.find((p) => p.key === param.key);
+                if(!presetParam) return param;
 
-        param.rangeA = rangeA;
-        param.rangeB = rangeB;
-    })
+                return {
+                    ...param,
+                    rangeA: presetParam.rangeA,
+                    rangeB: presetParam.rangeB
+                }
+            })
+        }))
 }
 
 export function savePreset(key: string) {

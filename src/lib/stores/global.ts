@@ -1,4 +1,4 @@
-import { writable, readable, get } from 'svelte/store';
+import { writable } from 'svelte/store';
 
 export const volume = writable(0.5);
 
