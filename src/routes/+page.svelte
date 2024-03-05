@@ -1,8 +1,9 @@
 <script>
     import { onMount } from 'svelte';
+    import { writable, readable, get } from 'svelte/store';
     import { startAudio, output } from '../sound';
     import { axes } from '$lib/stores/qubit';
-    import { fullscreen as fs } from '$lib/stores/global';
+    import { fullscreen as fs, isApp } from '$lib/stores/global';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
     import Presets from '$lib/components/Presets/Presets.svelte';
     import Parameters from '$lib/components/Parameters/Parameters.svelte';
@@ -16,8 +17,6 @@
     import InstrumentButtons from '$lib/components/InstrumentButtons/index.svelte';
     import Fullscreen from '$lib/components/Fullscreen/Fullscreen.svelte';
     import Toasts from '$lib/components/Toasts/Toasts.svelte';
-    // import { connectOsc } from '../osc/socket';
-    // import Config from '../config';
 
     import { Drawer } from 'flowbite-svelte';
     import { sineIn } from 'svelte/easing';
@@ -32,10 +31,7 @@
         easing: sineIn
     };
 
-    onMount(() => {
-        // Config.ENSEMBLE_MODE && connectOsc();
-        isDesktop = window.innerWidth > 1200;
-    });
+    onMount(() => isDesktop = window.innerWidth > 1200);
 
 </script>
 
@@ -83,7 +79,9 @@
         />
     </div>
 
-    <Presets />
+    {#if !get(isApp)}
+        <Presets />
+    {/if}
 </section>
 
 <section class={`container synth ${ $fs ? 'synth--fullscreen' : ''}`}>
