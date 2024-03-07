@@ -10,7 +10,7 @@
     library.add(faChevronLeft, faChevronRight, faFloppyDisk);
 
     let current = $active
-    export let save: HTMLDialogElement;
+    let save: HTMLDialogElement;
 
     const onNext = () => {
         const i = $presetKeys.indexOf($active)
@@ -26,6 +26,7 @@
     }
 
     const handleNameChange = (e: Event) => {
+        // @ts-ignore
         const name = e.target?.value
         if(!name) return
 

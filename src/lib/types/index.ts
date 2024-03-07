@@ -50,12 +50,13 @@ declare global {
     interface Window {
         isApp: boolean;
         electronAPI: {
-            syncUserPresets(data: {[key: string]: Preset | null}): void;
             onSetPreset(callback: (key: string) => void): void;
             onSavePreset(callback: () => void): void;
+            onImportPreset(callback: (data: any) => void): void;
+            onUpdateSamples(callback: (samples: string[]) => void): void;
             onExportPreset(callback: () => void): void;
             exportPresetResponse(data: any): void;
-            onImportPreset(callback: (data: any) => void): void;
+            syncUserPresets(data: {[key: string]: Preset | null}): void;
         };
     }
 }

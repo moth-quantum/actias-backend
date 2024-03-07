@@ -1,4 +1,5 @@
 import { activePreset, presets } from '$lib/stores/presets';
+import { updateSamples } from '$lib/stores/samples';
 import { getAppState } from '$lib/stores/parameters';
 
 const showSavePresetDialog = new CustomEvent('showSavePresetDialog');
@@ -15,4 +16,5 @@ export default function initElectronAPI() {
         // TODO: import preset
         console.log(data)
     })
+    window.electronAPI.onUpdateSamples(updateSamples)
 }

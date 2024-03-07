@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { envelopes } from '$lib/stores/envelopes';
     import { volume } from '$lib/stores/global';
     import { drone } from '$lib/stores/parameters';

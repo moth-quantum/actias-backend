@@ -6,6 +6,7 @@
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
     import Presets from '$lib/components/Presets/Presets.svelte';
     import Parameters from '$lib/components/Parameters/Parameters.svelte';
+    // @ts-ignore
     import Controls from '$lib/components/Controls/Controls.svelte';
     import Button from '$lib/components/Button/Button.svelte';
     import Measure from '$lib/components/Measure/Measure.svelte';
@@ -78,9 +79,9 @@
         />
     </div>
 
-    <!-- {#if !isApp()} -->
+    {#if !isApp()}
         <Presets />
-    <!-- {/if} -->
+    {/if}
 </section>
 
 <section class={`container synth ${ $fs ? 'synth--fullscreen' : ''}`}>

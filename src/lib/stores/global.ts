@@ -7,7 +7,7 @@ export const mute = writable(false);
 
 export const fullscreen = writable(false);
 
-export function isApp() {
+export const isApp: () => boolean = () => {
     return !!window.isApp;
 }
 

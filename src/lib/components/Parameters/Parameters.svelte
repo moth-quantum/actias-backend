@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import Select from '$lib/components/Forms/Select.svelte';   
     import { instrumentParameters, fxParameters, globalParameters, paramValues, randomise, keys } from '$lib/stores/parameters';
     import { axes } from '$lib/stores/qubit';
@@ -7,10 +7,17 @@
     import Socket from '$lib/components/Patching/Socket.svelte';
     import Buttons from '$lib/components/Patching/Buttons.svelte';
     import { loadSample } from '../../../sound';
+    import { onMount } from 'svelte';
     export let showSockets = true;
 
     let axesIds = $axes.map(({key}) => key);
-    let sampleOptions = $samples.map((url, i) => ({name: url.split('/').pop() || '', value: i, active: true}));
+    let sampleOptions: {name: string, value: number, active: boolean}[] = [];
+
+    onMount(() => {
+        samples.subscribe(urls => {
+            sampleOptions = urls.map((url, i) => ({name: url.split('/').pop() || '', value: i, active: true}));
+        })
+    })
 </script>
 
 <div class="group">
@@ -27,6 +34,7 @@
                         id={key} 
                         options={sampleOptions} 
                         onChange={e => {
+                            // @ts-ignore
                             const i = +e.target?.value;
                             rangeA = rangeB = (i || 0)
                             loadSample(i)
