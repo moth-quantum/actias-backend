@@ -53,6 +53,9 @@ declare global {
             syncUserPresets(data: {[key: string]: Preset | null}): void;
             onSetPreset(callback: (key: string) => void): void;
             onSavePreset(callback: () => void): void;
+            onExportPreset(callback: () => void): void;
+            exportPresetResponse(data: any): void;
+            onImportPreset(callback: (data: any) => void): void;
         };
     }
 }

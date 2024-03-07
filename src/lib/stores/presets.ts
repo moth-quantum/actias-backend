@@ -25,10 +25,7 @@ initPresets();
 
 presets.subscribe(presets => {
     localStorage.setItem('q1synth-presets', JSON.stringify(presets))
-    // isApp() && window.electronAPI.setUserPresets(presets)
 })
-
-// isApp() && window.electronAPI.onSetPreset((key: string) => activePreset.set(key))
 
 export const presetKeys = derived(
     presets,

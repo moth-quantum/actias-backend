@@ -180,3 +180,16 @@ export function randomise(type: 'inst' | 'global' | 'fx') {
 }
 
 export const drone = writable(false);
+
+export const getAppState = () => {
+    return {
+        instrument: get(instrument),
+        instrumentParameters: get(instrumentParameters),
+        globalParameters: get(globalParameters),
+        fxParameters: get(fxParameters),
+        axes: get(axes),
+        connections: get(connections),
+        drone: get(drone),
+        envelopeValues: get(envelopeValues),
+    }
+}
