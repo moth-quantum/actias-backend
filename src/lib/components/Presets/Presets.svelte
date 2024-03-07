@@ -5,7 +5,8 @@
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faChevronLeft, faChevronRight, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
-    import { onMount } from 'svelte';
+    import { onMount, onDestroy } from 'svelte';
+    
     library.add(faChevronLeft, faChevronRight, faFloppyDisk);
 
     let current = $active
@@ -37,8 +38,11 @@
         })
     }
 
-    onMount(() => save?.showModal())
-
+    const onShowDialog = () => save?.showModal()
+        
+    onMount(() => document.addEventListener('showSavePresetDialog', onShowDialog));
+    onDestroy(() => document.removeEventListener('customEvent', onShowDialog));
+    
 </script>
 
 <div class="presets">
@@ -60,7 +64,9 @@
 </div>
 
 <Dialog bind:dialog={save} on:close={() => save.close()}>
-    <Save on:save={() => save.close()} />
+    <Save 
+        on:save={() => save.close()} 
+    />
 </Dialog>
 
 <style lang="scss">
