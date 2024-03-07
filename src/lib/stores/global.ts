@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import initElectronAPI from '$lib/electronAPI';
 
 export const volume = writable(0.5);
 
@@ -9,3 +10,5 @@ export const fullscreen = writable(false);
 export function isApp() {
     return !!window.isApp;
 }
+
+isApp() && initElectronAPI();
