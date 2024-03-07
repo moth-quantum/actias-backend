@@ -1,11 +1,15 @@
 <script lang="ts">
+    import Dialog from '$lib/components/Dialog/Dialog.svelte';
+    import Save from '$lib/components/Dialog/Save.svelte';
     import { presetKeys, presets, savePreset, activePreset as active } from '$lib/stores/presets';
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faChevronLeft, faChevronRight, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
+    import { onMount } from 'svelte';
     library.add(faChevronLeft, faChevronRight, faFloppyDisk);
 
     let current = $active
+    export let save: HTMLDialogElement;
 
     const onNext = () => {
         const i = $presetKeys.indexOf($active)
@@ -33,6 +37,8 @@
         })
     }
 
+    onMount(() => save?.showModal())
+
 </script>
 
 <div class="presets">
@@ -51,8 +57,11 @@
     <button class="presets__chevron" on:click={onNext}>
         <FontAwesomeIcon icon={faChevronRight} />
     </button>
-
 </div>
+
+<Dialog bind:dialog={save} on:close={() => save.close()}>
+    <Save on:save={() => save.close()} />
+</Dialog>
 
 <style lang="scss">
     .presets {

@@ -2,7 +2,6 @@ import { writable, derived, get } from 'svelte/store';
 import { instrument, instrumentParameters, globalParameters, fxParameters, allParameters } from '$lib/stores/parameters';
 import { envelopes } from '$lib/stores/envelopes';
 import { connections } from '$lib/stores/patching';
-import { isApp } from '$lib/stores/global';
 import type { Envelope, Preset } from '$lib/types';
 
 export const presets = writable({} as {[key: string]: Preset | null})
@@ -83,4 +82,5 @@ export function savePreset(key: string) {
     localStorage.setItem('q1synth-presets', JSON.stringify(stored));
 
     presets.update(presets => ({...presets, ...stored}))
+    activePreset.set(key)
 }
