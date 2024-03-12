@@ -3,13 +3,20 @@
     import Header from "./Header.svelte";
     import "./styles.css";
     import "./fonts.css";
+    import { isApp } from "$lib/stores/global";
+    import SideMenu from '$lib/components/SideMenu/SideMenu.svelte';
 </script>
 
 <div class="app">
     <Header />
-
-    <main class="w-full container">
-        <slot />
+    
+    <main class="main container">
+        {#if isApp()}
+            <SideMenu />
+        {/if}
+        <div class="main__content">
+            <slot />
+        </div>
     </main>
 
     <footer class="footer container">
@@ -30,13 +37,17 @@
         min-height: 100vh;
     }
 
-    main {
-        flex: 1;
+    .main {
         display: flex;
-        flex-direction: column;
         margin: 0 auto;
-        box-sizing: border-box;
-        background-color: var(--color-grey-mid);
+
+        &__content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            background-color: var(--color-grey-mid);
+        }
     }
 
     footer {
@@ -50,7 +61,7 @@
             padding: 1rem 2rem;
         }
 
-        @media (min-width: 1600px) {
+        @media (min-width: calc(var(--max-width))) {
             padding: 1rem 0;
         }
 

@@ -1,9 +1,10 @@
 <script>
     import logo from '$lib/images/q1synth-icon.svg';
+    import { isApp } from '$lib/stores/global';
 </script>
 
 <header>
-    <nav class="container">
+    <nav class="container nav {isApp() ? 'nav--app' : ''}">
         <a href="/">
             <img
                 src={logo}
@@ -25,9 +26,11 @@
 		display: flex;
 		justify-content: center;
         background-color: var(--color-grey-darkest);
+        box-shadow: 0 0 0.5rem black;
+        z-index: 1;
 	}
 
-    nav {
+    .nav {
         display: flex;
         justify-content: space-between;
         padding: 1rem;
@@ -36,11 +39,13 @@
             padding: 1rem 2rem;
         }
 
-        $var: calc(1600px - 4rem);
-
-        @media (min-width: 1664px) {
+        @media (min-width: calc(var(--max-width))) {
             padding-left: 0rem;
             padding-right: 0rem;
+        }
+
+        &--app {
+            padding-left: 122px;
         }
     }
 

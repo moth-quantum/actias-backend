@@ -8,12 +8,13 @@
     export let active: boolean = true;
     export let disabled: boolean = false;
     export let colour: string;
+    export let orientation: string = 'horizontal';
     export let onClick: () => void;
 </script>
 
 <button
     class:active={active}
-    class={`btn btn--${colour} ${disabled ? 'btn--disabled' : ''} ${classes}`}
+    class={`btn btn--${colour} ${disabled ? 'btn--disabled' : ''} ${orientation === 'vertical' ? 'btn--vertical' : ''} ${classes}`}
     on:click={onClick}
 >
     {#if icon}
@@ -22,7 +23,7 @@
         </span>
     {/if}
     {#if text}
-        <span class="ml-2">{text}</span>
+        <span class="btn__text">{text}</span>
     {/if}
 </button>
 
@@ -46,6 +47,27 @@
         }
     }
 
+    .btn__text {
+        margin-left: 0.5rem;
+    }
+
+    .btn--vertical {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: auto;
+        padding: 0 1rem;
+
+        & .btn__icon {
+            font-size: 1.5rem;
+        }
+
+        & .btn__text {
+            margin-left: 0;
+            max-width: 5rem;
+        }
+    }
+
     .btn--primary {
         background-color: var(--color-theme-1);
     }
@@ -60,6 +82,11 @@
 
     .btn--yellow {
         background-color: var(--color-yellow);
+    }
+
+    .btn--dark {
+        background-color: var(--color-grey-darkest);
+        color: var(--color-yellow);
     }
 
     .btn--disabled {

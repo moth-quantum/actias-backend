@@ -158,6 +158,7 @@
         box-shadow: 0 0.5rem 0.5rem 0.25rem var(--color-box-shadow);
         display: flex;
         justify-content: space-between;
+        z-index: 20;
         
         @media (min-width: 1200px) {
             padding: 1rem 2rem;
