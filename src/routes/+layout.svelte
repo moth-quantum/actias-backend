@@ -11,7 +11,8 @@
     <Header />
     
     <main class="main container">
-        {#if isApp()}
+        <!-- {#if isApp()} -->
+        {#if true}
             <SideMenu />
         {/if}
         <div class="main__content">

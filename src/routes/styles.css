@@ -149,6 +149,16 @@ button:focus:not(:focus-visible) {
     background-color: var(--color-grey-mid);
 }
 
+#side-menu {
+    background-color: var(--color-grey-darkest);
+	width: 500px;
+	padding: 2rem 1rem;
+}
+
+*[role=presentation] {
+	background-color: transparent;
+}
+
 .toasts > div {
     background-color: var(--color-yellow);
     color: var(--color-grey-dark);

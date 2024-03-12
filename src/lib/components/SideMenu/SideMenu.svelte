@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { Drawer } from 'flowbite-svelte';
+    import { sineIn } from 'svelte/easing';
     import Button from '$lib/components/Button/Button.svelte';
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faGlobe, faUser, faHeadphones, faCircleQuestion, faGear } from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +13,13 @@
         { text: 'Control panel', icon: faGear, onClick: () => (console.log('hello'))},
         { text: 'Tooltips', icon: faCircleQuestion, onClick: () => (console.log('hello'))}
     ];
+
+    let sidebarIsHidden = false; 
+    let transitionParams = {
+        x: -320,
+        duration: 200,
+        easing: sineIn
+    };
 </script>
 
 <aside>
@@ -25,6 +34,16 @@
     {/each}
 </aside>
 
+<Drawer 
+    transitionType="fly" {transitionParams} 
+    bind:hidden={sidebarIsHidden} 
+    id="side-menu"
+>
+    <div class="sidebar">
+        <h1>hello</h1>
+    </div>
+</Drawer>
+
 <style>
     aside {
         background-color: var(--color-grey-darkest);
@@ -38,5 +57,9 @@
             /* max-height: 5rem; */
             margin-bottom: 2rem;
         }
+    }
+
+    .sidebar {
+        background-color: blue;
     }
 </style>
