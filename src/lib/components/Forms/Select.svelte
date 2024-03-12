@@ -20,12 +20,13 @@
 
 select {
     font-size: var(--text-sm);
-    color: var(--color-grey-mid);
+    color: white;
     padding: 0.125rem 0.75rem;
     width: 100%;
     border-radius: 5px;
     height: 100%;
-    text-transform: uppercase;
     letter-spacing: 0.0625rem;
+    border: 1px solid white;
+    background-color: transparent;
 }
 </style>

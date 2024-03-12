@@ -3,13 +3,12 @@
     import Profile from './PanelProfile.svelte';
     import Connect from './PanelConnect.svelte';
     import Qubits from './PanelQubits.svelte';
-    import Routing from './PanelRouting.svelte';
     import Midi from './PanelMidi.svelte';
     import { isApp } from '$lib/stores/global';
 
     import { library } from '@fortawesome/fontawesome-svg-core';
-    import { faGlobe, faUser, faUsers, faCircle, faHeadphones, faCircleQuestion, faGear, faPlay } from '@fortawesome/free-solid-svg-icons';
-    library.add(faGlobe, faUser, faUsers, faCircle, faHeadphones, faCircleQuestion, faGear, faPlay);
+    import { faGlobe, faUser, faUsers, faCircle, faCircleQuestion, faGear, faPlay } from '@fortawesome/free-solid-svg-icons';
+    library.add(faGlobe, faUser, faUsers, faCircle, faCircleQuestion, faGear, faPlay);
 
     let showMenuPanel = false; 
     let activePanel: string | null = null;
@@ -28,7 +27,6 @@
         { text: 'Profile', icon: faUser, show: isApp(), onClick: () => showPanel('profile')},
         { text: 'Assign Qubits', icon: faGlobe, show: isApp(), onClick: () => showPanel('qubits')},
         { text: 'Connect', icon: faUsers, show: isApp(), onClick: () => showPanel('connect')},
-        { text: 'Audio', icon: faHeadphones, show: true, onClick: () => showPanel('routing')},
         { text: 'MIDI', icon: faCircle, show: true, onClick: () => showPanel('midi')},
         { text: 'Control', icon: faGear, show: true, onClick: () => {
             showMenuPanel = false
@@ -71,9 +69,6 @@
 
             {#if activePanel === 'qubits'}
                 <Qubits />
-            {/if}
-            {#if activePanel === 'routing'}
-                <Routing />
             {/if}
             {#if activePanel === 'midi'}
                 <Midi />

@@ -171,7 +171,7 @@
         button {
             grid-column: 1 / 3;
             grid-row: 4 / 6;
-            background-color: #939393;
+            background-color: var(--color-grey-light);
             font-size: var(--text-base);
             color: var(--color-yellow);
             text-transform: uppercase;

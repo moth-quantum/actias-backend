@@ -55,7 +55,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        height: auto;
+        justify-content: center;
         padding: 0 1rem;
 
         & .btn__icon {
@@ -87,6 +87,11 @@
 
     .btn--dark {
         background-color: var(--color-grey-darkest);
+        color: var(--color-yellow);
+    }
+
+    .btn--grey {
+        background-color: var(--color-grey-mid);
         color: var(--color-yellow);
     }
 
