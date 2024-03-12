@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { id, username, location } from '$lib/stores/user'
-    import Input from '$lib/components/Forms/Input.svelte'
+    
 </script>
 
 <section>

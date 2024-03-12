@@ -2,10 +2,13 @@
     import Button from '$lib/components/Button/Button.svelte';
     import Profile from './PanelProfile.svelte';
     import Connect from './PanelConnect.svelte';
+    import Qubits from './PanelQubits.svelte';
+    import Routing from './PanelRouting.svelte';
+    import Midi from './PanelMidi.svelte';
 
     import { library } from '@fortawesome/fontawesome-svg-core';
-    import { faGlobe, faUser, faUsers, faHeadphones, faCircleQuestion, faGear } from '@fortawesome/free-solid-svg-icons';
-    library.add(faGlobe, faUser, faUsers, faHeadphones, faCircleQuestion, faGear);
+    import { faGlobe, faUser, faUsers, faCircle, faHeadphones, faCircleQuestion, faGear } from '@fortawesome/free-solid-svg-icons';
+    library.add(faGlobe, faUser, faUsers, faCircle, faHeadphones, faCircleQuestion, faGear);
 
     let showMenuPanel = false; 
     let activePanel: string | null = null;
@@ -24,8 +27,9 @@
         { text: 'Profile', icon: faUser, onClick: () => showPanel('profile')},
         { text: 'Assign Qubits', icon: faGlobe, onClick: () => showPanel('qubits')},
         { text: 'Connect', icon: faUsers, onClick: () => showPanel('connect')},
-        { text: 'Audio Routing', icon: faHeadphones, onClick: () => showPanel('routing')},
-        { text: 'Control panel', icon: faGear, onClick: () => {
+        { text: 'Audio', icon: faHeadphones, onClick: () => showPanel('routing')},
+        { text: 'MIDI', icon: faCircle, onClick: () => showPanel('midi')},
+        { text: 'Control', icon: faGear, onClick: () => {
             showMenuPanel = false
         }},
         { text: 'Tooltips', icon: faCircleQuestion, onClick: () => {
@@ -60,10 +64,13 @@
             {/if}
 
             {#if activePanel === 'qubits'}
-                <h2>Qubits</h2>
+                <Qubits />
             {/if}
             {#if activePanel === 'routing'}
-                <h2>Routing</h2>
+                <Routing />
+            {/if}
+            {#if activePanel === 'midi'}
+                <Midi />
             {/if}
         </div>
     {/if}
