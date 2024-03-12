@@ -1,11 +1,11 @@
 <script lang="ts">
     import Button from '$lib/components/Button/Button.svelte';
-    import Input from '$lib/components/Forms/Input.svelte';
-    import { username, id, location } from '$lib/stores/user';
+    import Profile from './PanelProfile.svelte';
+    import Connect from './PanelConnect.svelte';
 
     import { library } from '@fortawesome/fontawesome-svg-core';
-    import { faGlobe, faUser, faHeadphones, faCircleQuestion, faGear } from '@fortawesome/free-solid-svg-icons';
-    library.add(faGlobe, faUser, faHeadphones, faCircleQuestion, faGear);
+    import { faGlobe, faUser, faUsers, faHeadphones, faCircleQuestion, faGear } from '@fortawesome/free-solid-svg-icons';
+    library.add(faGlobe, faUser, faUsers, faHeadphones, faCircleQuestion, faGear);
 
     let showMenuPanel = false; 
     let activePanel: string | null = null;
@@ -23,6 +23,7 @@
     const items = [
         { text: 'Profile', icon: faUser, onClick: () => showPanel('profile')},
         { text: 'Assign Qubits', icon: faGlobe, onClick: () => showPanel('qubits')},
+        { text: 'Connect', icon: faUsers, onClick: () => showPanel('connect')},
         { text: 'Audio Routing', icon: faHeadphones, onClick: () => showPanel('routing')},
         { text: 'Control panel', icon: faGear, onClick: () => {
             showMenuPanel = false
@@ -51,18 +52,13 @@
     {#if showMenuPanel}
         <div class="side-menu__panel">
             {#if activePanel === 'profile'}
-                <h2>Your Profile</h2>
-                <div class="side-menu__input">
-                    <Input id="id" label="ID" bind:value={$id} />
-                </div>
-                <div class="side-menu__input">
-                    <Input id="username" label="Username" bind:value={$username} />
-                </div>
-                <div class="side-menu__input">
-                    <Input id="location" label="Location" bind:value={$location}/>
-                </div>
-                
+                <Profile />
             {/if}
+
+            {#if activePanel === 'connect'}
+                <Connect />
+            {/if}
+
             {#if activePanel === 'qubits'}
                 <h2>Qubits</h2>
             {/if}
@@ -90,12 +86,6 @@
             align-items: center;
         }
 
-        &__input {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 2rem;
-        }
-
         &__panel {
             background-color: var(--color-grey-darkest);
             min-width: 30rem;
@@ -107,14 +97,6 @@
             border-left: 1px solid var(--color-grey-dark);
             color: white;
             padding: 1rem 2rem;
-            display: flex;
-            flex-direction: column;
-
-            & h2 {
-                text-align: center;
-                font-size: var(--text-sm);
-                padding: 4px 0 calc(2rem + 4px);
-            }
         }
     }
 </style>
