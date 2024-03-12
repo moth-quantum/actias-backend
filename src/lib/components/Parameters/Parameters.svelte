@@ -27,7 +27,7 @@
     {#each $instrumentParameters.filter(({key}) => $keys.includes(key)) 
         as {type, name, min, max, step, units, key, rangeA, rangeB} (key)
     }
-        <div class="parameter">
+        <div class="parameter parameter--{type}">
             {#if type === 'select'}
                 <div class="samples">
                     <Select 
@@ -118,6 +118,10 @@
             grid-template-columns: 2fr 9fr 1fr;
         }
         margin-bottom: 0rem;
+
+        &--select {
+            grid-template-columns: 2fr 10fr;
+        }
     }
 
     .parameter:nth-child(1) {

@@ -25,6 +25,7 @@ select {
     width: 100%;
     border-radius: 5px;
     height: 100%;
+    text-transform: uppercase;
     letter-spacing: 0.0625rem;
     border: 1px solid white;
     background-color: transparent;
