@@ -5,8 +5,10 @@
     export let id: string = '';
     export let placeholder: string = '';
     export let value: string | number = '';
+    export let label: string = '';
 </script>
 
+<label class="title" for={id}>{label}</label>
 <input 
     {id} {placeholder} bind:value 
     on:change={() => dispatch('change', value)}
@@ -15,11 +17,11 @@
 
 <style lang="scss">
     input {
-        color: var(--color-yellow);
-        padding: 0.5rem 0.5rem;
+        color: white;
+        padding: 0.5rem 0;
         border: none;
         background-color: transparent;
-        border-left: 1px solid var(--color-grey-mid);
+        font-size: var(--text-sm);
     }
 
     input::placeholder {

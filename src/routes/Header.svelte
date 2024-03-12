@@ -26,7 +26,7 @@
 		display: flex;
 		justify-content: center;
         background-color: var(--color-grey-darkest);
-        box-shadow: 0 0 0.5rem black;
+        
         z-index: 1;
 	}
 

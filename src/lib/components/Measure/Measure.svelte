@@ -9,7 +9,7 @@
 </script>
 
 <div class="measure">
-    <h2>Measure</h2>
+    <h2 class="title">Measure</h2>
     <form>
         <div class="source">
             <div>
@@ -91,10 +91,6 @@
     }
     h2 {
         display: none;
-        padding-bottom: 0.25rem;
-        margin-bottom: 0.5rem;
-        border-bottom: 0.5px solid var(--color-grey-light);
-
         @media (min-width: 1200px) {
             display: block;
         }
