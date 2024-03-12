@@ -65,6 +65,7 @@
         & .btn__text {
             margin-left: 0;
             max-width: 5rem;
+            font-size: var(--text-xs);
         }
     }
 

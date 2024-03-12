@@ -5,10 +5,11 @@
     import Qubits from './PanelQubits.svelte';
     import Routing from './PanelRouting.svelte';
     import Midi from './PanelMidi.svelte';
+    import { isApp } from '$lib/stores/global';
 
     import { library } from '@fortawesome/fontawesome-svg-core';
-    import { faGlobe, faUser, faUsers, faCircle, faHeadphones, faCircleQuestion, faGear } from '@fortawesome/free-solid-svg-icons';
-    library.add(faGlobe, faUser, faUsers, faCircle, faHeadphones, faCircleQuestion, faGear);
+    import { faGlobe, faUser, faUsers, faCircle, faHeadphones, faCircleQuestion, faGear, faPlay } from '@fortawesome/free-solid-svg-icons';
+    library.add(faGlobe, faUser, faUsers, faCircle, faHeadphones, faCircleQuestion, faGear, faPlay);
 
     let showMenuPanel = false; 
     let activePanel: string | null = null;
@@ -24,15 +25,18 @@
     }
 
     const items = [
-        { text: 'Profile', icon: faUser, onClick: () => showPanel('profile')},
-        { text: 'Assign Qubits', icon: faGlobe, onClick: () => showPanel('qubits')},
-        { text: 'Connect', icon: faUsers, onClick: () => showPanel('connect')},
-        { text: 'Audio', icon: faHeadphones, onClick: () => showPanel('routing')},
-        { text: 'MIDI', icon: faCircle, onClick: () => showPanel('midi')},
-        { text: 'Control', icon: faGear, onClick: () => {
+        { text: 'Profile', icon: faUser, show: isApp(), onClick: () => showPanel('profile')},
+        { text: 'Assign Qubits', icon: faGlobe, show: isApp(), onClick: () => showPanel('qubits')},
+        { text: 'Connect', icon: faUsers, show: isApp(), onClick: () => showPanel('connect')},
+        { text: 'Audio', icon: faHeadphones, show: true, onClick: () => showPanel('routing')},
+        { text: 'MIDI', icon: faCircle, show: true, onClick: () => showPanel('midi')},
+        { text: 'Control', icon: faGear, show: true, onClick: () => {
             showMenuPanel = false
         }},
-        { text: 'Tooltips', icon: faCircleQuestion, onClick: () => {
+        { text: 'Tooltips', icon: faCircleQuestion, show: true, onClick: () => {
+            showMenuPanel = false
+        }},
+        { text: 'Perform', icon: faPlay, show: true, onClick: () => {
             showMenuPanel = false
         }}
     ];
@@ -43,14 +47,16 @@
 <aside class="side-menu">
     <div class="side-menu__buttons">
         {#each items as item}
-            <Button 
-                text={item.text} 
-                colour="dark" 
-                orientation="vertical"
-                onClick={item.onClick} 
-                icon={item.icon} 
-                classes="mb-8"
-            />
+            {#if item.show}
+                <Button 
+                    text={item.text} 
+                    colour="dark" 
+                    orientation="vertical"
+                    onClick={item.onClick} 
+                    icon={item.icon} 
+                    classes="mb-8"
+                />
+            {/if}
         {/each}
     </div>
     {#if showMenuPanel}
@@ -95,7 +101,7 @@
 
         &__panel {
             background-color: var(--color-grey-darkest);
-            min-width: 30rem;
+            min-width: 20rem;
             height: 100%;
             z-index: 101;
             position: absolute;

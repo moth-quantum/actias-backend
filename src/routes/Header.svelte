@@ -34,19 +34,19 @@
         display: flex;
         justify-content: space-between;
         padding: 1rem;
+        padding-left: 96px;
+
 
         @media (min-width: 1200px) {
             padding: 1rem 2rem;
+            padding-left: 96px;
+
         }
 
         @media (min-width: calc(var(--max-width))) {
-            padding-left: 0rem;
             padding-right: 0rem;
         }
 
-        &--app {
-            padding-left: 122px;
-        }
     }
 
     .menu {

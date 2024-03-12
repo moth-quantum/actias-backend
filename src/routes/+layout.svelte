@@ -3,7 +3,6 @@
     import Header from "./Header.svelte";
     import "./styles.css";
     import "./fonts.css";
-    import { isApp } from "$lib/stores/global";
     import SideMenu from '$lib/components/SideMenu/SideMenu.svelte';
 </script>
 
@@ -11,10 +10,7 @@
     <Header />
     
     <main class="main container">
-        <!-- {#if isApp()} -->
-        {#if true}
-            <SideMenu />
-        {/if}
+        <SideMenu />
         <div class="main__content">
             <slot />
         </div>
