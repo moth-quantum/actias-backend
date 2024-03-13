@@ -4,73 +4,51 @@
     import Connect from './PanelConnect.svelte';
     import Qubits from './PanelQubits.svelte';
     import Midi from './PanelMidi.svelte';
-    import { isApp } from '$lib/stores/global';
+    import { menuItems, activeSubMenu } from '$lib/stores/sideMenu';
 
-    import { library } from '@fortawesome/fontawesome-svg-core';
-    import { faGlobe, faUser, faUsers, faCircle, faCircleQuestion, faGear, faPlay } from '@fortawesome/free-solid-svg-icons';
-    library.add(faGlobe, faUser, faUsers, faCircle, faCircleQuestion, faGear, faPlay);
-
-    let showMenuPanel = false; 
-    let activePanel: string | null = null;
-
-    const showPanel = (panel: string) => {
-        if(activePanel === panel) {
-            activePanel = null
-            showMenuPanel = false
-        } else {
-            activePanel = panel
-            showMenuPanel = true
-        }
+    const handleMenuClick = (name: string) => {
+        menuItems.update(items => items.map(item => {
+            if(item.name === name) {
+                item.isActive = !item.isActive
+            } else if(item.hasSubMenu) {
+                item.isActive = false
+            }
+            return item
+        }))
     }
-
-    const items = [
-        { text: 'Profile', icon: faUser, show: isApp(), onClick: () => showPanel('profile')},
-        { text: 'Assign Qubits', icon: faGlobe, show: isApp(), onClick: () => showPanel('qubits')},
-        { text: 'Connect', icon: faUsers, show: isApp(), onClick: () => showPanel('connect')},
-        { text: 'MIDI', icon: faCircle, show: true, onClick: () => showPanel('midi')},
-        { text: 'Control', icon: faGear, show: true, onClick: () => {
-            showMenuPanel = false
-        }},
-        { text: 'Tooltips', icon: faCircleQuestion, show: true, onClick: () => {
-            showMenuPanel = false
-        }},
-        { text: 'Perform', icon: faPlay, show: true, onClick: () => {
-            showMenuPanel = false
-        }}
-    ];
 
     
 </script>
 
 <aside class="side-menu">
     <div class="side-menu__buttons">
-        {#each items as item}
-            {#if item.show}
+        {#each $menuItems as item}
+            {#if item.isVisible}
                 <Button 
-                    text={item.text} 
+                    text={item.name} 
                     colour="dark" 
                     orientation="vertical"
-                    onClick={item.onClick} 
+                    onClick={() => handleMenuClick(item.name)} 
                     icon={item.icon} 
                     classes="mb-8"
                 />
             {/if}
         {/each}
     </div>
-    {#if showMenuPanel}
+    {#if $activeSubMenu}
         <div class="side-menu__panel">
-            {#if activePanel === 'profile'}
+            {#if $activeSubMenu === 'profile'}
                 <Profile />
             {/if}
 
-            {#if activePanel === 'connect'}
+            {#if $activeSubMenu === 'connect'}
                 <Connect />
             {/if}
 
-            {#if activePanel === 'qubits'}
+            {#if $activeSubMenu === 'assign qubits'}
                 <Qubits />
             {/if}
-            {#if activePanel === 'midi'}
+            {#if $activeSubMenu === 'midi'}
                 <Midi />
             {/if}
         </div>
