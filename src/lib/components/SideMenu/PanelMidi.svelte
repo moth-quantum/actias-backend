@@ -1,13 +1,47 @@
 <script lang="ts">
-    import { inputs } from '$lib/stores/midi';
-    import Select from '../Forms/Select.svelte';
+    import { activateInput, deactivateInput, inputs } from '$lib/stores/midi';
+    import Select from '$lib/components/Forms/Select.svelte';
+
+    const handleAddDevice = () => {
+        inputs.update(devices => {
+            const firstInactiveIndex = devices.findIndex(device => !device.active);
+            return devices.map((device, i) => ({
+                ...device,
+                active: i === firstInactiveIndex ? true : device.active
+            }));
+        });
+    }
+
+    const handleOnChangeDevice = (prev: string, next: string) => {
+        deactivateInput(prev);
+        activateInput(next);
+    }
 </script>
 
 <section>
     <h2>Midi Config</h2>
     <div class="group">
         <h3 class="title">Devices</h3>
-        <Select id="device" options={$inputs} onChange={e => console.log('add device')} />
+        {#each $inputs.filter(input => input.active) as {name}}
+            <div class="device">
+                <Select 
+                    id="device" 
+                    options={$inputs.map(input => ({name: input.name, active: true}))}
+                    selected={name}
+                    onChange={(e) => handleOnChangeDevice(name, e.target?.value)} 
+                />
+            </div>
+        {/each}
+        
+        {#if $inputs.some(input => !input.active)}
+            <button 
+                class="add-device"
+                on:click={handleAddDevice}
+            >
+                Add device
+                <span class="add-device__icon">+</span>
+            </button>
+        {/if}
     </div>
     <div class="group">
         <h3 class="title">Midi Learn</h3>
@@ -28,6 +62,22 @@
 
         & h3 {
             color: white;
+        }
+
+        .device {
+            margin-bottom: 0.75rem;
+        }
+
+        .add-device {
+            display: flex;
+            justify-content: space-between;
+            font-size: var(--text-sm);
+            color: white;
+            padding: calc(0.125rem + 3px) 0.75rem;
+            width: 100%;
+            border-radius: 5px;
+            text-align: left;
+            border: 1px dotted white;
         }
 
         & .group {

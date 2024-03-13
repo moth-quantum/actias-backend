@@ -10,11 +10,29 @@ import { measure } from '$lib/stores/qubit';
 
 export const inputs: Writable<{name: string, active: boolean}[]> = writable([]);
 
+export function activateInput(name: string) {
+    inputs.update(inputList => {
+        return inputList.map(input => ({
+            ...input,
+            active: input.name === name ? true : input.active
+        }));
+    });
+}
+
+export function deactivateInput(name: string) {
+    inputs.update(inputList => {
+        return inputList.map(input => ({
+            ...input,
+            active: input.name === name ? false : input.active
+        }));
+    });
+}
+
 WebMidi
     .enable()
     .then(() => {
         console.log("WebMidi enabled!")
-        inputs.update(() => WebMidi.inputs.map(({name}) => ({name, active: true})));
+        inputs.update(() => WebMidi.inputs.map(({name}) => ({name, active: false})));
     })
 
 function addCCListeners(name: string) {
