@@ -1,15 +1,11 @@
 <script lang="ts">
-    import { activateInput, deactivateInput, inputs } from '$lib/stores/midi';
+    import { get } from 'svelte/store';
+    import { activateInput, deactivateInput, inputs, activeInputs } from '$lib/stores/midi';
     import Select from '$lib/components/Forms/Select.svelte';
 
     const handleAddDevice = () => {
-        inputs.update(devices => {
-            const firstInactiveIndex = devices.findIndex(device => !device.active);
-            return devices.map((device, i) => ({
-                ...device,
-                active: i === firstInactiveIndex ? true : device.active
-            }));
-        });
+        const firstInactiveIndex = get(inputs).find(input => !input.active);
+        firstInactiveIndex && activateInput(firstInactiveIndex.name);
     }
 
     const handleOnChangeDevice = (prev: string, next: string) => {
@@ -22,7 +18,7 @@
     <h2>Midi Config</h2>
     <div class="group">
         <h3 class="title">Devices</h3>
-        {#each $inputs.filter(input => input.active) as {name}}
+        {#each $activeInputs as name}
             <div class="device">
                 <Select 
                     id="device" 

@@ -9,8 +9,15 @@ import { updateEnvelopeValue } from '$lib/stores/envelopes';
 import { measure } from '$lib/stores/qubit';
 
 export const inputs: Writable<{name: string, active: boolean}[]> = writable([]);
+// maintain the order of active inputs
+export const activeInputs: Writable<string[]> =writable([]);
 
 export function activateInput(name: string) {
+    activeInputs.set([
+        ...get(activeInputs).filter(n => n !== name),
+        name
+    ]);
+
     inputs.update(inputList => {
         return inputList.map(input => ({
             ...input,
@@ -20,6 +27,8 @@ export function activateInput(name: string) {
 }
 
 export function deactivateInput(name: string) {
+    activeInputs.set(get(activeInputs).filter(n => n !== name));
+
     inputs.update(inputList => {
         return inputList.map(input => ({
             ...input,
