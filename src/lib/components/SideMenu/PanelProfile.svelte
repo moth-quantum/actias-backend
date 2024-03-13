@@ -31,6 +31,7 @@
             text-align: center;
             font-size: var(--text-sm);
             padding: 4px 0 calc(2rem + 4px);
+            color: white;
         }
     }
 </style>

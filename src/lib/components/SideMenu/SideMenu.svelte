@@ -24,14 +24,16 @@
     <div class="side-menu__buttons">
         {#each $menuItems as item}
             {#if item.isVisible}
+            <div class="side-menu__item {item.isActive ? 'side-menu__item--active' : ''}">
                 <Button 
                     text={item.name} 
                     colour="dark" 
                     orientation="vertical"
                     onClick={() => handleMenuClick(item.name)} 
                     icon={item.icon} 
-                    classes="mb-8"
+                    image={item.image}
                 />
+            </div>
             {/if}
         {/each}
     </div>
@@ -58,6 +60,7 @@
 
 <style lang="scss">
     .side-menu {
+        flex-basis: min-content;
         background-color: var(--color-grey-darkest);
         padding: 4rem 0 1rem;
         position: relative;
@@ -65,11 +68,22 @@
 
         &__buttons {
             padding: 1rem 0;
-            width: 6rem;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
+        }
+
+        &__item {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            width: 100%;
+            min-width: 6.2rem;
+            &--active {
+                margin-right: -2px;
+                border-right: 2px solid var(--color-theme-1);
+            }
         }
 
         &__panel {
@@ -79,7 +93,7 @@
             z-index: 101;
             position: absolute;
             top: 0;
-            left: 6rem;
+            left: 6.2rem;
             border-left: 1px solid var(--color-grey-dark);
             color: white;
             padding: 1rem 2rem;

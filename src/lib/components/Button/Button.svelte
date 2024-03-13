@@ -5,6 +5,7 @@
     export let classes: string = '';
     export let text: string;
     export let icon: IconDefinition | null = null;
+    export let image: string = '';
     export let active: boolean = true;
     export let disabled: boolean = false;
     export let colour: string;
@@ -21,6 +22,9 @@
         <span class="btn__icon">
             <FontAwesomeIcon {icon} />
         </span>
+    {/if}
+    {#if image}
+        <img src={image} alt={text} />
     {/if}
     {#if text}
         <span class="btn__text">{text}</span>
@@ -44,6 +48,11 @@
 
         &:hover {
             background-color: auto;
+        }
+
+        & img {
+            height: 1.5rem;
+            margin: 0.4rem 0;
         }
     }
 
@@ -87,7 +96,7 @@
 
     .btn--dark {
         background-color: var(--color-grey-darkest);
-        color: var(--color-yellow);
+        color: white;
     }
 
     .btn--grey {

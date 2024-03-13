@@ -45,7 +45,10 @@ body {
 	background-color: var(--color-grey-darker);
 	background-size: 100vw 100vh;
     letter-spacing: 0.1rem;
-    user-select: none
+    user-select: none;
+	*:focus {
+		outline: 2px dotted var(--color-theme-1);
+	}
 }
 
 h1,
