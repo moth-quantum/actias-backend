@@ -22,3 +22,15 @@ export function clamp(n: number, min: number = 0, max: number = 1) {
 export function isChrome() {
     return navigator.userAgent.indexOf('Chrome') > -1;
 }
+
+export function debounce(func: Function, delay: number) {
+    let timeoutId: NodeJS.Timeout;
+
+    return  (...args: any[]) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            // @ts-ignore
+            func.apply(this, args);
+        }, delay);
+    };
+}

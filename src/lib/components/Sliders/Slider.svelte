@@ -3,7 +3,7 @@
 	import { cubicOut } from 'svelte/easing';
     import { onMount } from 'svelte';
     import { clamp } from "$lib/utils/utils";
-    import debounce from 'lodash.debounce';
+    import { debounce } from '$lib/utils/utils';
 
     export let name: string = '';
     export let value: number = 0;

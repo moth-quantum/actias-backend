@@ -6,7 +6,7 @@
     import { fullscreen } from '$lib/stores/global';
     import { onMount } from 'svelte';
     import { clamp } from '../../utils/utils';
-    import debounce from 'lodash.debounce';
+    import { debounce } from '$lib/utils/utils';
     
     let p5Instance: p5;
     let radius: number;
