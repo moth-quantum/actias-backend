@@ -31,15 +31,18 @@
         </div>
         {#each $inputs as {name, channel}}
             {#if $activeInputs.includes(name)}
-            <div class="device">
-                <Select 
-                    id="device" 
-                    options={$inputs.map(input => ({name: input.name, active: true}))}
-                    selected={name}
-                    onChange={(e) => handleOnChangeDevice(name, e.target?.value)} 
-                />
-                <Counter on:change={e => handleOnChangeChannel(name, e.detail.value)}/>
-            </div>
+                <div class="device">
+                    <Select 
+                        id="device" 
+                        options={$inputs.map(input => ({name: input.name, active: true}))}
+                        selected={name}
+                        onChange={(e) => handleOnChangeDevice(name, e.target?.value)} 
+                    />
+                    <Counter 
+                        value={channel}
+                        on:change={e => handleOnChangeChannel(name, e.detail.value)}
+                    />
+                </div>
             {/if}
         {/each}
         
@@ -56,7 +59,7 @@
         </div>
         {/if}
     </div>
-    <div class="group">
+    <div class="group learn">
         <h3 class="title">Midi Learn</h3>
     </div>
 </section>
@@ -75,12 +78,18 @@
 
         & h3 {
             color: white;
-            border-bottom: none;
-            padding-bottom: 0;
+            
+        }
+
+        .devices {
+            & h3 {
+                border-bottom: none;
+                margin-bottom: 0;
+            }
         }
 
         .headings {
-            border-bottom: 1px solid white;
+            border-bottom: 0.5px solid var(--color-grey-light);
             margin-bottom: 1.5rem;
         }
         .device, .headings {

@@ -28,9 +28,8 @@
 <style lang="scss">
     div {
         display: flex;
-        justify-content: center;
+        justify-content: start;
         align-items: center;
-        width: 4rem;
     }
 
     button {

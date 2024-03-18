@@ -12,7 +12,8 @@ export const inputs: Writable<{name: string, active: boolean, channel: number}[]
 // maintain the order of active inputs
 export const activeInputs: Writable<string[]> =writable([]);
 
-inputs.subscribe(inputs => console.log(inputs))
+// Subscribe to inputs and activeInputs changes and save them in local storage
+
 
 export function activateInput(name: string) {
     activeInputs.set([
@@ -43,7 +44,30 @@ WebMidi
     .enable()
     .then(() => {
         console.log("WebMidi enabled!")
-        inputs.update(() => WebMidi.inputs.map(({name}) => ({name, active: false, channel: 1})));
+        // sync with any saved active inputs
+        const savedActiveInputs = localStorage.getItem('q.midi.activeInputs');
+        savedActiveInputs && activeInputs.set(JSON.parse(savedActiveInputs));
+        
+        // sync with any saved inputs
+        const savedInputs = localStorage.getItem('q.midi.inputs') 
+            ? JSON.parse(localStorage.getItem('q.midi.inputs') || '')
+            : false
+        
+        inputs.update(() => WebMidi.inputs.map(({name}) => ({
+            name, 
+            active: false, 
+            channel: savedInputs ? savedInputs.find((input: any) => input.name === name)?.channel || 1 : 1
+        })));
+
+        // save inputs to local storage
+        inputs.subscribe((newInputs) => {
+            localStorage.setItem('q.midi.inputs', JSON.stringify(newInputs));
+        });
+
+        // save active inputs to local storage
+        activeInputs.subscribe((newActiveInputs) => {
+            localStorage.setItem('q.midi.activeInputs', JSON.stringify(newActiveInputs));
+        });
     })
 
 function addCCListeners(name: string) {
