@@ -102,6 +102,12 @@
     .btn--grey {
         background-color: var(--color-grey-mid);
         color: var(--color-yellow);
+
+
+        &.active {
+            background-color: var(--color-yellow);
+            color: var(--color-white);
+        }
     }
 
     .btn--disabled {
