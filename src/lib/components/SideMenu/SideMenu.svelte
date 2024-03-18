@@ -97,6 +97,7 @@
             border-left: 1px solid var(--color-grey-dark);
             color: white;
             padding: 1rem 2rem;
+            overflow-y: scroll;
         }
     }
 </style>

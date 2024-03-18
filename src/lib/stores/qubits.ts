@@ -1,15 +1,6 @@
 import { writable, get, derived } from 'svelte/store';
 import { mapToRange, clamp } from '../utils/utils';
-
-export interface Axis {
-    key: string;
-    name: string;
-    value: number;
-    min: number;
-    max: number;
-    step: number;
-    colour: string;
-}
+import type { Axis } from '../types';
 
 export const axes = writable<Axis[]>([
     {key: 'x', name: 'λ', value: 0.5, min: 0, max: 1, step: 0.001, colour: '#00A399'},
@@ -18,6 +9,19 @@ export const axes = writable<Axis[]>([
     // theta
     {key: 'z', name: 'θ', value: 0, min: 0, max: 1, step: 0.001, colour: '#FF695A'},
 ]);
+
+export const qubits = writable<{active: boolean, axes: Axis[]}[]>(
+    Array(12).fill(null).map((_, i) => ({
+        // active: i === 0, 
+        active: true, 
+        user: 'you',
+        axes: [
+            {key: 'x', name: 'λ', value: 0.5, min: 0, max: 1, step: 0.001, colour: '#00A399'},
+            {key: 'y', name: 'φ', value: 1, min: 0, max: 1, step: 0.001, colour: '#E5007F'},
+            {key: 'z', name: 'θ', value: 0, min: 0, max: 1, step: 0.001, colour: '#FF695A'}
+        ]
+    }))
+);
 
 export const isMeasuring = writable<boolean>(false);
 export const seconds = writable<number>();

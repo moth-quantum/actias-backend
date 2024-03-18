@@ -60,3 +60,13 @@ declare global {
         };
     }
 }
+
+export interface Axis {
+    key: string;
+    name: string;
+    value: number;
+    min: number;
+    max: number;
+    step: number;
+    colour: string;
+}
