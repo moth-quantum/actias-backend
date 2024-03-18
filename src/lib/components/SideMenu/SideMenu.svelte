@@ -47,7 +47,7 @@
                 <Connect />
             {/if}
 
-            {#if $activeSubMenu === 'assign qubits'}
+            {#if $activeSubMenu === 'assign'}
                 <Qubits />
             {/if}
             {#if $activeSubMenu === 'midi'}
