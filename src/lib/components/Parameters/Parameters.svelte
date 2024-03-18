@@ -38,7 +38,7 @@
                             const i = +e.target?.value;
                             rangeA = rangeB = (i || 0)
                             loadSample(i)
-                        }} 
+                        }}
                     />
                 </div>
             {/if}

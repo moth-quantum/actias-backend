@@ -2,7 +2,7 @@
     export let id: string;
     export let options: {name: string, value?: string | number, active?: boolean}[];
     export let onChange: (e: Event) => void;
-    export let selected: string | number;
+    export let selected: string | number = options[0].value || options[0].name;
 </script>
 
 <select 
