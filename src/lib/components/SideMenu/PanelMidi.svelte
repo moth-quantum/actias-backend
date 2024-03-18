@@ -2,6 +2,7 @@
     import { get } from 'svelte/store';
     import { activateInput, deactivateInput, inputs, activeInputs } from '$lib/stores/midi';
     import Select from '$lib/components/Forms/Select.svelte';
+    import Counter from '$lib/components/Forms/Counter.svelte';
 
     const handleAddDevice = () => {
         const firstInactiveIndex = get(inputs).find(input => !input.active);
@@ -12,13 +13,24 @@
         deactivateInput(prev);
         activateInput(next);
     }
+
+    const handleOnChangeChannel = (device: string, channel: number) => {
+        inputs.update(inputs => inputs.map(input => input.name === device 
+            ? { ...input, channel } 
+            : input
+        ));
+    }
 </script>
 
 <section>
     <h2>Midi Config</h2>
-    <div class="group">
-        <h3 class="title">Devices</h3>
-        {#each $activeInputs as name}
+    <div class="group devices">
+        <div class="headings">
+            <h3 class="title">Devices</h3>
+            <h3 class="title">Channel</h3>
+        </div>
+        {#each $inputs as {name, channel}}
+            {#if $activeInputs.includes(name)}
             <div class="device">
                 <Select 
                     id="device" 
@@ -26,10 +38,13 @@
                     selected={name}
                     onChange={(e) => handleOnChangeDevice(name, e.target?.value)} 
                 />
+                <Counter on:change={e => handleOnChangeChannel(name, e.detail.value)}/>
             </div>
+            {/if}
         {/each}
         
         {#if $inputs.some(input => !input.active)}
+        <div class="device">
             <button 
                 class="add-device"
                 on:click={handleAddDevice}
@@ -37,6 +52,8 @@
                 Add device
                 <span class="add-device__icon">+</span>
             </button>
+
+        </div>
         {/if}
     </div>
     <div class="group">
@@ -58,6 +75,18 @@
 
         & h3 {
             color: white;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .headings {
+            border-bottom: 1px solid white;
+            margin-bottom: 1.5rem;
+        }
+        .device, .headings {
+            display: grid;
+            grid-template-columns: 4fr 1fr;
+            gap: 1rem;
         }
 
         .device {

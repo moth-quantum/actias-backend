@@ -88,7 +88,7 @@
 
         &__panel {
             background-color: var(--color-grey-darkest);
-            min-width: 20rem;
+            min-width: 25rem;
             height: 100%;
             z-index: 101;
             position: absolute;

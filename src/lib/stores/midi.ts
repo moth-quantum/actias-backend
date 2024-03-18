@@ -8,9 +8,11 @@ import { volume } from '$lib/stores/global';
 import { updateEnvelopeValue } from '$lib/stores/envelopes';
 import { measure } from '$lib/stores/qubit';
 
-export const inputs: Writable<{name: string, active: boolean}[]> = writable([]);
+export const inputs: Writable<{name: string, active: boolean, channel: number}[]> = writable([]);
 // maintain the order of active inputs
 export const activeInputs: Writable<string[]> =writable([]);
+
+inputs.subscribe(inputs => console.log(inputs))
 
 export function activateInput(name: string) {
     activeInputs.set([
@@ -41,7 +43,7 @@ WebMidi
     .enable()
     .then(() => {
         console.log("WebMidi enabled!")
-        inputs.update(() => WebMidi.inputs.map(({name}) => ({name, active: false})));
+        inputs.update(() => WebMidi.inputs.map(({name}) => ({name, active: false, channel: 1})));
     })
 
 function addCCListeners(name: string) {
