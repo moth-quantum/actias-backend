@@ -11,6 +11,7 @@
 
     let current = $active
     let save: HTMLDialogElement;
+    export let hidden = false;
 
     const onNext = () => {
         const i = $presetKeys.indexOf($active)
@@ -39,14 +40,17 @@
         })
     }
 
-    const onShowDialog = () => save?.showModal()
+    const onShowDialog = () => save?.showModal();
         
     onMount(() => document.addEventListener('showSavePresetDialog', onShowDialog));
     onDestroy(() => document.removeEventListener('customEvent', onShowDialog));
     
 </script>
 
-<div class="presets">
+<div 
+    class="presets"
+    class:presets--hidden={hidden}
+>
     <button class="presets__chevron" on:click={onPrev}>
         <FontAwesomeIcon icon={faChevronLeft} />
     </button>
@@ -107,6 +111,10 @@
         &__store {
             margin: 0 0.5rem;
             cursor: pointer;
+        }
+
+        &--hidden {
+            display: none;
         }
     }
 
