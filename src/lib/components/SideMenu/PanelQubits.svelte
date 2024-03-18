@@ -1,5 +1,5 @@
 <script lang="ts">
-    
+    import qubit from '$lib/images/qubit.png';
 </script>
 
 <section>

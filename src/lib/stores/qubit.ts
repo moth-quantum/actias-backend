@@ -1,8 +1,5 @@
 import { writable, get, derived } from 'svelte/store';
 import { mapToRange, clamp } from '../utils/utils';
-import { socket, sendQasm } from '../../soc-qasm';
-// import Config from '../../config';
-// import { sendXyz } from '../../osc/socket';
 
 export interface Axis {
     key: string;
@@ -22,8 +19,6 @@ export const axes = writable<Axis[]>([
     {key: 'z', name: 'θ', value: 0, min: 0, max: 1, step: 0.001, colour: '#FF695A'},
 ]);
 
-// axes.subscribe(axes => Config.ENSEMBLE_MODE && sendXyz(axes[0].value, axes[1].value, axes[2].value, Config.ENSEMBLE_ID))
-
 export const isMeasuring = writable<boolean>(false);
 export const seconds = writable<number>();
 export const bpm = writable<number>();
@@ -41,15 +36,14 @@ export const collapseTime = derived([seconds, bpm, beats], ([$seconds, $bpm, $be
 export const measure = () => {
     if (get(isMeasuring)) return;
     isMeasuring.set(true);
-    const { connected } = socket
     const theta = get(axes)[2].value;
     const phi = get(axes)[1].value;
     const lambda = get(axes)[0].value;
     const backend = get(source);
     
-    get(source) === 'local' || !connected
+    get(source) === 'local'
         ? collapse((Math.random() < theta) ? 1 : 0)
-        : sendQasm(theta, phi, lambda, backend, get(password), get(token))
+        : console.log(`send qasm string at this point! using ${backend} backend, with theta: ${theta}, phi: ${phi}, lambda: ${lambda}`);
 }
 
 export function collapse(dest: 0 | 1) {
