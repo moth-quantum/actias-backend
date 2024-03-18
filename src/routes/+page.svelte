@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import { startAudio, output } from '../sound';
-    import { axes } from '$lib/stores/qubit';
+    import { axes } from '$lib/stores/qubits';
     import { fullscreen as fs, isApp } from '$lib/stores/global';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
     import Presets from '$lib/components/Presets/Presets.svelte';

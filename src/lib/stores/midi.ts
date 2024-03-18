@@ -1,12 +1,12 @@
 import { get, writable, type Writable} from 'svelte/store';
 import { WebMidi } from "webmidi";
-import { axes } from './qubit';
+import { axes } from './qubits';
 import { instruments, instrument, randomise } from '$lib/stores/parameters';
 import { randomiseConnections } from '$lib/stores/patching';
 import { presetKeys, activePreset } from '$lib/stores/presets';
 import { volume } from '$lib/stores/global';
 import { updateEnvelopeValue } from '$lib/stores/envelopes';
-import { measure } from '$lib/stores/qubit';
+import { measure } from '$lib/stores/qubits';
 
 export const inputs: Writable<{name: string, active: boolean, channel: number}[]> = writable([]);
 // maintain the order of active inputs

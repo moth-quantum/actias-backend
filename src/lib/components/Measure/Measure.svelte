@@ -1,6 +1,6 @@
 <script>
     import Select from '$lib/components/Forms/Select.svelte';   
-    import { measure, seconds, bpm, beats, source, password, token, isMeasuring } from '$lib/stores/qubit';
+    import { measure, seconds, bpm, beats, source, password, token, isMeasuring } from '$lib/stores/qubits';
     import { mute } from '$lib/stores/global';
     import Lottie from '$lib/components/Lottie/Lottie.svelte';
     import lottieSrc from '$lib/images/measuring.json';
@@ -13,7 +13,11 @@
     <form>
         <div class="source">
             <div>
-                <Select id="source" options={machines} onChange={e => source.update(() => e.target?.value || 'local')} />
+                <Select 
+                    id="source" 
+                    options={machines} 
+                    onChange={e => source.update(() => e.target?.value || 'local')} 
+                />
             </div>
             {#if $source !== 'local'}
                 <div>

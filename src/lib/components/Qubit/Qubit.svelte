@@ -2,7 +2,7 @@
     import P5 from 'p5-svelte'
     import type { p5, Sketch } from 'p5-svelte';
     import { Vector } from 'p5'
-    import { axes } from '$lib/stores/qubit';
+    import { axes } from '$lib/stores/qubits';
     import { fullscreen } from '$lib/stores/global';
     import { onMount } from 'svelte';
     import { clamp } from '../../utils/utils';
