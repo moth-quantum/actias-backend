@@ -6,6 +6,7 @@
     import { fullscreen } from '$lib/stores/global';
     import { onMount } from 'svelte';
     import { clamp } from '../../utils/utils';
+    import debounce from 'lodash.debounce';
     
     let p5Instance: p5;
     let radius: number;
@@ -39,26 +40,30 @@
             p5.noLoop()
         }
 
-        p5.mouseDragged = () => {
-            if(!isWithinCanvas(p5.mouseX, p5.mouseY)) return
+        const debouncedMouseDragged = debounce(() => {
+            if (!isWithinCanvas(p5.mouseX, p5.mouseY)) return;
 
-            const setPhase = p5.keyIsPressed && p5.key === 'Shift'
-            
-            const phase = clamp(p5.mouseX/(p5.width * 0.95))
-            const phi = clamp(p5.mouseX/(p5.width * 0.95))
-            const theta = clamp(p5.mouseY/(p5.height * 0.95))
+            const setPhase = p5.keyIsPressed && p5.key === 'Shift';
+
+            const phase = clamp(p5.mouseX / (p5.width * 0.95));
+            const phi = clamp(p5.mouseX / (p5.width * 0.95));
+            const theta = clamp(p5.mouseY / (p5.height * 0.95));
 
             axes.update((a) => {
-                if(setPhase) {
-                    a[0].value = phase
-                    return a
+                if (setPhase) {
+                    a[0].value = phase;
+                    return a;
                 }
-                a[1].value = phi
-                a[2].value = theta
-                return a
-            })
-            return false
-        }
+                a[1].value = phi;
+                a[2].value = theta;
+                return a;
+            });
+            return false;
+        }, 10);
+
+        p5.mouseDragged = () => {
+            debouncedMouseDragged();
+        };
 
         p5.draw = () => {
             const phi = $axes[1].value
