@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import { startAudio, output } from '../sound';
-    import { axes } from '$lib/stores/qubits';
+    import { qubits } from '$lib/stores/qubits';
     import { fullscreen as fs, isApp } from '$lib/stores/global';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
     import Presets from '$lib/components/Presets/Presets.svelte';
@@ -21,8 +21,8 @@
     import { Drawer } from 'flowbite-svelte';
     import { sineIn } from 'svelte/easing';
 
-    let axesIds = $axes.map(({key}) => key);
-    let axesNames = $axes.map(({name}) => name);
+    let axesIds = $qubits[0].axes.map(({key}) => key);
+    let axesNames = $qubits[0].axes.map(({name}) => name);
     let isDesktop = false;
     let sidebarIsHidden = true; 
     let transitionParams = {
@@ -107,7 +107,7 @@
 
             <div class="qubit__sliders">
                 <div>
-                    {#each $axes as {value, name, colour} (name)}
+                    {#each $qubits[0].axes as {value, name, colour} (name)}
                         <Slider 
                             orientation={isDesktop ? 'vertical' : 'horizontal'}
                             {name} {colour}
@@ -122,8 +122,8 @@
             <Meter node={output}/>
             <div class="data-stream">
                 <DataStream 
-                    data={$axes.map(({value}) => +(value * (Math.PI/2)).toFixed(2)).reverse()}
-                    labels={$axes.map(({name}) => name).reverse()}
+                    data={$qubits[0].axes.map(({value}) => +(value * (Math.PI/2)).toFixed(2)).reverse()}
+                    labels={$qubits[0].axes.map(({name}) => name).reverse()}
                 />
             </div>
         </div>

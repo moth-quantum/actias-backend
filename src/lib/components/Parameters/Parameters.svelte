@@ -1,7 +1,7 @@
 <script lang="ts">
     import Select from '$lib/components/Forms/Select.svelte';   
     import { instrumentParameters, fxParameters, globalParameters, paramValues, randomise, keys } from '$lib/stores/parameters';
-    import { axes } from '$lib/stores/qubits';
+    import { qubits } from '$lib/stores/qubits';
     import { samples } from '$lib/stores/samples'
     import RangeSlider from '$lib/components/Sliders/RangeSlider.svelte';
     import Socket from '$lib/components/Patching/Socket.svelte';
@@ -10,7 +10,7 @@
     import { onMount } from 'svelte';
     export let showSockets = true;
 
-    let axesIds = $axes.map(({key}) => key);
+    let axesIds = $qubits[0].axes.map(({key}) => key);
     let sampleOptions: {name: string, value: number, active: boolean}[] = [];
 
     onMount(() => {

@@ -1,6 +1,6 @@
 import { get, writable, type Writable} from 'svelte/store';
 import { WebMidi } from "webmidi";
-import { axes } from './qubits';
+// import { qubits } from './qubits';
 import { instruments, instrument, randomise } from '$lib/stores/parameters';
 import { randomiseConnections } from '$lib/stores/patching';
 import { presetKeys, activePreset } from '$lib/stores/presets';
@@ -81,10 +81,11 @@ function removeCCListeners(name: string) {
     input?.removeListener("controlchange", handleControlChange);
 }
 
+// TODO: default mapping for n qubits
 const actions: {[key: number]: (value: number) => void} = {
-    1: (value: number) => axes.update(a => a.map(a => a.key === 'z' ? {...a, value} : a)),
-    2: (value: number) => axes.update(a => a.map(a => a.key === 'y' ? {...a, value} : a)),
-    3: (value: number) => axes.update(a => a.map(a => a.key === 'x' ? {...a, value} : a)),
+    // 1: (value: number) => axes.update(a => a.map(a => a.key === 'z' ? {...a, value} : a)),
+    // 2: (value: number) => axes.update(a => a.map(a => a.key === 'y' ? {...a, value} : a)),
+    // 3: (value: number) => axes.update(a => a.map(a => a.key === 'x' ? {...a, value} : a)),
     4: (value: number) => instrument.set(instruments[Math.floor(value * instruments.length)].name),
     5: (value: number) => activePreset.set(get(presetKeys)[Math.floor(value * get(presetKeys).length)]),
     6: (value: number) => volume.set(value),

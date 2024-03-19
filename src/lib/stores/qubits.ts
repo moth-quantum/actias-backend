@@ -2,14 +2,6 @@ import { writable, get, derived } from 'svelte/store';
 import { mapToRange, clamp } from '../utils/utils';
 import type { Axis } from '../types';
 
-export const axes = writable<Axis[]>([
-    {key: 'x', name: 'λ', value: 0.5, min: 0, max: 1, step: 0.001, colour: '#00A399'},
-    // phi
-    {key: 'y', name: 'φ', value: 1, min: 0, max: 1, step: 0.001, colour: '#E5007F'},
-    // theta
-    {key: 'z', name: 'θ', value: 0, min: 0, max: 1, step: 0.001, colour: '#FF695A'},
-]);
-
 export const qubits = writable<{active: boolean, axes: Axis[]}[]>(
     Array(12).fill(null).map((_, i) => ({
         // active: i === 0, 
@@ -40,9 +32,9 @@ export const collapseTime = derived([seconds, bpm, beats], ([$seconds, $bpm, $be
 export const measure = () => {
     if (get(isMeasuring)) return;
     isMeasuring.set(true);
-    const theta = get(axes)[2].value;
-    const phi = get(axes)[1].value;
-    const lambda = get(axes)[0].value;
+    const theta = get(qubits)[0].axes[2].value;
+    const phi = get(qubits)[0].axes[1].value;
+    const lambda = get(qubits)[0].axes[0].value;
     const backend = get(source);
     
     get(source) === 'local'
@@ -51,7 +43,7 @@ export const measure = () => {
 }
 
 export function collapse(dest: 0 | 1) {
-    const currentAxes = get(axes);
+    const currentAxes = get(qubits)[0].axes;
     
     const startTime = new Date().getTime();
     const endTime = startTime + (get(collapseTime) * 1000);
@@ -71,14 +63,15 @@ export function collapse(dest: 0 | 1) {
             clearInterval(interval);
             isMeasuring.set(false);
         }
-        axes.update(a => {
-            return a.map(axis => ({
+        qubits.update(qs => {
+            qs[0].axes = qs[0].axes.map(axis => ({
                 ...axis, 
                 value: clamp(
                     mapToRange(progress, 0, 1, startValues[axis.key], endValues[axis.key]),
                     0, 1
                 )
             }));
+            return qs;
         });
     }, 10);
 }

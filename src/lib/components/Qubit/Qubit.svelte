@@ -2,7 +2,7 @@
     import P5 from 'p5-svelte'
     import type { p5, Sketch } from 'p5-svelte';
     import { Vector } from 'p5'
-    import { axes } from '$lib/stores/qubits';
+    import { qubits } from '$lib/stores/qubits';
     import { fullscreen } from '$lib/stores/global';
     import { onMount } from 'svelte';
     import { clamp } from '../../utils/utils';
@@ -12,7 +12,8 @@
     let radius: number;
     let height: number = 500;
 
-    axes.subscribe(() => p5Instance && p5Instance.draw())
+    // TODO: only redraw when the axes on a particular qubit move
+    qubits.subscribe(() => p5Instance && p5Instance.draw())
     fullscreen.subscribe((fs: boolean) => {
         if(!p5Instance) return
 
@@ -49,14 +50,14 @@
             const phi = clamp(p5.mouseX / (p5.width * 0.95));
             const theta = clamp(p5.mouseY / (p5.height * 0.95));
 
-            axes.update((a) => {
+            qubits.update((qs) => {
                 if (setPhase) {
-                    a[0].value = phase;
-                    return a;
+                    qs[0].axes[0].value = phase;
+                    return qs;
                 }
-                a[1].value = phi;
-                a[2].value = theta;
-                return a;
+                qs[0].axes[1].value = phi;
+                qs[0].axes[2].value = theta;
+                return qs;
             });
             return false;
         }, 10);
@@ -66,9 +67,9 @@
         };
 
         p5.draw = () => {
-            const phi = $axes[1].value
-            const theta = $axes[2].value
-            const phase = $axes[0].value
+            const phi = $qubits[0].axes[1].value
+            const theta = $qubits[0].axes[2].value
+            const phase = $qubits[0].axes[0].value
             p5.smooth()
             p5.background('#404040')
             

@@ -1,5 +1,6 @@
 import { writable, type Writable, get, derived, type Readable } from 'svelte/store';
-import { axes, type Axis } from '$lib/stores/qubits';
+import type { Axis } from '$lib/types';
+import { qubits } from '$lib/stores/qubits';
 import { samples } from '$lib/stores/samples';
 import { envelopeValues } from './envelopes';
 import { initialiseConnections, getConnections, connections} from './patching';
@@ -93,8 +94,8 @@ export const allParameters: Readable<Parameter[]> = derived(
 );
 
 export const paramValues: Readable<{[key: string]: number}> = derived(
-    [allParameters, axes, connections], 
-    ([$allParameters, $axes, $connections]) => {
+    [allParameters, qubits, connections], 
+    ([$allParameters, $qubits, $connections]) => {
         return $allParameters.reduce((obj, param) => ({
             ...obj,
             [param.key]: param.rangeA + (param.rangeB - param.rangeA) * getAxis(param.key).value || 0
@@ -102,7 +103,7 @@ export const paramValues: Readable<{[key: string]: number}> = derived(
     })
 
 function getAxis(key: string) : Axis {
-    const currentAxes: Axis[] = get(axes);
+    const currentAxes: Axis[] = get(qubits)[0].axes;
     const connections = getConnections(key);
     return currentAxes.find((axis) => connections.includes(axis.key)) || currentAxes[0]
 }
@@ -187,7 +188,7 @@ export const getAppState = () => {
         instrumentParameters: get(instrumentParameters),
         globalParameters: get(globalParameters),
         fxParameters: get(fxParameters),
-        axes: get(axes),
+        axes: get(qubits)[0].axes,
         connections: get(connections),
         drone: get(drone),
         envelopeValues: get(envelopeValues),
