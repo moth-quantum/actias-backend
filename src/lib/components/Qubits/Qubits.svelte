@@ -58,14 +58,15 @@
     }
     
     .qubit {
+        position: relative;
         background-color: var(--color-grey-dark);
         display: grid;
         gap: 1rem;
-        grid-template-rows: 4fr 1fr;
-        grid-template-columns: 6fr 1fr;
-        padding: 2rem 1rem;
+        grid-template-rows: 3fr 1fr;
+        grid-template-columns: 1fr;
+        padding: 2rem;
         border-radius: 10px;
-        height: calc(450px - 1rem);
+        height: calc(400px - 1rem);
 
         &--fullHeight {
             height: 100%;
@@ -90,11 +91,15 @@
                 margin-right: 0rem;
             }
         }
-        
+
         &__qubit {
             grid-row: 1;
             grid-column: 1;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translate(-1rem);
         }   
 
         &__patchbay {
@@ -102,14 +107,16 @@
             align-items: flex-end;
             grid-row: 2;
             grid-column: 1;
+            transform: translate(-1rem);
         }
 
         &__sliders {
             display: flex;
-
+            margin: 0 0 0 auto;
+            transform: translate(1rem);
             height: 100%;
             grid-row: 1 / 3;
-            grid-column: 2;
+            grid-column: 1;
 
         }
     }
