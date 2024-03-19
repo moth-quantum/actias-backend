@@ -11,9 +11,8 @@
     import Button from '$lib/components/Button/Button.svelte';
     import Measure from '$lib/components/Measure/Measure.svelte';
     import Slider from '$lib/components/Sliders/Slider.svelte';
-    import Qubit from '$lib/components/Qubit/Qubit.svelte';
-    import Meter from '$lib/components/Meter/Meter.svelte';
-    import DataStream from '$lib/components/DataStream/Datastream.svelte';
+    import Qubits from '$lib/components/Qubits/Qubits.svelte';
+    import Qubit from '$lib/components/Qubits/Qubit.svelte';
     import InstrumentButtons from '$lib/components/InstrumentButtons/index.svelte';
     import Fullscreen from '$lib/components/Fullscreen/Fullscreen.svelte';
     import Toasts from '$lib/components/Toasts/Toasts.svelte';
@@ -88,7 +87,11 @@
         <Parameters />
     </div>
 
-    <div class={`qubit ${ $fs ? 'qubit--fullscreen' : ''}`}>
+    <div class="qubits">
+        <Qubits />
+    </div>
+
+    <!-- <div class={`qubit ${ $fs ? 'qubit--fullscreen' : ''}`}>
         <div class="qubit__inner">
             <div class="qubit__fullscreen">
                 <Fullscreen />
@@ -118,16 +121,7 @@
             </div>
 
         </div>
-        <div class="metrics">
-            <Meter node={output}/>
-            <div class="data-stream">
-                <DataStream 
-                    data={$qubits[0].axes.map(({value}) => +(value * (Math.PI/2)).toFixed(2)).reverse()}
-                    labels={$qubits[0].axes.map(({name}) => name).reverse()}
-                />
-            </div>
-        </div>
-    </div>
+    </div> -->
 
 
     <div class="controls">
@@ -213,41 +207,17 @@
         }
     }
 
-    .qubit {
+    .qubits {
         grid-column-start: 1;
         grid-column-end: 1;
         grid-row-start: 1;
         grid-row-end: 1;
 
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         overflow: hidden;
 
         @media (min-width: 1200px) {
-            &--fullscreen {
-                position: fixed;
-                top: 0;
-                bottom: 0;
-                left: 0;
-                z-index: 1000;
-                padding: 4rem;
-    
-                .qubit__patchbay { display: none; }
-    
-                & > .metrics {
-                    z-index: 1001;
-                    justify-content: center;
-                    height: auto;
-                }
-    
-                & .qubit__inner {
-                    justify-content: end;
-                }
-            }
-
-            display: grid;
-            grid-template-columns: 6fr 3fr;
-            grid-gap: 1rem;
             
             grid-column-start: 2;
             grid-column-end: 4;
@@ -334,28 +304,6 @@
                 }
             }
         }
-    }
-
-    .metrics {
-        display: none;
-        grid-column-start: 2;
-        grid-column-end: 2;
-        padding: 1rem;
-        height: 100%;
-        
-        @media (min-width: 1200px) {
-            padding-left: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
-
-        .data-stream {
-            height: 100%;
-            display: flex;
-            padding: 2rem;
-        }
-        
     }
 
     .controls {
