@@ -4,8 +4,7 @@ import type { Axis } from '../types';
 
 export const qubits = writable<{active: boolean, axes: Axis[]}[]>(
     Array(12).fill(null).map((_, i) => ({
-        // active: i === 0, 
-        active: true, 
+        active: i === 0, 
         user: 'you',
         axes: [
             {key: 'x', name: 'λ', value: 0.5, min: 0, max: 1, step: 0.001, colour: '#00A399'},
