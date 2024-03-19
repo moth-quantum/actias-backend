@@ -18,10 +18,10 @@
     {#each $qubits.filter(q => q.active) as qubit, i}
         <div 
             class="qubit"
-            class:qubit--fullHeight={activeQubits < 4}
             class:qubit--single={activeQubits === 1}
-            class:qubit--double={activeQubits === 2}
-            class:qubit--triple={activeQubits > 2}
+            class:qubit--double={activeQubits%2 === 0}
+            class:qubit--triple={activeQubits%2 === 1 && activeQubits > 2}
+            class:qubit--fullHeight={activeQubits < 4}
         >
             <div class="qubit__qubit">
                 <Qubit />
@@ -78,6 +78,7 @@
 
         &--double {
             flex-basis: calc(50% - 0.5rem);
+            margin-bottom: 1rem;
             &:nth-child(2n) {
                 margin-left: 1rem;
             }
