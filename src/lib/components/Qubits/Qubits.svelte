@@ -62,7 +62,7 @@
         background-color: var(--color-grey-dark);
         display: grid;
         gap: 1rem;
-        grid-template-rows: 3fr 1fr;
+        grid-template-rows: 1fr;
         grid-template-columns: 1fr;
         padding: 2rem;
         border-radius: 10px;
@@ -105,7 +105,7 @@
         &__patchbay {
             display: flex;
             align-items: flex-end;
-            grid-row: 2;
+            grid-row: 1;
             grid-column: 1;
             transform: translate(-1rem);
         }
