@@ -18,6 +18,7 @@
     {#each $qubits.filter(q => q.active) as qubit, i}
         <div 
             class="qubit"
+            class:qubit--fullHeight={activeQubits < 4}
             class:qubit--single={activeQubits === 1}
             class:qubit--double={activeQubits === 2}
             class:qubit--triple={activeQubits > 2}
@@ -49,9 +50,9 @@
     .qubits {
         width: 100%;
         height: 100%;
+        max-height: 40rem;
         overflow-y: scroll;
         display: flex;
-
         flex-wrap: wrap;
     }
     
@@ -60,22 +61,26 @@
         display: grid;
         grid-template-rows: 6fr 1fr;
         padding: 2rem;
-        height: calc(450px + 4rem);
         border-radius: 10px;
+        height: calc(450px + 4rem);
+
+        &--fullHeight {
+            height: 100%;
+        }
 
         &--single {
             flex-basis: 100%;
         }
 
         &--double {
-            flex-basis: calc(50% - 1rem);
+            flex-basis: calc(50% - 0.5rem);
             &:nth-child(2n) {
                 margin-left: 1rem;
             }
         }
 
         &--triple {
-            flex-basis: calc(33.3333% - 1rem);
+            flex-basis: calc(33.3333% - 0.6666rem);
             margin-right: 1rem;
             margin-bottom: 1rem;
             &:nth-child(3n) {
