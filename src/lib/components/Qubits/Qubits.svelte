@@ -50,19 +50,22 @@
     .qubits {
         width: 100%;
         height: 100%;
-        max-height: 40rem;
+        max-height: 37rem;
         overflow-y: scroll;
         display: flex;
         flex-wrap: wrap;
+
     }
     
     .qubit {
         background-color: var(--color-grey-dark);
         display: grid;
-        grid-template-rows: 6fr 1fr;
-        padding: 2rem;
+        gap: 1rem;
+        grid-template-rows: 4fr 1fr;
+        grid-template-columns: 6fr 1fr;
+        padding: 2rem 1rem;
         border-radius: 10px;
-        height: calc(450px + 4rem);
+        height: calc(450px - 1rem);
 
         &--fullHeight {
             height: 100%;

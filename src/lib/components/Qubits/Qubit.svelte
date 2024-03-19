@@ -3,32 +3,44 @@
     import type { p5, Sketch } from 'p5-svelte';
     import { Vector } from 'p5'
     import { qubits } from '$lib/stores/qubits';
-    import { fullscreen } from '$lib/stores/global';
     import { onMount } from 'svelte';
     import { clamp } from '../../utils/utils';
     import { debounce } from '$lib/utils/utils';
     
     let p5Instance: p5;
     let radius: number;
-    let height: number = 450;
+    let height: number = 500;
 
-    // TODO: only redraw when the axes on a particular qubit move
-    qubits.subscribe(() => p5Instance && p5Instance.draw())
-    fullscreen.subscribe((fs: boolean) => {
+    const setHeight = () => {
+        const activeQubits = $qubits.filter(q => q.active).length
+        const newHeight = activeQubits < 3 ? 500 : 300
+        const hasChanged = newHeight !== height
+        height = newHeight
+        radius = height / 3;
+        return hasChanged
+    }
+
+    qubits.subscribe(() => {
         if(!p5Instance) return
 
-        height = fs ? window.innerHeight * 0.75 : 450
-        radius = height / 3;
-        p5Instance.resizeCanvas(height, height)
-        p5Instance.redraw()
+        const hasChanged = setHeight()
+        
+        if (hasChanged) {
+            p5Instance.resizeCanvas(height, height)
+        }
+
+        // TODO: only redraw when the axes on a particular qubit move
+        p5Instance.draw()
     })
 
     const handleInstance = (e: CustomEvent<p5>) => {
         p5Instance = e.detail
     }
 
+    
+
     onMount(() => {
-        radius = height / 3;
+        setHeight()
     })
 
     const sketch : Sketch = (p5: p5)=> {
