@@ -225,10 +225,8 @@
             grid-row-end: 3;
             
             width: 100%;
-            border-radius: 10px;
         }
         
-        background-color: var(--color-grey-dark);
 
         &__inner {
             width: 100%;

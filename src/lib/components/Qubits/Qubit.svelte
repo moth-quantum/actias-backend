@@ -10,14 +10,14 @@
     
     let p5Instance: p5;
     let radius: number;
-    let height: number = 500;
+    let height: number = 450;
 
     // TODO: only redraw when the axes on a particular qubit move
     qubits.subscribe(() => p5Instance && p5Instance.draw())
     fullscreen.subscribe((fs: boolean) => {
         if(!p5Instance) return
 
-        height = fs ? window.innerHeight * 0.75 : 500
+        height = fs ? window.innerHeight * 0.75 : 450
         radius = height / 3;
         p5Instance.resizeCanvas(height, height)
         p5Instance.redraw()

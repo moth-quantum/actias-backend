@@ -1,24 +1,44 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import { qubits } from '$lib/stores/qubits';
     import Qubit from './Qubit.svelte';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
+    import Slider from '$lib/components/Sliders/Slider.svelte';
     
     let axesIds = $qubits[0].axes.map(({key}) => key);
     let axesNames = $qubits[0].axes.map(({name}) => name);
+    let isDesktop = false;
+    
+    onMount(() => isDesktop = window.innerWidth > 1200);
+
+    $: activeQubits = $qubits.filter(q => q.active).length;
 </script>
 
 <div class="qubits">
     {#each $qubits.filter(q => q.active) as qubit, i}
         <div 
             class="qubit"
-            style="max-height: 30rem;"
+            class:qubit--single={activeQubits === 1}
+            class:qubit--double={activeQubits === 2}
+            class:qubit--triple={activeQubits > 2}
         >
-            <Qubit />
+            <div class="qubit__qubit">
+                <Qubit />
+            </div>
             <div class="qubit__patchbay">    
                 <Patchbay 
                     ids={axesIds.reverse()} 
                     labels={axesNames.reverse()} 
                 />
+            </div>
+            <div class="qubit__sliders">
+                {#each $qubits[0].axes as {value, name, colour} (name)}
+                    <Slider 
+                        orientation={isDesktop ? 'vertical' : 'horizontal'}
+                        {name} {colour}
+                        bind:value={value}
+                    />
+                {/each}
             </div>
         </div>
     {/each}
@@ -31,25 +51,58 @@
         height: 100%;
         overflow-y: scroll;
         display: flex;
-        flex-wrap: wrap;
-        background-color: blue;
 
+        flex-wrap: wrap;
     }
     
     .qubit {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        overflow: hidden;
+        background-color: var(--color-grey-dark);
+        display: grid;
+        grid-template-rows: 6fr 1fr;
+        padding: 2rem;
+        height: calc(450px + 4rem);
+        border-radius: 10px;
 
-        .qubit__patchbay {
-            position: absolute;
-            bottom: 1rem;
-            left: 0;
-            right: 0;
-            
+        &--single {
+            flex-basis: 100%;
+        }
+
+        &--double {
+            flex-basis: calc(50% - 1rem);
+            &:nth-child(2n) {
+                margin-left: 1rem;
+            }
+        }
+
+        &--triple {
+            flex-basis: calc(33.3333% - 1rem);
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+            &:nth-child(3n) {
+                margin-right: 0rem;
+            }
+        }
+        
+        &__qubit {
+            grid-row: 1;
+            grid-column: 1;
+            overflow: hidden;
+        }   
+
+        &__patchbay {
+            display: flex;
+            align-items: flex-end;
+            grid-row: 2;
+            grid-column: 1;
+        }
+
+        &__sliders {
+            display: flex;
+
+            height: 100%;
+            grid-row: 1 / 3;
+            grid-column: 2;
+
         }
     }
 </style>
