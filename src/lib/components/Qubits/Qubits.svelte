@@ -8,19 +8,27 @@
     let axesIds = $qubits[0].axes.map(({key}) => key);
     let axesNames = $qubits[0].axes.map(({name}) => name);
     let isDesktop = false;
+    let windowWidth = window.innerWidth;
     
     onMount(() => isDesktop = window.innerWidth > 1200);
 
     $: activeQubits = $qubits.filter(q => q.active).length;
+    $: isSingle = activeQubits === 1 || windowWidth < 1000;
+    $: isDouble = (activeQubits%2 === 0 || windowWidth < 1500) && !isSingle;
+    $: isTriple = !isSingle && !isDouble;
+
+
 </script>
+
+<svelte:window on:resize={() => windowWidth = window.innerWidth} />
 
 <div class="qubits">
     {#each $qubits.filter(q => q.active) as qubit, i}
         <div 
             class="qubit"
-            class:qubit--single={activeQubits === 1}
-            class:qubit--double={activeQubits%2 === 0}
-            class:qubit--triple={activeQubits%2 === 1 && activeQubits > 2}
+            class:qubit--single={isSingle}
+            class:qubit--double={isDouble}
+            class:qubit--triple={isTriple}
             class:qubit--fullHeight={activeQubits < 4}
         >
             <div class="qubit__qubit">

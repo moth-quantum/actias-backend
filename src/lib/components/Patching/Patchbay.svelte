@@ -26,21 +26,11 @@
     {/each}
 </div>
 
-<style>
+<style lang="scss">
     .patchbay {
         width: 100%;
         display: flex;
         justify-content: center;
-    }
-
-    h2 {
-        text-align: center;
-        margin-bottom: 1rem;
-        cursor: pointer;
-    }
-
-    h2:hover {
-        color: var(--color-theme-2);
     }
     
     h3 {
