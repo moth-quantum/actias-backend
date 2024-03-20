@@ -16,7 +16,6 @@
     $: isTriple = !isSingle && !isDouble;
     $: isFullHeight = (activeQubits === 1 && windowWidth > 1000) 
         || (activeQubits === 2 && windowWidth > 1000);
-        // || (activeQubits === 3 && windowWidth > 1500);
     $: qubitSize = (isSingle && isFullHeight && 'lg') 
         || (isDouble && 'md') 
         || (isTriple && 'sm') 

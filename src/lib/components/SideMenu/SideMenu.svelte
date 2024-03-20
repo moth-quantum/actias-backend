@@ -17,8 +17,16 @@
         }))
     }
 
+    const closeMenu = () => {
+        menuItems.update(items => items.map(item => {
+            item.isActive = false
+            return item
+        }))
+    }
     
 </script>
+
+<svelte:window on:resize={() => closeMenu()} />
 
 <aside class="side-menu">
     <div class="side-menu__buttons">

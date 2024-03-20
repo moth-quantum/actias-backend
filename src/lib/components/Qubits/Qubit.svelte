@@ -135,6 +135,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        margin-bottom: 2rem;
         &--md {
             transform: scale(0.75);
         }
