@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import Button from '$lib/components/Button/Button.svelte';
     import Profile from './PanelProfile.svelte';
     import Connect from './PanelConnect.svelte';
@@ -23,6 +24,20 @@
             return item
         }))
     }
+
+    onMount(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === 'Escape') {
+                closeMenu();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    });
     
 </script>
 
