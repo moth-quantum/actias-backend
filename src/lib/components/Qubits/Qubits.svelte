@@ -35,6 +35,7 @@
         >
             <div class="qubit__qubit">
                 <Qubit 
+                    id={i}
                     size={qubitSize}
                     bind:phi={$qubits[i].axes[1].value}
                     bind:theta={$qubits[i].axes[2].value}

@@ -2,10 +2,11 @@
     import P5 from 'p5-svelte'
     import type { p5, Sketch } from 'p5-svelte';
     import { Vector } from 'p5'
-    import { qubits } from '$lib/stores/qubits';
     import { clamp } from '../../utils/utils';
     import { debounce } from '$lib/utils/utils';
+    import { onMount, onDestroy } from 'svelte';
     
+    export let id: number;
     export let size: 'sm' | 'md' | 'lg' = 'md';
     export let phase: number = 0;
     export let phi: number = 0;
@@ -14,12 +15,14 @@
     let height: number = 500;
     $: radius = height / 3;
 
-    qubits.subscribe(() => {
-        if(!p5Instance) return
+    const handleRedrawQubit = (e) => {
+        if (e.detail === id && p5Instance) {
+            p5Instance.draw();
+        }
+    }
 
-        // TODO: only redraw when the axes on a particular qubit move
-        p5Instance.draw()
-    })
+    onMount(() => document.addEventListener('redrawQubit', handleRedrawQubit));
+    onDestroy(() => document.removeEventListener('redrawQubit', handleRedrawQubit));
 
     const handleInstance = (e: CustomEvent<p5>) => {
         p5Instance = e.detail
@@ -118,9 +121,10 @@
     }
 
 </script>
-    <div class="qubit qubit--{size}">
-        <P5 {sketch} on:instance={handleInstance} />
-    </div>
+
+<div class="qubit qubit--{size}">
+    <P5 {sketch} on:instance={handleInstance} />
+</div>
 
 <style lang="scss">
     .qubit {

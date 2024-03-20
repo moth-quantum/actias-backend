@@ -1,6 +1,7 @@
 import { writable, get, derived } from 'svelte/store';
 import { mapToRange, clamp } from '../utils/utils';
 import type { Axis } from '../types';
+import { add } from '../utils/utils';
 
 export const qubits = writable<{active: boolean, axes: Axis[]}[]>(
     Array(12).fill(null).map((_, i) => ({
@@ -13,6 +14,24 @@ export const qubits = writable<{active: boolean, axes: Axis[]}[]>(
         ]
     }))
 );
+
+let previousQubitsStates = get(qubits).map(q => q.axes.map(a => a.value));
+qubits.subscribe((qubits) => {
+    const newQubitsStates = qubits.map(q => q.axes.map(a => a.value));
+    
+    const changedQubitIndex = newQubitsStates.findIndex((qubit, i) => {
+        return qubit.reduce(add) !== previousQubitsStates[i].reduce(add);
+    });
+
+    previousQubitsStates = newQubitsStates;
+
+    if (changedQubitIndex === -1) return;
+    
+    // Fire a redraw event with the index of the qubit to be redrawn
+    // This prevents all qubits from being redrawn each time a single qubit changes
+    const redrawEvent = new CustomEvent('redrawQubit', { detail: changedQubitIndex });
+    document.dispatchEvent(redrawEvent);
+});
 
 export const isMeasuring = writable<boolean>(false);
 export const seconds = writable<number>();

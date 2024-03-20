@@ -43,7 +43,7 @@
     const onShowDialog = () => save?.showModal();
         
     onMount(() => document.addEventListener('showSavePresetDialog', onShowDialog));
-    onDestroy(() => document.removeEventListener('customEvent', onShowDialog));
+    onDestroy(() => document.removeEventListener('showSavePresetDialog', onShowDialog));
     
 </script>
 
