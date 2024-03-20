@@ -8,14 +8,19 @@
     let axesIds = $qubits[0].axes.map(({key}) => key);
     let axesNames = $qubits[0].axes.map(({name}) => name);
     let windowWidth = window.innerWidth;
+    let qubitSize: 'sm' | 'md' | 'lg' = 'md';
 
     $: activeQubits = $qubits.filter(q => q.active).length;
     $: isSingle = activeQubits === 1 || windowWidth < 1000;
-    $: isDouble = (activeQubits%2 === 0 || windowWidth < 1500) && !isSingle;
+    $: isDouble = (activeQubits%2 === 0 || activeQubits === 3 || windowWidth < 1500) && !isSingle;
     $: isTriple = !isSingle && !isDouble;
     $: isFullHeight = (activeQubits === 1 && windowWidth > 1000) 
-        || (activeQubits === 2 && windowWidth > 1000)
-        || (activeQubits === 3 && windowWidth > 1500);
+        || (activeQubits === 2 && windowWidth > 1000);
+        // || (activeQubits === 3 && windowWidth > 1500);
+    $: qubitSize = (isSingle && isFullHeight && 'lg') 
+        || (isDouble && 'md') 
+        || (isTriple && 'sm') 
+        || 'md';
 
 </script>
 
@@ -31,7 +36,9 @@
             class:qubit--full-height={isFullHeight}
         >
             <div class="qubit__qubit">
-                <Qubit />
+                <Qubit 
+                    size={qubitSize}
+                />
             </div>
             <div class="qubit__patchbay">    
                 <Patchbay 
@@ -88,23 +95,12 @@
 
         &--single {
             flex-basis: 100%;
-            @media (max-width: 1000px){
-                & .qubit__qubit {
-                    transform: scale(0.75);
-                }
-                
-            }
         }
 
         &--double {
             flex-basis: calc(50% - 0.5rem);
             &:nth-child(2n) {
                 margin-left: 1rem;
-            }
-            @media (max-width: 1500px){
-                & .qubit__qubit {
-                    transform: scale(0.75);
-                }   
             }
         }
 

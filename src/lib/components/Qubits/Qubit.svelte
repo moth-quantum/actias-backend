@@ -3,31 +3,16 @@
     import type { p5, Sketch } from 'p5-svelte';
     import { Vector } from 'p5'
     import { qubits } from '$lib/stores/qubits';
-    import { onMount } from 'svelte';
     import { clamp } from '../../utils/utils';
     import { debounce } from '$lib/utils/utils';
     
+    export let size: 'sm' | 'md' | 'lg' = 'md';
     let p5Instance: p5;
-    let radius: number;
     let height: number = 500;
-
-    const setHeight = () => {
-        const activeQubits = $qubits.filter(q => q.active).length
-        const newHeight = activeQubits < 3 ? 500 : 300
-        const hasChanged = newHeight !== height
-        height = newHeight
-        radius = height / 3;
-        return hasChanged
-    }
+    $: radius = height / 3;
 
     qubits.subscribe(() => {
         if(!p5Instance) return
-
-        const hasChanged = setHeight()
-        
-        if (hasChanged) {
-            p5Instance.resizeCanvas(height, height)
-        }
 
         // TODO: only redraw when the axes on a particular qubit move
         p5Instance.draw()
@@ -36,12 +21,6 @@
     const handleInstance = (e: CustomEvent<p5>) => {
         p5Instance = e.detail
     }
-
-    
-
-    onMount(() => {
-        setHeight()
-    })
 
     const sketch : Sketch = (p5: p5)=> {
         function isWithinCanvas(x: number, y: number) {
@@ -145,7 +124,7 @@
     }
 
 </script>
-    <div class="qubit" >
+    <div class="qubit qubit--{size}">
         <P5 {sketch} on:instance={handleInstance} />
     </div>
 
@@ -156,6 +135,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        &--md {
+            transform: scale(0.75);
+        }
+
+        &--sm {
+            transform: scale(0.5);
+        }
     }
     canvas { 
         // max-width: 50vw;
