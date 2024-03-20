@@ -7,6 +7,9 @@
     import { debounce } from '$lib/utils/utils';
     
     export let size: 'sm' | 'md' | 'lg' = 'md';
+    export let phase: number = 0;
+    export let phi: number = 0;
+    export let theta: number = 0;
     let p5Instance: p5;
     let height: number = 500;
     $: radius = height / 3;
@@ -37,19 +40,13 @@
 
             const setPhase = p5.keyIsPressed && p5.key === 'Shift';
 
-            const phase = clamp(p5.mouseX / (p5.width * 0.95));
-            const phi = clamp(p5.mouseX / (p5.width * 0.95));
-            const theta = clamp(p5.mouseY / (p5.height * 0.95));
+            if (setPhase) {
+                phase = clamp(p5.mouseX / (p5.width * 0.95));
+            } else {
+                phi = clamp(p5.mouseX / (p5.width * 0.95));
+                theta = clamp(p5.mouseY / (p5.height * 0.95));
+            }
 
-            qubits.update((qs) => {
-                if (setPhase) {
-                    qs[0].axes[0].value = phase;
-                    return qs;
-                }
-                qs[0].axes[1].value = phi;
-                qs[0].axes[2].value = theta;
-                return qs;
-            });
             return false;
         }, 10);
 
@@ -58,9 +55,6 @@
         };
 
         p5.draw = () => {
-            const phi = $qubits[0].axes[1].value
-            const theta = $qubits[0].axes[2].value
-            const phase = $qubits[0].axes[0].value
             p5.smooth()
             p5.background('#404040')
             

@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
     import { qubits } from '$lib/stores/qubits';
     import Qubit from './Qubit.svelte';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
@@ -37,6 +36,9 @@
             <div class="qubit__qubit">
                 <Qubit 
                     size={qubitSize}
+                    bind:phi={$qubits[i].axes[1].value}
+                    bind:theta={$qubits[i].axes[2].value}
+                    bind:phase={$qubits[i].axes[0].value}
                 />
             </div>
             <div class="qubit__patchbay">    
