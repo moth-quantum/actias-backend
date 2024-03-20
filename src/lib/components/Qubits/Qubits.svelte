@@ -7,10 +7,7 @@
     
     let axesIds = $qubits[0].axes.map(({key}) => key);
     let axesNames = $qubits[0].axes.map(({name}) => name);
-    let isDesktop = false;
     let windowWidth = window.innerWidth;
-    
-    onMount(() => isDesktop = window.innerWidth > 1200);
 
     $: activeQubits = $qubits.filter(q => q.active).length;
     $: isSingle = activeQubits === 1 || windowWidth < 1000;
@@ -44,8 +41,7 @@
             </div>
             <div class="qubit__sliders">
                 {#each $qubits[0].axes as {value, name, colour} (name)}
-                    <Slider 
-                        orientation={isDesktop ? 'vertical' : 'horizontal'}
+                    <Slider
                         {name} {colour}
                         bind:value={value}
                     />
