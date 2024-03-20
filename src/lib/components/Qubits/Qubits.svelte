@@ -88,12 +88,23 @@
 
         &--single {
             flex-basis: 100%;
+            @media (max-width: 1000px){
+                & .qubit__qubit {
+                    transform: scale(0.75);
+                }
+                
+            }
         }
 
         &--double {
             flex-basis: calc(50% - 0.5rem);
             &:nth-child(2n) {
                 margin-left: 1rem;
+            }
+            @media (max-width: 1500px){
+                & .qubit__qubit {
+                    transform: scale(0.75);
+                }   
             }
         }
 
