@@ -27,7 +27,7 @@
 		justify-content: center;
         background-color: var(--color-grey-darkest);
         
-        z-index: 1;
+        z-index: 100;
 	}
 
     .nav {

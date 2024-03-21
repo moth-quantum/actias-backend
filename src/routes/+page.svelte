@@ -66,20 +66,22 @@
 <Toasts />
 
 <section class="buttons container mx-auto">
-    <div class="buttons__instruments">
-        <InstrumentButtons />
+    <div class="buttons__inner">
+        <div class="buttons__instruments">
+            <InstrumentButtons />
+        </div>
+    
+        <div class="buttons__parameters">
+            <Button 
+                onClick={() => (sidebarIsHidden = false)} 
+                active={!sidebarIsHidden} 
+                colour="yellow" 
+                text="Parameters" 
+            />
+        </div>
+    
+        <Presets hidden={isApp()}/>
     </div>
-
-    <div class="buttons__parameters">
-        <Button 
-            onClick={() => (sidebarIsHidden = false)} 
-            active={!sidebarIsHidden} 
-            colour="yellow" 
-            text="Parameters" 
-        />
-    </div>
-
-    <Presets hidden={isApp()}/>
 </section>
 
 <section class={`container synth ${ $fs ? 'synth--fullscreen' : ''}`}>
@@ -123,16 +125,20 @@
         }
     }
     .buttons {
-        padding: 1rem;
+        padding-bottom: 1.5rem;
         background-color: var(--color-grey-mid);
-        box-shadow: 0 0.5rem 0.5rem 0.25rem var(--color-box-shadow);
-        display: flex;
-        justify-content: space-between;
-        z-index: 20;
-        
-        @media (min-width: 1200px) {
-            padding: 1rem 2rem;
+        &__inner {
+            padding: 1rem;
+            box-shadow: 0 0.5rem 0.5rem 0.25rem var(--color-box-shadow);
+            display: flex;
+            justify-content: space-between;
+            @media (min-width: 1200px) {
+                padding: 1rem 2rem;
+            }
+
         }
+        z-index: 100;
+        
 
         &__instruments {
             display: none;
@@ -156,7 +162,7 @@
         
         @media (min-width: 1200px) {
             display: grid;
-            padding: 1.5rem 2rem;
+            padding: 0 2rem 1.5rem;
             grid-gap: 1rem;
             grid-template-columns: 3fr 9fr;
             grid-template-rows: 1fr 1fr 0.5fr;
