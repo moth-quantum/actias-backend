@@ -6,6 +6,7 @@
     import Qubits from './PanelQubits.svelte';
     import Midi from './PanelMidi.svelte';
     import { menuItems, activeSubMenu } from '$lib/stores/sideMenu';
+    import { toggleKeyboard } from '$lib/stores/global';
 
     const handleMenuClick = (name: string) => {
         menuItems.update(items => items.map(item => {
@@ -16,6 +17,8 @@
             }
             return item
         }))
+
+        name === 'keyboard' && toggleKeyboard() 
     }
 
     const closeMenu = () => {

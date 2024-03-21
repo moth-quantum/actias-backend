@@ -11,4 +11,7 @@ export const isApp: () => boolean = () => {
     return !!window.isApp;
 }
 
+export const showKeyboard = writable(true);
+export const toggleKeyboard = () => showKeyboard.update(value => !value);
+
 isApp() && initElectronAPI();

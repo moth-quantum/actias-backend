@@ -1,27 +1,20 @@
 <script>
     import { onMount } from 'svelte';
-    import { startAudio, output } from '../sound';
-    import { qubits } from '$lib/stores/qubits';
+    import { startAudio } from '../sound';
     import { fullscreen as fs, isApp } from '$lib/stores/global';
-    import Patchbay from '$lib/components/Patching/Patchbay.svelte';
     import Presets from '$lib/components/Presets/Presets.svelte';
     import Parameters from '$lib/components/Parameters/Parameters.svelte';
     // @ts-ignore
     import Controls from '$lib/components/Controls/Controls.svelte';
     import Button from '$lib/components/Button/Button.svelte';
     import Measure from '$lib/components/Measure/Measure.svelte';
-    import Slider from '$lib/components/Sliders/Slider.svelte';
     import Qubits from '$lib/components/Qubits/Qubits.svelte';
-    import Qubit from '$lib/components/Qubits/Qubit.svelte';
     import InstrumentButtons from '$lib/components/InstrumentButtons/index.svelte';
-    import Fullscreen from '$lib/components/Fullscreen/Fullscreen.svelte';
     import Toasts from '$lib/components/Toasts/Toasts.svelte';
 
     import { Drawer } from 'flowbite-svelte';
     import { sineIn } from 'svelte/easing';
 
-    let axesIds = $qubits[0].axes.map(({key}) => key);
-    let axesNames = $qubits[0].axes.map(({name}) => name);
     let isDesktop = false;
     let sidebarIsHidden = true; 
     let transitionParams = {
@@ -90,38 +83,6 @@
     <div class="qubits">
         <Qubits />
     </div>
-
-    <!-- <div class={`qubit ${ $fs ? 'qubit--fullscreen' : ''}`}>
-        <div class="qubit__inner">
-            <div class="qubit__fullscreen">
-                <Fullscreen />
-            </div>
-            <div class="qubit__patchbay">
-                <Patchbay 
-                    title="axes"
-                    ids={axesIds.reverse()} 
-                    labels={axesNames.reverse()} 
-                />
-            </div>
-            
-            <div class="qubit__sphere">
-                <Qubit />
-            </div>
-
-            <div class="qubit__sliders">
-                <div>
-                    {#each $qubits[0].axes as {value, name, colour} (name)}
-                        <Slider 
-                            orientation={isDesktop ? 'vertical' : 'horizontal'}
-                            {name} {colour}
-                            bind:value={value}
-                        />
-                    {/each}
-                </div>
-            </div>
-
-        </div>
-    </div> -->
 
 
     <div class="controls">
@@ -225,25 +186,7 @@
             grid-row-end: 3;
             
             width: 100%;
-        }
-        
-
-        &__inner {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-            padding: 1rem;
-            grid-column-start: 1;
-            grid-column-end: 1;
-
-            @media (min-width: 1200px) {
-                height: 100%;
-                flex-direction: row;
-                padding: 1rem 2rem;
-            }
-        }
+        } 
 
         &__fullscreen {
             position: absolute;
@@ -252,54 +195,6 @@
             @media (min-width: 1200px) {
                 top: auto;
                 bottom: 1rem;
-            }
-        }
-
-        &__sphere {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 2rem;
-
-            @media (min-width: 1200px) {
-                width: 100%;
-                position: absolute;
-                top: 0%;
-                left: 0%;
-                bottom: 0;
-                right: 0;
-                margin-bottom: 0;
-            }
-        }
-
-        &__patchbay {
-            z-index: 10;
-            display: none;
-            @media (min-width: 1200px) {
-                display: block;
-            }
-        }
-        &__sliders {
-            display: flex;
-
-            @media (min-width: 1200px) {
-                margin: 0 -0.5rem 0 0;
-            }
-
-            & > div {
-                width: 100%;
-                margin: 0 auto;
-                display: flex;
-                flex-direction: column-reverse;
-                
-                @media (min-width: 600px) {
-                    width: 80%;
-                }
-                @media (min-width: 1200px) {
-                    flex-direction: row-reverse;
-                    width: 100%;
-                }
             }
         }
     }
