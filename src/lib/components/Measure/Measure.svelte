@@ -84,18 +84,21 @@
 
 <style lang="scss">
     .measure {
-        padding: 1rem 1rem;
+        padding: 1rem;
+        @media (min-width: 1200px) {
+            padding: 1rem 0 0;
+        }
         width: 100%;
         height: 100%;
         display: flex;
-        @media (min-width: 1200px) {
+        @media (min-width: 1450px) {
             flex-direction: column;
             padding: 0;
         }
     }
     h2 {
         display: none;
-        @media (min-width: 1200px) {
+        @media (min-width: 1450px) {
             display: block;
         }
     }
@@ -107,7 +110,7 @@
         grid-template-rows: 1fr 1fr 1fr;
         width: 70%;
         height: 100%;
-        @media (min-width: 1200px) {
+        @media (min-width: 1450px) {
             width: 100%;
             margin-bottom: 0.5rem;
         }
@@ -168,7 +171,7 @@
             letter-spacing: 0.0625rem;
         }
 
-        @media (min-width: 1200px) {
+        @media (min-width: 1450px) {
             margin-left: 0;
             width: 100%;
         }

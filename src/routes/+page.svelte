@@ -125,7 +125,9 @@
         }
     }
     .buttons {
-        padding-bottom: 1.5rem;
+        @media (min-width: 1200px) {
+            padding-bottom: 1.5rem;
+        }
         background-color: var(--color-grey-mid);
         &__inner {
             padding: 1rem;
@@ -211,12 +213,17 @@
     .controls {
         margin-top: 1rem;
         width: 100%;
-        display: flex;
+        
+        @media (min-width: 1450px) {
+            display: flex;
+        }
     }
 
     .keyboard {
-        width: 75%;
         background-color: var(--color-grey-dark);
-        margin-right: 1rem;
+        @media (min-width: 1450px) {
+            width: 75%;
+            margin-right: 1rem;
+        }
     }
 </style>
