@@ -72,7 +72,6 @@
     .qubits {
         width: 100%;
         height: 100%;
-        max-height: 37rem;
         overflow-y: scroll;
         display: flex;
         flex-wrap: wrap;

@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import { startAudio } from '../sound';
-    import { fullscreen as fs, isApp } from '$lib/stores/global';
+    import { fullscreen as fs, isApp, showKeyboard } from '$lib/stores/global';
     import Presets from '$lib/components/Presets/Presets.svelte';
     import Parameters from '$lib/components/Parameters/Parameters.svelte';
     // @ts-ignore
@@ -80,18 +80,19 @@
         <Parameters />
     </div>
 
-    <div class="qubits">
+    <div class="qubits {$showKeyboard ? '' : 'qubits--full'}">
         <Qubits />
     </div>
 
+    {#if $showKeyboard}
+        <div class="controls">
+            <Controls />
+        </div>
 
-    <div class="controls">
-        <Controls />
-    </div>
-
-    <div class="measure">
-        <Measure />
-    </div>
+        <div class="measure">
+            <Measure />
+        </div>
+    {/if}
 
 </section>
 
@@ -173,6 +174,15 @@
         grid-column-end: 1;
         grid-row-start: 1;
         grid-row-end: 1;
+        max-height: 37rem;
+
+        &--full {
+            grid-column-start: 1;
+            grid-column-end: 1;
+            grid-row-start: 1;
+            grid-row-end: 4;
+            max-height: 45rem;
+        }
 
         display: flex;
         align-items: flex-start;
