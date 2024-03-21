@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import { redrawCables } from '$lib/stores/patching';
 import initElectronAPI from '$lib/electronAPI';
 
 export const volume = writable(0.5);
@@ -12,6 +13,7 @@ export const isApp: () => boolean = () => {
 }
 
 export const showKeyboard = writable(true);
+showKeyboard.subscribe(() => redrawCables());
 export const toggleKeyboard = () => showKeyboard.update(value => !value);
 
 isApp() && initElectronAPI();
