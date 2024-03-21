@@ -32,6 +32,16 @@
         function isWithinCanvas(x: number, y: number) {
             return x > 0 && x < p5.height && y > 0 && y < p5.height
         }
+
+        p5.mouseIsPressed = false
+
+        p5.mousePressed = (e) => {
+            p5.mouseIsPressed = isWithinCanvas(p5.mouseX, p5.mouseY)
+        }
+
+        p5.mouseReleased = (e) => {
+            p5.mouseIsPressed = false
+        }
         p5.setup = () => {
             p5.createCanvas(height, height, p5.WEBGL)
             p5.smooth()
@@ -39,7 +49,7 @@
         }
 
         const debouncedMouseDragged = debounce(() => {
-            if (!isWithinCanvas(p5.mouseX, p5.mouseY)) return;
+            if (!isWithinCanvas(p5.mouseX, p5.mouseY) || !p5.mouseIsPressed) return;
 
             const setPhase = p5.keyIsPressed && p5.key === 'Shift';
 
