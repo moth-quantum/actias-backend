@@ -1,13 +1,17 @@
 <script lang="ts">
     import { qubits } from '$lib/stores/qubits';
+    import { redrawCables } from '$lib/stores/patching';
     import Qubit from './Qubit.svelte';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
     import Slider from '$lib/components/Sliders/Slider.svelte';
+    import { debounce } from '$lib/utils/utils';
     
     let axesIds = $qubits[0].axes.map(({key}) => key);
     let axesNames = $qubits[0].axes.map(({name}) => name);
     let windowWidth = window.innerWidth;
     let qubitSize: 'sm' | 'md' | 'lg' = 'md';
+
+    const handleScroll = debounce(() => redrawCables(), 5);
 
     $: activeQubits = $qubits.filter(q => q.active).length;
     $: isSingle = activeQubits === 1 || windowWidth < 1000;
@@ -24,7 +28,10 @@
 
 <svelte:window on:resize={() => windowWidth = window.innerWidth} />
 
-<div class="qubits">
+<div 
+    class="qubits"
+    on:scroll={() => handleScroll()}
+>
     {#each $qubits.filter(q => q.active) as qubit, i}
         <div 
             class="qubit"

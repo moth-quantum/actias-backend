@@ -2,7 +2,7 @@ import { writable, get, derived } from 'svelte/store';
 import { mapToRange, clamp } from '../utils/utils';
 import type { Axis } from '../types';
 import { add } from '../utils/utils';
-const redrawCables = new CustomEvent('redrawCables');
+import { redrawCables } from './patching';
 
 export const qubits = writable<{active: boolean, axes: Axis[]}[]>(
     Array(12).fill(null).map((_, i) => ({
@@ -22,9 +22,7 @@ export const activateQubit = () => {
         qs[i].active = true;
         return qs
     })
-    setTimeout(() => {
-        document.dispatchEvent(redrawCables);
-    }, 10);
+    redrawCables();
 }
 
 export const deactivateQubit = () => {
@@ -33,9 +31,7 @@ export const deactivateQubit = () => {
         qs[i].active = false;
         return qs
     })
-    setTimeout(() => {
-        document.dispatchEvent(redrawCables);
-    }, 10);
+    redrawCables();
 }
 
 let previousQubitsStates = get(qubits).map(q => q.axes.map(a => a.value));
