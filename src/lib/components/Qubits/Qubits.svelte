@@ -11,7 +11,7 @@
     let windowWidth = window.innerWidth;
     let qubitSize: 'sm' | 'md' | 'lg' = 'md';
 
-    const handleScroll = debounce(() => redrawCables(), 5);
+    const handleScroll = debounce(() => redrawCables(), 2);
 
     $: activeQubits = $qubits.filter(q => q.active).length;
     $: isSingle = activeQubits === 1 || windowWidth < 1000;

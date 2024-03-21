@@ -7,7 +7,7 @@ export const connections = writable([] as Connection[]);
 export const redrawCables = () => {
     setTimeout(() => {
         document.dispatchEvent(new CustomEvent('redrawCables'));
-    }, 2);
+    }, 1);
 }
 
 export const activateSocket = (id: string) => {

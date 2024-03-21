@@ -17,8 +17,6 @@
     let connectedTo = [];
     let position = {x: 0, y: 0};
 
-    let resizeObserver;
-
     function handleDragStart({ offsetX, offsetY }) {
         position = { x: offsetX, y: offsetY }
         thisSocket.style.zIndex = 1002;
