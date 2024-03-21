@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import { startAudio } from '../sound';
-    import { fullscreen as fs, isApp, showKeyboard } from '$lib/stores/global';
+    import { fullscreen as fs, isApp, showKeyboard, toggleKeyboard } from '$lib/stores/global';
     import { activeQubitCount } from '$lib/stores/qubits';
     import Presets from '$lib/components/Presets/Presets.svelte';
     import Parameters from '$lib/components/Parameters/Parameters.svelte';
@@ -24,7 +24,14 @@
         easing: sineIn
     };
 
-    onMount(() => isDesktop = window.innerWidth > 1200);
+    onMount(() => {
+        isDesktop = window.innerWidth > 1200
+        window.addEventListener('keydown', (event) => {
+            if (event.key === 'k') {
+                toggleKeyboard();
+            }
+        });
+    });
 
 </script>
 
