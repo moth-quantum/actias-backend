@@ -1,28 +1,12 @@
 <script lang="ts">
     import qubitImg from '$lib/images/qubit.png';
-    import { qubits } from '$lib/stores/qubits';
+    import { qubits, activateQubit, deactivateQubit } from '$lib/stores/qubits';
     import Select from '$lib/components/Forms/Select.svelte';
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faClose } from '@fortawesome/free-solid-svg-icons';
     library.add(faClose);
 
-    function handleAddQubit() {
-        const i = $qubits.findIndex(q => !q.active);
-        i !== -1 && qubits.update(qs => {
-            qs[i].active = true;
-            return qs
-        })
-        
-    }
-
-    function handleRemoveQubit() {
-        qubits.update(qs => {
-            const i = qs.filter(q => q.active).length - 1
-            qs[i].active = false;
-            return qs
-        })
-    }
 </script>
 
 <section>
@@ -34,7 +18,7 @@
                     <img src={qubitImg} alt="qubit" />
                     <span class="qubit__i qubit__i--{i}">{i.toString().padStart(2, '0')}</span>
                     {#if i && i === ($qubits.filter(q => q.active).length - 1)}
-                        <button on:click={() => handleRemoveQubit()}>
+                        <button on:click={() => deactivateQubit()}>
                             <FontAwesomeIcon icon={faClose} />
                         </button>
                     {/if}
@@ -59,7 +43,7 @@
         {#if $qubits.some(q => !q.active)}
             <div class="qubits__qubit">
                 <button 
-                    on:click={handleAddQubit}
+                    on:click={() => activateQubit()}
                     class="qubit__placeholder qubit__add-qubit"
                 >
                     <img src={qubitImg} alt="qubit" />

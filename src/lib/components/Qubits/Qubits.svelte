@@ -44,7 +44,7 @@
             </div>
             <div class="qubit__patchbay">    
                 <Patchbay 
-                    ids={axesIds.reverse()} 
+                    ids={axesIds.map(id => `${id}${i}`).reverse()} 
                     labels={axesNames.reverse()} 
                 />
             </div>

@@ -6,8 +6,8 @@
     export let offset = 2;
     export let colour = 'blue';
     
-    let w = 0
-    let h = 0;
+    let w = window.innerWidth
+    let h = document.body.scrollHeight
 
     function resize() {
         w = window.innerWidth;
@@ -21,9 +21,13 @@
     onMount(resize);
     onDestroy(() => resizeObserver.disconnect());
 
-</script>
+    $: segments = [
+        {x1: from.x + 3, y1: from.y, x2: to.x + (from.x - to.x)/2 + offset, y2: from.y},
+        {x1: to.x + (from.x - to.x)/2 + offset, y1: from.y, x2: to.x + (from.x - to.x)/2 + offset, y2: to.y},
+        {x1: to.x + (from.x - to.x)/2 + offset, y1: to.y, x2: to.x, y2: to.y}
+    ]
 
-<svelte:window on:resize={resize}/>
+</script>
 
 <svg 
     viewBox={`0 0 ${w} ${h}`} xmlns="http://www.w3.org/2000/svg"
@@ -33,11 +37,7 @@
         class="socket"
         cx={from.x} cy={from.y} r="3" stroke={colour} stroke-width="1.5" fill="white"
     />
-        {#each [
-            {x1: from.x + 3, y1: from.y, x2: to.x + (from.x - to.x)/2 + offset, y2: from.y},
-            {x1: to.x + (from.x - to.x)/2 + offset, y1: from.y, x2: to.x + (from.x - to.x)/2 + offset, y2: to.y},
-            {x1: to.x + (from.x - to.x)/2 + offset, y1: to.y, x2: to.x, y2: to.y}
-        ] as {x1, y1, x2, y2}}
+        {#each segments as {x1, y1, x2, y2}}
             <line 
                 class="cable"
                 {x1} {x2} {y1} {y2}
