@@ -103,23 +103,26 @@ export const paramValues: Readable<{[key: string]: number}> = derived(
     })
 
 function getAxis(key: string) : Axis {
-    const currentAxes: Axis[] = get(qubits)[0].axes;
-    const connections = getConnections(key);
-    return currentAxes.find((axis) => connections.includes(axis.key)) || currentAxes[0]
+    const connection = getConnections(key)[0] || 'z0';
+    const axis = connection.charAt(0);
+    const qubitIndex = parseInt(connection.slice(1)) || 0;
+    const qubit = get(qubits)[qubitIndex]
+    return qubit.axes.find((a) => a.key === axis) || qubit.axes[0];
+    
 }
 
 const initConnections = () => initialiseConnections([
     ...instParams.filter(({key}) => get(keys).includes(key)),
     ...gParams,
     ...fxParams,
-].map(({key}) => key), ['z', 'y', 'x']);
+].map(({key}) => key), ['z0', 'y0', 'x0']);
 
-// initConnections()
+initConnections()
 
 instrument.subscribe((instrument) => {
     // update available keys
     keys.set(instrumentKeys[instrument]);
-    // initConnections()
+    initConnections()
 });
 
 function scaleParamValue(key: string, value: number) {
