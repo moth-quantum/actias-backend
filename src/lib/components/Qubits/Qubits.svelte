@@ -91,6 +91,11 @@
         border-radius: 10px;
         
         margin-bottom: 1rem;
+        @media (max-width: 1000px) {
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
         
 
         &--full-height {
