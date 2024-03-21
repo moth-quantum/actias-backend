@@ -34,7 +34,11 @@
         }
 
         p5.mouseIsPressed = false
-        p5.mousePressed = e => p5.mouseIsPressed = isWithinCanvas(p5.mouseX, p5.mouseY)
+        p5.mousePressed = e => {
+            // @ts-ignore
+            const isCanvas = e.target instanceof HTMLCanvasElement
+            p5.mouseIsPressed = isCanvas && isWithinCanvas(p5.mouseX, p5.mouseY)
+        }
         p5.mouseReleased = e => p5.mouseIsPressed = false
 
         p5.setup = () => {
