@@ -71,7 +71,8 @@
         flex-wrap: wrap;
         @media (max-width: 1200px) {
             height: calc(100% - 4rem);
-            padding: 1rem;
+            padding: 1rem 1rem 0;
+            margin-bottom: 1rem;
         }
     }
 
@@ -133,6 +134,7 @@
 
         &__sliders {
             display: flex;
+            flex-direction: row-reverse;
             margin: 0 0 0 auto;
             padding: 1rem 1rem 2rem;
             height: 100%;
