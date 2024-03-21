@@ -15,7 +15,7 @@
     let height: number = 500;
     $: radius = height / 3;
 
-    const handleRedrawQubit = (e) => {
+    const handleRedrawQubit = (e: any) => {
         if (e.detail === id && p5Instance) {
             p5Instance.draw();
         }
@@ -141,9 +141,5 @@
         &--sm {
             transform: scale(0.5);
         }
-    }
-    canvas { 
-        // max-width: 50vw;
-        contain: paint;
     }
 </style>

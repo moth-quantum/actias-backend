@@ -49,7 +49,7 @@
                 />
             </div>
             <div class="qubit__sliders">
-                {#each $qubits[0].axes as {value, name, colour} (name)}
+                {#each $qubits[i].axes as {value, name, colour} (name)}
                     <Slider
                         {name} {colour}
                         bind:value={value}
