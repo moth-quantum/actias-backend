@@ -15,7 +15,7 @@
 
     $: activeQubits = $qubits.filter(q => q.active).length;
     $: isSingle = activeQubits === 1 || windowWidth < 1000;
-    $: isDouble = (activeQubits%2 === 0 || activeQubits === 3 || windowWidth < 1500) && !isSingle;
+    $: isDouble = (activeQubits%2 === 0 || activeQubits === 3 || windowWidth < 1500) && activeQubits < 7 && !isSingle;
     $: isTriple = !isSingle && !isDouble;
     $: isFullHeight = (activeQubits === 1 && windowWidth > 1000) 
         || (activeQubits === 2 && windowWidth > 1000);
@@ -78,7 +78,6 @@
         @media (max-width: 1200px) {
             height: calc(100% - 4rem);
             padding: 1rem 1rem 0;
-            margin-bottom: 1rem;
         }
     }
 
@@ -91,7 +90,7 @@
         grid-template-rows: 1fr;
         grid-template-columns: 1fr;
         border-radius: 10px;
-        height: calc(400px - 1rem);
+        max-height: calc(400px - 1rem);
         margin-bottom: 1rem;
         &:last-of-type {
             margin-bottom: 0;

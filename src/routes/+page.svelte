@@ -80,19 +80,27 @@
         <Parameters />
     </div>
 
-    <div class="qubits {$showKeyboard ? '' : 'qubits--full'}">
-        <Qubits />
+    <div class="interface">
+        <div 
+            class="qubits"
+            style="max-height: {$showKeyboard ? '40rem' : 'none'};"
+        >
+            <Qubits />
+        </div>
+    
+        {#if $showKeyboard}
+            <div class="controls">
+
+                <div class="keyboard">
+                    <Controls />
+                </div>
+        
+                <div class="measure">
+                    <Measure />
+                </div>
+            </div>
+        {/if}
     </div>
-
-    {#if $showKeyboard}
-        <div class="controls">
-            <Controls />
-        </div>
-
-        <div class="measure">
-            <Measure />
-        </div>
-    {/if}
 
 </section>
 
@@ -142,17 +150,8 @@
             display: grid;
             padding: 1.5rem 2rem;
             grid-gap: 1rem;
-            grid-template-columns: 3fr 6fr 3fr;
+            grid-template-columns: 3fr 9fr;
             grid-template-rows: 1fr 1fr 0.5fr;
-        }
-
-        &--fullscreen {
-            position: fixed;
-            z-index: 1000;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
         }
     }
 
@@ -169,72 +168,32 @@
         }
     }
 
-    .qubits {
-        grid-column-start: 1;
-        grid-column-end: 1;
+    .interface {
+        grid-column-start: 2;
+        grid-column-end: 2;
         grid-row-start: 1;
-        grid-row-end: 1;
-        max-height: 37rem;
+        grid-row-end: 4;
 
-        &--full {
-            grid-column-start: 1;
-            grid-column-end: 1;
-            grid-row-start: 1;
-            grid-row-end: 4;
-            max-height: 45rem;
-        }
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
 
+    .qubits {
         display: flex;
         align-items: flex-start;
         overflow: hidden;
-
-        @media (min-width: 1200px) {
-            
-            grid-column-start: 2;
-            grid-column-end: 4;
-            grid-row-start: 1;
-            grid-row-end: 3;
-            
-            width: 100%;
-        } 
-
-        &__fullscreen {
-            position: absolute;
-            top: 1rem;
-            left: 2rem;
-            @media (min-width: 1200px) {
-                top: auto;
-                bottom: 1rem;
-            }
-        }
     }
 
     .controls {
-        grid-column-start: 1;
-        grid-column-end: 1;
-        grid-row-start: 2;
-        grid-row-end: 2;
-
-        @media (min-width: 1200px) {
-            grid-column-start: 2;
-            grid-column-end: 2;
-            grid-row-start: 3;
-            grid-row-end: 4;
-            border-radius: 5px;
-        }
-        background-color: var(--color-grey-dark);
+        margin-top: 1rem;
+        width: 100%;
+        display: flex;
     }
 
-    .measure {
-        grid-column-start: 1;
-        grid-column-end: 1;
-        grid-row-start: 3;
-        grid-row-end: 3;
-        @media (min-width: 1200px) {
-            grid-column-start: 3;
-            grid-column-end: 3;
-            grid-row-start: 3;
-            grid-row-end: 4;   
-        }
+    .keyboard {
+        width: 75%;
+        background-color: var(--color-grey-dark);
+        margin-right: 1rem;
     }
 </style>
