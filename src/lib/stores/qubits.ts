@@ -16,6 +16,10 @@ export const qubits = writable<{active: boolean, axes: Axis[]}[]>(
     }))
 );
 
+export const activeQubitCount = derived(qubits, ($qubits) => {
+    return $qubits.filter(q => q.active).length;
+});
+
 export const activateQubit = () => {
     const i = get(qubits).findIndex(q => !q.active);
     i !== -1 && qubits.update(qs => {

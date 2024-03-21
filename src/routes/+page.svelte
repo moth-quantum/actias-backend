@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     import { startAudio } from '../sound';
     import { fullscreen as fs, isApp, showKeyboard } from '$lib/stores/global';
+    import { activeQubitCount } from '$lib/stores/qubits';
     import Presets from '$lib/components/Presets/Presets.svelte';
     import Parameters from '$lib/components/Parameters/Parameters.svelte';
     // @ts-ignore
@@ -83,6 +84,7 @@
     <div class="interface">
         <div 
             class="qubits"
+            class:qubits--full={$activeQubitCount < 3}
             style="max-height: {$showKeyboard ? '40rem' : 'none'};"
         >
             <Qubits />
@@ -90,7 +92,6 @@
     
         {#if $showKeyboard}
             <div class="controls">
-
                 <div class="keyboard">
                     <Controls />
                 </div>
@@ -183,6 +184,15 @@
         display: flex;
         align-items: flex-start;
         overflow: hidden;
+
+        &--contricted {
+            max-height: 40rem;
+        }
+
+        &--full {
+            height: 100%;
+        }
+
     }
 
     .controls {

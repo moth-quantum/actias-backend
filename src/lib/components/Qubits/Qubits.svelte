@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { qubits } from '$lib/stores/qubits';
+    import { qubits, activeQubitCount } from '$lib/stores/qubits';
     import { redrawCables } from '$lib/stores/patching';
     import Qubit from './Qubit.svelte';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
@@ -13,12 +13,11 @@
 
     const handleScroll = debounce(() => redrawCables(), 2);
 
-    $: activeQubits = $qubits.filter(q => q.active).length;
-    $: isSingle = activeQubits === 1 || windowWidth < 1000;
-    $: isDouble = (activeQubits%2 === 0 || activeQubits === 3 || windowWidth < 1500) && activeQubits < 7 && !isSingle;
+    $: isSingle = $activeQubitCount === 1 || windowWidth < 1000;
+    $: isDouble = ($activeQubitCount%2 === 0 || $activeQubitCount === 3 || windowWidth < 1500) && $activeQubitCount < 6 && !isSingle;
     $: isTriple = !isSingle && !isDouble;
-    $: isFullHeight = (activeQubits === 1 && windowWidth > 1000) 
-        || (activeQubits === 2 && windowWidth > 1000);
+    $: isFullHeight = ($activeQubitCount === 1 && windowWidth > 1000) 
+        || ($activeQubitCount === 2 && windowWidth > 1000);
     $: qubitSize = (isSingle && isFullHeight && 'lg') 
         || (isDouble && 'md') 
         || (isTriple && 'sm') 
@@ -90,11 +89,9 @@
         grid-template-rows: 1fr;
         grid-template-columns: 1fr;
         border-radius: 10px;
-        max-height: calc(400px - 1rem);
+        
         margin-bottom: 1rem;
-        &:last-of-type {
-            margin-bottom: 0;
-        }
+        
 
         &--full-height {
             height: 100%;
@@ -114,6 +111,7 @@
 
         &--triple {
             flex-basis: calc(33.3333% - 0.6666rem);
+            height: calc(400px - 1rem);
             margin-right: 1rem;
             &:nth-child(3n) {
                 margin-right: 0rem;
