@@ -4,7 +4,7 @@ import type { Axis } from '../types';
 import { add } from '../utils/utils';
 import { redrawCables } from './patching';
 
-export const qubits = writable<{active: boolean, axes: Axis[]}[]>(
+export const qubits = writable<{active: boolean, user: 'you' | number, axes: Axis[]}[]>(
     Array(12).fill(null).map((_, i) => ({
         active: i === 0, 
         user: 'you',

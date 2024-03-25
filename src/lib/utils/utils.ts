@@ -38,3 +38,18 @@ export function debounce(func: Function, delay: number) {
 export function add(a: number, b: number) {
     return a + b;
 }
+
+export const colours = [
+    "#ff8374",
+    "#ff1a99",
+    "#1abdb3",
+    "#ff9c8d",
+    "#ff33b2",
+    "#33d6cc",
+    "#ffb6a7",
+    "#ff4dcc",
+    "#4df0e6",
+    "#ffcfc0",
+    "#ff66e5",
+    "#66ffff"
+]

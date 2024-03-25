@@ -70,3 +70,14 @@ export interface Axis {
     step: number;
     colour: string;
 }
+
+export interface User {
+    id: number;
+    username: string;
+    location: string;
+    x: number;
+    y: number;
+    z: number;
+    isActive: boolean;
+    isConnected: boolean;
+}

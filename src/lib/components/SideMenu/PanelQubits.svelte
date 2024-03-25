@@ -1,11 +1,21 @@
 <script lang="ts">
     import qubitImg from '$lib/images/qubit.png';
+    import { get } from 'svelte/store';
     import { qubits, activateQubit, deactivateQubit } from '$lib/stores/qubits';
+    import { connectedUsers, getUserColour } from '$lib/stores/users';
     import Select from '$lib/components/Forms/Select.svelte';
+    // @ts-ignore
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faClose } from '@fortawesome/free-solid-svg-icons';
     library.add(faClose);
+
+    const handleAssignUser = (qubit: number, userID: 'you' | number) => {
+        qubits.update(qubits => {
+            qubits[qubit].user = userID;
+            return qubits;
+        });
+    }
 
 </script>
 
@@ -14,9 +24,15 @@
     <div class="qubits">
         {#each $qubits.filter(q => q.active) as qubit, i}
             <div class="qubits__qubit">
-                <div class="qubit__placeholder">
+                <div 
+                    class="qubit__placeholder"
+                    style="box-shadow: 0 0 10px {getUserColour(qubit.user)};"
+                >
                     <img src={qubitImg} alt="qubit" />
-                    <span class="qubit__i qubit__i--{i}">{i.toString().padStart(2, '0')}</span>
+                    <span 
+                        class="qubit__i"
+                        style="background-color: {getUserColour(qubit.user)}"
+                    >{(i+1).toString().padStart(2, '0')}</span>
                     {#if i && i === ($qubits.filter(q => q.active).length - 1)}
                         <button on:click={() => deactivateQubit()}>
                             <FontAwesomeIcon icon={faClose} />
@@ -28,13 +44,13 @@
                     <Select 
                         id={`${i}`}
                         options={[
-                            { name: 'John', value: 'john', active: true },
-                            { name: 'Alice', value: 'alice', active: true },
-                            { name: 'Bob', value: 'bob', active: true },
-                            { name: 'Emma', value: 'emma', active: true },
-                            { name: 'Michael', value: 'michael', active: true },
+                            { name: 'You', value: 'you', active: true },
+                            ...$connectedUsers.map(user => ({ name: user.username, value: user.id, active: true }))
                         ]}
-                        onChange={(e) => console.log(e)}
+                        onChange={(e) => handleAssignUser(i, e.target?.value)}
+                        background={getUserColour(qubit.user)}
+                        color="var(--color-grey-darker)"
+                        border="none"
                     />
                 </div>
             </div>
@@ -87,6 +103,7 @@
                 background-color: var(--color-grey-darker);
                 border-radius: 20px;
                 margin-bottom: 1rem;
+                border: 1px solid white;
                 button {
                     position: absolute;
                     top: 1rem;
@@ -133,11 +150,11 @@
                 color: var(--color-grey-darker);
                 font-weight: bold;
                 text-align: center;
-                @for $i from 0 through 11 {
-                    &--#{$i} {
-                        background-color: var(--color-theme-#{$i%3 + 1});
-                    }
-                }
+                // @for $i from 0 through 11 {
+                //     &--#{$i} {
+                //         background-color: var(--color-theme-#{$i%3 + 1});
+                //     }
+                // }
             }
             
         }

@@ -37,6 +37,7 @@
                         options={$inputs.map(input => ({name: input.name, active: true}))}
                         selected={name}
                         onChange={(e) => handleOnChangeDevice(name, e.target?.value)} 
+                        uppercase={false}
                     />
                     <Counter 
                         value={channel}
