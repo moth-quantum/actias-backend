@@ -29,3 +29,8 @@ export const getUserColour = (userID: string | number) => {
     if (userID === 'you') return 'var(--color-theme-1)';
     return get(connectedUsers).find(user => user.id === +userID)?.colour || 'var(--color-grey-darker)';
 }
+
+export const getUserName = (userID: string | number) => {
+    if (userID === 'you') return 'You';
+    return get(users).find(user => user.id === +userID)?.username || 'Unknown';
+}

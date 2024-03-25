@@ -5,6 +5,7 @@
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
     import Slider from '$lib/components/Sliders/Slider.svelte';
     import { debounce } from '$lib/utils/utils';
+  import { getUserColour, getUserName } from '$lib/stores/users';
     
     let axesIds = $qubits[0].axes.map(({key}) => key);
     let axesNames = $qubits[0].axes.map(({name}) => name);
@@ -38,7 +39,14 @@
             class:qubit--double={isDouble}
             class:qubit--triple={isTriple}
             class:qubit--full-height={isFullHeight}
+            class:qubit--border={qubit.user !== 'you'}
+            style="border-color: {getUserColour(qubit.user)};"
+
         >
+            <h3 class="qubit__info">
+                <span style="background-color: {getUserColour(qubit.user)}">{(i + 1).toString().padStart(2, '0')}</span>
+                <span style="background-color: {getUserColour(qubit.user)}">{getUserName(qubit.user)}</span>
+            </h3>
             <div class="qubit__qubit">
                 <Qubit 
                     id={i}
@@ -118,6 +126,25 @@
             margin-bottom: 1rem;
             &:nth-child(3n) {
                 margin-right: 0rem;
+            }
+        }
+
+        &--border {
+            border: 2px solid;
+        }
+
+        &__info {
+            position: absolute;
+            top: 1.5rem;
+            left: 2rem;
+            & span {
+                text-align: center;
+                padding: 0.5rem 1rem;
+                background-color: var(--color-grey-darker);
+                border-radius: 20px;
+                margin-right: 0.5rem;
+                font-weight: bold;
+                color: var(--color-grey-darker);
             }
         }
 
