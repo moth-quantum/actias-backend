@@ -198,7 +198,7 @@
     .qubits {
         display: flex;
         align-items: flex-start;
-        overflow: hidden;
+        overflow: scroll;
 
         &--contricted {
             max-height: 40rem;
@@ -211,9 +211,9 @@
     }
 
     .controls {
-        margin-top: 1rem;
         width: 100%;
-        
+        margin-top: 1rem;
+
         @media (min-width: 1450px) {
             display: flex;
         }
