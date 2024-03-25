@@ -11,6 +11,8 @@
     export let phase: number = 0;
     export let phi: number = 0;
     export let theta: number = 0;
+    export let disabled: boolean = false;
+    
     let p5Instance: p5;
     let height: number = 500;
     $: radius = height / 3;
@@ -63,6 +65,7 @@
         }, 10);
 
         p5.mouseDragged = () => {
+            if(disabled) return;
             debouncedMouseDragged();
         };
 
@@ -131,11 +134,17 @@
 
 </script>
 
-<div class="qubit qubit--{size}">
+<div 
+    class="qubit qubit--{size}"
+    class:disabled={disabled}
+>
     <P5 {sketch} on:instance={handleInstance} />
 </div>
 
 <style lang="scss">
+    .disabled {
+        cursor: not-allowed;
+    }
     .qubit {
         height: 100%;
         width: 100%;

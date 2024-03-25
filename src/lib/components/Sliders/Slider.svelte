@@ -9,6 +9,7 @@
     export let value: number = 0;
     export let colour: string = '#000';
     export let orientation: string = 'vertical';
+    export let disabled: boolean = false;
 
     let sliderValue: Tweened<number> = tweened(0, {
 		duration: 400,
@@ -27,22 +28,26 @@
         sliderValue.set(clamp(1 - (position - offset) / position, 0, 1));
     }
     const handleClick = (e: MouseEvent) => {
+        if(disabled) return;
         isActive = true;
         const { pageX, pageY } = e;
         setValue(pageX, pageY);
     }
     const handleTouch = (e: TouchEvent) => {
+        if(disabled) return;
         isActive = true;
         const { pageX, pageY } = e.touches[0];
         setValue(pageX, pageY);
     }
     const handleMove = (e: MouseEvent) => {
-        if(!isActive) return;
+        if(disabled) return;if
+        (!isActive) return;
         const { pageX, pageY } = e;
         setValue(pageX, pageY);
     }
     const handleSwipe = (e: TouchEvent) => {
-        if(!isActive) return;
+        if(disabled) return;if
+        (!isActive) return;
         const { pageX, pageY } = e.touches[0];
         setValue(pageX, pageY);
     }
@@ -50,7 +55,10 @@
     onMount(() => sliderValue.subscribe(debounce((v: number) => value = v, 10)))
 </script>
 
-<div class={`slider__container slider__container--${orientation}`}>
+<div 
+    class={`slider__container slider__container--${orientation}`}
+    class:disabled={disabled}
+>
     <span 
         class={'label label--' + orientation}
         style={`color: ${colour}`}    
@@ -74,6 +82,12 @@
 />
 
 <style lang="scss">
+    .disabled {
+        opacity: 0.5;
+        & .slider {
+            cursor: not-allowed;
+        }
+    }
     .slider__container {
         touch-action: none;
         display: flex;

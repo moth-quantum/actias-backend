@@ -51,9 +51,10 @@
                 <Qubit 
                     id={i}
                     size={qubitSize}
-                    bind:phi={$qubits[i].axes[1].value}
-                    bind:theta={$qubits[i].axes[2].value}
-                    bind:phase={$qubits[i].axes[0].value}
+                    bind:phi={qubit.axes[1].value}
+                    bind:theta={qubit.axes[2].value}
+                    bind:phase={qubit.axes[0].value}
+                    disabled={qubit.user !== 'you'}
                 />
             </div>
             <div class="qubit__patchbay">    
@@ -63,8 +64,9 @@
                 />
             </div>
             <div class="qubit__sliders">
-                {#each $qubits[i].axes as {value, name, colour} (name)}
+                {#each qubit.axes as {value, name, colour} (name)}
                     <Slider
+                        disabled={qubit.user !== 'you'}
                         {name} {colour}
                         bind:value={value}
                     />
