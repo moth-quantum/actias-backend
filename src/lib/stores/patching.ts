@@ -4,10 +4,10 @@ import type { Socket, Connection } from '$lib/types';
 export const sockets = writable({} as {[key: string]: Socket});
 export const connections = writable([] as Connection[]);
 
-export const redrawCables = () => {
+export const redrawCables = (ms = 1) => {
     setTimeout(() => {
         document.dispatchEvent(new CustomEvent('redrawCables'));
-    }, 1);
+    }, ms);
 }
 
 export const activateSocket = (id: string) => {

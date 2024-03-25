@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     import { startAudio } from '../sound';
     import { fullscreen as fs, isApp, showKeyboard, toggleKeyboard } from '$lib/stores/global';
+    import { redrawCables } from '$lib/stores/patching';
     import { activeQubitCount } from '$lib/stores/qubits';
     import Presets from '$lib/components/Presets/Presets.svelte';
     import Parameters from '$lib/components/Parameters/Parameters.svelte';
@@ -31,6 +32,7 @@
                 toggleKeyboard();
             }
         });
+        redrawCables(500)
     });
 
 </script>
@@ -199,6 +201,11 @@
         display: flex;
         align-items: flex-start;
         overflow: scroll;
+        margin-bottom: 1rem;
+
+        @media (min-width: 1200px) {
+            margin-bottom: 0;
+        }
 
         &--contricted {
             max-height: 40rem;
@@ -212,7 +219,10 @@
 
     .controls {
         width: 100%;
-        margin-top: 1rem;
+
+        @media (min-width: 1200px) {
+            margin-top: 1rem;
+        }
 
         @media (min-width: 1450px) {
             display: flex;

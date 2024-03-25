@@ -91,6 +91,7 @@
 
         &--full-height {
             height: 100%;
+            max-height: 37rem;
         }
 
         &--single {
@@ -130,11 +131,16 @@
         }   
 
         &__patchbay {
-            display: flex;
+            display: none;
             align-items: flex-end;
             grid-row: 1;
             grid-column: 1;
             padding-bottom: 1rem;
+
+            @media (min-width: 1200px) {
+                display: flex;
+            }
+            
         }
 
         &__sliders {
