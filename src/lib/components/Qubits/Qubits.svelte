@@ -6,6 +6,7 @@
     import Slider from '$lib/components/Sliders/Slider.svelte';
     import { debounce } from '$lib/utils/utils';
     import { getUserColour, getUserName } from '$lib/stores/users';
+  import { isApp } from '$lib/stores/global';
     
     let axesIds = $qubits[0].axes.map(({key}) => key);
     let axesNames = $qubits[0].axes.map(({name}) => name);
@@ -38,10 +39,12 @@
             style="border-color: {getUserColour(qubit.user)};"
 
         >
-            <h3 class="qubit__info">
-                <span style="background-color: {getUserColour(qubit.user)}">{(i + 1).toString().padStart(2, '0')}</span>
-                <span style="background-color: {getUserColour(qubit.user)}">{getUserName(qubit.user)}</span>
-            </h3>
+            {#if isApp()}
+                <h3 class="qubit__info">
+                    <span style="background-color: {getUserColour(qubit.user)}">{(i + 1).toString().padStart(2, '0')}</span>
+                    <span style="background-color: {getUserColour(qubit.user)}">{getUserName(qubit.user)}</span>
+                </h3>
+            {/if}
             <div class="qubit__qubit">
                 <Qubit 
                     id={i}

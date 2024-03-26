@@ -117,7 +117,8 @@
     }
 
     .source {
-        grid-column: 1 / 3;
+        width: 100%;
+        margin-bottom: 0.5rem;
         display: flex;
 
         & > div {
