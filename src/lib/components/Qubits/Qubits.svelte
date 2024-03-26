@@ -11,7 +11,7 @@
     let axesNames = $qubits[0].axes.map(({name}) => name);
     let windowWidth = window.innerWidth;
 
-    const handleScroll = debounce(() => redrawCables(), 2);
+    const handleScroll = debounce(() => redrawCables(), 1);
 
     $: isSingle = $activeQubitCount === 1 || windowWidth < 1000;
     $: isDouble = ($activeQubitCount%2 === 0 || $activeQubitCount === 3 || windowWidth < 1500) && !isSingle;
