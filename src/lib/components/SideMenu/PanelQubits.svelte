@@ -9,14 +9,6 @@
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faClose } from '@fortawesome/free-solid-svg-icons';
     library.add(faClose);
-
-    const handleAssignUser = (qubit: number, userID: 'you' | number) => {
-        qubits.update(qubits => {
-            qubits[qubit].user = userID;
-            return qubits;
-        });
-    }
-
 </script>
 
 <section>
@@ -47,10 +39,10 @@
                             { name: 'You', value: 'you', active: true },
                             ...$connectedUsers.map(user => ({ name: user.username, value: user.id, active: true }))
                         ]}
-                        onChange={(e) => handleAssignUser(i, e.target?.value)}
                         background={getUserColour(qubit.user)}
                         color="var(--color-grey-darker)"
                         border="none"
+                        bind:selected={qubit.user}
                     />
                 </div>
             </div>
