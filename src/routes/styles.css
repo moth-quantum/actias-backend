@@ -183,6 +183,8 @@ button:focus:not(:focus-visible) {
 
 .lottie-player {
     height: 56px;
+	max-width: 10rem;
+	margin: 0 auto;
 }
 
 canvas {
