@@ -4,19 +4,19 @@
     import Select from '$lib/components/Forms/Select.svelte';
     import Button from '$lib/components/Button/Button.svelte';
     import Input from '$lib/components/Forms/Input.svelte';
-    import { presetKeys, presets, savePreset, activePreset as active } from '$lib/stores/presets';
+    import { presetKeys, presets, savePreset, deletePreset, activePreset as active } from '$lib/stores/presets';
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { library } from '@fortawesome/fontawesome-svg-core';
-    import { faChevronLeft, faChevronRight, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
+    import { faAdd, faChevronLeft, faChevronRight, faFloppyDisk, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
     import { onMount, onDestroy } from 'svelte';
     
-    library.add(faChevronLeft, faChevronRight, faFloppyDisk);
+    library.add(faChevronLeft, faChevronRight, faFloppyDisk, faTrash, faPen, faAdd);
 
     export let hidden = false;
-    let current = $active
     let save: HTMLDialogElement;
-    let showEdit = false;
-    let editName = '';
+    let showSave = false;
+    let saveName = '';
+    $: current = $active || 'load';
 
     const handleNameChange = (e: Event) => {
         // @ts-ignore
@@ -27,17 +27,24 @@
             const newPresets = {...presets}
             newPresets[name] = newPresets[current]
             delete newPresets[current]
-            current = $active    
             return newPresets
         })
     }
 
     const onShowDialog = () => save?.showModal();
         
-    onMount(() => document.addEventListener('showSavePresetDialog', onShowDialog));
+    onMount(() => {
+        document.addEventListener('showSavePresetDialog', onShowDialog)
+        
+    });
     onDestroy(() => document.removeEventListener('showSavePresetDialog', onShowDialog));
     
 </script>
+
+<svelte:window on:keydown={e => {
+    if(e.key === 'Escape') showSave = false
+}} />
+
 
 <div 
     class="presets"
@@ -50,17 +57,17 @@
             ? $presetKeys.map(key => ({name: key, value: key, active: true}))
             : [{name: 'Load preset', value: 'load', active: false}]
         }
-        bind:selected={$active}
         disabled={!$presetKeys.length}
         classes="mr-2"
+        selected={current}
     />
-    {#if showEdit}
-        <div class="presets__edit">
+    {#if showSave}
+        <div class="presets__save">
             <Input
                 id="preset-name"
                 placeholder="TYPE A NAME..."
                 showLabel={false}
-                bind:value={editName}
+                bind:value={saveName}
                 border="1px solid white"
                 classes="mr-2"
             />
@@ -68,34 +75,42 @@
                 icon={faFloppyDisk}
                 colour="yellow"
                 onClick={() => {
-                    savePreset(editName)
-                    showEdit = false
+                    savePreset(saveName)
+                    showSave = false
                 }}
             />
+            
         </div>
     {/if}
-    {#if !showEdit}
+    {#if $active && !showSave}
+        <Button
+            icon={faPen}
+            colour="yellow"
+            onClick={() => {
+                // savePreset(saveName)
+                // showSave = false
+            }}
+            classes="mr-2"
+        />
+        <Button
+            icon={faTrash}
+            colour="yellow"
+            onClick={() => deletePreset(current)}
+            classes="mr-2"
+        />
+        <Button
+            icon={faAdd}
+            colour="yellow"
+            onClick={() => showSave = true}
+        />
+    {/if}
+    {#if !$active && !showSave}
         <Button
             text="Save"
             colour="yellow"
-            onClick={() => showEdit = true}
+            onClick={() => showSave = true}
         />
     {/if}
-    <!-- <button class="presets__chevron" on:click={onPrev}>
-        <FontAwesomeIcon icon={faChevronLeft} />
-    </button>
-
-    <span class="presets__input">
-        <input type="text" class={`presets__input ${!$presets[$active] ? 'presets__input--inactive' : ''}`} bind:value={$active} on:change={handleNameChange}/>
-    </span>
-
-    <button class="presets__store" on:click={() => savePreset($active)}>
-        <FontAwesomeIcon icon={faFloppyDisk} />
-    </button>
-
-    <button class="presets__chevron" on:click={onNext}>
-        <FontAwesomeIcon icon={faChevronRight} />
-    </button> -->
 </div>
 
 <Dialog bind:dialog={save} on:close={() => save.close()}>
@@ -116,7 +131,7 @@
         // font-weight: 500;
         display: flex;
         align-items: center;
-        &__edit {
+        &__save {
             display: flex;
             align-items: center;
             height: 100%;

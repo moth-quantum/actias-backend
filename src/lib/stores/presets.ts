@@ -77,3 +77,11 @@ export function savePreset(key: string) {
     presets.update(presets => ({...presets, ...stored}))
     activePreset.set(key)
 }
+
+export function deletePreset(key: string) {
+    const stored = JSON.parse(localStorage.getItem('q1synth-presets') || "{}");
+    delete stored[key];
+    localStorage.setItem('q1synth-presets', JSON.stringify(stored));
+    presets.update(presets => ({...stored}))
+    activePreset.set(Object.keys(stored).sort((a, b) => a.localeCompare(b))[0])
+}
