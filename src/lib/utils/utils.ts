@@ -53,3 +53,7 @@ export const colours = [
     "#ff66e5",
     "#66ffff"
 ]
+
+export function min(a: number, b: number) {
+    return a < b ? a : b;
+}

@@ -5,24 +5,19 @@
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
     import Slider from '$lib/components/Sliders/Slider.svelte';
     import { debounce } from '$lib/utils/utils';
-  import { getUserColour, getUserName } from '$lib/stores/users';
+    import { getUserColour, getUserName } from '$lib/stores/users';
     
     let axesIds = $qubits[0].axes.map(({key}) => key);
     let axesNames = $qubits[0].axes.map(({name}) => name);
     let windowWidth = window.innerWidth;
-    let qubitSize: 'sm' | 'md' | 'lg' = 'md';
 
     const handleScroll = debounce(() => redrawCables(), 2);
 
     $: isSingle = $activeQubitCount === 1 || windowWidth < 1000;
-    $: isDouble = ($activeQubitCount%2 === 0 || $activeQubitCount === 3 || windowWidth < 1500) && $activeQubitCount < 6 && !isSingle;
+    $: isDouble = ($activeQubitCount%2 === 0 || $activeQubitCount === 3 || windowWidth < 1500) && !isSingle;
     $: isTriple = !isSingle && !isDouble;
     $: isFullHeight = ($activeQubitCount === 1 && windowWidth > 1000) 
         || ($activeQubitCount === 2 && windowWidth > 1000);
-    $: qubitSize = (isSingle && isFullHeight && 'lg') 
-        || (isDouble && 'md') 
-        || (isTriple && 'sm') 
-        || 'md';
 
 </script>
 
@@ -50,7 +45,6 @@
             <div class="qubit__qubit">
                 <Qubit 
                     id={i}
-                    size={qubitSize}
                     bind:phi={qubit.axes[1].value}
                     bind:theta={qubit.axes[2].value}
                     bind:phase={qubit.axes[0].value}
@@ -154,10 +148,10 @@
         &__qubit {
             grid-row: 1;
             grid-column: 1;
-            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }   
 
         &__patchbay {

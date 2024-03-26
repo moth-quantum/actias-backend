@@ -2,20 +2,23 @@
     import P5 from 'p5-svelte'
     import type { p5, Sketch } from 'p5-svelte';
     import { Vector } from 'p5'
-    import { clamp } from '../../utils/utils';
+    import { clamp, min } from '../../utils/utils';
     import { debounce } from '$lib/utils/utils';
-    import { onMount, onDestroy } from 'svelte';
+    import { onMount } from 'svelte';
+    import { activeQubitCount } from '$lib/stores/qubits';
+    import { redrawCables } from '$lib/stores/patching';
     
     export let id: number;
-    export let size: 'sm' | 'md' | 'lg' = 'md';
     export let phase: number = 0;
     export let phi: number = 0;
     export let theta: number = 0;
     export let disabled: boolean = false;
     
+    let container: HTMLDivElement
     let p5Instance: p5;
-    let height: number = 500;
-    $: radius = height / 3;
+    let height: number = 100;
+    let radius = height / 3;
+    let resize: (...args: any[]) => void;
 
     const handleRedrawQubit = (e: any) => {
         if (e.detail === id && p5Instance) {
@@ -23,8 +26,14 @@
         }
     }
 
-    onMount(() => document.addEventListener('redrawQubit', handleRedrawQubit));
-    onDestroy(() => document.removeEventListener('redrawQubit', handleRedrawQubit));
+    onMount(() => {
+        document.addEventListener('redrawQubit', handleRedrawQubit)
+        activeQubitCount.subscribe(() => p5Instance && setTimeout(resize, 100))
+
+        return () => {
+            document.removeEventListener('redrawQubit', handleRedrawQubit)
+        }
+    });
 
     const handleInstance = (e: CustomEvent<p5>) => {
         p5Instance = e.detail
@@ -33,6 +42,18 @@
     const sketch : Sketch = (p5: p5)=> {
         function isWithinCanvas(x: number, y: number) {
             return x > 0 && x < p5.height && y > 0 && y < p5.height
+        }
+
+        function getSize()  {
+            const dimensions = container.getBoundingClientRect()
+            height = min(dimensions.width - 100, 500)
+            radius = height / 3;
+        }
+
+        function handleResize() {
+            getSize()
+            p5.resizeCanvas(height, height)
+            redrawCables()
         }
 
         p5.mouseIsPressed = false
@@ -44,9 +65,12 @@
         p5.mouseReleased = e => p5.mouseIsPressed = false
 
         p5.setup = () => {
+            getSize()
             p5.createCanvas(height, height, p5.WEBGL)
             p5.smooth()
             p5.noLoop()
+
+            resize = debounce(handleResize, 100)
         }
 
         const debouncedMouseDragged = debounce(() => {
@@ -135,11 +159,14 @@
 </script>
 
 <div 
-    class="qubit qubit--{size}"
+    class="qubit"
     class:disabled={disabled}
+    bind:this={container}
 >
     <P5 {sketch} on:instance={handleInstance} />
 </div>
+
+<svelte:window on:resize={resize} />
 
 <style lang="scss">
     .disabled {
@@ -149,15 +176,8 @@
         height: 100%;
         width: 100%;
         display: flex;
+        overflow: hidden;
         align-items: center;
         justify-content: center;
-        
-        &--md {
-            transform: scale(0.75);
-        }
-
-        &--sm {
-            transform: scale(0.5);
-        }
     }
 </style>
