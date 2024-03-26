@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import { startAudio } from '../sound';
-    import { fullscreen as fs, isApp, showKeyboard, toggleKeyboard } from '$lib/stores/global';
+    import { fullscreen as fs, isApp, showKeyboard, toggleKeyboard, showSideMenu } from '$lib/stores/global';
     import { redrawCables } from '$lib/stores/patching';
     import { activeQubitCount } from '$lib/stores/qubits';
     import Presets from '$lib/components/Presets/Presets.svelte';
@@ -16,6 +16,10 @@
 
     import { Drawer } from 'flowbite-svelte';
     import { sineIn } from 'svelte/easing';
+
+    import { library } from '@fortawesome/fontawesome-svg-core';
+    import { faBars } from '@fortawesome/free-solid-svg-icons';
+    library.add(faBars);
 
     let isDesktop = false;
     let sidebarIsHidden = true; 
@@ -70,6 +74,14 @@
 <section class="buttons container mx-auto">
     <div class="buttons__inner">
         <div class="buttons__instruments">
+            <Button 
+                colour="grey"
+                border={true}
+                active={$showSideMenu}
+                onClick={() => showSideMenu.update(v => !v)}
+                icon={faBars}
+                classes="mr-2"
+            />
             <InstrumentButtons />
         </div>
     
@@ -147,7 +159,7 @@
         &__instruments {
             display: none;
             @media (min-width: 1200px) {
-                display: block
+                display: flex;
             }
         }
 

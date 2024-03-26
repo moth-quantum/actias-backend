@@ -1,10 +1,10 @@
 <script>
     import logo from '$lib/images/q1synth-icon.svg';
-    import { isApp } from '$lib/stores/global';
+    import { isApp, showSideMenu } from '$lib/stores/global';
 </script>
 
 <header>
-    <nav class="container nav {isApp() ? 'nav--app' : ''}">
+    <nav class="container nav {isApp() ? 'nav--app' : ''} {$showSideMenu ? 'has-side-menu' : ''}">
         <a href="/">
             <img
                 src={logo}
@@ -34,17 +34,17 @@
         display: flex;
         justify-content: space-between;
         padding: 1rem;
-        padding-left: 96px;
-
 
         @media (min-width: 1200px) {
             padding: 1rem 2rem;
-            padding-left: 96px;
-
         }
 
         @media (min-width: calc(var(--max-width))) {
             padding-right: 0rem;
+        }
+
+        &.has-side-menu {
+            padding-left: 105px;
         }
 
     }

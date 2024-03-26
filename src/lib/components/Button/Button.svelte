@@ -3,19 +3,20 @@
     import { FontAwesomeIcon } from 'fontawesome-svelte';
 
     export let classes: string = '';
-    export let text: string;
+    export let text: string = '';
     export let icon: IconDefinition | null = null;
     export let image: string = '';
     export let active: boolean = true;
     export let disabled: boolean = false;
     export let colour: string;
     export let orientation: string = 'horizontal';
+    export let border: boolean = false;
     export let onClick: () => void;
 </script>
 
 <button
     class:active={active}
-    class={`btn btn--${colour} ${disabled ? 'btn--disabled' : ''} ${orientation === 'vertical' ? 'btn--vertical' : ''} ${classes}`}
+    class={`btn btn--${colour} ${disabled ? 'btn--disabled' : ''} ${orientation === 'vertical' ? 'btn--vertical' : ''} ${border ? 'btn--border' : ''} ${classes}`}
     on:click={onClick}
 >
     {#if icon}
@@ -107,6 +108,10 @@
         &.active {
             background-color: var(--color-yellow);
             color: var(--color-white);
+        }
+
+        &.btn--border {
+            border: 1px solid var(--color-grey-light);
         }
     }
 

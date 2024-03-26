@@ -1,4 +1,5 @@
 <script>
+    import { showSideMenu } from "$lib/stores/global";
     import "../app.postcss";
     import Header from "./Header.svelte";
     import "./styles.css";
@@ -10,7 +11,9 @@
     <Header />
     
     <main class="main container">
-        <SideMenu />
+        {#if $showSideMenu}
+            <SideMenu />
+        {/if}
         <div class="main__content">
             <slot />
         </div>
@@ -23,9 +26,9 @@
         <br>
         <span>© <a href="https://mothquantum.com/">Moth Quantum</a> / <a href="https://cmr.soc.plymouth.ac.uk/">ICCMR</a> 2023</span>
     </footer>
-        
-
 </div>
+
+<svelte:window on:resize={() => window.innerWidth < 1200 && showSideMenu.set(false)} />
 
 <style lang="scss">
     .app {
