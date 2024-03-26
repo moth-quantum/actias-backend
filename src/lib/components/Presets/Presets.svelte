@@ -4,7 +4,7 @@
     import Select from '$lib/components/Forms/Select.svelte';
     import Button from '$lib/components/Button/Button.svelte';
     import Input from '$lib/components/Forms/Input.svelte';
-    import { presetKeys, presets, savePreset, deletePreset, activePreset as active } from '$lib/stores/presets';
+    import { presetKeys, presets, savePreset, deletePreset, editPreset, activePreset as active } from '$lib/stores/presets';
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faAdd, faChevronLeft, faChevronRight, faFloppyDisk, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -15,7 +15,8 @@
     export let hidden = false;
     let save: HTMLDialogElement;
     let showSave = false;
-    let saveName = '';
+    let showEdit = false;
+    let name = '';
     $: current = $active || 'load';
 
     const handleNameChange = (e: Event) => {
@@ -58,59 +59,61 @@
             : [{name: 'Load preset', value: 'load', active: false}]
         }
         disabled={!$presetKeys.length}
-        classes="mr-2"
         selected={current}
+        onChange={e => active.set(e.target.value)}
     />
-    {#if showSave}
-        <div class="presets__save">
-            <Input
-                id="preset-name"
-                placeholder="TYPE A NAME..."
-                showLabel={false}
-                bind:value={saveName}
-                border="1px solid white"
-                classes="mr-2"
-            />
-            <Button
-                icon={faFloppyDisk}
-                colour="yellow"
-                onClick={() => {
-                    savePreset(saveName)
-                    showSave = false
-                }}
-            />
-            
-        </div>
+    {#if showEdit || showSave}
+        <Input
+            id="preset-name"
+            placeholder={'TYPE A NAME...'}
+            showLabel={false}
+            bind:value={name}
+            border="1px solid white"
+            classes="ml-2"
+        />
+    {/if}
+    {#if showEdit || showSave}
+        <Button
+            icon={faFloppyDisk}
+            colour="yellow"
+            onClick={() => {
+                showEdit 
+                    ? editPreset(name)
+                    : savePreset(name)
+                showSave = false
+                showEdit = false
+            }}
+            classes="ml-2"
+        />        
     {/if}
     {#if $active && !showSave}
         <Button
             icon={faPen}
             colour="yellow"
             onClick={() => {
-                // savePreset(saveName)
-                // showSave = false
+                name = current
+                showEdit = true
+                showSave = true
             }}
-            classes="mr-2"
+            classes="ml-2"
         />
         <Button
             icon={faTrash}
             colour="yellow"
             onClick={() => deletePreset(current)}
-            classes="mr-2"
-        />
-        <Button
-            icon={faAdd}
-            colour="yellow"
-            onClick={() => showSave = true}
+            classes="ml-2"
         />
     {/if}
-    {#if !$active && !showSave}
-        <Button
-            text="Save"
-            colour="yellow"
-            onClick={() => showSave = true}
-        />
-    {/if}
+    
+    <Button
+        icon={faAdd}
+        colour="yellow"
+        onClick={() => {
+            name = ''
+            showSave = true
+        }}
+        classes="ml-2"
+    />
 </div>
 
 <Dialog bind:dialog={save} on:close={() => save.close()}>

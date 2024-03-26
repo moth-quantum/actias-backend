@@ -30,7 +30,7 @@ export const presetKeys = derived(
 
 activePreset.subscribe(loadPreset)
 
-function loadPreset(key: string) {
+export function loadPreset(key: string) {
     const preset = get(presets)[key]
     if(!preset) return;
     
@@ -82,6 +82,17 @@ export function deletePreset(key: string) {
     const stored = JSON.parse(localStorage.getItem('q1synth-presets') || "{}");
     delete stored[key];
     localStorage.setItem('q1synth-presets', JSON.stringify(stored));
-    presets.update(presets => ({...stored}))
+    presets.set(stored)
     activePreset.set(Object.keys(stored).sort((a, b) => a.localeCompare(b))[0])
+}
+
+export function editPreset(key: string) {
+    const previousName = get(activePreset);
+    const stored = JSON.parse(localStorage.getItem('q1synth-presets') || "{}");
+    const preset = stored[previousName];
+    delete stored[previousName];
+    stored[key] = preset;
+    localStorage.setItem('q1synth-presets', JSON.stringify(stored));
+    presets.set(stored)
+    activePreset.set(key)
 }
