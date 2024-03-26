@@ -7,7 +7,7 @@ import { faGlobe, faUser, faUsers, faCircleQuestion, faGear, faPlay } from '@for
 library.add(faGlobe, faUser, faUsers, faCircleQuestion, faGear, faPlay);
 
 export const menuItems = writable([
-    { name: 'profile', icon: faUser, isVisible: isApp(), isActive: false, hasSubMenu: true },
+    { name: 'profile', icon: faUser, isVisible: true, isActive: false, hasSubMenu: true },
     { name: 'assign', icon: faGlobe, isVisible: isApp(), isActive: false, hasSubMenu: true },
     // { name: 'assign', icon: faGlobe, isVisible: true, isActive: false, hasSubMenu: true },
     { name: 'connect', icon: faUsers, isVisible: isApp(), isActive: false, hasSubMenu: true },

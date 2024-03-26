@@ -1,31 +1,46 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
+    import { mute } from '$lib/stores/global';
 
     const dispatch = createEventDispatcher();
     export let id: string = '';
     export let placeholder: string = '';
     export let value: string | number = '';
     export let label: string = '';
+    export let showLabel: boolean = true;
+    export let border: string = 'none';
+    export let color: string = 'white';
+    export let classes: string = '';
 </script>
 
-<label class="title" for={id}>{label}</label>
+{#if showLabel}
+    <label class="title" for={id}>{label}</label>
+{/if}
 <input 
-    {id} {placeholder} bind:value 
+    {id} 
+    {placeholder} 
+    bind:value 
     on:change={() => dispatch('change', value)}
-    on:keydown={e => e.key === 'Enter' && value !== '' && dispatch('enter', value) && (value = '')}
+    on:keydown={e => {
+        mute.set(true)
+        e.key === 'Enter' && value !== '' && dispatch('enter', value) && (value = '')
+    }}
+    on:keyup={() => mute.set(false)}
+    style={`border: ${border}; color: ${color}`}
+    class={classes}
 />
 
 <style lang="scss">
     input {
-        color: white;
-        padding: 0.5rem 0;
-        border: none;
+        border-radius: 5px;
+        padding: 0.25rem 2rem 0.25rem 1rem;
+        height: 100%;
         background-color: transparent;
         font-size: var(--text-sm);
     }
 
     input::placeholder {
-        color: var(--color-grey-mid);
+        color: white;
     }
 
     :focus {

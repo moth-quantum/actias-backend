@@ -18,6 +18,7 @@
     class:active={active}
     class={`btn btn--${colour} ${disabled ? 'btn--disabled' : ''} ${orientation === 'vertical' ? 'btn--vertical' : ''} ${border ? 'btn--border' : ''} ${classes}`}
     on:click={onClick}
+    style={`padding: ${text ? '0.25rem 2rem' : '0.25rem 1rem'};`}
 >
     {#if icon}
         <span class="btn__icon">
@@ -28,14 +29,15 @@
         <img src={image} alt={text} />
     {/if}
     {#if text}
-        <span class="btn__text">{text}</span>
+        <span
+            class:has-image={image || icon} 
+            class="btn__text">{text}</span>
     {/if}
 </button>
 
 <style lang="scss">
     .btn {
         font-size: var(--text-sm);
-        padding: 0.25rem 2rem;
         text-transform: uppercase;
         color: var(--color-grey-mid);
         border-radius: 5px;
@@ -57,7 +59,7 @@
         }
     }
 
-    .btn__text {
+    .has-image {
         margin-left: 0.5rem;
     }
 
