@@ -29,6 +29,11 @@
         easing: sineIn
     };
 
+    const handleResize = () => {
+        isDesktop = window.innerWidth > 1200
+        sidebarIsHidden = true
+    }
+
     onMount(() => {
         isDesktop = window.innerWidth > 1200
         window.addEventListener('keydown', (event) => {
@@ -50,7 +55,7 @@
     on:click={startAudio} 
     on:touchstart={startAudio}
     on:keydown={startAudio}
-    on:resize={() => isDesktop = window.innerWidth > 1200}
+    on:resize={handleResize}
 />
 
 <Drawer 
@@ -153,7 +158,9 @@
             }
 
         }
-        z-index: 100;
+        @media (min-width: 1200px) {
+            z-index: 100;
+        }
         
 
         &__instruments {

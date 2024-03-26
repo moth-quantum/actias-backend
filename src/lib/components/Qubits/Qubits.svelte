@@ -139,6 +139,7 @@
             position: absolute;
             top: 1.5rem;
             left: 2rem;
+            z-index: 10;
             & span {
                 text-align: center;
                 padding: 0.5rem 1rem;
