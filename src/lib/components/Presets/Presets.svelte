@@ -109,7 +109,7 @@
         icon={faAdd}
         colour="yellow"
         onClick={() => {
-            name = ''
+            name = current
             showSave = true
         }}
         classes="ml-2"
