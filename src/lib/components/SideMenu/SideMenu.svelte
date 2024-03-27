@@ -34,6 +34,9 @@
             if (event.key === 'Escape') {
                 closeMenu();
             }
+            if (event.key === 'k') {
+                handleMenuClick('keyboard');
+            }
         };
 
         window.addEventListener('keydown', handleKeyDown);

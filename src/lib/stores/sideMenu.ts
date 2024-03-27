@@ -13,7 +13,7 @@ export const menuItems = writable([
     { name: 'connect', icon: faUsers, isVisible: isApp(), isActive: false, hasSubMenu: true },
     // { name: 'connect', icon: faUsers, isVisible: true, isActive: false, hasSubMenu: true },
     { name: 'midi', image: midi, isVisible: true, isActive: false, hasSubMenu: true },
-    { name: 'keyboard', image: keyboard, isVisible: true, isActive: false, hasSubMenu: false },
+    { name: 'keyboard', image: keyboard, isVisible: true, isActive: true, hasSubMenu: false },
     { name: 'tooltips', icon: faCircleQuestion, isVisible: true, isActive: false, hasSubMenu: false },
     { name: 'perform', icon: faPlay, isVisible: true, isActive: false, hasSubMenu: false }
 ]);
