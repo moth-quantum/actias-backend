@@ -44,6 +44,8 @@ WebMidi
     .enable()
     .then(() => {
         console.log("WebMidi enabled!")
+        if(typeof localStorage === 'undefined') return
+        
         // sync with any saved active inputs
         const savedActiveInputs = localStorage.getItem('q.midi.activeInputs');
         savedActiveInputs && activeInputs.set(JSON.parse(savedActiveInputs));
