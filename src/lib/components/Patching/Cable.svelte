@@ -8,17 +8,19 @@
     
     let w;
     let h;
-
-    function resize() {
-        w = window.innerWidth;
-        h = document.body.scrollHeight;
-    }
-
-    // resize if document body changes size
-    const resizeObserver = new ResizeObserver(resize)
-    resizeObserver.observe(document.body)
-
-    onMount(resize);
+    let resizeObserver;
+    
+    onMount(() => {
+        function resize() {
+            w = window.innerWidth;
+            h = document.body.scrollHeight;
+        }
+        
+        // resize if document body changes size
+        resizeObserver = new ResizeObserver(resize)
+        resizeObserver.observe(document.body)
+        resize()
+    });
     onDestroy(() => resizeObserver.disconnect());
     
 

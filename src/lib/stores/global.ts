@@ -9,7 +9,7 @@ export const mute = writable(false);
 export const fullscreen = writable(false);
 
 export const isApp: () => boolean = () => {
-    return !!window.isApp;
+    return typeof window !== 'undefined' && !!window.isApp;
 }
 
 export const showKeyboard = writable(true);

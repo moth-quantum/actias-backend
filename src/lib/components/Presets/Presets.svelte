@@ -8,7 +8,7 @@
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faAdd, faChevronLeft, faChevronRight, faFloppyDisk, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
     import { onMount, onDestroy } from 'svelte';
-  import { mute } from '$lib/stores/global';
+    import { mute } from '$lib/stores/global';
     
     library.add(faChevronLeft, faChevronRight, faFloppyDisk, faTrash, faPen, faAdd);
 

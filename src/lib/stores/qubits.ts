@@ -58,6 +58,8 @@ qubits.subscribe((qubits) => {
     
     // Fire a redraw event with the index of the qubit to be redrawn
     // This prevents all qubits from being redrawn each time a single qubit changes
+    if(typeof document === 'undefined') return
+    
     const redrawEvent = new CustomEvent('redrawQubit', { detail: changedQubitIndex });
     document.dispatchEvent(redrawEvent);
 });

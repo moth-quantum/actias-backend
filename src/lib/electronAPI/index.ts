@@ -3,6 +3,8 @@ import { updateSamples } from '$lib/stores/samples';
 import { getAppState } from '$lib/stores/parameters';
 
 export default function initElectronAPI() {
+    if(typeof document === 'undefined') return
+    
     // presets
     window.electronAPI.onSetPreset((key: string) => activePreset.set(key))
     window.electronAPI.onSavePreset(() => {

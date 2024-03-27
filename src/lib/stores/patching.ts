@@ -5,6 +5,8 @@ export const sockets = writable({} as {[key: string]: Socket});
 export const connections = writable([] as Connection[]);
 
 export const redrawCables = (ms = 1) => {
+    if(typeof document === 'undefined') return
+    
     setTimeout(() => {
         document.dispatchEvent(new CustomEvent('redrawCables'));
     }, ms);
