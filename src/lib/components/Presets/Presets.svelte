@@ -84,6 +84,7 @@
                 showEdit = false
             }}
             classes="ml-2"
+            narrow={true}
         />        
     {/if}
     {#if $active && !showSave}
@@ -96,12 +97,14 @@
                 showSave = true
             }}
             classes="ml-2"
+            narrow={true}
         />
         <Button
             icon={faTrash}
             colour="yellow"
             onClick={() => deletePreset(current)}
             classes="ml-2"
+            narrow={true}
         />
     {/if}
     

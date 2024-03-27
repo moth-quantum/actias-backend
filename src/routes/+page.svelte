@@ -83,6 +83,7 @@
                 colour="grey"
                 border={true}
                 active={$showSideMenu}
+                narrow={true}
                 onClick={() => showSideMenu.update(v => !v)}
                 icon={faBars}
                 classes="mr-2"

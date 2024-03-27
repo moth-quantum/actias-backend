@@ -7,6 +7,7 @@
     export let icon: IconDefinition | null = null;
     export let image: string = '';
     export let active: boolean = true;
+    export let narrow: boolean = false;
     export let disabled: boolean = false;
     export let colour: string;
     export let orientation: string = 'horizontal';
@@ -16,9 +17,14 @@
 
 <button
     class:active={active}
-    class={`btn btn--${colour} ${disabled ? 'btn--disabled' : ''} ${orientation === 'vertical' ? 'btn--vertical' : ''} ${border ? 'btn--border' : ''} ${classes}`}
+    class={`btn btn--${colour} 
+        ${disabled ? 'btn--disabled' : ''} 
+        ${orientation === 'vertical' ? 'btn--vertical' : ''} 
+        ${border ? 'btn--border' : ''} 
+        ${narrow ? 'btn--narrow' : ''} 
+        ${classes}`
+    }
     on:click={onClick}
-    style={`padding: ${text ? '0.25rem 2rem' : '0.25rem 1rem'};`}
 >
     {#if icon}
         <span class="btn__icon">
@@ -44,6 +50,7 @@
         font-weight: 500;
         height: 100%;
         letter-spacing: 0.0625rem;
+        padding: 0.25rem 2rem;
 
         &:last-child {
             margin-right: 0;
@@ -63,6 +70,9 @@
         margin-left: 0.5rem;
     }
 
+    .btn--narrow {
+        padding: 0.25rem 1rem;
+    }
     .btn--vertical {
         display: flex;
         flex-direction: column;
