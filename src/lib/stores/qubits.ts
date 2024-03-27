@@ -3,6 +3,7 @@ import { mapToRange, clamp } from '../utils/utils';
 import type { Axis } from '../types';
 import { add } from '../utils/utils';
 import { redrawCables } from './patching';
+import { disconnectSocket } from './patching';
 
 export const qubits = writable<{active: boolean, user: 'you' | number, axes: Axis[]}[]>(
     Array(12).fill(null).map((_, i) => ({
@@ -33,6 +34,11 @@ export const deactivateQubit = () => {
     qubits.update(qs => {
         const i = qs.filter(q => q.active).length - 1
         qs[i].active = false;
+        // tidy up connections that were connected to this qubit
+        ['x', 'y', 'z'].forEach(axis => {
+            const key = `${axis}${i}`;
+            disconnectSocket(key);
+        })
         return qs
     })
     redrawCables();

@@ -1,6 +1,5 @@
 <script lang="ts">
     import qubitImg from '$lib/images/qubit.png';
-    import { get } from 'svelte/store';
     import { qubits, activateQubit, deactivateQubit } from '$lib/stores/qubits';
     import { connectedUsers, getUserColour } from '$lib/stores/users';
     import Select from '$lib/components/Forms/Select.svelte';
