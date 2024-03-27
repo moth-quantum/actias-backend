@@ -26,7 +26,9 @@
         mute.set(true)
         e.key === 'Enter' && value !== '' && dispatch('enter', value) && (value = '')
     }}
-    on:keyup={() => mute.set(false)}
+    on:keyup={() => {
+        mute.set(false)
+    }}
     style={`
         border: ${border}; 
         color: ${color}; 

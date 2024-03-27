@@ -8,6 +8,7 @@
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faAdd, faChevronLeft, faChevronRight, faFloppyDisk, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
     import { onMount, onDestroy } from 'svelte';
+  import { mute } from '$lib/stores/global';
     
     library.add(faChevronLeft, faChevronRight, faFloppyDisk, faTrash, faPen, faAdd);
 
@@ -48,9 +49,10 @@
 </script>
 
 <svelte:window on:keydown={e => {
-    if(e.key === 'Escape') {
+    if(e.key === 'Escape' || e.key === 'Enter') {
         isSaving = false
         isEditing = false
+        mute.set(false)
     }
 }} />
 
