@@ -95,7 +95,7 @@
         />        
     {/if}
     
-    {#if $active && !isSaving}
+    {#if $active !== 'load' && !isSaving}
         <Button
             icon={faPen}
             colour="yellow"
