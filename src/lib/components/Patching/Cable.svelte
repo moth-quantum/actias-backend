@@ -6,8 +6,8 @@
     export let offset = 2;
     export let colour = 'blue';
     
-    let w = window.innerWidth
-    let h = document.body.scrollHeight
+    let w;
+    let h;
 
     function resize() {
         w = window.innerWidth;
