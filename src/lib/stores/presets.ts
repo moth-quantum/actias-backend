@@ -83,7 +83,7 @@ export function deletePreset(key: string) {
     delete stored[key];
     localStorage.setItem('q1synth-presets', JSON.stringify(stored));
     presets.set(stored)
-    activePreset.set(Object.keys(stored).sort((a, b) => a.localeCompare(b))[0])
+    activePreset.set('load')
 }
 
 export function editPreset(key: string) {

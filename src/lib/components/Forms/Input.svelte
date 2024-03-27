@@ -11,6 +11,7 @@
     export let border: string = 'none';
     export let color: string = 'white';
     export let classes: string = '';
+    export let uppercase: boolean = false;
 </script>
 
 {#if showLabel}
@@ -26,7 +27,7 @@
         e.key === 'Enter' && value !== '' && dispatch('enter', value) && (value = '')
     }}
     on:keyup={() => mute.set(false)}
-    style={`border: ${border}; color: ${color}`}
+    style={`border: ${border}; color: ${color}; text-transform: ${uppercase ? 'uppercase' : 'none'}`}
     class={classes}
 />
 
