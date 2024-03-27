@@ -2,12 +2,11 @@ import { activePreset, presets } from '$lib/stores/presets';
 import { updateSamples } from '$lib/stores/samples';
 import { getAppState } from '$lib/stores/parameters';
 
-const showSavePresetDialog = new CustomEvent('showSavePresetDialog');
-
 export default function initElectronAPI() {
     // presets
     window.electronAPI.onSetPreset((key: string) => activePreset.set(key))
     window.electronAPI.onSavePreset(() => {
+        const showSavePresetDialog = new CustomEvent('showSavePresetDialog');
         document.dispatchEvent(showSavePresetDialog)
     })
     presets.subscribe(presets => window.electronAPI.syncUserPresets(presets))
