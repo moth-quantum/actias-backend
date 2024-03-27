@@ -66,24 +66,26 @@
     </div>
     {#if $activeSubMenu}
         <div class="side-menu__panel">
-            {#if $activeSubMenu === 'profile'}
-                <Profile />
-            {/if}
-
-            {#if $activeSubMenu === 'connect'}
-                <Connect />
-            {/if}
-
-            {#if $activeSubMenu === 'assign'}
-                <Qubits />
-            {/if}
-            {#if $activeSubMenu === 'midi'}
-                <!-- <Midi /> -->
+            {#if ['profile', 'connect', 'assign', 'midi'].includes($activeSubMenu)}
                 <Panel 
-                    title="Testing" 
+                    title={$activeSubMenu} 
                     on:close={closeMenu}
-                />
+                >
+                    {#if $activeSubMenu === 'profile'}
+                        <Profile />
+                    {/if}
 
+                    {#if $activeSubMenu === 'connect'}
+                        <Connect />
+                    {/if}
+
+                    {#if $activeSubMenu === 'assign'}
+                        <Qubits />
+                    {/if}
+                    {#if $activeSubMenu === 'midi'}
+                        <Midi />
+                    {/if}
+                </Panel>
             {/if}
         </div>
     {/if}

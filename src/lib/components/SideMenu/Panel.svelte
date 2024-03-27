@@ -10,7 +10,7 @@
     export let title: string;
 </script>
 
-<section>
+<aside>
     <header>
         <Button 
             text="close" 
@@ -23,18 +23,21 @@
         />
     </header>
     <h2>{title}</h2>
-    <slot />
-</section>
+    <div class="content">
+        <slot />
+    </div>
+</aside>
 
 <style lang="scss">
-    section {
+    aside {
         display: flex;
         flex-direction: column;
 
         header {
             display: flex;
             justify-content: flex-end;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
+            margin-right: -1rem;
         }
 
         & h2 {
@@ -42,6 +45,11 @@
             font-size: var(--text-sm);
             padding: 4px 0 calc(2rem + 4px);
             color: white;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
         }
     }
 </style>

@@ -11,7 +11,6 @@
 </script>
 
 <section>
-    <h2>Assign Qubits</h2>
     <div class="qubits">
         {#each $qubits.filter(q => q.active) as qubit, i}
             <div class="qubits__qubit">

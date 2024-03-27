@@ -4,7 +4,6 @@
 </script>
 
 <section>
-    <h2>Your Profile</h2>
     <div class="input">
         <Input id="id" label="ID" bind:value={$id}/>
     </div>

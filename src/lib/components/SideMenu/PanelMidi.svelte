@@ -23,7 +23,6 @@
 </script>
 
 <section>
-    <h2>Midi Config</h2>
     <div class="group devices">
         <div class="headings">
             <h3 class="title">Devices</h3>
@@ -118,7 +117,5 @@
         & .group {
             margin-bottom: 2rem;            
         }
-
-        
     }
 </style>

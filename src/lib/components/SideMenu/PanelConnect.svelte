@@ -3,7 +3,6 @@
 </script>
 
 <section>
-    <h2>Connect</h2>
     <div class="group">
         <h3 class="title">In your current session</h3>
         <ul class="users">
