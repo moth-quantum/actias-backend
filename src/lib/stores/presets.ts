@@ -14,7 +14,7 @@ function initPresets() {
         ...presets, 
         ...stored,
     }))
-    activePreset.set(Object.keys(get(presets)).sort((a, b) => a.localeCompare(b))[0])
+    activePreset.set('load')
 }
 
 initPresets();
@@ -91,7 +91,12 @@ export function editPreset(key: string) {
     const stored = JSON.parse(localStorage.getItem('q1synth-presets') || "{}");
     const preset = stored[previousName];
     delete stored[previousName];
-    stored[key] = preset;
+    stored[key] = {
+        instrument: get(instrument),
+        envelopes: get(envelopes),
+        params: get(allParameters).map(({key, rangeA, rangeB}) => ({key, rangeA, rangeB})),
+        connections: get(connections)
+    };
     localStorage.setItem('q1synth-presets', JSON.stringify(stored));
     presets.set(stored)
     activePreset.set(key)

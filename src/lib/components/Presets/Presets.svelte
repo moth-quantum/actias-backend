@@ -48,7 +48,10 @@
 </script>
 
 <svelte:window on:keydown={e => {
-    if(e.key === 'Escape') isSaving = false
+    if(e.key === 'Escape') {
+        isSaving = false
+        isEditing = false
+    }
 }} />
 
 <div 

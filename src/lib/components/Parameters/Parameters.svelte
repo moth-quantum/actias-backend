@@ -33,6 +33,7 @@
                     <Select 
                         id={key} 
                         options={sampleOptions} 
+                        selected={$paramValues[key]}
                         onChange={e => {
                             // @ts-ignore
                             const i = +e.target?.value;
