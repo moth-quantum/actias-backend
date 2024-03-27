@@ -12,6 +12,7 @@
     export let colour: string;
     export let orientation: string = 'horizontal';
     export let border: boolean = false;
+    export let invert: boolean = false;
     export let onClick: () => void;
 </script>
 
@@ -22,6 +23,7 @@
         ${orientation === 'vertical' ? 'btn--vertical' : ''} 
         ${border ? 'btn--border' : ''} 
         ${narrow ? 'btn--narrow' : ''} 
+        ${invert ? 'btn--invert' : ''} 
         ${classes}`
     }
     on:click={onClick}
@@ -51,6 +53,8 @@
         height: 100%;
         letter-spacing: 0.0625rem;
         padding: 0.25rem 2rem;
+        display: flex;
+        align-items: center;
 
         &:last-child {
             margin-right: 0;
@@ -63,6 +67,16 @@
         & img {
             height: 1.5rem;
             margin: 0.4rem 0;
+        }
+
+        &--invert {
+            flex-direction: row-reverse;
+            .btn__icon {
+                margin-left: 0.5rem;
+            }
+            .btn__text {
+                margin-left: 0;
+            }
         }
     }
 

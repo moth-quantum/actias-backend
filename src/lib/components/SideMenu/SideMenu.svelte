@@ -7,6 +7,7 @@
     import Midi from './PanelMidi.svelte';
     import { menuItems, activeSubMenu } from '$lib/stores/sideMenu';
     import { toggleKeyboard } from '$lib/stores/global';
+  import Panel from './Panel.svelte';
 
     const handleMenuClick = (name: string) => {
         menuItems.update(items => items.map(item => {
@@ -77,7 +78,12 @@
                 <Qubits />
             {/if}
             {#if $activeSubMenu === 'midi'}
-                <Midi />
+                <!-- <Midi /> -->
+                <Panel 
+                    title="Testing" 
+                    on:close={closeMenu}
+                />
+
             {/if}
         </div>
     {/if}
