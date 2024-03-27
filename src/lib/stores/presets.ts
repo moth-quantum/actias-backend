@@ -21,6 +21,7 @@ function initPresets() {
 initPresets();
 
 presets.subscribe(presets => {
+    if(typeof localStorage === 'undefined') return
     localStorage.setItem('q1synth-presets', JSON.stringify(presets))
 })
 
@@ -65,6 +66,7 @@ export function loadPreset(key: string) {
 }
 
 export function savePreset(key: string) {
+    if(typeof localStorage === 'undefined') return
     const stored = JSON.parse(localStorage.getItem('q1synth-presets') || "{}");
 
     stored[key] = {
@@ -80,6 +82,7 @@ export function savePreset(key: string) {
 }
 
 export function deletePreset(key: string) {
+    if(typeof localStorage === 'undefined') return
     const stored = JSON.parse(localStorage.getItem('q1synth-presets') || "{}");
     delete stored[key];
     localStorage.setItem('q1synth-presets', JSON.stringify(stored));
@@ -88,6 +91,8 @@ export function deletePreset(key: string) {
 }
 
 export function editPreset(key: string) {
+    if(typeof localStorage === 'undefined') return
+    
     const previousName = get(activePreset);
     const stored = JSON.parse(localStorage.getItem('q1synth-presets') || "{}");
     const preset = stored[previousName];
