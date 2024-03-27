@@ -9,6 +9,7 @@ export const presets = writable({} as {[key: string]: Preset | null})
 export const activePreset = writable('')
 
 function initPresets() {
+    if(typeof localStorage === 'undefined') return
     const stored = JSON.parse(localStorage.getItem('q1synth-presets') || '{}');
     presets.update(presets => ({
         ...presets, 
