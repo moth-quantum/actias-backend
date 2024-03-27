@@ -6,7 +6,7 @@
 <section>
     <h2>Your Profile</h2>
     <div class="input">
-        <Input id="id" label="ID" bind:value={$id} />
+        <Input id="id" label="ID" bind:value={$id}/>
     </div>
     <div class="input">
         <Input id="username" label="Username" bind:value={$username} />

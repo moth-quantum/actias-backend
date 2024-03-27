@@ -100,7 +100,7 @@
             />
         </div>
     
-        <Presets hidden={isApp()}/>
+        <Presets />
     </div>
 </section>
 

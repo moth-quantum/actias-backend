@@ -2,7 +2,8 @@ import { get, writable, derived } from 'svelte/store';
 import type { User } from '$lib/types';
 import { colours } from '$lib/utils/utils';
 
-export const id = writable<number | undefined>(undefined);
+// export const id = writable<number | undefined>(undefined);
+export const id = writable<number | undefined>(1);
 export const username = writable('Quanta55');
 export const location = writable('The Quantum Realm');
 

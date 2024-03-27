@@ -27,7 +27,13 @@
         e.key === 'Enter' && value !== '' && dispatch('enter', value) && (value = '')
     }}
     on:keyup={() => mute.set(false)}
-    style={`border: ${border}; color: ${color}; text-transform: ${uppercase ? 'uppercase' : 'none'}`}
+    style={`
+        border: ${border}; 
+        color: ${color}; 
+        text-transform: ${uppercase ? 'uppercase' : 'none'};
+        padding-left: ${showLabel ? '0' : 'auto'}
+        `
+    }
     class={classes}
 />
 
