@@ -1,6 +1,7 @@
 <script>
     import logo from '$lib/images/q1synth-icon.svg';
     import { isApp, showSideMenu } from '$lib/stores/global';
+    import { page } from '$app/stores';
 </script>
 
 <header>

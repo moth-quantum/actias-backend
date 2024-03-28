@@ -1,5 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
+    import { goto } from '$app/navigation';
+
     import Button from '$lib/components/Button/Button.svelte';
     import Profile from './PanelProfile.svelte';
     import Connect from './PanelConnect.svelte';
@@ -10,14 +12,19 @@
     import Panel from './Panel.svelte';
 
     const handleMenuClick = (name: string) => {
+        
         menuItems.update(items => items.map(item => {
             if(item.name === name) {
                 item.isActive = !item.isActive
+                item.link && goto(item.isActive ? item.link : '/')
             } else if(item.hasSubMenu) {
                 item.isActive = false
             }
+            
             return item
         }))
+
+
 
         name === 'keyboard' && toggleKeyboard() 
     }
@@ -33,24 +40,17 @@
 
     onMount(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.key === 'Escape') {
-                closeMenu();
-            }
-            if (event.key === 'k') {
-                handleMenuClick('keyboard');
-            }
+            event.key === 'Escape' && closeMenu()
+            event.key === 'k' && handleMenuClick('keyboard')
         };
 
         window.addEventListener('keydown', handleKeyDown);
-
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        };
+        return () => window.removeEventListener('keydown', handleKeyDown);
     });
     
 </script>
 
-<svelte:window on:resize={() => closeMenu()} />
+<svelte:window on:resize={closeMenu} />
 
 <aside class="side-menu">
     <div class="side-menu__buttons">
@@ -104,6 +104,7 @@
         padding: 4rem 0 1rem;
         position: relative;
         border-top: 1px solid var(--color-grey-dark);
+        min-height: 80vh;
 
         &__buttons {
             padding: 1rem 0;
