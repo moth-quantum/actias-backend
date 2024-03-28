@@ -9,25 +9,49 @@
     let svg: string = "";
     const circuit = new QuantumCircuit();
 
+    const initQubit = (i: number, theta: number, phi: number, lambda: number) => {
+        circuit.appendGate("u3", i, {
+            params: {
+                theta: theta * (Math.PI/2),
+                phi: phi * (Math.PI/2),
+                lambda: lambda * (Math.PI/2)
+            }
+        });
+    }
+
+    const updateQubit = (i: number, theta: number, phi: number, lambda: number) => {
+        // circuit.gates[i][0].options.params.theta = theta * (Math.PI/2);
+        // circuit.gates[i][0].options.params.phi = phi * (Math.PI/2);
+        // circuit.gates[i][0].options.params.lambda = lambda * (Math.PI/2);
+    }
+
     onMount(() => {
-        
-        $qubits.filter(q => q.active).forEach((_, i) => {
-            circuit.appendGate("u3", i, {
-                params: {
-                    theta: "pi/2",
-                    phi: "pi/2",
-                    lambda: "pi/2"
-                }
-            });
+        // Set initial qubits
+        $qubits.filter(q => q.active).forEach((q, i) => {
+            initQubit(i, q.axes[2].value, q.axes[1].value, q.axes[0].value);
         });
         
-        circuit.addMeasure(0, "c", 3);
+
+        const unsubscribeQubits = qubits.subscribe(qubits => {
+            qubits.forEach((q, i) => {
+                if (!q.active) return
+            
+                console.log(circuit)
+                !circuit.gates[i]
+                    ? initQubit(i, q.axes[2].value, q.axes[1].value, q.axes[0].value)
+                    : updateQubit(i, q.axes[2].value, q.axes[1].value, q.axes[0].value);
+
+                
+            });
+            
+            // TODO debounce
+            svg = circuit.exportSVG(true);
+        });
+
+        return () => {
+            unsubscribeQubits();
+        }
         
-        circuit.run();
-
-        svg = circuit.exportSVG();
-
-        console.log(svg);
     });
 
     let focusedGate: null | Gate = null;
