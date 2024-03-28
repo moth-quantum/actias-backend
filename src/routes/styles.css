@@ -202,7 +202,7 @@ canvas {
 	}
 
 	ellipse, rect, path {
-		fill: none!important;
+		fill: var(--color-grey-darker)!important;
 		stroke: var(--color-theme-1)!important;
 	}
 }

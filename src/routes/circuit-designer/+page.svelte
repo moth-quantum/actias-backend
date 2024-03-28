@@ -5,12 +5,24 @@
     import { gates, type Gate } from './gates';
     import { onMount } from 'svelte';
 
-    let svg: SVGElement;
+    let svg: string = "";
+    const circuit = new QuantumCircuit();
 
     onMount(() => {
-        const circuit = new QuantumCircuit();
-        circuit.addGate("cx", 1, [1, 2]);
-        circuit.addMeasure(0, "c", 3);
+        
+        for (let i = 0; i < 7; i++) {
+            circuit.appendGate("u3", i, {
+                params: {
+                    theta: "pi/2",
+                    phi: "pi/2",
+                    lambda: "pi/2"
+                }
+            });
+        }
+        for (let i = 0; i < 7; i++) {
+            circuit.addMeasure(i, "c", 3);
+        }
+        
         circuit.run();
 
         svg = circuit.exportSVG();
@@ -19,6 +31,7 @@
     });
 
     let focusedGate: null | Gate = null;
+    $: svgDataURL = `data:image/svg+xml;base64,${btoa(svg)}`;
 </script>
 
 <svelte:head>
@@ -60,7 +73,12 @@
         </div>
     </aside>
     <div class="circuit-designer__circuit">
-        {@html svg}
+        <!-- TODO: render as image using data url so that you can resize it... -->
+        {#if svg}
+            <svg>
+                {@html svg}
+            </svg>
+        {/if}
     </div>
 </section>
 
@@ -89,7 +107,7 @@
         &__palette, &__circuit {
             background-color: var(--color-grey-darker);
             border-radius: 10px;
-            padding: 2rem 1rem;
+            padding: 2rem;
         }
         &__palette {
             width: 20%;
@@ -129,14 +147,13 @@
         }
 
         &__circuit {
-            padding: 1rem 2rem;
+            padding: 2px 2rem 1rem;
             display: flex;
             justify-content: flex-start;
-            align-items: center;
             svg {
                 width: 100%;
                 height: 100%;
-
+                object-fit: contain;
             }
         }
     }
