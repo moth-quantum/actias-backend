@@ -7,7 +7,7 @@
     import Midi from './PanelMidi.svelte';
     import { menuItems, activeSubMenu } from '$lib/stores/sideMenu';
     import { toggleKeyboard } from '$lib/stores/global';
-  import Panel from './Panel.svelte';
+    import Panel from './Panel.svelte';
 
     const handleMenuClick = (name: string) => {
         menuItems.update(items => items.map(item => {
@@ -24,7 +24,9 @@
 
     const closeMenu = () => {
         menuItems.update(items => items.map(item => {
-            item.isActive = false
+            if(item.hasSubMenu) {
+                item.isActive = false
+            }
             return item
         }))
     }

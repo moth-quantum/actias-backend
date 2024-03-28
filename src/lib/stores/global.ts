@@ -14,7 +14,9 @@ export const isApp: () => boolean = () => {
 
 export const showKeyboard = writable(true);
 showKeyboard.subscribe(() => redrawCables());
-export const toggleKeyboard = () => showKeyboard.update(value => !value);
+export const toggleKeyboard = () => {
+    showKeyboard.update(value => !value)
+};
 
 export const showSideMenu = writable(true);
 showSideMenu.subscribe(() => redrawCables());

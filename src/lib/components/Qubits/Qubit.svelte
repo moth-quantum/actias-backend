@@ -32,7 +32,6 @@
         
         let timeoutID: Timeout;
         activeQubitCount.subscribe(() => {
-            console.log(p5Instance)
             if (!p5Instance) return;
             if (timeoutID) clearTimeout(timeoutID)
             timeoutID = setTimeout(resize, 100)
