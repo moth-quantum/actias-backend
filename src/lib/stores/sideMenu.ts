@@ -3,15 +3,15 @@ import { isApp } from '$lib/stores/global';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import keyboard from '$lib/images/keyboard.svg';
 import midi from '$lib/images/midi-white.svg';
-import { faGlobe, faUser, faUsers, faCircleQuestion, faGear, faPlay } from '@fortawesome/free-solid-svg-icons';
-library.add(faGlobe, faUser, faUsers, faCircleQuestion, faGear, faPlay);
+import { faGlobe, faUser, faUsers, faCircleQuestion, faGear, faPlay, faDiagramProject } from '@fortawesome/free-solid-svg-icons';
+library.add(faGlobe, faUser, faUsers, faCircleQuestion, faGear, faPlay, faDiagramProject);
 
 export const menuItems = writable([
     { name: 'profile', icon: faUser, isVisible: isApp(), isActive: false, hasSubMenu: true, link: '' },
     // { name: 'assign', icon: faGlobe, isVisible: isApp(), isActive: false, hasSubMenu: true, link: '' },
     { name: 'assign', icon: faGlobe, isVisible: true, isActive: false, hasSubMenu: true, link: '' },
     { name: 'connect', icon: faUsers, isVisible: isApp(), isActive: false, hasSubMenu: true, link: '' },
-    { name: 'circuit', icon: faGlobe, isVisible: true, isActive: false, hasSubMenu: false, link: '/circuit-designer' },
+    { name: 'circuit', icon: faDiagramProject, isVisible: true, isActive: false, hasSubMenu: false, link: '/circuit-designer' },
     // { name: 'connect', icon: faUsers, isVisible: true, isActive: false, hasSubMenu: true, link: '' },
     { name: 'midi', image: midi, isVisible: true, isActive: false, hasSubMenu: true, link: '' },
     { name: 'keyboard', image: keyboard, isVisible: true, isActive: true, hasSubMenu: false, link: '' },

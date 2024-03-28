@@ -1,5 +1,8 @@
 <script lang="ts">
     import Presets from '$lib/components/Presets/Presets.svelte';
+    import { gates } from './gates';
+
+    
 </script>
 
 <svelte:head>
@@ -15,7 +18,12 @@
 </section>
 
 <section class="circuit-designer">
-
+    <div class="circuit-designer__gates">
+        <h2 class="title">gates</h2>
+    </div>
+    <div class="circuit-designer__circuit">
+        
+    </div>
 </section>
 
 <style lang="scss">
@@ -36,8 +44,21 @@
         }
 	}
     .circuit-designer {
-        display: grid;
-        flex-direction: column;
-        align-items: center;
+        display: flex;
+        padding: 0 2rem 2rem 2rem;
+    
+        &__gates, &__circuit {
+            background-color: var(--color-grey-darker);
+            border-radius: 10px;
+            padding: 2rem 1rem;
+        }
+        &__gates {
+            width: 20%;
+            margin-right: 1rem;
+        }
+
+        &__circuit {
+            width: 100%;
+        }
     }
 </style>
