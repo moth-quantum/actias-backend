@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
+    import { page } from '$app/stores';
 
     import Button from '$lib/components/Button/Button.svelte';
     import Profile from './PanelProfile.svelte';
@@ -24,8 +25,6 @@
             return item
         }))
 
-
-
         name === 'keyboard' && toggleKeyboard() 
     }
 
@@ -39,6 +38,8 @@
     }
 
     onMount(() => {
+        $page.url.pathname === '/circuit-designer' && handleMenuClick('circuit')
+
         const handleKeyDown = (event: KeyboardEvent) => {
             event.key === 'Escape' && closeMenu()
             event.key === 'k' && handleMenuClick('keyboard')
