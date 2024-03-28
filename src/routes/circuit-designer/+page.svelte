@@ -125,7 +125,7 @@
 	}
     .circuit-designer {
         display: flex;
-        max-height: 80vh;
+        min-height: 80vh;
 
         padding: 2rem;
         @media (min-width: 1200px) {

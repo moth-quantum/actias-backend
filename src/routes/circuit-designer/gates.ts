@@ -39,7 +39,7 @@ export const gates = readable<Gate[]>([
         name: 'Hadamard',
         symbol: 'H',
         qubits: 1,
-        description: 'PI/2 rotation over x-axis. Maps |0> to (|0> + |1>)/sqrt(2) and |1> to (|0> - |1>)/sqrt(2).',
+        description: 'PI/2 rotation over x-axis.',
         params: []
     },    
     {
