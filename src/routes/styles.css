@@ -190,3 +190,19 @@ button:focus:not(:focus-visible) {
 canvas {
 	contain: paint;
 }
+
+.qc-circuit {
+	line {
+		stroke: var(--color-theme-1)!important;
+	}
+
+	text, circle {
+		fill: var(--color-theme-1)!important;
+		stroke: none!important;
+	}
+
+	ellipse, rect, path {
+		fill: none!important;
+		stroke: var(--color-theme-1)!important;
+	}
+}

@@ -127,5 +127,17 @@
                 margin-bottom: 1rem;
             }
         }
+
+        &__circuit {
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            svg {
+                width: 100%;
+                height: 100%;
+
+            }
+        }
     }
 </style>
