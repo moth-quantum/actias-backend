@@ -15,7 +15,7 @@
     export let disabled: boolean = false;
     
     let container: HTMLDivElement
-    let p5Instance: p5;
+    let p5Instance: p5 | null = null;
     let height: number = 100;
     let radius = height / 3;
     let resize: (...args: any[]) => void;
@@ -27,11 +27,23 @@
     }
 
     onMount(() => {
+        window.addEventListener('resize', resize)
         document.addEventListener('redrawQubit', handleRedrawQubit)
-        activeQubitCount.subscribe(() => p5Instance && setTimeout(resize, 100))
+        
+        let timeoutID: Timeout;
+        activeQubitCount.subscribe(() => {
+            console.log(p5Instance)
+            if (!p5Instance) return;
+            if (timeoutID) clearTimeout(timeoutID)
+            timeoutID = setTimeout(resize, 100)
+        })
 
         return () => {
+            if (timeoutID) clearTimeout(timeoutID)
+            window.removeEventListener('resize', resize)
             document.removeEventListener('redrawQubit', handleRedrawQubit)
+            p5Instance?.remove()
+            p5Instance = null
         }
     });
 
@@ -45,6 +57,7 @@
         }
 
         function getSize()  {
+            if (!container) return;
             const dimensions = container.getBoundingClientRect()
             height = min(dimensions.width - 100, 500)
             radius = height / 3;
@@ -165,8 +178,6 @@
 >
     <P5 {sketch} on:instance={handleInstance} />
 </div>
-
-<svelte:window on:resize={resize} />
 
 <style lang="scss">
     .disabled {

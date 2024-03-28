@@ -6,11 +6,12 @@
     import Slider from '$lib/components/Sliders/Slider.svelte';
     import { debounce } from '$lib/utils/utils';
     import { getUserColour, getUserName } from '$lib/stores/users';
-  import { isApp } from '$lib/stores/global';
+    import { isApp } from '$lib/stores/global';
+    import { onMount } from 'svelte';
     
     let axesIds = $qubits[0].axes.map(({key}) => key);
     let axesNames = $qubits[0].axes.map(({name}) => name);
-    let windowWidth = window.innerWidth;
+    let windowWidth: number;
 
     const handleScroll = debounce(() => redrawCables(), 1);
 
@@ -19,6 +20,10 @@
     $: isTriple = !isSingle && !isDouble;
     $: isFullHeight = ($activeQubitCount === 1 && windowWidth > 1000) 
         || ($activeQubitCount === 2 && windowWidth > 1000);
+
+    onMount(() => {
+        windowWidth = window.innerWidth;
+    });
 
 </script>
 
