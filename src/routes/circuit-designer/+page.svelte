@@ -5,11 +5,12 @@
     import Presets from '$lib/components/Presets/Presets.svelte';
     import { gates, type Gate } from './gates';
     import { onMount } from 'svelte';
+    import { debounce } from '$lib/utils/utils';
 
     let svg: string = "";
     const circuit = new QuantumCircuit();
 
-    const initQubit = (i: number, theta: number, phi: number, lambda: number) => {
+    const createQubit = (i: number, theta: number, phi: number, lambda: number) => {
         circuit.appendGate("u3", i, {
             params: {
                 theta: theta * (Math.PI/2),
@@ -20,32 +21,31 @@
     }
 
     const updateQubit = (i: number, theta: number, phi: number, lambda: number) => {
-        // circuit.gates[i][0].options.params.theta = theta * (Math.PI/2);
-        // circuit.gates[i][0].options.params.phi = phi * (Math.PI/2);
-        // circuit.gates[i][0].options.params.lambda = lambda * (Math.PI/2);
+        circuit.gates[i][0].options.params.theta = theta * (Math.PI/2);
+        circuit.gates[i][0].options.params.phi = phi * (Math.PI/2);
+        circuit.gates[i][0].options.params.lambda = lambda * (Math.PI/2);
     }
 
-    onMount(() => {
-        // Set initial qubits
-        $qubits.filter(q => q.active).forEach((q, i) => {
-            initQubit(i, q.axes[2].value, q.axes[1].value, q.axes[0].value);
-        });
-        
+    const removeQubit = (i: number) => {
+        circuit.gates.splice(i, 1);
+        circuit.numQubits = circuit.gates.length;
+    }
 
+    const updateSVG = debounce(() => {
+        svg = circuit.exportSVG(true);
+    }, 100)
+
+    onMount(() => {        
         const unsubscribeQubits = qubits.subscribe(qubits => {
             qubits.forEach((q, i) => {
-                if (!q.active) return
-            
-                console.log(circuit)
-                !circuit.gates[i]
-                    ? initQubit(i, q.axes[2].value, q.axes[1].value, q.axes[0].value)
-                    : updateQubit(i, q.axes[2].value, q.axes[1].value, q.axes[0].value);
-
+                if(!q.active) return removeQubit(i);
                 
+                !circuit.gates[i] || circuit.gates[i].length === 0
+                    ? createQubit(i, q.axes[2].value, q.axes[1].value, q.axes[0].value)
+                    : updateQubit(i, q.axes[2].value, q.axes[1].value, q.axes[0].value);
             });
-            
-            // TODO debounce
-            svg = circuit.exportSVG(true);
+                        
+            updateSVG()
         });
 
         return () => {
