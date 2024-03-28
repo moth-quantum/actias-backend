@@ -3,7 +3,7 @@
     // @ts-ignore
     import QuantumCircuit from 'quantum-circuit/dist/quantum-circuit.min.js';
     import Presets from '$lib/components/Presets/Presets.svelte';
-    import { gates, type Gate } from './gates';
+    import { gates, type Gate } from '$lib/stores/gates';
     import { onMount } from 'svelte';
     import { debounce } from '$lib/utils/utils';
 
@@ -126,6 +126,8 @@
     .circuit-designer {
         display: flex;
         min-height: 80vh;
+        height: 100%;
+        background-color: var(--color-grey-mid);
 
         padding: 2rem;
         @media (min-width: 1200px) {

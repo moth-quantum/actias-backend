@@ -8,21 +8,24 @@
     const dispatch = createEventDispatcher();
 
     export let title: string;
+    export let hideHeader: boolean = false;
 </script>
 
 <aside>
-    <header>
-        <Button 
-            text="close" 
-            icon={faTimes}
-            onClick={() => dispatch('close')}
-            colour="dark"
-            narrow={true}
-            invert={true}
-            classes="pr-0"
-        />
-    </header>
-    <h2>{title}</h2>
+    {#if !hideHeader}
+        <header>
+            <Button 
+                text="close" 
+                icon={faTimes}
+                onClick={() => dispatch('close')}
+                colour="dark"
+                narrow={true}
+                invert={true}
+                classes="pr-0"
+            />
+        </header>
+        <h2>{title}</h2>
+    {/if}
     <div class="content">
         <slot />
     </div>
@@ -32,6 +35,7 @@
     aside {
         display: flex;
         flex-direction: column;
+        height: 100%;
 
         header {
             display: flex;
@@ -50,6 +54,7 @@
         .content {
             display: flex;
             flex-direction: column;
+            height: 100%;
         }
     }
 </style>

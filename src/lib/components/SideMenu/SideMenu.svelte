@@ -1,8 +1,5 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { goto } from '$app/navigation';
-    import { page } from '$app/stores';
-
     import Button from '$lib/components/Button/Button.svelte';
     import Profile from './PanelProfile.svelte';
     import Connect from './PanelConnect.svelte';
@@ -11,13 +8,13 @@
     import { menuItems, activeSubMenu } from '$lib/stores/sideMenu';
     import { toggleKeyboard } from '$lib/stores/global';
     import Panel from './Panel.svelte';
+    import CircuitDesigner from '$lib/components/CircuitDesigner/CircuitDesigner.svelte';
 
     const handleMenuClick = (name: string) => {
         
         menuItems.update(items => items.map(item => {
             if(item.name === name) {
                 item.isActive = !item.isActive
-                item.link && goto(item.isActive ? item.link : '/')
             } else if(item.hasSubMenu) {
                 item.isActive = false
             }
@@ -38,8 +35,6 @@
     }
 
     onMount(() => {
-        $page.url.pathname === '/circuit-designer' && handleMenuClick('circuit')
-
         const handleKeyDown = (event: KeyboardEvent) => {
             event.key === 'Escape' && closeMenu()
             event.key === 'k' && handleMenuClick('keyboard')
@@ -71,10 +66,11 @@
         {/each}
     </div>
     {#if $activeSubMenu}
-        <div class="side-menu__panel">
-            {#if ['profile', 'connect', 'assign', 'midi'].includes($activeSubMenu)}
+        <div class="side-menu__panel {$activeSubMenu === 'circuit' ? 'side-menu__panel--fullwidth' : ''}">
+            {#if ['profile', 'connect', 'assign', 'midi', 'circuit'].includes($activeSubMenu)}
                 <Panel 
                     title={$activeSubMenu} 
+                    hideHeader={$activeSubMenu === 'circuit'}
                     on:close={closeMenu}
                 >
                     {#if $activeSubMenu === 'profile'}
@@ -91,6 +87,9 @@
                     {#if $activeSubMenu === 'midi'}
                         <Midi />
                     {/if}
+                    {#if $activeSubMenu === 'circuit'}
+                        <CircuitDesigner />
+                    {/if}
                 </Panel>
             {/if}
         </div>
@@ -106,6 +105,7 @@
         position: relative;
         border-top: 1px solid var(--color-grey-dark);
         min-height: 80vh;
+        
 
         &__buttons {
             padding: 1rem 0;
@@ -139,6 +139,15 @@
             color: white;
             padding: 1rem 2rem;
             overflow-y: scroll;
+
+            &--fullwidth {
+                width: calc(100vw - 100px);
+                max-width: 1900px;
+                top: 0;
+                bottom: 0;
+                left: 100px;
+                padding: 0;
+            }
         }
     }
 </style>
