@@ -7,7 +7,7 @@
     import { presetKeys, savePreset, deletePreset, editPreset, activePreset as active } from '$lib/stores/presets';
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faAdd, faChevronLeft, faChevronRight, faFloppyDisk, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
-    import { onMount, onDestroy } from 'svelte';
+    // import { onMount, onDestroy } from 'svelte';
     import { mute } from '$lib/stores/global';
     
     library.add(faChevronLeft, faChevronRight, faFloppyDisk, faTrash, faPen, faAdd);
@@ -19,10 +19,10 @@
     let name = '';
     $: current = $active || 'load';
 
-    const onShowDialog = () => save?.showModal();
+    // const onShowDialog = () => save?.showModal();
         
-    onMount(() => document.addEventListener('isSaving', onShowDialog));
-    onDestroy(() => document.removeEventListener('isSaving', onShowDialog));
+    // onMount(() => document.addEventListener('isSaving', onShowDialog));
+    // onDestroy(() => document.removeEventListener('isSaving', onShowDialog));
     
     const handleSave = () => {
         isEditing 

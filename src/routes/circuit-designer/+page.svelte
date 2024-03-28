@@ -1,7 +1,22 @@
 <script lang="ts">
+    // @ts-ignore
+    import QuantumCircuit from 'quantum-circuit/dist/quantum-circuit.min.js';
     import Presets from '$lib/components/Presets/Presets.svelte';
     import { gates, type Gate } from './gates';
+    import { onMount } from 'svelte';
 
+    let svg: SVGElement;
+
+    onMount(() => {
+        const circuit = new QuantumCircuit();
+        circuit.addGate("cx", 1, [1, 2]);
+        circuit.addMeasure(0, "c", 3);
+        circuit.run();
+
+        svg = circuit.exportSVG();
+
+        console.log(svg);
+    });
 
     let focusedGate: null | Gate = null;
 </script>
@@ -45,7 +60,7 @@
         </div>
     </aside>
     <div class="circuit-designer__circuit">
-        
+        {@html svg}
     </div>
 </section>
 
@@ -69,6 +84,7 @@
     .circuit-designer {
         display: flex;
         padding: 0 2rem 2rem 2rem;
+        min-height: 80vh;
     
         &__palette, &__circuit {
             background-color: var(--color-grey-darker);

@@ -49,6 +49,7 @@
     "fs": "^0.0.1-security",
     "osc": "^2.4.4",
     "p5-svelte": "^3.1.2",
+    "quantum-circuit": "^0.9.221",
     "tone": "^14.7.77",
     "webmidi": "^3.1.5"
   }
