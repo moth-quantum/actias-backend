@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { qubits } from '$lib/stores/qubits';
     // @ts-ignore
     import QuantumCircuit from 'quantum-circuit/dist/quantum-circuit.min.js';
     import Presets from '$lib/components/Presets/Presets.svelte';
@@ -10,7 +11,7 @@
 
     onMount(() => {
         
-        for (let i = 0; i < 7; i++) {
+        $qubits.filter(q => q.active).forEach((_, i) => {
             circuit.appendGate("u3", i, {
                 params: {
                     theta: "pi/2",
@@ -18,10 +19,9 @@
                     lambda: "pi/2"
                 }
             });
-        }
-        for (let i = 0; i < 7; i++) {
-            circuit.addMeasure(i, "c", 3);
-        }
+        });
+        
+        circuit.addMeasure(0, "c", 3);
         
         circuit.run();
 
@@ -75,9 +75,9 @@
     <div class="circuit-designer__circuit">
         <!-- TODO: render as image using data url so that you can resize it... -->
         {#if svg}
-            <svg>
+            <div class="circuit-designer__svg">
                 {@html svg}
-            </svg>
+            </div>
         {/if}
     </div>
 </section>
@@ -101,8 +101,12 @@
 	}
     .circuit-designer {
         display: flex;
-        padding: 0 2rem 2rem 2rem;
-        min-height: 80vh;
+        max-height: 80vh;
+
+        padding: 2rem;
+        @media (min-width: 1200px) {
+            padding: 0 2rem 2rem 2rem;
+        }
     
         &__palette, &__circuit {
             background-color: var(--color-grey-darker);
@@ -110,7 +114,7 @@
             padding: 2rem;
         }
         &__palette {
-            width: 20%;
+            width: 30%;
             margin-right: 1rem;
         }
 
@@ -131,9 +135,12 @@
             background-color: var(--color-grey-darkest);
             color: var(--color-theme-1);
             margin-bottom: 0.5rem;
-            width: calc(100%/3 - (1rem/3));
-            padding: 1.25rem 1rem;
-            border-radius: 10px
+            padding: 1.25rem 0;
+            border-radius: 10px;
+            width: calc(100%/2 - 0.25rem);
+            @media (min-width: 1200px){
+                width: calc(100%/3 - (1rem/3));
+            }
         }
 
         &__instructions {
@@ -147,14 +154,15 @@
         }
 
         &__circuit {
-            padding: 2px 2rem 1rem;
+            padding: 2rem 4rem;
             display: flex;
             justify-content: flex-start;
-            svg {
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
-            }
+        }
+
+        &__svg {
+            width: 100%;
+            height: 100%;
+            overflow: scroll;
         }
     }
 </style>
