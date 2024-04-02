@@ -17,23 +17,14 @@
         // const width = position.width;
     });
 
-    function handleDragEnd(e: CustomEvent) {
-        // const target = e.target?.getBoundingClientRect();
-        // const targetX = target.x + window.scrollX;
-        // const targetY = target.y + window.scrollY;
+    // @ts-ignore
+    function handleDragEnd(e) {
+        const target = e.target?.getBoundingClientRect();
+        const x = target.x + window.scrollX;
+        const y = target.y + window.scrollY;
+        dispatch('dragend', {id, x, y});
         
-        // // find connecting socket
-        // const socketId = Object.keys($sockets).find(id => {
-        //     const {x, y, width} = $sockets[id];
-        //     return targetX > x - width && targetX < x + width && targetY > y - width && targetY < y + width;
-        // });
-        
-        // // if socket found and not of same type, connect
-        // socketId && connectSockets($sockets[id], $sockets[socketId]);
-        
-        // // return to original position
         position = {x: 0, y: 0}
-        // thisSocket.style.zIndex = 10;
     }
 
     // @ts-ignore
@@ -42,6 +33,11 @@
         const x = target.x + window.scrollX;
         const y = target.y + window.scrollY;
         dispatch('drag', {id, x, y});
+    }
+
+    // @ts-ignore
+    function handleDragStart() {
+        dispatch('dragstart', {id});
     }
 
 </script>
@@ -58,6 +54,7 @@
     <span
         use:draggable={{bounds: 'body', position}}
         on:neodrag:end={handleDragEnd}
+        on:neodrag:start={handleDragStart}
         on:neodrag={handleDrag}
     >
         {symbol}

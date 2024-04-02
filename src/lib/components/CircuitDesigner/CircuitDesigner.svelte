@@ -4,10 +4,12 @@
     import GateButton from './Gate.svelte';
     import { circuit, gates, type Gate } from '$lib/stores/circuit';
     import { onMount } from 'svelte';
-    import { debounce } from '$lib/utils/utils';
+    import { debounce, areTouching } from '$lib/utils/utils';
 
     let svg: string = "";
     let thisSvg: HTMLDivElement;
+    let wire: number = -1;
+    let column: number = -1;
 
     const createQubit = (i: number, theta: number, phi: number, lambda: number) => {
         circuit.appendGate("u3", i, {
@@ -47,9 +49,19 @@
             return distance < closest.distance ? { distance, index } : closest;
         }, { distance: Infinity, index: -1 });
 
-        circuit.addGate($gates[gate].symbol, 4, closestWireIndex);
+        wire = closestWireIndex;
+    }
 
-        updateSVG()
+    const handleDragEnd = (gate: number, pointerX: number, pointerY: number) => {
+        if(!thisSvg) return;
+        const {x, y, width, height} = thisSvg.getBoundingClientRect();
+        const svg = {x: x, y: y, width: width, height: height};
+        const pointer = {x: pointerX, y: pointerY, width: 20, height: 20};
+        if(!areTouching(pointer, svg) && wire === -1) return;
+
+        circuit.addGate($gates[gate].symbol, 4, wire);
+        updateSVG() 
+        wire = -1;
     }
 
     onMount(() => {        
@@ -103,6 +115,11 @@
                         const { id, x, y } = e.detail;
                         handleDrag(id, x, y)
                     }}
+                    on:dragend={(e) => {
+                        const { id, x, y } = e.detail;
+                        handleDragEnd(id, x, y)
+                    }}
+                    on:dragstart={() => {}}
                 />
             {/each}
         </div>
@@ -194,13 +211,7 @@
 
         &__circuit {
             padding: 2rem 4rem;
-            display: flex;
-            justify-content: flex-start;
-        }
-
-        &__svg {
             width: 100%;
-            height: 100%;
             overflow: scroll;
         }
     }
