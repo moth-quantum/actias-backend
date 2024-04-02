@@ -1,6 +1,7 @@
 <script lang="ts">
     import { qubits } from '$lib/stores/qubits';
     import Presets from '$lib/components/Presets/Presets.svelte';
+    import GateButton from './Gate.svelte';
     import { circuit, gates, type Gate } from '$lib/stores/circuit';
     import { onMount } from 'svelte';
     import { debounce } from '$lib/utils/utils';
@@ -54,7 +55,6 @@
     });
 
     let focusedGate: null | Gate = null;
-    $: svgDataURL = `data:image/svg+xml;base64,${btoa(svg)}`;
 </script>
 
 <svelte:head>
@@ -71,16 +71,16 @@
 <section class="circuit-designer">
     <aside class="circuit-designer__palette">
         <h2 class="title">gates</h2>
-        <div class="circuit-designer__gates">
-            {#each $gates as gate}
-                <button 
-                    on:focus={() => console.log(gate)}
+        <div 
+            class="circuit-designer__gates"
+        >
+            {#each $gates as gate, i}
+                <GateButton 
+                    id={i}
+                    symbol={gate.symbol}
                     on:mouseover={() => focusedGate = gate}
-                    on:blur={() => console.log('blur')}
                     on:mouseout={() => focusedGate = null}
-                    class="circuit-designer__gate">
-                    {gate.symbol}
-                </button>
+                />
             {/each}
         </div>
         <div class="circuit-designer__instructions">
@@ -154,18 +154,6 @@
             padding: 1rem 0;
             margin-bottom: 1rem;
             border-bottom: 0.5px solid var(--color-grey-light);
-        }
-
-        &__gate {
-            background-color: var(--color-grey-darkest);
-            color: var(--color-theme-1);
-            margin-bottom: 0.5rem;
-            padding: 1.25rem 0;
-            border-radius: 10px;
-            width: calc(100%/2 - 0.25rem);
-            @media (min-width: 1200px){
-                width: calc(100%/3 - (1rem/3));
-            }
         }
 
         &__instructions {
