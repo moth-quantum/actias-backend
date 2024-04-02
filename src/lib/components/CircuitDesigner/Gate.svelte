@@ -36,6 +36,14 @@
         // thisSocket.style.zIndex = 10;
     }
 
+    // @ts-ignore
+    function handleDrag(e) {
+        const target = e.target?.getBoundingClientRect();
+        const x = target.x + window.scrollX;
+        const y = target.y + window.scrollY;
+        dispatch('drag', {id, x, y});
+    }
+
 </script>
 
 <button 
@@ -50,6 +58,7 @@
     <span
         use:draggable={{bounds: 'body', position}}
         on:neodrag:end={handleDragEnd}
+        on:neodrag={handleDrag}
     >
         {symbol}
     </span>

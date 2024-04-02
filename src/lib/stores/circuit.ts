@@ -19,56 +19,56 @@ export interface Gate {
 export const gates = readable<Gate[]>([
     {
         name: 'Pauli X',
-        symbol: 'X',
+        symbol: 'x',
         qubits: 1,
         description: 'PI rotation over x-axis. Also known as "NOT" gate.',
         params: []
     },
     {
         name: 'Pauli Y',
-        symbol: 'Y',
+        symbol: 'y',
         qubits: 1,
         description: 'PI rotation over y-axis.',
         params: []
     },
     {
         name: 'Pauli Z',
-        symbol: 'Z',
+        symbol: 'z',
         qubits: 1,
         description: 'PI rotation over z-axis.',
         params: []
     },
     {
         name: 'Hadamard',
-        symbol: 'H',
+        symbol: 'h',
         qubits: 1,
         description: 'PI/2 rotation over x-axis.',
         params: []
     },    
     {
         name: 'CNOT',
-        symbol: 'CX',
+        symbol: 'cx',
         qubits: 2,
         description: 'Controlled NOT gate.',
         params: []
     },
     {
         name: 'CCNOT',
-        symbol: 'CCX',
+        symbol: 'ccx',
         qubits: 3,
         description: 'Toffoli gate.',
         params: []
     },
     {
         name: 'CZ',
-        symbol: 'CZ',
+        symbol: 'cz',
         qubits: 3,
         description: 'Controlled Z gate (controlled rotation over z-axis by PI).',
         params: []
     },
     {
         name: 'RX',
-        symbol: 'RX',
+        symbol: 'rx',
         qubits: 2,
         description: 'Controlled rotation around the x-axis by given angle.',
         params: [
@@ -81,7 +81,7 @@ export const gates = readable<Gate[]>([
     },
     {
         name: 'RY',
-        symbol: 'RX',
+        symbol: 'rx',
         qubits: 1,
         description: 'Controlled rotation around the y-axis by given angle.',
         params: [
@@ -94,7 +94,7 @@ export const gates = readable<Gate[]>([
     },
     {
         name: 'RZ',
-        symbol: 'RX',
+        symbol: 'rx',
         qubits: 1,
         description: 'Controlled rotation around the z-axis by given angle.',
         params: [

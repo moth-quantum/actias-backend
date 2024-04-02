@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     // @ts-nocheck
     import { onMount, tick } from 'svelte';
     import { draggable } from '@neodrag/svelte';

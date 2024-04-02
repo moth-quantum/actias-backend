@@ -7,6 +7,7 @@
     import { debounce } from '$lib/utils/utils';
 
     let svg: string = "";
+    let thisSvg: HTMLDivElement;
 
     const createQubit = (i: number, theta: number, phi: number, lambda: number) => {
         circuit.appendGate("u3", i, {
@@ -32,6 +33,24 @@
     const updateSVG = debounce(() => {
         svg = circuit.exportSVG(true);
     }, 100)
+
+    const handleDrag = (gate: number, x: number, y: number) => {
+        const wires = Array.from(thisSvg.querySelectorAll('svg line.qc-wire'));
+
+        const iconSize = 20;
+        const { index: closestWireIndex } = wires.reduce((closest, wire, index) => {
+            const wireRect = wire.getBoundingClientRect();
+            const wireX = wireRect.left + wireRect.width / 2;
+            const wireY = wireRect.top + wireRect.height / 2;
+            const distance = Math.sqrt((x + iconSize / 2 - wireX) ** 2 + (y + iconSize / 2 - wireY) ** 2);
+
+            return distance < closest.distance ? { distance, index } : closest;
+        }, { distance: Infinity, index: -1 });
+
+        circuit.addGate($gates[gate].symbol, 4, closestWireIndex);
+
+        updateSVG()
+    }
 
     onMount(() => {        
         const unsubscribeQubits = qubits.subscribe(qubits => {
@@ -80,6 +99,10 @@
                     symbol={gate.symbol}
                     on:mouseover={() => focusedGate = gate}
                     on:mouseout={() => focusedGate = null}
+                    on:drag={(e) => {
+                        const { id, x, y } = e.detail;
+                        handleDrag(id, x, y)
+                    }}
                 />
             {/each}
         </div>
@@ -98,7 +121,10 @@
     <div class="circuit-designer__circuit">
         <!-- TODO: render as image using data url so that you can resize it... -->
         {#if svg}
-            <div class="circuit-designer__svg">
+            <div 
+                bind:this={thisSvg}
+                class="circuit-designer__svg"
+            >
                 {@html svg}
             </div>
         {/if}
