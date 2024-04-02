@@ -1,14 +1,11 @@
 <script lang="ts">
     import { qubits } from '$lib/stores/qubits';
-    // @ts-ignore
-    import QuantumCircuit from 'quantum-circuit/dist/quantum-circuit.min.js';
     import Presets from '$lib/components/Presets/Presets.svelte';
-    import { gates, type Gate } from '$lib/stores/gates';
+    import { circuit, gates, type Gate } from '$lib/stores/circuit';
     import { onMount } from 'svelte';
     import { debounce } from '$lib/utils/utils';
 
     let svg: string = "";
-    const circuit = new QuantumCircuit();
 
     const createQubit = (i: number, theta: number, phi: number, lambda: number) => {
         circuit.appendGate("u3", i, {
@@ -40,10 +37,15 @@
             qubits.forEach((q, i) => {
                 if(!q.active) return removeQubit(i);
                 
+                // initialise new qubits with u3 gates
                 !circuit.gates[i] || circuit.gates[i].length === 0
                     ? createQubit(i, q.axes[2].value, q.axes[1].value, q.axes[0].value)
-                    : updateQubit(i, q.axes[2].value, q.axes[1].value, q.axes[0].value);
+                    : updateQubit(i, q.axes[2].value, q.axes[1].value, q.axes[0].value);                
+
+                console.log(circuit)
             });
+
+            circuit.appendGate("cx", [0, 3]);
                         
             updateSVG()
         });
