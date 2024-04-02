@@ -1,13 +1,13 @@
 <script>
     // @ts-nocheck
     import { onDestroy, onMount } from 'svelte';
-    export let from = {};
-    export let to = {};
+    export let from = {x: 0, y:0};
+    export let to = {x: 0, y: 0};
     export let offset = 2;
     export let colour = 'blue';
     
-    let w;
-    let h;
+    let w = 0;
+    let h = 0;
     let resizeObserver;
     
     onMount(() => {
@@ -22,7 +22,6 @@
         resize()
     });
     onDestroy(() => resizeObserver.disconnect());
-    
 
     $: line1 = {x1: from.x + 3, y1: from.y, x2: from.x + 43 + offset, y2: from.y}
     $: line2 = {x1: line1.x2, y1: from.y, x2: line1.x2, y2: to.y + 23 - offset}

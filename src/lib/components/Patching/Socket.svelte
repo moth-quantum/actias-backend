@@ -82,6 +82,7 @@
             unsubscribeConnections();
             unsubscribeInstrumentParameters();
         }
+
     });
 
 </script>
@@ -102,12 +103,14 @@
         on:click={handleClick}
     ></div>
     {#each connectedTo as socketId (socketId)}
-        <Cable
-            colour={$sockets[socketId].colour}
-            offset={$sockets[socketId].offset}
-            from={{x: $sockets[id].x + $sockets[id].width/2, y: $sockets[id].y + $sockets[id].width/2}}
-            to={{x: $sockets[socketId].x + $sockets[socketId].width/2 - 0.5, y: $sockets[socketId].y + $sockets[socketId].width/2}}
-        ></Cable>
+        {#if $sockets[socketId]}
+            <Cable
+                colour={$sockets[socketId].colour}
+                offset={$sockets[socketId].offset}
+                from={{x: $sockets[id].x + $sockets[id].width/2, y: $sockets[id].y + $sockets[id].width/2}}
+                to={{x: $sockets[socketId].x + $sockets[socketId].width/2 - 0.5, y: $sockets[socketId].y + $sockets[socketId].width/2}}
+            ></Cable>
+        {/if}
     {/each}
 </div>
 

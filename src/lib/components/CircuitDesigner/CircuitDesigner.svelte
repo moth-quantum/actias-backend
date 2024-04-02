@@ -50,10 +50,7 @@
             updateSVG()
         });
 
-        return () => {
-            unsubscribeQubits();
-        }
-        
+        return () => unsubscribeQubits();
     });
 
     let focusedGate: null | Gate = null;
