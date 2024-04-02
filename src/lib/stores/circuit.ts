@@ -69,7 +69,7 @@ export const gates = readable<Gate[]>([
     {
         name: 'RX',
         symbol: 'rx',
-        qubits: 2,
+        qubits: 1,
         description: 'Controlled rotation around the x-axis by given angle.',
         params: [
             {
@@ -81,7 +81,7 @@ export const gates = readable<Gate[]>([
     },
     {
         name: 'RY',
-        symbol: 'rx',
+        symbol: 'ry',
         qubits: 1,
         description: 'Controlled rotation around the y-axis by given angle.',
         params: [
@@ -94,7 +94,7 @@ export const gates = readable<Gate[]>([
     },
     {
         name: 'RZ',
-        symbol: 'rx',
+        symbol: 'rz',
         qubits: 1,
         description: 'Controlled rotation around the z-axis by given angle.',
         params: [

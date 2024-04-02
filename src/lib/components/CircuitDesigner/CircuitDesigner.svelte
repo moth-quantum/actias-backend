@@ -4,7 +4,7 @@
     import GateButton from './Gate.svelte';
     import { circuit, gates, type Gate } from '$lib/stores/circuit';
     import { onMount } from 'svelte';
-    import { debounce, areTouching } from '$lib/utils/utils';
+    import { debounce, areTouching, clamp } from '$lib/utils/utils';
 
     let svg: string = "";
     let thisSvg: HTMLDivElement;
@@ -38,6 +38,9 @@
 
     const handleDrag = (gate: number, x: number, y: number) => {
         const wires = Array.from(thisSvg.querySelectorAll('svg line.qc-wire'));
+        const svg = thisSvg.querySelector('svg')?.getBoundingClientRect()
+        if(!svg || !wires) return;
+        const numOfColumns = circuit.gates[0].length;
 
         const iconSize = 20;
         const { index: closestWireIndex } = wires.reduce((closest, wire, index) => {
@@ -49,19 +52,27 @@
             return distance < closest.distance ? { distance, index } : closest;
         }, { distance: Infinity, index: -1 });
 
+        const columnWidth = ((svg.width || 0) - 38 - 20) / numOfColumns; // Subtracting 40px for labels on the left and 20px for the margin on the right
+        
+        column = clamp(Math.floor((x - svg.x) / columnWidth), 1, numOfColumns);
+        
         wire = closestWireIndex;
     }
 
-    const handleDragEnd = (gate: number, pointerX: number, pointerY: number) => {
+    const handleDragEnd = (i: number, pointerX: number, pointerY: number) => {
         if(!thisSvg) return;
         const {x, y, width, height} = thisSvg.getBoundingClientRect();
         const svg = {x: x, y: y, width: width, height: height};
         const pointer = {x: pointerX, y: pointerY, width: 20, height: 20};
-        if(!areTouching(pointer, svg) && wire === -1) return;
+        if(!areTouching(pointer, svg)) return;
 
-        circuit.addGate($gates[gate].symbol, 4, wire);
+        const gate = $gates[i];
+        const wires = Array.from({ length: gate.qubits }, (_, i) => (wire + i) % circuit.numQubits);
+
+        circuit.addGate(gate.symbol, column, wires);
         updateSVG() 
         wire = -1;
+        column = -1;
     }
 
     onMount(() => {        
@@ -72,12 +83,8 @@
                 // initialise new qubits with u3 gates
                 !circuit.gates[i] || circuit.gates[i].length === 0
                     ? createQubit(i, q.axes[2].value, q.axes[1].value, q.axes[0].value)
-                    : updateQubit(i, q.axes[2].value, q.axes[1].value, q.axes[0].value);                
-
-                console.log(circuit)
+                    : updateQubit(i, q.axes[2].value, q.axes[1].value, q.axes[0].value);
             });
-
-            circuit.appendGate("cx", [0, 3]);
                         
             updateSVG()
         });
@@ -120,6 +127,7 @@
                         handleDragEnd(id, x, y)
                     }}
                     on:dragstart={() => {}}
+                    disabled={gate.qubits > circuit.numQubits}
                 />
             {/each}
         </div>

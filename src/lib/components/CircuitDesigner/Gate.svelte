@@ -6,6 +6,7 @@
 
     export let id: number;
     export let symbol: string;
+    export let disabled: boolean = false;
 
     let thisGate: HTMLButtonElement;
     let position = {x: 0, y: 0};
@@ -50,6 +51,7 @@
     on:mouseout={() => dispatch('mouseout', {id})}
     on:click={() => dispatch('click', {id})}
     class="gate"
+    disabled={disabled}
 >
     <span
         use:draggable={{bounds: 'body', position}}
