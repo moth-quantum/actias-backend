@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { qubits } from '$lib/stores/qubits';
     import Presets from '$lib/components/Presets/Presets.svelte';
     import GateButton from './Gate.svelte';
     import { circuit, gates, type Gate } from '$lib/stores/circuit';
@@ -11,30 +10,8 @@
     let wire: number = -1;
     let column: number = -1;
 
-    const createQubit = (i: number, theta: number, phi: number, lambda: number) => {
-        circuit.appendGate("u3", i, {
-            params: {
-                theta: theta * (Math.PI/2),
-                phi: phi * (Math.PI/2),
-                lambda: lambda * (Math.PI/2)
-            }
-        });
-    }
-
-    const updateQubit = (i: number, theta: number, phi: number, lambda: number) => {
-        circuit.gates[i][0].options.params.theta = theta * (Math.PI/2);
-        circuit.gates[i][0].options.params.phi = phi * (Math.PI/2);
-        circuit.gates[i][0].options.params.lambda = lambda * (Math.PI/2);
-    }
-
-    const removeQubit = (i: number) => {
-        circuit.gates.splice(i, 1);
-        circuit.numQubits = circuit.gates.length;
-    }
-
-    const updateSVG = debounce(() => {
-        svg = circuit.exportSVG(true);
-    }, 100)
+    const updateSVG = () => svg = circuit.exportSVG(true);
+    const debouncedUpdateSVG = debounce(updateSVG, 100);
 
     const handleDrag = (gate: number, x: number, y: number) => {
         const wires = Array.from(thisSvg.querySelectorAll('svg line.qc-wire'));
@@ -54,9 +31,8 @@
 
         const columnWidth = ((svg.width || 0) - 38 - 20) / numOfColumns; // Subtracting 40px for labels on the left and 20px for the margin on the right
         
-        column = clamp(Math.floor((x - svg.x) / columnWidth), 1, numOfColumns);
-        
         wire = closestWireIndex;
+        column = clamp(Math.floor((x - svg.x) / columnWidth), 1, numOfColumns);
     }
 
     const handleDragEnd = (i: number, pointerX: number, pointerY: number) => {
@@ -70,26 +46,14 @@
         const wires = Array.from({ length: gate.qubits }, (_, i) => (wire + i) % circuit.numQubits);
 
         circuit.addGate(gate.symbol, column, wires);
+        
         updateSVG() 
         wire = -1;
         column = -1;
     }
 
     onMount(() => {        
-        const unsubscribeQubits = qubits.subscribe(qubits => {
-            qubits.forEach((q, i) => {
-                if(!q.active) return removeQubit(i);
-                
-                // initialise new qubits with u3 gates
-                !circuit.gates[i] || circuit.gates[i].length === 0
-                    ? createQubit(i, q.axes[2].value, q.axes[1].value, q.axes[0].value)
-                    : updateQubit(i, q.axes[2].value, q.axes[1].value, q.axes[0].value);
-            });
-                        
-            updateSVG()
-        });
-
-        return () => unsubscribeQubits();
+        updateSVG()
     });
 
     let focusedGate: null | Gate = null;

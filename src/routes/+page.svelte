@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { onMount } from 'svelte';
     import { startAudio } from '../sound';
     import { fullscreen as fs, showKeyboard, showSideMenu } from '$lib/stores/global';

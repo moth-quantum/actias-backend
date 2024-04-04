@@ -1,8 +1,38 @@
-import { readable } from 'svelte/store';
+import { get, readable } from 'svelte/store';
+import { qubits } from './qubits';
 // @ts-ignore
 import QuantumCircuit from 'quantum-circuit/dist/quantum-circuit.min.js';
 
 export const circuit = new QuantumCircuit();
+
+export const createQubit = (i: number, theta: number, phi: number, lambda: number) => {
+    circuit.appendGate("u3", i, {
+        params: {
+            theta: theta * (Math.PI/2),
+            phi: phi * (Math.PI/2),
+            lambda: lambda * (Math.PI/2)
+        }
+    });
+}
+
+export const updateQubit = (i: number, theta: number, phi: number, lambda: number) => {
+    // TODO is there a method for doing this directly?
+    circuit.gates[i][0].options.params.theta = theta * (Math.PI/2);
+    circuit.gates[i][0].options.params.phi = phi * (Math.PI/2);
+    circuit.gates[i][0].options.params.lambda = lambda * (Math.PI/2);
+}
+
+qubits.subscribe((qubits) => {
+    qubits.forEach((q, i) => {
+        if(q.active) {
+            !circuit.gates[i] || circuit.gates[i].length === 0
+                ? createQubit(i, q.axes[2].value, q.axes[1].value, q.axes[0].value)
+                : updateQubit(i, q.axes[2].value, q.axes[1].value, q.axes[0].value);
+        } else {
+            circuit.removeQubit(i);
+        }
+    })
+})
 
 export interface Gate {
     name: string;
