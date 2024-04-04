@@ -57,7 +57,6 @@
         const options = gate.params.length
             ? { params: gate.params.reduce((acc, param) => ({ ...acc, [param.name]: param.default }), {}) }
             : {};
-        console.log(options)
 
         wires.length > 1
             ? circuit.insertGate(gate.symbol, column, wires, options)
@@ -72,7 +71,7 @@
         const target = e.target;
         const parent = target?.parentElement;
         const gateType = target?.dataset?.gate || parent?.dataset.gate;
-        if (gateType === 'u3') return;
+        // if (gateType === 'u3') return;
         
         selectedGateId = target?.dataset?.id || parent?.dataset.id || '';
         
