@@ -12,7 +12,7 @@
     let column: number = -1;
     let selectedGateId: string;
     $: gate = circuit.getGateById(selectedGateId);
-    $: params = $gates.find(g => g.symbol === gate?.name)?.params || [];
+    $: params = $gates.find(g => g.symbol === gate?.name)?.params;
 
     const updateSVG = () => {
         svg = circuit.exportSVG(true)
@@ -68,9 +68,21 @@
         const target = e.target;
         const parent = target?.parentElement;
         const gateType = target?.dataset?.gate || parent?.dataset.gate;
-        if (gateType === 'u3') return;
+        // if (gateType === 'u3') return;
         
         selectedGateId = target?.dataset?.id || parent?.dataset.id || '';
+        
+        updateSVG();
+    }
+
+    const handleParamChange = (param: string, value: number) => {
+        const gate = circuit.getGateById(selectedGateId);
+        const { id, name, column } = gate;
+        circuit.gates.forEach((gates) => {
+            if(id !== gates[column].id) return;
+            gates[column].options.params[param] = value;
+            
+        });
         
         updateSVG();
     }
@@ -130,16 +142,22 @@
             {/each}
         </div>
         <div class="circuit-designer__instructions">
-            {#if gate && params}
+            {#if gate && params?.length}
                 <p>This gate accepts the following additional parameters (in radians):</p>
                 
                 {#each params as param}
                     <div class="circuit-designer__input">
-                        <Input id={param.name} label={param.name} value={0} type={param.type}/>
+                        <Input 
+                            id={param.name} 
+                            label={param.name} 
+                            value={0} 
+                            type={param.type}
+                            on:change={(e) => handleParamChange(param.name, e.detail)}
+                        />
                     </div>
                 {/each}
             {/if}
-            {#if !gate}
+            {#if !gate || !params?.length}
                 {#if focusedGate}
                     <h3 class="title">{focusedGate.name}</h3>
                     <p>{focusedGate.description}</p>
