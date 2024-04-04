@@ -208,7 +208,7 @@ canvas {
 }
 
 .gate--selected {
-	& rect, & ellipse {
+	& rect, & ellipse, & circle, & line {
 		stroke: var(--color-grey-light)!important;
 	}
 }

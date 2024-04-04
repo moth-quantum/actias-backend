@@ -12,6 +12,11 @@
     export let color: string = 'white';
     export let classes: string = '';
     export let uppercase: boolean = false;
+    export let type: string = 'text';
+
+    const handleInput = (event) => {
+        value = event.target.value;
+    };
 </script>
 
 {#if showLabel}
@@ -20,7 +25,9 @@
 <input 
     {id} 
     {placeholder} 
-    bind:value 
+    {value}
+    {type}
+    on:input={handleInput}
     on:change={() => dispatch('change', value)}
     on:keydown={e => {
         mute.set(true)

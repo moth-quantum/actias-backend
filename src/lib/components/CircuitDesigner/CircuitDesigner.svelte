@@ -4,12 +4,15 @@
     import { circuit, gates, type Gate } from '$lib/stores/circuit';
     import { onMount } from 'svelte';
     import { areTouching, clamp } from '$lib/utils/utils';
+    import Input from '$lib/components/Forms/Input.svelte';
 
     let svg: string = "";
     let thisSvg: HTMLDivElement;
     let wire: number = -1;
     let column: number = -1;
     let selectedGateId: string;
+    $: gate = circuit.getGateById(selectedGateId);
+    $: params = $gates.find(g => g.symbol === gate?.name)?.params || [];
 
     const updateSVG = () => {
         svg = circuit.exportSVG(true)
@@ -68,6 +71,7 @@
         if (gateType === 'u3') return;
         
         selectedGateId = target?.dataset?.id || parent?.dataset.id || '';
+        
         updateSVG();
     }
 
@@ -126,14 +130,25 @@
             {/each}
         </div>
         <div class="circuit-designer__instructions">
-            {#if focusedGate}
-                <h3 class="title">{focusedGate.name}</h3>
-                <p>{focusedGate.description}</p>
+            {#if gate && params}
+                <p>This gate accepts the following additional parameters (in radians):</p>
+                
+                {#each params as param}
+                    <div class="circuit-designer__input">
+                        <Input id={param.name} label={param.name} value={0} type={param.type}/>
+                    </div>
+                {/each}
             {/if}
-            {#if !focusedGate}
-                <p>Drag and drop gates to design your circuit.</p>
-                <p>Hover over a gate to learn more about its properties.</p>
-                <p>Individual gate parameters can be set by selecting the gate on the circuit.</p>
+            {#if !gate}
+                {#if focusedGate}
+                    <h3 class="title">{focusedGate.name}</h3>
+                    <p>{focusedGate.description}</p>
+                {/if}
+                {#if !focusedGate}
+                    <p>Drag and drop gates to design your circuit.</p>
+                    <p>Hover over a gate to learn more about its properties.</p>
+                    <p>Individual gate parameters can be set by selecting the gate on the circuit.</p>
+                {/if}
             {/if}
         </div>
     </aside>
@@ -216,6 +231,12 @@
             padding: 2rem 4rem;
             width: 100%;
             overflow: scroll;
+        }
+
+        &__input {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1rem;
         }
     }
 </style>
