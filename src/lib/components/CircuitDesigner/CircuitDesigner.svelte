@@ -77,11 +77,10 @@
 
     const handleParamChange = (param: string, value: number) => {
         const gate = circuit.getGateById(selectedGateId);
-        const { id, name, column } = gate;
-        circuit.gates.forEach((gates) => {
+        const { id, column } = gate;
+        circuit.gates.forEach((gates: any) => {
             if(id !== gates[column].id) return;
             gates[column].options.params[param] = value;
-            
         });
         
         updateSVG();
@@ -118,7 +117,7 @@
 
 <section class="circuit-designer">
     <aside class="circuit-designer__palette">
-        <h2 class="title">gates</h2>
+        <h2 class="title">Gates</h2>
         <div 
             class="circuit-designer__gates"
         >
@@ -150,7 +149,7 @@
                         <Input 
                             id={param.name} 
                             label={param.name} 
-                            value={0} 
+                            bind:value={gate.options.params[param.name]}
                             type={param.type}
                             on:change={(e) => handleParamChange(param.name, e.detail)}
                         />
