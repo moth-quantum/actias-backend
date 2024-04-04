@@ -30,7 +30,7 @@
     on:change={() => dispatch('change', value)}
     on:keydown={e => {
         e.stopPropagation()
-        e.key === 'Enter' && value !== '' && dispatch('enter', value) && (value = '')
+        e.key === 'Enter' && value !== '' && dispatch('enter', value)
     }}
     style={`
         border: ${border}; 

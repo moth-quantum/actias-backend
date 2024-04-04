@@ -54,10 +54,14 @@
 
         const gate = $gates[i];
         const wires = Array.from({ length: gate.qubits }, (_, i) => (wire + i) % circuit.numQubits);
+        const options = gate.params.length
+            ? { params: gate.params.reduce((acc, param) => ({ ...acc, [param.name]: param.default }), {}) }
+            : {};
+        console.log(options)
 
         wires.length > 1
-            ? circuit.insertGate(gate.symbol, column, wires)
-            : circuit.addGate(gate.symbol, column, wires);
+            ? circuit.insertGate(gate.symbol, column, wires, options)
+            : circuit.addGate(gate.symbol, column, wires, options);
         
         updateSVG() 
         wire = -1;
@@ -68,7 +72,7 @@
         const target = e.target;
         const parent = target?.parentElement;
         const gateType = target?.dataset?.gate || parent?.dataset.gate;
-        // if (gateType === 'u3') return;
+        if (gateType === 'u3') return;
         
         selectedGateId = target?.dataset?.id || parent?.dataset.id || '';
         
@@ -79,7 +83,7 @@
         const gate = circuit.getGateById(selectedGateId);
         const { id, column } = gate;
         circuit.gates.forEach((gates: any) => {
-            if(id !== gates[column].id) return;
+            if(id !== gates[column]?.id) return;
             gates[column].options.params[param] = value;
         });
         
