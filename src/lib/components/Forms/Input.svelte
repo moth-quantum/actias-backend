@@ -1,6 +1,5 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import { mute } from '$lib/stores/global';
 
     const dispatch = createEventDispatcher();
     export let id: string = '';
@@ -13,8 +12,8 @@
     export let classes: string = '';
     export let uppercase: boolean = false;
     export let type: string = 'text';
-
-    const handleInput = (event) => {
+    
+    const handleInput = (event: any) => {
         value = event.target.value;
     };
 </script>
@@ -30,11 +29,8 @@
     on:input={handleInput}
     on:change={() => dispatch('change', value)}
     on:keydown={e => {
-        mute.set(true)
+        e.stopPropagation()
         e.key === 'Enter' && value !== '' && dispatch('enter', value) && (value = '')
-    }}
-    on:keyup={() => {
-        mute.set(false)
     }}
     style={`
         border: ${border}; 
