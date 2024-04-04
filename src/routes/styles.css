@@ -206,3 +206,9 @@ canvas {
 		stroke: var(--color-theme-1)!important;
 	}
 }
+
+.gate--selected {
+	& rect, & ellipse {
+		stroke: var(--color-grey-light)!important;
+	}
+}

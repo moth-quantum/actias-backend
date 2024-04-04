@@ -3,16 +3,24 @@
     import GateButton from './Gate.svelte';
     import { circuit, gates, type Gate } from '$lib/stores/circuit';
     import { onMount } from 'svelte';
-    import { debounce, areTouching, clamp } from '$lib/utils/utils';
+    import { areTouching, clamp } from '$lib/utils/utils';
 
     let svg: string = "";
     let thisSvg: HTMLDivElement;
     let wire: number = -1;
     let column: number = -1;
+    let selectedGateId: string;
 
-    const updateSVG = () => svg = circuit.exportSVG(true);
+    const updateSVG = () => {
+        svg = circuit.exportSVG(true)
+        
+        const gates = Array.from(thisSvg?.querySelectorAll(`[data-id]`) || []);
+        gates.forEach(el => el.classList.remove('gate--selected'));
+        const selectedGate = thisSvg?.querySelector(`[data-id="${selectedGateId}"]`);
+        selectedGate && selectedGate.classList.toggle('gate--selected');
+    };
 
-    const handleDrag = (gate: number, x: number, y: number) => {
+    const handleDrag = (x: number, y: number) => {
         const wires = Array.from(thisSvg.querySelectorAll('svg line.qc-wire'));
         const svg = thisSvg.querySelector('svg')?.getBoundingClientRect()
         if(!svg || !wires) return;
@@ -53,8 +61,29 @@
         column = -1;
     }
 
+    const handleClick = (e: MouseEvent) => {
+        const target = e.target;
+        const parent = target?.parentElement;
+        const gateType = target?.dataset?.gate || parent?.dataset.gate;
+        if (gateType === 'u3') return;
+        
+        selectedGateId = target?.dataset?.id || parent?.dataset.id || '';
+        updateSVG();
+    }
+
     onMount(() => {        
         updateSVG()
+
+        const handleKeydown = (e: KeyboardEvent) => {
+            if (e.key === 'Delete' || e.key === 'Backspace') {
+                circuit.removeGate(selectedGateId);
+                updateSVG();
+            }
+        }
+
+        window.addEventListener('keydown', handleKeydown);
+
+        return () => window.removeEventListener('keydown', handleKeydown);
     });
 
     let focusedGate: null | Gate = null;
@@ -84,8 +113,8 @@
                     on:mouseover={() => focusedGate = gate}
                     on:mouseout={() => focusedGate = null}
                     on:drag={(e) => {
-                        const { id, x, y } = e.detail;
-                        handleDrag(id, x, y)
+                        const { x, y } = e.detail;
+                        handleDrag(x, y)
                     }}
                     on:dragend={(e) => {
                         const { id, x, y } = e.detail;
@@ -109,11 +138,12 @@
         </div>
     </aside>
     <div class="circuit-designer__circuit">
-        <!-- TODO: render as image using data url so that you can resize it... -->
         {#if svg}
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
             <div 
                 bind:this={thisSvg}
                 class="circuit-designer__svg"
+                on:click={handleClick}
             >
                 {@html svg}
             </div>

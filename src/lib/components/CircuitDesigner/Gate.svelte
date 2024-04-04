@@ -12,10 +12,7 @@
     let position = {x: 0, y: 0};
 
     onMount(() => {
-        const position = thisGate?.getBoundingClientRect();
-        // const x = position.x + window.scrollX;
-        // const y = position.y + window.scrollY;
-        // const width = position.width;
+        // position = thisGate?.getBoundingClientRect();
     });
 
     // @ts-ignore
@@ -53,14 +50,16 @@
     class="gate"
     disabled={disabled}
 >
-    <span
-        use:draggable={{bounds: 'body', position}}
-        on:neodrag:end={handleDragEnd}
-        on:neodrag:start={handleDragStart}
-        on:neodrag={handleDrag}
-    >
-        {symbol}
-    </span>
+    {#if !disabled}
+        <span
+            use:draggable={{bounds: 'body', position}}
+            on:neodrag:end={handleDragEnd}
+            on:neodrag:start={handleDragStart}
+            on:neodrag={handleDrag}
+        >
+            {symbol}
+        </span>
+    {/if}
     {symbol}
 </button>
 
@@ -78,6 +77,11 @@
         width: calc(100%/2 - 0.25rem);
         @media (min-width: 1200px){
             width: calc(100%/3 - (1rem/3));
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
         }
 
         span {
