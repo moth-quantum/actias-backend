@@ -11,7 +11,6 @@
     let column: number = -1;
 
     const updateSVG = () => svg = circuit.exportSVG(true);
-    const debouncedUpdateSVG = debounce(updateSVG, 100);
 
     const handleDrag = (gate: number, x: number, y: number) => {
         const wires = Array.from(thisSvg.querySelectorAll('svg line.qc-wire'));
@@ -45,7 +44,9 @@
         const gate = $gates[i];
         const wires = Array.from({ length: gate.qubits }, (_, i) => (wire + i) % circuit.numQubits);
 
-        circuit.addGate(gate.symbol, column, wires);
+        wires.length > 1
+            ? circuit.insertGate(gate.symbol, column, wires)
+            : circuit.addGate(gate.symbol, column, wires);
         
         updateSVG() 
         wire = -1;

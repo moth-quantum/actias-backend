@@ -4,33 +4,23 @@ import { qubits } from './qubits';
 import QuantumCircuit from 'quantum-circuit/dist/quantum-circuit.min.js';
 
 export const circuit = new QuantumCircuit();
+console.log(circuit)
 
-export const createQubit = (i: number, theta: number, phi: number, lambda: number) => {
-    circuit.appendGate("u3", i, {
+const u3Params = (theta: number, phi: number, lambda: number) => {
+    return {
         params: {
             theta: theta * (Math.PI/2),
             phi: phi * (Math.PI/2),
             lambda: lambda * (Math.PI/2)
         }
-    });
-}
-
-export const updateQubit = (i: number, theta: number, phi: number, lambda: number) => {
-    // TODO is there a method for doing this directly?
-    circuit.gates[i][0].options.params.theta = theta * (Math.PI/2);
-    circuit.gates[i][0].options.params.phi = phi * (Math.PI/2);
-    circuit.gates[i][0].options.params.lambda = lambda * (Math.PI/2);
+    }
 }
 
 qubits.subscribe((qubits) => {
     qubits.forEach((q, i) => {
-        if(q.active) {
-            !circuit.gates[i] || circuit.gates[i].length === 0
-                ? createQubit(i, q.axes[2].value, q.axes[1].value, q.axes[0].value)
-                : updateQubit(i, q.axes[2].value, q.axes[1].value, q.axes[0].value);
-        } else {
-            circuit.removeQubit(i);
-        }
+        q.active
+            ? circuit.addGate("u3", 0, i, u3Params(q.axes[2].value, q.axes[1].value, q.axes[0].value))
+            : circuit.removeQubit(i);
     })
 })
 
