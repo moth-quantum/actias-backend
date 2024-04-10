@@ -30,7 +30,6 @@
         dispatch('drag', {id, x, y});
     }
 
-    // @ts-ignore
     function handleDragStart() {
         dispatch('dragstart', {id});
     }
