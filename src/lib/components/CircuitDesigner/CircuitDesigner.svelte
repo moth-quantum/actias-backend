@@ -161,13 +161,13 @@
         </div>
         <div class="circuit-designer__instructions">
             {#if gate}
-                <!-- <p>Qubit(s):</p>
+                <p>Qubit(s):</p>
                 <div class="circuit-designer__input">
                     <Input 
                         id={selectedGateId} 
                         
                     />
-                </div> -->
+                </div>
                 {#if params?.length}
                     <p>This gate accepts the following additional parameters (in radians):</p>
                     
