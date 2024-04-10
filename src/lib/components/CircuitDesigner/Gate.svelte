@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { createEventDispatcher, onMount } from 'svelte';
+    import { createEventDispatcher } from 'svelte';
     import { draggable } from '@neodrag/svelte';
     
     const dispatch = createEventDispatcher();
@@ -11,25 +11,22 @@
     let thisGate: HTMLButtonElement;
     let position = {x: 0, y: 0};
 
-    onMount(() => {
-        // position = thisGate?.getBoundingClientRect();
-    });
+    function handleDragEnd(e: CustomEvent) {
 
-    // @ts-ignore
-    function handleDragEnd(e) {
-        const target = e.target?.getBoundingClientRect();
-        const x = target.x + window.scrollX;
-        const y = target.y + window.scrollY;
+        const target = e.target as HTMLElement;
+        const bounds = target.getBoundingClientRect() as DOMRect;
+        const x = bounds.x + window.scrollX;
+        const y = bounds.y + window.scrollY;
         dispatch('dragend', {id, x, y});
         
         position = {x: 0, y: 0}
     }
 
-    // @ts-ignore
-    function handleDrag(e) {
-        const target = e.target?.getBoundingClientRect();
-        const x = target.x + window.scrollX;
-        const y = target.y + window.scrollY;
+    function handleDrag(e: CustomEvent) {
+        const target = e.target as HTMLElement;
+        const bounds = target.getBoundingClientRect() as DOMRect;
+        const x = bounds.x + window.scrollX;
+        const y = bounds.y + window.scrollY;
         dispatch('drag', {id, x, y});
     }
 
