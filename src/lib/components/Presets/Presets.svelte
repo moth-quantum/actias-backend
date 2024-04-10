@@ -46,6 +46,10 @@
         name = ''
         isSaving = true
     }
+
+    const handleSelectChange = (e: Event) => {
+        active.set((e.target as HTMLSelectElement).value)
+    }
 </script>
 
 <svelte:window on:keydown={e => {
@@ -70,7 +74,7 @@
             ]}
             disabled={!keys.length}
             selected={current}
-            onChange={e => active.set(e.target.value)}
+            onChange={handleSelectChange}
         />
     {/if}
     
