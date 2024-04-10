@@ -12,8 +12,26 @@
     let wire: number = -1;
     let column: number = -1;
     let selectedGateId: string;
+    let isClicked: boolean = false;
+    let isMoving: boolean = false;
     $: gate = circuit.getGateById(selectedGateId);
     $: params = $gates.find(g => g.symbol === gate?.name)?.params;
+
+    const getClosestWireIndex = (x: number, y: number) => {
+        const wires = Array.from(thisSvg.querySelectorAll('svg line.qc-wire'));
+        if(!wires) return -1;
+
+        const { index } = wires.reduce((closest, wire, index) => {
+            const wireRect = wire.getBoundingClientRect();
+            const wireX = wireRect.left + wireRect.width / 2;
+            const wireY = wireRect.top + wireRect.height / 2;
+            const distance = Math.sqrt((x + 20 / 2 - wireX) ** 2 + (y + 20 / 2 - wireY) ** 2);
+
+            return distance < closest.distance ? { distance, index } : closest;
+        }, { distance: Infinity, index: -1 });
+
+        return index;
+    }
 
     const updateSVG = () => {
         svg = circuit.exportSVG(true)
@@ -30,15 +48,7 @@
         if(!svg || !wires) return;
         const numOfColumns = circuit.gates[0].length;
 
-        const iconSize = 20;
-        const { index: closestWireIndex } = wires.reduce((closest, wire, index) => {
-            const wireRect = wire.getBoundingClientRect();
-            const wireX = wireRect.left + wireRect.width / 2;
-            const wireY = wireRect.top + wireRect.height / 2;
-            const distance = Math.sqrt((x + iconSize / 2 - wireX) ** 2 + (y + iconSize / 2 - wireY) ** 2);
-
-            return distance < closest.distance ? { distance, index } : closest;
-        }, { distance: Infinity, index: -1 });
+        const closestWireIndex = getClosestWireIndex(x, y);
 
         const columnWidth = ((svg.width || 0) - 38 - 20) / numOfColumns; // Subtracting 40px for labels on the left and 20px for the margin on the right
         
@@ -68,7 +78,9 @@
         column = -1;
     }
 
-    const handleClick = (e: MouseEvent) => {
+    // Handle clicks on the svg
+    const handleMouseDown = (e: MouseEvent) => {
+        isClicked = true;
         const target = e.target as HTMLElement;
         const parent = target?.parentElement;
         const gateType = target?.dataset?.gate || parent?.dataset.gate;
@@ -76,6 +88,23 @@
         
         selectedGateId = target?.dataset?.id || parent?.dataset.id || '';
         
+        updateSVG();
+    }
+
+    // handle moves on the svg
+    const handleMouseMove = () => {
+        if(!isClicked) return;
+        isMoving = true;
+    }
+
+    const handleMouseUp = (e: MouseEvent) => {
+        if(!isClicked) return;
+        const gate = circuit.getGateById(selectedGateId);
+        const wire = getClosestWireIndex(e.clientX, e.clientY)
+        circuit.gates[gate.wires[0]][gate.column] = null
+        circuit.addGate(gate.name, gate.column, wire, gate.options);
+        isClicked = false;
+        isMoving = false;
         updateSVG();
     }
 
@@ -121,6 +150,8 @@
 	<meta name="description" content="Design custom quantum circuits using a set of gates. Run simulations in the browser." />
 </svelte:head>
 
+<svelte:window on:mouseup={() => isClicked = false} />
+
 <section class="buttons container mx-auto">
     <div class="buttons__inner">
         <Presets 
@@ -161,13 +192,6 @@
         </div>
         <div class="circuit-designer__instructions">
             {#if gate}
-                <p>Qubit(s):</p>
-                <div class="circuit-designer__input">
-                    <Input 
-                        id={selectedGateId} 
-                        
-                    />
-                </div>
                 {#if params?.length}
                     <p>This gate accepts the following additional parameters (in radians):</p>
                     
@@ -200,10 +224,15 @@
     <div class="circuit-designer__circuit">
         {#if svg}
             <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <!-- svelte-ignore a11y-mouse-events-have-key-events -->
             <div 
                 bind:this={thisSvg}
                 class="circuit-designer__svg"
-                on:click={handleClick}
+                class:circuit-designer__svg--moving={isMoving}
+                on:mousedown={handleMouseDown}
+                on:mouseover={handleMouseMove}
+                on:mouseup={handleMouseUp}
+                on:mouseleave={handleMouseUp}
             >
                 {@html svg}
             </div>
@@ -282,6 +311,12 @@
             display: flex;
             flex-direction: column;
             margin-bottom: 1rem;
+        }
+
+        &__svg {
+            &--moving {
+                cursor: grabbing;
+            }
         }
     }
 </style>
