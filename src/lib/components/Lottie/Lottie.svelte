@@ -1,7 +1,8 @@
 <script lang="ts">
+    // @ts-ignore
     import { LottiePlayer } from '@lottiefiles/svelte-lottie-player';
   
-    export let src: string;
+    export let src: any;
 </script>
 
 <LottiePlayer

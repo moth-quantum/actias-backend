@@ -1,28 +1,8 @@
-import { get, readable } from 'svelte/store';
-import { qubits } from './qubits';
+import { readable } from 'svelte/store';
 // @ts-ignore
 import QuantumCircuit from 'quantum-circuit/dist/quantum-circuit.min.js';
 
 export const circuit = new QuantumCircuit();
-console.log(circuit)
-
-const u3Params = (theta: number, phi: number, lambda: number) => {
-    return {
-        params: {
-            theta: theta * (Math.PI/2),
-            phi: phi * (Math.PI/2),
-            lambda: lambda * (Math.PI/2)
-        }
-    }
-}
-
-qubits.subscribe((qubits) => {
-    qubits.forEach((q, i) => {
-        q.active
-            ? circuit.addGate("u3", 0, i, u3Params(q.axes[2].value, q.axes[1].value, q.axes[0].value))
-            : circuit.removeQubit(i);
-    })
-})
 
 export interface Gate {
     name: string;

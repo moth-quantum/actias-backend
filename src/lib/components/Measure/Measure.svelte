@@ -5,7 +5,11 @@
     import Lottie from '$lib/components/Lottie/Lottie.svelte';
     import lottieSrc from '$lib/images/measuring.json';
 
-    const machines = [{name: 'local', active: true}, {name: 'qasm_simulator', active: true}, {name: 'ibmq_belem', active: false}];
+    const machines = [
+        {name: 'local', active: true}, 
+        // {name: 'qasm_simulator', active: false}, 
+        // {name: 'ibmq_belem', active: false}
+    ];
 </script>
 
 <div class="measure">

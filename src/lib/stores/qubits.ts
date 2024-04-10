@@ -4,6 +4,7 @@ import type { Axis } from '../types';
 import { add } from '../utils/utils';
 import { redrawCables } from './patching';
 import { disconnectSocket } from './patching';
+import { circuit } from './circuit';
 
 export const qubits = writable<{active: boolean, user: 'you' | number, axes: Axis[]}[]>(
     Array(12).fill(null).map((_, i) => ({
@@ -44,25 +45,52 @@ export const deactivateQubit = () => {
     redrawCables();
 }
 
+// Handle redraw events for individual qubits
 let previousQubitsStates = get(qubits).map(q => q.axes.map(a => a.value));
 qubits.subscribe((qubits) => {
     const newQubitsStates = qubits.map(q => q.axes.map(a => a.value));
     
-    const changedQubitIndex = newQubitsStates.findIndex((qubit, i) => {
-        return qubit.reduce(add) !== previousQubitsStates[i].reduce(add);
-    });
+    // needs to work out all qubits that have changed, not just the first one...
+    const changedQubits: number[] = newQubitsStates
+        .map((qubit, i) => {
+            return qubit.reduce(add) !== previousQubitsStates[i].reduce(add)
+                ? i
+                : -1;
+        })
+        .filter(q => q !== -1);
 
     previousQubitsStates = newQubitsStates;
 
-    if (changedQubitIndex === -1) return;
+    
     
     // Fire a redraw event with the index of the qubit to be redrawn
     // This prevents all qubits from being redrawn each time a single qubit changes
     if(typeof document === 'undefined') return
-    
-    const redrawEvent = new CustomEvent('redrawQubit', { detail: changedQubitIndex });
-    document.dispatchEvent(redrawEvent);
+    changedQubits.forEach((changedQubitIndex: number) => {
+        console.log(changedQubitIndex)
+        const redrawEvent = new CustomEvent('redrawQubit', { detail: changedQubitIndex });
+        document.dispatchEvent(redrawEvent);
+    })
 });
+
+const u3Params = (theta: number, phi: number, lambda: number) => {
+    return {
+        params: {
+            theta: theta * Math.PI,
+            phi: phi * Math.PI,
+            lambda: lambda * Math.PI
+        }
+    }
+}
+
+// handle circuit updates when qubits change
+qubits.subscribe((qubits) => {
+    qubits.forEach((q, i) => {
+        q.active
+            ? circuit.addGate("u3", 0, i, u3Params(q.axes[2].value, q.axes[1].value, q.axes[0].value))
+            : circuit.removeQubit(i);
+    })
+})
 
 export const isMeasuring = writable<boolean>(false);
 export const seconds = writable<number>();
@@ -81,29 +109,28 @@ export const collapseTime = derived([seconds, bpm, beats], ([$seconds, $bpm, $be
 export const measure = () => {
     if (get(isMeasuring)) return;
     isMeasuring.set(true);
-    const theta = get(qubits)[0].axes[2].value;
-    const phi = get(qubits)[0].axes[1].value;
-    const lambda = get(qubits)[0].axes[0].value;
-    const backend = get(source);
-    
-    get(source) === 'local'
-        ? collapse((Math.random() < theta) ? 1 : 0)
-        : console.log(`send qasm string at this point! using ${backend} backend, with theta: ${theta}, phi: ${phi}, lambda: ${lambda}`);
-}
-
-export function collapse(dest: 0 | 1) {
-    const currentAxes = get(qubits)[0].axes;
-    
-    const startTime = new Date().getTime();
-    const endTime = startTime + (get(collapseTime) * 1000);
-    
-    const startValues: {[key: string]: number} = {
-        x: currentAxes[0].value, 
-        y: currentAxes[1].value, 
-        z: currentAxes[2].value
+    circuit.run();
+    if(get(source) === 'local') {
+        return collapse(circuit.measureAll());
     }
 
-    const endValues: {[key: string]: number} = {x: 0, y: 0, z: dest}
+    // const backend = get(source);
+    // TODO: export qasm and send to our new API...
+}
+
+export function collapse(destinations: number[]) {
+    const startTime = new Date().getTime();
+    const endTime = startTime + (get(collapseTime) * 1000);
+
+    const startValues: {[key: string]: number}[] = destinations.map((_, i) => {
+        return {
+            x: get(qubits)[i].axes[0].value, 
+            y: get(qubits)[i].axes[1].value, 
+            z: get(qubits)[i].axes[2].value, 
+        }
+    })
+
+    const endValues: {[key: string]: number}[] = destinations.map(dest => ({x: 0, y: 0, z: dest}));
 
     const interval = setInterval(() => {
         const now = new Date().getTime();
@@ -113,14 +140,21 @@ export function collapse(dest: 0 | 1) {
             isMeasuring.set(false);
         }
         qubits.update(qs => {
-            qs[0].axes = qs[0].axes.map(axis => ({
-                ...axis, 
-                value: clamp(
-                    mapToRange(progress, 0, 1, startValues[axis.key], endValues[axis.key]),
-                    0, 1
-                )
-            }));
-            return qs;
+            return qs.map((q, i) => {
+                if (destinations.length > i) {
+                    return {
+                        ...q,
+                        axes: q.axes.map(axis => ({
+                            ...axis, 
+                            value: clamp(
+                                mapToRange(progress, 0, 1, startValues[i][axis.key], endValues[i][axis.key]),
+                                0, 1
+                            )
+                        }))
+                    }
+                }
+                return q;
+            })
         });
     }, 10);
 }
