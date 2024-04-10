@@ -30,6 +30,7 @@
         window.addEventListener('resize', resize)
         document.addEventListener('redrawQubit', handleRedrawQubit)
         
+        // @ts-ignore
         let timeoutID: Timeout;
         const unsubscribeQubitCount = activeQubitCount.subscribe(() => {
             if (!p5Instance) return;

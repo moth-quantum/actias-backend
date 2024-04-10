@@ -114,7 +114,7 @@
 
 <section class="buttons container mx-auto">
     <div class="buttons__inner">
-        <Presets />
+        <!-- <Presets /> -->
     </div>
 </section>
 

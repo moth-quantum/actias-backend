@@ -4,25 +4,25 @@
     import Select from '$lib/components/Forms/Select.svelte';
     import Button from '$lib/components/Button/Button.svelte';
     import Input from '$lib/components/Forms/Input.svelte';
-    import { presetKeys, savePreset, deletePreset, editPreset, activePreset as active } from '$lib/stores/presets';
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faAdd, faChevronLeft, faChevronRight, faFloppyDisk, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
-    // import { onMount, onDestroy } from 'svelte';
     import { mute } from '$lib/stores/global';
+    import type { Writable } from 'svelte/store';
     
     library.add(faChevronLeft, faChevronRight, faFloppyDisk, faTrash, faPen, faAdd);
 
     export let hidden = false;
+    export let keys: string[] = [];
+    export let active: Writable<string>;
+    export let savePreset: (name: string) => void;
+    export let deletePreset: (name: string) => void;
+    export let editPreset: (name: string) => void;
+    
     let save: HTMLDialogElement;
     let isSaving = false;
     let isEditing = false;
     let name = '';
     $: current = $active || 'load';
-
-    // const onShowDialog = () => save?.showModal();
-        
-    // onMount(() => document.addEventListener('isSaving', onShowDialog));
-    // onDestroy(() => document.removeEventListener('isSaving', onShowDialog));
     
     const handleSave = () => {
         isEditing 
@@ -66,9 +66,9 @@
             background="transparent"
             options={[
                 {name: 'Load preset', value: 'load', active: false},
-                ...$presetKeys.map(key => ({name: key, value: key, active: true}))
+                ...keys.map(key => ({name: key, value: key, active: true}))
             ]}
-            disabled={!$presetKeys.length}
+            disabled={!keys.length}
             selected={current}
             onChange={e => active.set(e.target.value)}
         />
