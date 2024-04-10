@@ -5,6 +5,7 @@
     import { onMount } from 'svelte';
     import { areTouching, clamp } from '$lib/utils/utils';
     import Input from '$lib/components/Forms/Input.svelte';
+    import { presetKeys, savePreset, deletePreset, editPreset, activePreset } from '$lib/stores/presets-circuits';
 
     let svg: string = "";
     let thisSvg: HTMLDivElement;
@@ -68,10 +69,10 @@
     }
 
     const handleClick = (e: MouseEvent) => {
-        const target = e.target;
+        const target = e.target as HTMLElement;
         const parent = target?.parentElement;
         const gateType = target?.dataset?.gate || parent?.dataset.gate;
-        // if (gateType === 'u3') return;
+        if (gateType === 'u3') return;
         
         selectedGateId = target?.dataset?.id || parent?.dataset.id || '';
         
@@ -101,7 +102,15 @@
 
         window.addEventListener('keydown', handleKeydown);
 
-        return () => window.removeEventListener('keydown', handleKeydown);
+        const unsubscribeActivePreset = activePreset.subscribe((value) => {
+            if(value === 'load') return
+            updateSVG();
+        });
+
+        return () => {
+            window.removeEventListener('keydown', handleKeydown)
+            unsubscribeActivePreset();
+        };
     });
 
     let focusedGate: null | Gate = null;
@@ -114,7 +123,14 @@
 
 <section class="buttons container mx-auto">
     <div class="buttons__inner">
-        <!-- <Presets /> -->
+        <Presets 
+            type="circuit"
+            keys={$presetKeys}
+            savePreset={savePreset}
+            deletePreset={deletePreset}
+            editPreset={editPreset}
+            active={activePreset}
+        />
     </div>
 </section>
 

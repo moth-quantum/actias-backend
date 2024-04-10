@@ -3,7 +3,7 @@ import { WebMidi } from "webmidi";
 // import { qubits } from './qubits';
 import { instruments, instrument, randomise } from '$lib/stores/parameters';
 import { randomiseConnections } from '$lib/stores/patching';
-import { presetKeys, activePreset } from '$lib/stores/presets';
+import { presetKeys, activePreset } from '$lib/stores/presets-synths';
 import { volume } from '$lib/stores/global';
 import { updateEnvelopeValue } from '$lib/stores/envelopes';
 import { measure } from '$lib/stores/qubits';

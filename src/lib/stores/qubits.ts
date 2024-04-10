@@ -80,11 +80,15 @@ const u3Params = (theta: number, phi: number, lambda: number) => {
     }
 }
 
+export const initGates = (i: number, theta: number = 0, phi: number = 0, lambda: number = 0) => {
+    circuit.addGate("u3", 0, i, u3Params(theta, phi, lambda))
+}
+
 // handle circuit updates when qubits change
 qubits.subscribe((qubits) => {
     qubits.forEach((q, i) => {
         q.active
-            ? circuit.addGate("u3", 0, i, u3Params(q.axes[2].value, q.axes[1].value, q.axes[0].value))
+            ? initGates(i, q.axes[2].value, q.axes[1].value, q.axes[0].value)
             : circuit.removeQubit(i);
     })
 })

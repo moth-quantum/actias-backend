@@ -11,6 +11,7 @@
     
     library.add(faChevronLeft, faChevronRight, faFloppyDisk, faTrash, faPen, faAdd);
 
+    export let type: string;
     export let hidden = false;
     export let keys: string[] = [];
     export let active: Writable<string>;
@@ -69,7 +70,7 @@
             id="load-preset"
             background="transparent"
             options={[
-                {name: 'Load preset', value: 'load', active: false},
+                {name: `Load ${type}`, value: 'load', active: false},
                 ...keys.map(key => ({name: key, value: key, active: true}))
             ]}
             disabled={!keys.length}

@@ -1,4 +1,4 @@
-import { activePreset, presets } from '$lib/stores/presets';
+import { activePreset, presets } from '$lib/stores/presets-synths';
 import { updateSamples } from '$lib/stores/samples';
 import { getAppState } from '$lib/stores/parameters';
 

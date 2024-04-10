@@ -13,7 +13,7 @@
     import Qubits from '$lib/components/Qubits/Qubits.svelte';
     import InstrumentButtons from '$lib/components/InstrumentButtons/index.svelte';
     import Toasts from '$lib/components/Toasts/Toasts.svelte';
-    import { presetKeys, savePreset, deletePreset, editPreset, activePreset } from '$lib/stores/presets';
+    import { presetKeys, savePreset, deletePreset, editPreset, activePreset } from '$lib/stores/presets-synths';
 
     import { Drawer } from 'flowbite-svelte';
     import { sineIn } from 'svelte/easing';
@@ -97,6 +97,7 @@
         </div>
     
         <Presets 
+            type="instrument"
             keys={$presetKeys}
             savePreset={savePreset}
             deletePreset={deletePreset}
