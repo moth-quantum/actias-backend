@@ -15,6 +15,7 @@
     let isClicked: boolean = false;
     let isMoving: boolean = false;
     $: gate = circuit.getGateById(selectedGateId);
+    $: connector = gate?.connector;
     $: params = $gates.find(g => g.symbol === gate?.name)?.params;
 
     const getClosestWireIndex = (x: number, y: number) => {
@@ -36,7 +37,7 @@
     const getClosestColumnIndex = (x: number) => {
         const svg = thisSvg.querySelector('svg')?.getBoundingClientRect()
         if(!svg) return -1;
-        console.log(svg.width)
+
         const numOfColumns = circuit.gates[0].length;
         const columnWidth = ((svg.width || 0) - 38) / numOfColumns; // Subtracting 38px for labels on the left and 20px for the margin on the right
         
@@ -103,11 +104,14 @@
         const gate = circuit.getGateById(selectedGateId);
         const wire = getClosestWireIndex(e.clientX, e.clientY)
         const column = getClosestColumnIndex(e.clientX - 20);
-
-        circuit.gates[gate.wires[0]][gate.column] = null
-        circuit.addGate(gate.name, column, wire, gate.options);
         isClicked = false;
         isMoving = false;
+
+        if(gate.wires.includes(wire) && gate.column === column) return;
+        
+        circuit.gates[gate.wires[0]][gate.column] = null
+        circuit.addGate(gate.name, column, wire, gate.options);
+        
         updateSVG();
     }
 
