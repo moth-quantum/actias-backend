@@ -60,14 +60,11 @@ qubits.subscribe((qubits) => {
         .filter(q => q !== -1);
 
     previousQubitsStates = newQubitsStates;
-
-    
     
     // Fire a redraw event with the index of the qubit to be redrawn
     // This prevents all qubits from being redrawn each time a single qubit changes
     if(typeof document === 'undefined') return
     changedQubits.forEach((changedQubitIndex: number) => {
-        console.log(changedQubitIndex)
         const redrawEvent = new CustomEvent('redrawQubit', { detail: changedQubitIndex });
         document.dispatchEvent(redrawEvent);
     })
@@ -119,6 +116,7 @@ export const measure = () => {
 }
 
 export function collapse(destinations: number[]) {
+    isMeasuring.set(true);
     const startTime = new Date().getTime();
     const endTime = startTime + (get(collapseTime) * 1000);
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { qubits, activeQubitCount } from '$lib/stores/qubits';
+    import { qubits, activeQubitCount, isMeasuring } from '$lib/stores/qubits';
     import { redrawCables } from '$lib/stores/patching';
     import Qubit from './Qubit.svelte';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
@@ -56,7 +56,7 @@
                     bind:phi={qubit.axes[1].value}
                     bind:theta={qubit.axes[2].value}
                     bind:phase={qubit.axes[0].value}
-                    disabled={qubit.user !== 'you'}
+                    disabled={qubit.user !== 'you' || $isMeasuring}
                 />
             </div>
             <div class="qubit__patchbay">    
@@ -68,7 +68,7 @@
             <div class="qubit__sliders">
                 {#each qubit.axes as {value, name, colour} (name)}
                     <Slider
-                        disabled={qubit.user !== 'you'}
+                        disabled={qubit.user !== 'you' || $isMeasuring}
                         {name} {colour}
                         bind:value={value}
                     />
