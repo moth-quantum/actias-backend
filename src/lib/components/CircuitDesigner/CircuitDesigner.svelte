@@ -33,6 +33,16 @@
         return index;
     }
 
+    const getClosestColumnIndex = (x: number) => {
+        const svg = thisSvg.querySelector('svg')?.getBoundingClientRect()
+        if(!svg) return -1;
+        console.log(svg.width)
+        const numOfColumns = circuit.gates[0].length;
+        const columnWidth = ((svg.width || 0) - 38) / numOfColumns; // Subtracting 38px for labels on the left and 20px for the margin on the right
+        
+        return clamp(Math.floor((x - svg.x) / columnWidth), 1, numOfColumns);
+    }
+
     const updateSVG = () => {
         svg = circuit.exportSVG(true)
         
@@ -43,17 +53,8 @@
     };
 
     const handleDrag = (x: number, y: number) => {
-        const wires = Array.from(thisSvg.querySelectorAll('svg line.qc-wire'));
-        const svg = thisSvg.querySelector('svg')?.getBoundingClientRect()
-        if(!svg || !wires) return;
-        const numOfColumns = circuit.gates[0].length;
-
-        const closestWireIndex = getClosestWireIndex(x, y);
-
-        const columnWidth = ((svg.width || 0) - 38 - 20) / numOfColumns; // Subtracting 40px for labels on the left and 20px for the margin on the right
-        
-        wire = closestWireIndex;
-        column = clamp(Math.floor((x - svg.x) / columnWidth), 1, numOfColumns);
+        wire = getClosestWireIndex(x, y);
+        column = getClosestColumnIndex(x);
     }
 
     const handleDragEnd = (i: number, pointerX: number, pointerY: number) => {
@@ -101,8 +102,10 @@
         if(!isClicked) return;
         const gate = circuit.getGateById(selectedGateId);
         const wire = getClosestWireIndex(e.clientX, e.clientY)
+        const column = getClosestColumnIndex(e.clientX - 20);
+
         circuit.gates[gate.wires[0]][gate.column] = null
-        circuit.addGate(gate.name, gate.column, wire, gate.options);
+        circuit.addGate(gate.name, column, wire, gate.options);
         isClicked = false;
         isMoving = false;
         updateSVG();
