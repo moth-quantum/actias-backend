@@ -14,9 +14,13 @@
     let sampleOptions: {name: string, value: number, active: boolean}[] = [];
 
     onMount(() => {
-        samples.subscribe(urls => {
+        const unsubscribeSamples = samples.subscribe(urls => {
             sampleOptions = urls.map((url, i) => ({name: url.split('/').pop() || '', value: i, active: true}));
         })
+
+        return () => {
+            unsubscribeSamples();
+        }
     })
 </script>
 

@@ -54,10 +54,16 @@
         setValue(pageX, pageY);
     }
 
-    onMount(() => sliderValue.subscribe(debounce((v: number) => {
-        value = v
-        dispatch('change', value);
-    }, 10)))
+    onMount(() => {
+        const unsubscribesliderValue = sliderValue.subscribe(debounce((v: number) => {
+            value = v
+            dispatch('change', value);
+        }, 10))
+
+        return () => {
+            unsubscribesliderValue();
+        }
+    })
 </script>
 
 <div 

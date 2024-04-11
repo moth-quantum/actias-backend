@@ -1,6 +1,7 @@
 <script lang="ts">
     import { WebMidi } from 'webmidi';
     import { get } from 'svelte/store';
+    // @ts-ignore
     import AudioKeys from 'audiokeys';
     import Key from './Key.svelte';
     import { handleEvent, handleNoteOff } from '../../../sound';
@@ -99,13 +100,15 @@
     }
 
     onMount(() => {
-      isMobile = window.innerWidth < 650
-        inputs.subscribe(inputs => {
+        isMobile = window.innerWidth < 650
+        const unsubscribeFromInputs = inputs.subscribe(inputs => {
             inputs.forEach(({name, active}) => active 
                 ? activateInput(name)
                 : deactivateInput(name)
             )
         })
+
+        return () => unsubscribeFromInputs();
     })
 
     $: keys = isMobile ? notes.slice(0, 12) : notes;
