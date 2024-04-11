@@ -75,7 +75,7 @@
             padding: 1rem 2rem;
         }
         height: 100%;
-        min-height: 14rem;
+        min-height: 13rem;
     }
 
     .buttons {

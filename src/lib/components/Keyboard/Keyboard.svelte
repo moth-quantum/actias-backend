@@ -138,7 +138,7 @@
         width: 100%;
         margin: 0 auto;
         height: 100%;
-        min-height: 7rem;
+        min-height: 6rem;
         box-shadow: 2px 3px 5px 1px var(--color-box-shadow);
     }
     
