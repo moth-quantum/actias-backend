@@ -53,16 +53,19 @@ export const disconnectSocket = (id: string) => {
 
 export const initialiseConnections = (originSockets: string[], remoteSockets: string[]) => {
     // remove all connections
-    connections.set([]);
+    // replace && connections.set([]);
+    const connectedSockets = get(connections).flat();
 
     // connect sockets
-    originSockets.forEach((a, i) => {
-        const b = remoteSockets[Math.floor(i / (originSockets.length / remoteSockets.length))];
-        connections.update((connections: Connection[]) => {
-            const connection = [a, b] as Connection;
-            return [...connections, connection]
+    originSockets
+        .filter(id => !connectedSockets.includes(id))
+        .forEach((a, i) => {
+            const b = remoteSockets[Math.floor(i / (originSockets.length / remoteSockets.length))];
+            connections.update((connections: Connection[]) => {
+                const connection = [a, b] as Connection;
+                return [...connections, connection]
+            })
         })
-    })
 }
 
 export const getConnections = (id: string) => {
