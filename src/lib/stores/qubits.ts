@@ -11,8 +11,8 @@ export const qubits = writable<{active: boolean, user: 'you' | number, axes: Axi
         active: i === 0, 
         user: 'you',
         axes: [
-            {key: 'x', name: 'λ', value: 0.5, min: 0, max: 1, step: 0.001, colour: '#00A399'},
-            {key: 'y', name: 'φ', value: 1, min: 0, max: 1, step: 0.001, colour: '#E5007F'},
+            {key: 'x', name: 'λ', value: 0, min: 0, max: 1, step: 0.001, colour: '#00A399'},
+            {key: 'y', name: 'φ', value: 0, min: 0, max: 1, step: 0.001, colour: '#E5007F'},
             {key: 'z', name: 'θ', value: 0, min: 0, max: 1, step: 0.001, colour: '#FF695A'}
         ]
     }))

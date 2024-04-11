@@ -2,7 +2,7 @@
     export let id: string;
     export let options: {name: string, value?: string | number, active?: boolean}[];
     export let onChange: (e: Event) => void = () => {};
-    export let selected: string | number = options[0]?.value || options[0]?.name;
+    export let selected: string | number = options[0].value || options[0]?.name;
     export let background: string = 'transparent';
     export let color: string = 'white';
     export let border: string = '1px solid white';
@@ -22,7 +22,7 @@
     {#each options as {name, value, active}}
         <option 
             disabled={!active}
-            value={value || name}
+            value={value}
         >{name}</option>
     {/each}
 </select>
