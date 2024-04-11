@@ -35,24 +35,24 @@ export function loadPreset(key: string) {
     if(!preset) return;
     
     circuit.load(preset)
-    const { numQubits: numQubitsInCircuit } = circuit;
+
     const numQubits = get(qubits).reduce((acc, q) => {
         return acc = q.active ? acc + 1 : acc;
     }, 0)
 
-    console.log(numQubitsInCircuit, numQubits)
+    preset.numQubits < numQubits && 
+        Array.from({length: numQubits - preset.numQubits}).forEach((_, i) => initGates(i + preset.numQubits))
+
 
     // if the number of qubits in the circuit is more than the number of qubits in the store, add additional qubits to the store
-    numQubitsInCircuit > numQubits &&
+    preset.numQubits > numQubits &&
     qubits.update(qs => {
         return qs.map((q, i) => ({
             ...q,
-            active: i < numQubitsInCircuit
+            active: i < preset.numQubits
         }))
     })
-    // if the number of qubits in the circuit is less than the number of qubits in the store, add additional qubits to the circuit
-    numQubitsInCircuit < numQubits && 
-    Array.from({length: numQubits - numQubitsInCircuit}).forEach((_, i) => initGates(i + 1))
+
 }
 
 export function savePreset(key: string) {
