@@ -82,3 +82,5 @@ export function areTouching(el1: Element, el2: Element): boolean {
         y1 + height1 > y2
     );
 }
+export const arraysAreEqual = (array1: any[], array2: any[]) => 
+    array1.length === array2.length && array1.every((value, index) => value === array2[index]);

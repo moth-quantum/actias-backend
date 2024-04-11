@@ -1,10 +1,12 @@
 <script lang="ts">
+    import { createEventDispatcher } from 'svelte';
     import { tweened, type Tweened } from 'svelte/motion';
 	import { cubicOut } from 'svelte/easing';
     import { onMount } from 'svelte';
     import { clamp } from "$lib/utils/utils";
     import { debounce } from '$lib/utils/utils';
-
+    
+    const dispatch = createEventDispatcher();
     export let name: string = '';
     export let value: number = 0;
     export let colour: string = '#000';
@@ -52,7 +54,10 @@
         setValue(pageX, pageY);
     }
 
-    onMount(() => sliderValue.subscribe(debounce((v: number) => value = v, 10)))
+    onMount(() => sliderValue.subscribe(debounce((v: number) => {
+        value = v
+        dispatch('change', value);
+    }, 10)))
 </script>
 
 <div 
@@ -112,6 +117,9 @@
         cursor: pointer;
         &--vertical {
             justify-content: center;
+            .label {
+                font-size: var(--text-base);
+            }
 
             .slider__track {
                 width: 2px;
@@ -151,7 +159,7 @@
         align-items: center;
         justify-content: center;
         color: var(--color-grey-light);
-        font-size: var(--text-base);
+        font-size: var(--text-xs);
         min-width: 1rem;
         z-index: 10;
         &--vertical {

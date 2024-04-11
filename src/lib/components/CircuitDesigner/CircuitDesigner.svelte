@@ -3,8 +3,9 @@
     import GateButton from './Gate.svelte';
     import { circuit, gates, type Gate } from '$lib/stores/circuit';
     import { onMount } from 'svelte';
-    import { areTouching, clamp } from '$lib/utils/utils';
+    import { areTouching, arraysAreEqual, clamp } from '$lib/utils/utils';
     import Input from '$lib/components/Forms/Input.svelte';
+    import Slider from '$lib/components/Sliders/Slider.svelte';
     import { presetKeys, savePreset, deletePreset, editPreset, activePreset } from '$lib/stores/presets-circuits';
 
     let svg: string = "";
@@ -109,7 +110,7 @@
         isClicked = false;
         isMoving = false;
 
-        if(gate.wires === wires && gate.column === column) return;
+        if(arraysAreEqual(gate.wires, wires) && gate.column === column) return;
         
         circuit.removeGate(selectedGateId);
         circuit.addGate(gate.name, column, wires, gate.options);
@@ -202,12 +203,12 @@
                     
                     {#each params as param}
                         <div class="circuit-designer__input">
-                            <Input 
-                                id={param.name} 
-                                label={param.name} 
+                            <Slider
+                                name={param.name}
                                 bind:value={gate.options.params[param.name]}
-                                type={param.type}
+                                orientation="horizontal"
                                 on:change={(e) => handleParamChange(param.name, e.detail)}
+                                colour="var(--color-grey-light)"
                             />
                         </div>
                     {/each}
