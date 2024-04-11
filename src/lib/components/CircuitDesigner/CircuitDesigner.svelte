@@ -84,6 +84,8 @@
         if (gateType === 'u3') return;
         
         selectedGateId = target?.dataset?.id || parent?.dataset.id || '';
+        if(!selectedGateId) return;
+
         const wire = getClosestWireIndex(e.clientX, e.clientY);
         const wires = circuit.getGateById(selectedGateId).wires
         const connector = wires.findIndex((w: number) => w === wire);
@@ -123,7 +125,7 @@
         const { id, column } = gate;
         circuit.gates.forEach((gates: any) => {
             if(id !== gates[column]?.id) return;
-            gates[column].options.params[param] = value;
+            gates[column].options.params[param] = value * Math.PI * (param === 'phi' ? 2 : 1);
         });
         
         updateSVG();
@@ -160,7 +162,10 @@
 	<meta name="description" content="Design custom quantum circuits using a set of gates. Run simulations in the browser." />
 </svelte:head>
 
-<svelte:window on:mouseup={() => isClicked = false} />
+<svelte:window on:mouseup={() => {
+    isClicked = false
+    isMoving = false
+}} />
 
 <section class="buttons container mx-auto">
     <div class="buttons__inner">
@@ -198,14 +203,14 @@
         </div>
         <div class="circuit-designer__instructions">
             {#if gate}
+
                 {#if params?.length}
                     <p>This gate accepts the following additional parameters (in radians):</p>
-                    
                     {#each params as param}
                         <div class="circuit-designer__input">
                             <Slider
                                 name={param.name}
-                                bind:value={gate.options.params[param.name]}
+                                value={gate.options.params[param.name]}
                                 orientation="horizontal"
                                 on:change={(e) => handleParamChange(param.name, e.detail)}
                                 colour="var(--color-grey-light)"

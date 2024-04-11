@@ -13,7 +13,7 @@
     export let orientation: string = 'vertical';
     export let disabled: boolean = false;
 
-    let sliderValue: Tweened<number> = tweened(0, {
+    let sliderValue: Tweened<number> = tweened(value, {
 		duration: 400,
 		easing: cubicOut
 	});
@@ -102,6 +102,10 @@
             flex-direction: column;
             width: 1.25rem;
             height: 100%;
+
+            .label {
+                font-size: var(--text-base);
+            }
         }
         &--horizontal { 
             flex-direction: row;
@@ -117,9 +121,7 @@
         cursor: pointer;
         &--vertical {
             justify-content: center;
-            .label {
-                font-size: var(--text-base);
-            }
+            
 
             .slider__track {
                 width: 2px;

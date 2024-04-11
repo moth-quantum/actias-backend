@@ -196,6 +196,10 @@ canvas {
 		stroke: var(--color-theme-1)!important;
 	}
 
+	text {
+		font-size: var(--text-xs);
+	}
+
 	text, circle {
 		fill: var(--color-theme-1)!important;
 		stroke: none!important;

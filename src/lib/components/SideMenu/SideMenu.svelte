@@ -46,8 +46,6 @@
     
 </script>
 
-<svelte:window on:resize={closeMenu} />
-
 <aside class="side-menu">
     <div class="side-menu__buttons">
         {#each $menuItems as item}
