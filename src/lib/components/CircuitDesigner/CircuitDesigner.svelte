@@ -10,6 +10,7 @@
     let svg: string = "";
     let thisSvg: HTMLDivElement;
     let selectedGateId: string;
+    let selectedGateConnector: number;
     let isClicked: boolean = false;
     let isMoving: boolean = false;
     $: gate = circuit.getGateById(selectedGateId);
@@ -82,6 +83,10 @@
         if (gateType === 'u3') return;
         
         selectedGateId = target?.dataset?.id || parent?.dataset.id || '';
+        const wire = getClosestWireIndex(e.clientX, e.clientY);
+        const wires = circuit.getGateById(selectedGateId).wires
+        const connector = wires.findIndex((w: number) => w === wire);
+        selectedGateConnector = connector === -1 ? 0 : connector;
         
         updateSVG();
     }
@@ -93,21 +98,20 @@
     }
 
     // handle updating gates on the svg
-    // TODO: we need to know which connector was moved so that we can move a multiqubit gate. Wires, and the way the indexes are ordered, will be the key.
     const handleMouseUp = (e: MouseEvent) => {
         if(!isClicked) return;
         const gate = circuit.getGateById(selectedGateId);
         const wire = getClosestWireIndex(e.clientX, e.clientY)
-        const wires = Array.from({ length: gate.wires.length }, (_, i) => (wire + i) % circuit.numQubits);
-        
         const column = getClosestColumnIndex(e.clientX - 20);
+        
+        const wires = gate.wires.map((w: number, i: number) => (i === selectedGateConnector) ? wire : w);
+        
         isClicked = false;
         isMoving = false;
 
-        if(gate.wires.includes(wire) && gate.column === column) return;
+        if(gate.wires === wires && gate.column === column) return;
         
         circuit.removeGate(selectedGateId);
-        
         circuit.addGate(gate.name, column, wires, gate.options);
         
         updateSVG();
