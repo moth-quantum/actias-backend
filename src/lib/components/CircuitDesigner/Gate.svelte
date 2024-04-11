@@ -7,6 +7,7 @@
     export let id: number;
     export let symbol: string;
     export let disabled: boolean = false;
+    let isDragging: boolean = false;
 
     let thisGate: HTMLButtonElement;
     let position = {x: 0, y: 0};
@@ -20,6 +21,7 @@
         dispatch('dragend', {id, x, y});
         
         position = {x: 0, y: 0}
+        isDragging = false;
     }
 
     function handleDrag(e: CustomEvent) {
@@ -29,8 +31,9 @@
         const y = bounds.y + window.scrollY;
         dispatch('drag', {id, x, y});
     }
-
+    
     function handleDragStart() {
+        isDragging = true;
         dispatch('dragstart', {id});
     }
 
@@ -52,6 +55,7 @@
             on:neodrag:end={handleDragEnd}
             on:neodrag:start={handleDragStart}
             on:neodrag={handleDrag}
+            class:grab={isDragging}
         >
             {symbol}
         </span>
@@ -81,7 +85,7 @@
         }
 
         span {
-            cursor: pointer;
+            cursor: grab;
             display: inline-block;
             padding: 1rem;
             background-color: var(--color-grey-darkest);
@@ -90,6 +94,19 @@
             
             margin: auto;
             border-radius: 5px;
+            &.grab {
+                cursor: grabbing;
+                z-index: 20;
+                border: var(--color-theme-1) 2px solid;
+                border-radius: 0;
+                width: 40px;
+                height: 40px;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
         }
     }
+
 </style>

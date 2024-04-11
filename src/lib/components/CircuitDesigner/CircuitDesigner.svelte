@@ -9,13 +9,10 @@
 
     let svg: string = "";
     let thisSvg: HTMLDivElement;
-    let wire: number = -1;
-    let column: number = -1;
     let selectedGateId: string;
     let isClicked: boolean = false;
     let isMoving: boolean = false;
     $: gate = circuit.getGateById(selectedGateId);
-    $: connector = gate?.connector;
     $: params = $gates.find(g => g.symbol === gate?.name)?.params;
 
     const getClosestWireIndex = (x: number, y: number) => {
@@ -53,11 +50,7 @@
         selectedGate && selectedGate.classList.toggle('gate--selected');
     };
 
-    const handleDrag = (x: number, y: number) => {
-        wire = getClosestWireIndex(x, y);
-        column = getClosestColumnIndex(x);
-    }
-
+    // handle dropping the gate onto the svg
     const handleDragEnd = (i: number, pointerX: number, pointerY: number) => {
         if(!thisSvg) return;
         const {x, y, width, height} = thisSvg.getBoundingClientRect();
@@ -66,6 +59,8 @@
         if(!areTouching(pointer, svg)) return;
 
         const gate = $gates[i];
+        const wire = getClosestWireIndex(pointerX, pointerY);
+        const column = getClosestColumnIndex(pointerX);
         const wires = Array.from({ length: gate.qubits }, (_, i) => (wire + i) % circuit.numQubits);
         const options = gate.params.length
             ? { params: gate.params.reduce((acc, param) => ({ ...acc, [param.name]: param.default }), {}) }
@@ -76,11 +71,9 @@
             : circuit.addGate(gate.symbol, column, wires, options);
         
         updateSVG() 
-        wire = -1;
-        column = -1;
     }
 
-    // Handle clicks on the svg
+    // handle selecting a gate on the svg
     const handleMouseDown = (e: MouseEvent) => {
         isClicked = true;
         const target = e.target as HTMLElement;
@@ -93,24 +86,29 @@
         updateSVG();
     }
 
-    // handle moves on the svg
+    // handle moving gates on the svg
     const handleMouseMove = () => {
         if(!isClicked) return;
         isMoving = true;
     }
 
+    // handle updating gates on the svg
+    // TODO: we need to know which connector was moved so that we can move a multiqubit gate. Wires, and the way the indexes are ordered, will be the key.
     const handleMouseUp = (e: MouseEvent) => {
         if(!isClicked) return;
         const gate = circuit.getGateById(selectedGateId);
         const wire = getClosestWireIndex(e.clientX, e.clientY)
+        const wires = Array.from({ length: gate.wires.length }, (_, i) => (wire + i) % circuit.numQubits);
+        
         const column = getClosestColumnIndex(e.clientX - 20);
         isClicked = false;
         isMoving = false;
 
         if(gate.wires.includes(wire) && gate.column === column) return;
         
-        circuit.gates[gate.wires[0]][gate.column] = null
-        circuit.addGate(gate.name, column, wire, gate.options);
+        circuit.removeGate(selectedGateId);
+        
+        circuit.addGate(gate.name, column, wires, gate.options);
         
         updateSVG();
     }
@@ -184,10 +182,6 @@
                     symbol={gate.symbol}
                     on:mouseover={() => focusedGate = gate}
                     on:mouseout={() => focusedGate = null}
-                    on:drag={(e) => {
-                        const { x, y } = e.detail;
-                        handleDrag(x, y)
-                    }}
                     on:dragend={(e) => {
                         const { id, x, y } = e.detail;
                         handleDragEnd(id, x, y)
