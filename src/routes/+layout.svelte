@@ -56,6 +56,8 @@
         margin: 0 auto;
         color: var(--color-grey-light);
         text-align: center;
+        z-index: 100;
+        background-color: var(--color-grey-darker);
         @media (min-width: 1200px) {
             text-align: right;
             padding: 1rem 2rem;

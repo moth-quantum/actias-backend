@@ -65,7 +65,7 @@
     </div>
     {#if $activeSubMenu}
         <div class="side-menu__panel {$activeSubMenu === 'circuit' ? 'side-menu__panel--fullwidth' : ''}">
-            {#if ['profile', 'connect', 'assign', 'midi', 'circuit'].includes($activeSubMenu)}
+            {#if ['profile', 'connect', 'qubits', 'midi', 'circuit'].includes($activeSubMenu)}
                 <Panel 
                     title={$activeSubMenu} 
                     hideHeader={$activeSubMenu === 'circuit'}
@@ -79,7 +79,7 @@
                         <Connect />
                     {/if}
 
-                    {#if $activeSubMenu === 'assign'}
+                    {#if $activeSubMenu === 'qubits'}
                         <Qubits />
                     {/if}
                     {#if $activeSubMenu === 'midi'}

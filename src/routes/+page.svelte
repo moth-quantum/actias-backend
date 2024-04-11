@@ -238,9 +238,13 @@
 
     .controls {
         width: 100%;
+        z-index: 100;
+        background-color: var(--color-grey-mid);
 
         @media (min-width: 1200px) {
-            margin-top: 1rem;
+            width: calc(100% - 1.5rem);
+            padding: 1rem 0 0 1rem;
+            margin-left: 1.5rem;
         }
 
         @media (min-width: 1450px) {

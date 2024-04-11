@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { isApp } from '$lib/stores/global';
     import qubitImg from '$lib/images/qubit.png';
     import { qubits, activateQubit, deactivateQubit } from '$lib/stores/qubits';
     import { connectedUsers, getUserColour } from '$lib/stores/users';
@@ -30,19 +31,21 @@
                     {/if}
                 </div>
 
-                <div class="qubit__user">
-                    <Select 
-                        id={`${i}`}
-                        options={[
-                            { name: 'You', value: 'you', active: true },
-                            ...$connectedUsers.map(user => ({ name: user.username, value: user.id, active: true }))
-                        ]}
-                        background={getUserColour(qubit.user)}
-                        color="var(--color-grey-darker)"
-                        border="none"
-                        bind:selected={qubit.user}
-                    />
-                </div>
+                {#if isApp()}
+                    <div class="qubit__user">
+                        <Select 
+                            id={`${i}`}
+                            options={[
+                                { name: 'You', value: 'you', active: true },
+                                ...$connectedUsers.map(user => ({ name: user.username, value: user.id, active: true }))
+                            ]}
+                            background={getUserColour(qubit.user)}
+                            color="var(--color-grey-darker)"
+                            border="none"
+                            bind:selected={qubit.user}
+                        />
+                    </div>
+                {/if}
             </div>
         {/each}
 
