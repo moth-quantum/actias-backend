@@ -118,7 +118,7 @@
         @media (min-width: 1200px) {
             grid-template-columns: 2fr 9fr 1fr;
         }
-        margin-bottom: 0rem;
+        margin-bottom: 0.25rem;
 
         &--select {
             grid-template-columns: 2fr 10fr;

@@ -31,7 +31,6 @@
         flex-direction: column;
         justify-content: center;
         position: relative;
-        height: 30px;
         width: 100%;
         padding: 0 0.25rem;
     }

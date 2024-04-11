@@ -117,7 +117,7 @@
         <div 
             class="qubits"
             class:qubits--full={$activeQubitCount < 3}
-            style="max-height: {$showKeyboard ? '40rem' : 'none'};"
+            style="max-height: {$showKeyboard ? '32rem' : 'none'};"
         >
             <Qubits />
         </div>
@@ -231,7 +231,7 @@
         }
 
         &--contricted {
-            max-height: 40rem;
+            max-height: 32rem;
         }
 
         &--full {
