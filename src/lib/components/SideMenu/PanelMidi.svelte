@@ -33,7 +33,7 @@
                 <div class="device">
                     <Select 
                         id="device" 
-                        options={$inputs.map(input => ({name: input.name, active: true}))}
+                        options={$inputs.map(input => ({name: input.name, value: input.name, active: true}))}
                         selected={name}
                         onChange={(e) => handleOnChangeDevice(name, e.target?.value)} 
                         uppercase={false}
