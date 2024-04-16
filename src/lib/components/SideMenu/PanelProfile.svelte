@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { id, username, location } from '$lib/stores/users'
+    import { id, username, location } from '$lib/stores/profile'
     import Input from '$lib/components/Forms/Input.svelte'
 </script>
 
 <section>
     <div class="input">
-        <Input id="id" label="ID" bind:value={$id}/>
+        <Input id="id" label="ID" bind:value={$id} readonly={true}/>
     </div>
     <div class="input">
         <Input id="username" label="Username" bind:value={$username} />

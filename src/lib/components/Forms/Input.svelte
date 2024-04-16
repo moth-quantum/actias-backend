@@ -12,6 +12,7 @@
     export let classes: string = '';
     export let uppercase: boolean = false;
     export let type: string = 'text';
+    export let readonly: boolean = false;
     
     const handleInput = (event: any) => {
         value = event.target.value;
@@ -21,11 +22,13 @@
 {#if showLabel}
     <label class="title" for={id}>{label}</label>
 {/if}
+
 <input 
     {id} 
     {placeholder} 
     {value}
     {type}
+    {readonly}
     on:input={handleInput}
     on:change={() => dispatch('change', value)}
     on:keydown={e => {

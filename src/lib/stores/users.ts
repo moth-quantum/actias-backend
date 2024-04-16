@@ -1,11 +1,7 @@
 import { get, writable, derived } from 'svelte/store';
 import type { User } from '$lib/types';
 import { colours } from '$lib/utils/utils';
-
-// export const id = writable<number | undefined>(undefined);
-export const id = writable<number | undefined>(1);
-export const username = writable('Quanta55');
-export const location = writable('The Quantum Realm');
+// import { isApp } from '$lib/stores/global';
 
 export const users = writable<User[]>([
     { id: 1, username: 'User 1', location: 'Location1', x: 0.5, y: 0.235, z: 0, isActive: false, isConnected: false },
