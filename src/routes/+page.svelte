@@ -4,6 +4,7 @@
     import { fullscreen as fs, showKeyboard, showSideMenu } from '$lib/stores/global';
     import { redrawCables } from '$lib/stores/patching';
     import { activeQubitCount } from '$lib/stores/qubits';
+    import { login } from '$lib/stores/profile';
     import Presets from '$lib/components/Presets/Presets.svelte';
     import Parameters from '$lib/components/Parameters/Parameters.svelte';
     // @ts-ignore
@@ -38,6 +39,7 @@
     onMount(() => {
         isDesktop = window.innerWidth > 1200
         redrawCables(500)
+        login()
     });
 
 </script>
