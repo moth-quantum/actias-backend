@@ -1,5 +1,6 @@
 <script lang='ts'>
     import { fullscreen } from '$lib/stores/global';
+    // @ts-ignore
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faExpand, faCompress } from '@fortawesome/free-solid-svg-icons';

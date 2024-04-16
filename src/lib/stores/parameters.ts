@@ -92,13 +92,20 @@ export const allParameters: Readable<Parameter[]> = derived(
     }
 );
 
+const prevParamValues: Writable<{[key: string]: number}> = writable({});
 export const paramValues: Readable<{[key: string]: number}> = derived(
     [allParameters, qubits, connections], 
     ([$allParameters, $qubits, $connections]) => {
-        return $allParameters.reduce((obj, param) => ({
+        const nextParamValues = $allParameters.reduce((obj, param) => ({
             ...obj,
-            [param.key]: param.rangeA + (param.rangeB - param.rangeA) * getAxis(param.key).value || 0
+            [param.key]: (param.isLocked 
+                ? get(prevParamValues)[param.key]
+                : param.rangeA + (param.rangeB - param.rangeA) * getAxis(param.key).value) || 0
         }), {})
+
+        prevParamValues.set(nextParamValues);
+
+        return nextParamValues;
     })
 
 function getAxis(key: string) : Axis {

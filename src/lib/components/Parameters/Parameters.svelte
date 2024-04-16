@@ -65,7 +65,7 @@
                 >
                     <FontAwesomeIcon icon={faLock}
                         class="icon" 
-                        style={`color: ${isLocked ? '#FFF' : 'var(--color-grey-light);'}`}
+                        style={`color: ${isLocked ? '#FFF' : 'var(--color-grey-darker);'}`}
                         
                     />
                 </button>
@@ -99,7 +99,7 @@
             >
                 <FontAwesomeIcon icon={faLock}
                     class="icon" 
-                    style={`color: ${isLocked ? '#FFF' : 'var(--color-grey-light);'}`}
+                    style={`color: ${isLocked ? '#FFF' : 'var(--color-grey-darker);'}`}
                     
                 />
             </button>
@@ -133,7 +133,7 @@
             >
                 <FontAwesomeIcon icon={faLock}
                     class="icon" 
-                    style={`color: ${isLocked ? '#FFF' : 'var(--color-grey-light);'}`}
+                    style={`color: ${isLocked ? '#FFF' : 'var(--color-grey-darker);'}`}
                     
                 />
             </button>
@@ -174,6 +174,7 @@
         margin-bottom: 0.5rem;
         border-bottom: 0.5px solid var(--color-grey-light);
         cursor: pointer;
+        margin-bottom: 0.75rem;
     }
     
     h2:hover {
@@ -187,8 +188,7 @@
     }
 
     button {
-        font-size: 0.75rem;
-        padding: 0 0.5rem;
+        font-size: 0.6rem;
     }
 
     .parameter:nth-child(2) {
