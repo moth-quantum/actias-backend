@@ -8,6 +8,9 @@
     import Buttons from '$lib/components/Patching/Buttons.svelte';
     import { loadSample } from '../../../sound';
     import { onMount } from 'svelte';
+    // @ts-ignore
+    import { FontAwesomeIcon } from 'fontawesome-svelte';
+    import { faLock } from '@fortawesome/free-solid-svg-icons';
     export let showSockets = true;
 
     let axesIds = $qubits[0].axes.map(({key}) => key);
@@ -29,7 +32,7 @@
         <h2>Instrument</h2>
     </button>
     {#each $instrumentParameters.filter(({key}) => $keys.includes(key)) 
-        as {type, name, min, max, step, units, key, rangeA, rangeB} (key)
+        as {type, name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)
     }
         <div class="parameter parameter--{type}">
             {#if type === 'select'}
@@ -56,6 +59,17 @@
                     bind:rangeA={rangeA} 
                     bind:rangeB={rangeB} 
                 />
+
+                <button
+                    on:click={() => isLocked = !isLocked}
+                >
+                    <FontAwesomeIcon icon={faLock}
+                        class="icon" 
+                        style={`color: ${isLocked ? '#FFF' : 'var(--color-grey-light);'}`}
+                        
+                    />
+                </button>
+
                 {#if showSockets}
                     <Socket id={key} type="origin" align="right"/>
                 {:else}
@@ -70,7 +84,7 @@
     <button on:click={() => randomise('global')}>
         <h2>Global</h2>
     </button>
-    {#each $globalParameters as {name, min, max, step, units, key, rangeA, rangeB} (key)}
+    {#each $globalParameters as {name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)}
         <div class="parameter">
             <h3>{name}</h3>
             <RangeSlider 
@@ -79,6 +93,17 @@
                 bind:rangeA={rangeA} 
                 bind:rangeB={rangeB} 
             />
+
+            <button
+                on:click={() => isLocked = !isLocked}
+            >
+                <FontAwesomeIcon icon={faLock}
+                    class="icon" 
+                    style={`color: ${isLocked ? '#FFF' : 'var(--color-grey-light);'}`}
+                    
+                />
+            </button>
+
             {#if showSockets}
                 <Socket id={key} type="origin" align="right"/>
             {:else}
@@ -93,7 +118,7 @@
         <h2>Effects</h2>
     </button>
 
-    {#each $fxParameters as {name, min, max, step, units, key, rangeA, rangeB} (key)}
+    {#each $fxParameters as {name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)}
         <div class="parameter">
             <h3>{name}</h3>
             <RangeSlider 
@@ -102,6 +127,17 @@
                 bind:rangeA={rangeA} 
                 bind:rangeB={rangeB} 
             />
+
+            <button
+                on:click={() => isLocked = !isLocked}
+            >
+                <FontAwesomeIcon icon={faLock}
+                    class="icon" 
+                    style={`color: ${isLocked ? '#FFF' : 'var(--color-grey-light);'}`}
+                    
+                />
+            </button>
+                        
             {#if showSockets}
                 <Socket id={key} type="origin" align="right"/>
             {:else}
@@ -118,9 +154,9 @@
     }
     .parameter {
         display: grid;
-        grid-template-columns: 3fr 7fr 3fr;
+        grid-template-columns: 3fr 7fr 1fr 3fr;
         @media (min-width: 1200px) {
-            grid-template-columns: 3fr 9fr 1fr;
+            grid-template-columns: 3fr 9fr 1fr 1fr;
         }
         margin-bottom: 0.4rem;
 
@@ -150,12 +186,21 @@
         word-spacing: 50000px; 
     }
 
+    button {
+        font-size: 0.75rem;
+        padding: 0 0.5rem;
+    }
+
     .parameter:nth-child(2) {
         grid-column: 2;
     }
 
     .parameter:nth-child(3) {
         grid-column: 3;
+    }
+
+    .parameter:nth-child(4) {
+        grid-column: 4;
     }
 
     .parameter:last-of-type {

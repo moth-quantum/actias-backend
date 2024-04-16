@@ -1,11 +1,10 @@
 import { writable, type Writable, get, derived, type Readable } from 'svelte/store';
-import type { Axis } from '$lib/types';
 import { qubits } from '$lib/stores/qubits';
 import { samples } from '$lib/stores/samples';
 import { envelopeValues } from './envelopes';
 import { initialiseConnections, getConnections, connections} from './patching';
 import { mapToStepRange, roundToFactor } from '$lib/utils/utils';
-import type { InstrumentName, Parameter } from '$lib/types';
+import type { InstrumentName, Parameter, Axis } from '$lib/types';
 
 export const instrument: Writable<InstrumentName> = writable('synth');
 export const instruments: {name: InstrumentName, active: boolean}[] = [
@@ -25,54 +24,54 @@ const instrumentKeys = {
 export const keys = writable(instrumentKeys.synth);
 
 const instParams: Parameter[] = [
-    {type: 'range', key: 'op1fb', name: 'op1fb', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.01, units: '', outmin: 0, outmax: 1},
-    {type: 'range', key: 'op2ratio', name: 'op2r', rangeA: 0.5, rangeB: 5, min: 0.5, max: 20, step: 0.5, units: ''},
-    {type: 'range', key: 'op2gain', name: 'op2g', rangeA: 0, rangeB: 1, min: 0, max: 10, step: 0.01, units: ''},
-    {type: 'range', key: 'op2fb', name: 'op2fb', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.01, units: '', outmin: 0, outmax: 1},
-    {type: 'range', key: 'op3ratio', name: 'op3r', rangeA: 0.5, rangeB: 11, min: 0.5, max: 20, step: 0.25, units: ''},
-    {type: 'range', key: 'op3gain', name: 'op3g', rangeA: 0.25, rangeB: 1, min: 0, max: 1, step: 0.01, units: ''},
-    {type: 'range', key: 'op3fb', name: 'op3fb', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.01, units: '', outmin: 0, outmax: 1},
+    {type: 'range', key: 'op1fb', name: 'op1fb', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.01, units: '', outmin: 0, outmax: 1, isLocked: false},
+    {type: 'range', key: 'op2ratio', name: 'op2r', rangeA: 0.5, rangeB: 5, min: 0.5, max: 20, step: 0.5, units: '', isLocked: false},
+    {type: 'range', key: 'op2gain', name: 'op2g', rangeA: 0, rangeB: 1, min: 0, max: 10, step: 0.01, units: '', isLocked: false},
+    {type: 'range', key: 'op2fb', name: 'op2fb', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.01, units: '', outmin: 0, outmax: 1, isLocked: false},
+    {type: 'range', key: 'op3ratio', name: 'op3r', rangeA: 0.5, rangeB: 11, min: 0.5, max: 20, step: 0.25, units: '', isLocked: false},
+    {type: 'range', key: 'op3gain', name: 'op3g', rangeA: 0.25, rangeB: 1, min: 0, max: 1, step: 0.01, units: '', isLocked: false},
+    {type: 'range', key: 'op3fb', name: 'op3fb', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.01, units: '', outmin: 0, outmax: 1, isLocked: false},
     
-    {type: 'select', key: 'i', name: 'sample', rangeA: 0, rangeB: 0, min: 0, max: get(samples).length, step: 1, units: ''},
-    {type: 'range', key: 'loop', name: 'loop', rangeA: 1, rangeB: 1, min: 0, max: 1, step: 1, units: ''},
-    {type: 'range', key: 'loopsize', name: 'size', rangeA: 1, rangeB: 1, min: 0.001, max: 1, step: 0.001, units: ''},
-    {type: 'range', key: 'rate', name: 'rate', rangeA: 1, rangeB: 1, min: -1, max: 2, step: 0.125, units: ''},
-    {type: 'range', key: 'begin', name: 'begin', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.001, units: ''},
-    {type: 'range', key: 'end', name: 'end', rangeA: 1, rangeB: 0, min: 0, max: 1, step: 0.001, units: ''},
-    {type: 'range', key: 'grainrate', name: 'rate', rangeA: 8, rangeB: 16, min: 1, max: 64, step: 1, units: ''},
-    {type: 'range', key: 'grainsize', name: 'size', rangeA: 0.1, rangeB: 1, min: 0.001, max: 1, step: 0.001, units: ''},
-    {type: 'range', key: 'grainpan', name: 'pan', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.001, units: ''},
+    {type: 'select', key: 'i', name: 'sample', rangeA: 0, rangeB: 0, min: 0, max: get(samples).length, step: 1, units: '', isLocked: false},
+    {type: 'range', key: 'loop', name: 'loop', rangeA: 1, rangeB: 1, min: 0, max: 1, step: 1, units: '', isLocked: false},
+    {type: 'range', key: 'loopsize', name: 'size', rangeA: 1, rangeB: 1, min: 0.001, max: 1, step: 0.001, units: '', isLocked: false},
+    {type: 'range', key: 'rate', name: 'rate', rangeA: 1, rangeB: 1, min: -1, max: 2, step: 0.125, units: '', isLocked: false},
+    {type: 'range', key: 'begin', name: 'begin', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.001, units: '', isLocked: false},
+    {type: 'range', key: 'end', name: 'end', rangeA: 1, rangeB: 0, min: 0, max: 1, step: 0.001, units: '', isLocked: false},
+    {type: 'range', key: 'grainrate', name: 'rate', rangeA: 8, rangeB: 16, min: 1, max: 64, step: 1, units: '', isLocked: false},
+    {type: 'range', key: 'grainsize', name: 'size', rangeA: 0.1, rangeB: 1, min: 0.001, max: 1, step: 0.001, units: '', isLocked: false},
+    {type: 'range', key: 'grainpan', name: 'pan', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.001, units: '', isLocked: false},
     // Needs exponential range
-    {type: 'range', key: 'cutoff', name: 'cutoff', rangeA: 50, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 20000},
-    {type: 'range', key: 'res', name: 'res', rangeA: 0, rangeB: 25, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 0.95},
+    {type: 'range', key: 'cutoff', name: 'cutoff', rangeA: 50, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 20000, isLocked: false},
+    {type: 'range', key: 'res', name: 'res', rangeA: 0, rangeB: 25, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 0.95, isLocked: false},
 
-    {type: 'range', key: 'tablesize', name: 'size', rangeA: 256, rangeB: 256, min: 16, max: 1024, step: 1, units: ''},
-    {type: 'range', key: 'rows', name: 'rows', rangeA: 16, rangeB: 16, min: 2, max: 64, step: 1, units: ''},
-    {type: 'range', key: 'xlfo', name: 'xlfo', rangeA: 0.02, rangeB: 0.3, min: 0.01, max: 0.5, step: 0.01, units: ''},
-    {type: 'range', key: 'ylfo', name: 'ylfo', rangeA: 0.2, rangeB: 0.03, min: 0.01, max: 1, step: 0.01, units: ''},
+    {type: 'range', key: 'tablesize', name: 'size', rangeA: 256, rangeB: 256, min: 16, max: 1024, step: 1, units: '', isLocked: false},
+    {type: 'range', key: 'rows', name: 'rows', rangeA: 16, rangeB: 16, min: 2, max: 64, step: 1, units: '', isLocked: false},
+    {type: 'range', key: 'xlfo', name: 'xlfo', rangeA: 0.02, rangeB: 0.3, min: 0.01, max: 0.5, step: 0.01, units: '', isLocked: false},
+    {type: 'range', key: 'ylfo', name: 'ylfo', rangeA: 0.2, rangeB: 0.03, min: 0.01, max: 1, step: 0.01, units: '', isLocked: false},
 ]
 
 const gParams: Parameter[] = [
-    {type: 'range', key: 'semitone', name: 'dtune', rangeA: 0, rangeB: 0, min: -12, max: 12, step: 0.1, units: 'st'},
-    {type: 'range', key: 'octave', name: 'Oct', rangeA: 0, rangeB: 0, min: -3, max: 3, step: 1, units: 'octs'},
-    {type: 'range', key: 'vol', name: 'gain', rangeA: 0.75, rangeB: 0.75, min: 0, max: 2, step: 0.01, units: '', outmin: 0, outmax: 2},
-    {type: 'range', key: 'pan', name: 'pan', rangeA: -0, rangeB: 0, min: -1, max: 1, step: 0.01, units: '', outmin: 0, outmax: 1},
+    {type: 'range', key: 'semitone', name: 'dtune', rangeA: 0, rangeB: 0, min: -12, max: 12, step: 0.1, units: 'st', isLocked: false},
+    {type: 'range', key: 'octave', name: 'Oct', rangeA: 0, rangeB: 0, min: -3, max: 3, step: 1, units: 'octs', isLocked: false},
+    {type: 'range', key: 'vol', name: 'gain', rangeA: 0.75, rangeB: 0.75, min: 0, max: 2, step: 0.01, units: '', outmin: 0, outmax: 2, isLocked: false},
+    {type: 'range', key: 'pan', name: 'pan', rangeA: -0, rangeB: 0, min: -1, max: 1, step: 0.01, units: '', outmin: 0, outmax: 1, isLocked: false},
 ]
 
 const fxParams: Parameter[] = [
-    {type: 'range', key: 'reverb', name: 'Reverb', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
-    {type: 'range', key: 'rsize', name: 'RTime', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
-    {type: 'range', key: 'delay', name: 'Delay', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
-    {type: 'range', key: 'dtime', name: 'Dtime', rangeA: 10, rangeB: 2000, min: 10, max: 2000, step: 1, units: 'ms'},
-    {type: 'range', key: 'dcolour', name: 'DColour', rangeA: 25, rangeB: 50, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
-    {type: 'range', key: 'dfb', name: 'Fback', rangeA: 10, rangeB: 50, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 0.99},
-    {type: 'range', key: 'chorus', name: 'Chorus', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
-    {type: 'range', key: 'chdepth', name: 'CDepth', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
-    {type: 'range', key: 'dist', name: 'dist', rangeA: 0, rangeB: 10, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
-    {type: 'range', key: 'crush', name: 'crush', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
-    // {type: 'range', key: 'drive', name: 'drive', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%'},
-    {type: 'range', key: 'hicut', name: 'hicut', rangeA: 0, rangeB: 0, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
-    {type: 'range', key: 'locut', name: 'locut', rangeA: 0, rangeB: 25, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1},
+    {type: 'range', key: 'reverb', name: 'Reverb', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1, isLocked: false},
+    {type: 'range', key: 'rsize', name: 'RTime', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1, isLocked: false},
+    {type: 'range', key: 'delay', name: 'Delay', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1, isLocked: false},
+    {type: 'range', key: 'dtime', name: 'Dtime', rangeA: 10, rangeB: 2000, min: 10, max: 2000, step: 1, units: 'ms', isLocked: false},
+    {type: 'range', key: 'dcolour', name: 'DColour', rangeA: 25, rangeB: 50, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1, isLocked: false},
+    {type: 'range', key: 'dfb', name: 'Fback', rangeA: 10, rangeB: 50, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 0.99, isLocked: false},
+    {type: 'range', key: 'chorus', name: 'Chorus', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1, isLocked: false},
+    {type: 'range', key: 'chdepth', name: 'CDepth', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1, isLocked: false},
+    {type: 'range', key: 'dist', name: 'dist', rangeA: 0, rangeB: 10, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1, isLocked: false},
+    {type: 'range', key: 'crush', name: 'crush', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1, isLocked: false},
+    // {type: 'range', key: 'drive', name: 'drive', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', isLocked: false},
+    {type: 'range', key: 'hicut', name: 'hicut', rangeA: 0, rangeB: 0, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1, isLocked: false},
+    {type: 'range', key: 'locut', name: 'locut', rangeA: 0, rangeB: 25, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1, isLocked: false},
 ]
 
 export const instrumentParameters = writable(instParams);
@@ -130,7 +129,7 @@ function scaleParamValue(key: string, value: number) {
     
     return param && param.outmin !== undefined && param.outmax !== undefined
         ? mapToStepRange(value, param.min, param.max, param.outmin, param.outmax, param.step) 
-        : roundToFactor(value, param.step)
+        : roundToFactor(value, param ? param.step : 0.01);
 }
 
 const defaults = {
@@ -143,7 +142,7 @@ const defaults = {
     dur: 60000,
 }
 
-const formatEnvelopeValues = (values, instrument: string) => {
+const formatEnvelopeValues = (values: any, instrument: string) => {
     const { a1, d1, s1, r1 } = values;   
     const key = instrument === 'synth' ? 'op2' : 'fil';
     return {

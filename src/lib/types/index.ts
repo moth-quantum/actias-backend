@@ -25,6 +25,7 @@ export interface Parameter {
     units: string;
     outmin?: number;
     outmax?: number;
+    isLocked?: boolean;
 }
 
 export interface Socket {
