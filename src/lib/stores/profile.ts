@@ -9,7 +9,11 @@ export const id = writable<number | undefined>(storedId ? +storedId : undefined)
 export const username = writable(storedUsername || 'Quantum Explorer' + Math.random().toString(36).substring(2, 10));
 export const location = writable(storedLocation || 'Outer Space');
 
-// Listen for changes to username and location and save in local storage
+// Listen for changes to user profile and update local storage
+id.subscribe(value => {
+    localStorage.setItem('q.profile', JSON.stringify({ ...storedProfile, id: value }));
+})
+
 username.subscribe(value => {
     localStorage.setItem('q.profile', JSON.stringify({ ...storedProfile, username: value }));
 });
@@ -33,7 +37,7 @@ fetch('https://moth-api-staging.lunar.build/api/app-user/login', {
       }),
 })
 .then(response => response.json())
-.then(data => id.set(data.id))   
+.then(data => id.set(data.id))
 .catch((error) => {
     console.error('Error:', error);
 });
