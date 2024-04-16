@@ -21,7 +21,9 @@
 
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faBars } from '@fortawesome/free-solid-svg-icons';
-    import { broadcast } from '$lib/networking/qubits';
+    import { broadcast } from '$lib/networking/broadcast';
+    import { listen } from '$lib/networking/listen';
+    
     library.add(faBars);
 
     let isDesktop = false;
@@ -44,9 +46,11 @@
         // TODO: conditional functionality if isApp()
         login()
         const unsubscribeBroadcast = broadcast()
+        const unsubscribeListen = listen()
 
         return () => {
             unsubscribeBroadcast()
+            unsubscribeListen()
         }
     });
 

@@ -1,3 +1,5 @@
+import type Echo from "laravel-echo";
+import type Pusher from "pusher-js";
 export type InstrumentName = 'synth' | 'sampler' | 'granular' | 'wavetable';
 
 type Dictionary = {[key: string]: any};
@@ -58,6 +60,8 @@ declare global {
             exportPresetResponse(data: any): void;
             syncUserPresets(data: {[key: string]: Preset | null}): void;
         };
+        Pusher: typeof Pusher;
+        Echo: Echo;
     }
 }
 
