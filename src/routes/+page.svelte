@@ -22,6 +22,7 @@
     import { faBars } from '@fortawesome/free-solid-svg-icons';
     
     import { login } from '$lib/networking/login';
+    import { getUsers } from '$lib/networking/users';
     import { broadcast } from '$lib/networking/broadcast';
     import { listen } from '$lib/networking/listen';
     
@@ -46,6 +47,7 @@
         
         // TODO: conditional functionality if isApp()
         login()
+        getUsers()
         // const unsubscribeBroadcast = broadcast()
         // const unsubscribeListen = listen()
 

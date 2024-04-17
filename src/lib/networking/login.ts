@@ -1,8 +1,6 @@
 import { get } from 'svelte/store';
 import { id, name, location } from '$lib/stores/profile';
-
-// TODO: API domain from Electron APP
-const apiDomain = 'https://moth-api-staging.lunar.build';
+import { apiDomain, apiToken } from './config';
 
 export const login = () => {
     // Check if we have a stored user
@@ -14,6 +12,8 @@ export const login = () => {
     name.set(storedName || 'Quantum Explorer ' + Math.random().toString(36).substring(2, 10));
     location.set(storedLocation || 'Outer Space');
 
+    console.log(get(id))
+
     // If we have a stored user, we can just login, otherwise we need to register
     const endpoint = get(id) !== undefined
         ? `/api/app-user/${get(id)}/login`
@@ -22,8 +22,7 @@ export const login = () => {
     const method = get(id) ? 'GET' : 'POST';
 
     const headers = {
-        // TODO: bearer token from Electron APP
-        'Authorization' : 'Bearer 1|YqZjOA0xTOGPviHOvHKxFqaeC1wAVnkoyGDQ7xXkf2a3cf2f',
+        'Authorization' : `Bearer ${apiToken}`,
         'Content-Type': 'application/json',
     }
 
@@ -45,7 +44,7 @@ export const login = () => {
         .then(({user}) => {
             // ensure that we store the user id for future requests
             id.set(user.id)
-            localStorage.setItem('q.id', JSON.stringify(user.id));
+            localStorage.setItem('q.id', user.id);
         })
         .catch((error) => console.error('Error:', error));
 }
