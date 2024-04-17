@@ -2,7 +2,7 @@ import { get } from 'svelte/store';
 import { id, name, location } from '$lib/stores/profile';
 import { apiDomain, apiToken } from './config';
 
-export const login = () => {
+export const login = async () => {
     // Check if we have a stored user
     const storedId = localStorage.getItem('q.id') || '';
     const storedName = localStorage.getItem('q.name') || '';
@@ -11,8 +11,6 @@ export const login = () => {
     id.set(storedId ? +storedId : undefined);
     name.set(storedName || 'Quantum Explorer ' + Math.random().toString(36).substring(2, 10));
     location.set(storedLocation || 'Outer Space');
-
-    console.log(get(id))
 
     // If we have a stored user, we can just login, otherwise we need to register
     const endpoint = get(id) !== undefined
@@ -39,12 +37,13 @@ export const login = () => {
     })})
     
     // Conditionally login / register
-    fetch(`${apiDomain}${endpoint}`, request)
+    return fetch(`${apiDomain}${endpoint}`, request)
         .then(response => response.json())
         .then(({user}) => {
             // ensure that we store the user id for future requests
             id.set(user.id)
             localStorage.setItem('q.id', user.id);
+            console.log('logged in')
         })
         .catch((error) => console.error('Error:', error));
 }

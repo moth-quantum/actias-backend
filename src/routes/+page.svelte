@@ -25,6 +25,7 @@
     import { getUsers } from '$lib/networking/users';
     import { broadcast } from '$lib/networking/broadcast';
     import { listen } from '$lib/networking/listen';
+  import { updateProfile } from '$lib/networking/profile';
     
     library.add(faBars);
 
@@ -41,20 +42,22 @@
         sidebarIsHidden = true
     }
 
-    onMount(() => {
+    onMount(async () => {
         isDesktop = window.innerWidth > 1200
         redrawCables(500)
         
         // TODO: conditional functionality if isApp()
-        login()
+        await login()
         getUsers()
+        const unsubscribeUpdateProfile = updateProfile()
         // const unsubscribeBroadcast = broadcast()
         // const unsubscribeListen = listen()
 
-        // return () => {
+        return () => {
         //     unsubscribeBroadcast()
         //     unsubscribeListen()
-        // }
+            unsubscribeUpdateProfile()
+        }
     });
 
 </script>
