@@ -37,7 +37,7 @@
                             id={`${i}`}
                             options={[
                                 { name: 'You', value: 'you', active: true },
-                                ...$connectedUsers.map(user => ({ name: user.username, value: user.id, active: true }))
+                                ...$connectedUsers.map(user => ({ name: user.name, value: user.id, active: true }))
                             ]}
                             background={getUserColour(qubit.user)}
                             color="var(--color-grey-darker)"

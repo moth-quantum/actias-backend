@@ -78,7 +78,7 @@ export interface Axis {
 
 export interface User {
     id: number;
-    username: string;
+    name: string;
     location: string;
     x: number;
     y: number;

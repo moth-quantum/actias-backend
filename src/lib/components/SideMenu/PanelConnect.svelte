@@ -12,7 +12,7 @@
                     class="users__user"
                     class:users__user--active={user.isActive}
                 >
-                    <span>{user.username} <button>Remove</button></span>
+                    <span>{user.name} <button>Remove</button></span>
                 </li>
             {/each}
         </ul>
@@ -24,7 +24,7 @@
                 class="users__user"
                 class:users__user--active={user.isActive}
             >
-                <span>{user.username} <button>Connect</button></span>
+                <span>{user.name} <button>Connect</button></span>
             </li>
         {/each}
     </div>
