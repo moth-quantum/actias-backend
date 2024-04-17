@@ -1,5 +1,6 @@
 <script lang="ts">
     import { connectedUsers, otherUsers } from '$lib/stores/users'
+    import { connect } from '$lib/networking/users';
 </script>
 
 <section>
@@ -24,7 +25,11 @@
                 class="users__user"
                 class:users__user--active={user.isActive}
             >
-                <span>{user.name} <button>Connect</button></span>
+                <span>{user.name} 
+                    <button
+                        on:click={() => connect(user.id)}
+                    >Connect</button>
+                </span>
             </li>
         {/each}
     </div>

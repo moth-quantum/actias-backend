@@ -48,8 +48,8 @@
         
         // TODO: conditional functionality if isApp()
         await login()
-        getUsers()
         const unsubscribeUpdateProfile = updateProfile()
+        await getUsers()
         // const unsubscribeBroadcast = broadcast()
         // const unsubscribeListen = listen()
 

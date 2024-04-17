@@ -1,6 +1,6 @@
 import { get } from 'svelte/store';
 import { id, name, location } from '$lib/stores/profile';
-import { apiDomain, apiToken } from './config';
+import { apiDomain, headers } from './config';
 
 export const login = async () => {
     // Check if we have a stored user
@@ -18,11 +18,6 @@ export const login = async () => {
         : '/api/app-user/register';
 
     const method = get(id) ? 'GET' : 'POST';
-
-    const headers = {
-        'Authorization' : `Bearer ${apiToken}`,
-        'Content-Type': 'application/json',
-    }
 
     let request: {headers: {}, method: string, body?: string} = {
         headers,

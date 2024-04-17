@@ -31,7 +31,7 @@
                     {/if}
                 </div>
 
-                {#if isApp()}
+                <!-- {#if isApp()} -->
                     <div class="qubit__user">
                         <Select 
                             id={`${i}`}
@@ -45,7 +45,7 @@
                             bind:selected={qubit.user}
                         />
                     </div>
-                {/if}
+                <!-- {/if} -->
             </div>
         {/each}
 

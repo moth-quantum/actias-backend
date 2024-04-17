@@ -1,16 +1,14 @@
 import { get } from 'svelte/store';
 import { id } from '$lib/stores/profile';
 import { users } from '$lib/stores/users';
-import { apiDomain, apiToken } from './config';
+import { apiDomain, headers } from './config';
+import type { User } from '$lib/types';
 
 export const getUsers = async () => {
     const endpoint = `${apiDomain}/api/app-users/${get(id)}`;
-    fetch(endpoint, {
+    return fetch(endpoint, {
         method: 'GET',
-        headers: {
-            'Authorization' : `Bearer ${apiToken}`,
-            'Content-Type': 'application/json',
-        }
+        headers
     })
     .then(response => response.json())
     .then((data) => {
@@ -27,4 +25,21 @@ export const getUsers = async () => {
             }
         }))
     })
+    .catch((error) => console.error('Error:', error));
+}
+
+export const connect = async (userID: number) => {
+    const endpoint = `${apiDomain}/api/app-user/connect/${get(id)}/${userID}`;
+    return fetch(endpoint, {
+        method: 'GET',
+        headers
+    })
+    .then(() => {
+        users.update(users => users.map((user: User) => {
+            return user.id === userID 
+                ? { ...user, isConnected: true } 
+                : user;
+        }) )
+    })
+    .catch((error) => console.error('Error:', error));
 }
