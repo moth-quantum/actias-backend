@@ -1,5 +1,6 @@
 <script lang="ts">
-    import Select from '$lib/components/Forms/Select.svelte';   
+    import Select from '$lib/components/Forms/Select.svelte'; 
+    import Tooltip from '$lib/components/Tooltip/Tooltip.svelte';  
     import { instrumentParameters, fxParameters, globalParameters, paramValues, randomise, keys } from '$lib/stores/parameters';
     import { qubits } from '$lib/stores/qubits';
     import { samples } from '$lib/stores/samples'
@@ -12,6 +13,8 @@
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { faLock } from '@fortawesome/free-solid-svg-icons';
     export let showSockets = true;
+    let hoveredKey: string | null = null;
+    let timeoutId: number;
 
     let axesIds = $qubits[0].axes.map(({key}) => key);
     let sampleOptions: {name: string, value: number, active: boolean}[] = [];
@@ -34,6 +37,10 @@
     {#each $instrumentParameters.filter(({key}) => $keys.includes(key)) 
         as {type, name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)
     }
+        {#if hoveredKey === key}
+            <Tooltip classes="parameter" message="This is a tooltip message"/>
+        {/if}
+
         <div class="parameter parameter--{type}">
             {#if type === 'select'}
                 <div class="samples">
@@ -51,7 +58,19 @@
                 </div>
             {/if}
             {#if type === 'range'}
-                <h3>{name}</h3>
+                <h3 
+                    on:mouseenter={() => {
+                        clearTimeout(timeoutId);
+                        hoveredKey = key;
+                    }}
+                    on:mouseleave={() => {
+                        timeoutId = setTimeout(() => {
+                            hoveredKey = null;
+                        }, 500); // delay in milliseconds
+                    }}
+                >
+                    {name}
+                </h3>
 
                 <RangeSlider 
                     {min} {max} {step} {units} 
