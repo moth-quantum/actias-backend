@@ -4,7 +4,6 @@
     import { fullscreen as fs, showKeyboard, showSideMenu } from '$lib/stores/global';
     import { redrawCables } from '$lib/stores/patching';
     import { activeQubitCount } from '$lib/stores/qubits';
-    import { login } from '$lib/networking/login';
     import Presets from '$lib/components/Presets/Presets.svelte';
     import Parameters from '$lib/components/Parameters/Parameters.svelte';
     // @ts-ignore
@@ -21,6 +20,8 @@
 
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faBars } from '@fortawesome/free-solid-svg-icons';
+    
+    import { login } from '$lib/networking/login';
     import { broadcast } from '$lib/networking/broadcast';
     import { listen } from '$lib/networking/listen';
     
@@ -45,13 +46,13 @@
         
         // TODO: conditional functionality if isApp()
         login()
-        const unsubscribeBroadcast = broadcast()
-        const unsubscribeListen = listen()
+        // const unsubscribeBroadcast = broadcast()
+        // const unsubscribeListen = listen()
 
-        return () => {
-            unsubscribeBroadcast()
-            unsubscribeListen()
-        }
+        // return () => {
+        //     unsubscribeBroadcast()
+        //     unsubscribeListen()
+        // }
     });
 
 </script>
