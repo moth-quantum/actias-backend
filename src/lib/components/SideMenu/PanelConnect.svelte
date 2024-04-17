@@ -1,6 +1,9 @@
 <script lang="ts">
-    import { connectedUsers, otherUsers } from '$lib/stores/users'
-    import { connect } from '$lib/networking/users';
+    import { connectedUsers, users, activeUsersCount } from '$lib/stores/users'
+    import { connect, getUsers } from '$lib/networking/users';
+    // @ts-ignore
+    import { FontAwesomeIcon } from 'fontawesome-svelte';
+    import { faRefresh } from '@fortawesome/free-solid-svg-icons';
 </script>
 
 <section>
@@ -19,8 +22,16 @@
         </ul>
     </div>
     <div class="group">
-        <h3 class="title">Everyone</h3>
-        {#each $otherUsers as user}
+        <h3 class="title">Everyone ({$activeUsersCount} Online) 
+            <button
+                on:click={getUsers}
+            >
+                <FontAwesomeIcon 
+                    icon={faRefresh} 
+                />
+            </button>
+        </h3>
+        {#each $users as user}
             <li 
                 class="users__user"
                 class:users__user--active={user.isActive}

@@ -8,7 +8,7 @@ export const connectedUsers = derived(users, ($users) =>
     $users.filter(user => user.isConnected)
         .map((user, i) => ({ ...user, colour: colours[(i+1) % colours.length] }))
 );
-export const otherUsers = derived(users, ($users) => $users.filter(user => !user.isConnected));
+export const activeUsersCount = derived(users, ($users) => $users.filter(user => user.isActive).length);
 
 export const getUserColour = (userID: string | number) => {
     if (userID === 'you') return 'var(--color-theme-1)';
