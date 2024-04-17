@@ -69,6 +69,7 @@
                 <span>{user.name} 
                     <button
                         on:click={() => connect(user.id)}
+                        disabled={$connectedUsers.map(u => u.id).includes(user.id)}
                     >Connect</button>
                 </span>
             </li>
@@ -132,6 +133,9 @@
                 & button {
                     text-transform: uppercase;
                     font-size: var(--text-xs);
+                    &:disabled {
+                        opacity: 0.25;
+                    }
                 }
             }
         }
