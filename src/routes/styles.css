@@ -52,7 +52,8 @@ body {
 select:focus {
 	border: none;
 	--tw-ring-shadow: none;
-	outline: 2px dotted var(--color-theme-1);
+	outline: 2px dotted var(--color-theme-1)!important;
+	box-shadow: none!important;
 }
 
 h1,

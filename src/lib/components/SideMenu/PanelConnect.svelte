@@ -1,9 +1,12 @@
 <script lang="ts">
-    import { connectedUsers, users, activeUsersCount } from '$lib/stores/users'
+    import { connectedUsers, searchResults, activeUsersCount, search } from '$lib/stores/users'
     import { connect, getUsers } from '$lib/networking/users';
     // @ts-ignore
     import { FontAwesomeIcon } from 'fontawesome-svelte';
-    import { faRefresh } from '@fortawesome/free-solid-svg-icons';
+    import { faRefresh, faSearch } from '@fortawesome/free-solid-svg-icons';
+  import Input from '../Forms/Input.svelte';
+
+    let showSearch = false;
 </script>
 
 <section>
@@ -22,16 +25,43 @@
         </ul>
     </div>
     <div class="group">
-        <h3 class="title">Everyone ({$activeUsersCount} Online) 
+        <div class="search title">
+            <h3 
+                class="search__title"
+                class:hidden={showSearch}
+            >
+                Everyone ({$activeUsersCount} Online)
+                <button
+                    class:hidden={showSearch}
+                    on:click={getUsers}
+                >
+                    <FontAwesomeIcon 
+                        icon={faRefresh} 
+                    />
+                </button>
+            </h3>
             <button
-                on:click={getUsers}
+                class="search__button"
+                on:click={() => showSearch = !showSearch}
             >
                 <FontAwesomeIcon 
-                    icon={faRefresh} 
+                    icon={faSearch} 
                 />
             </button>
-        </h3>
-        {#each $users as user}
+            <div
+                class="search__input" 
+                class:hidden={!showSearch}
+            >
+                <Input 
+                    id="search" 
+                    placeholder="Search by ID or name"
+                    showLabel={false}
+                    bind:value={$search}
+                    on:escape={() => showSearch = false}
+                />
+            </div>
+        </div>
+        {#each $searchResults as user}
             <li 
                 class="users__user"
                 class:users__user--active={user.isActive}
@@ -103,6 +133,18 @@
                     text-transform: uppercase;
                     font-size: var(--text-xs);
                 }
+            }
+        }
+
+        .search {
+            display: flex;
+            &__input {
+                margin-left: 0.5rem;
+
+            }
+            &__title {
+                width: 100%;
+                font-size: var(--text-sm);
             }
         }
     }

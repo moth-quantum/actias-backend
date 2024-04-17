@@ -25,7 +25,7 @@
     import { getUsers } from '$lib/networking/users';
     import { broadcast } from '$lib/networking/broadcast';
     import { listen } from '$lib/networking/listen';
-  import { updateProfile } from '$lib/networking/profile';
+    import { updateProfile } from '$lib/networking/profile';
     
     library.add(faBars);
 
