@@ -12,7 +12,7 @@ export const getUsers = async () => {
     })
     .then(response => response.json())
     .then((data) => {
-        users.set(data.users.map((user: any) => {
+        users.update(() => data.users.map((user: any) => {
             return {
                 id: user.id,
                 name: user.name,

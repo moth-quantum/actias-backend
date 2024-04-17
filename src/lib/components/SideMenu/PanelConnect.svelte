@@ -4,7 +4,7 @@
     // @ts-ignore
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { faRefresh, faSearch } from '@fortawesome/free-solid-svg-icons';
-  import Input from '../Forms/Input.svelte';
+    import Input from '$lib/components/Forms/Input.svelte';
 
     let showSearch = false;
 </script>
