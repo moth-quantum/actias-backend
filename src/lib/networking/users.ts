@@ -43,3 +43,19 @@ export const connect = async (userID: number) => {
     })
     .catch((error) => console.error('Error:', error));
 }
+
+export const disconnect = async (userID: number) => {
+    const endpoint = `${apiDomain}/api/app-user/disconnect/${get(id)}/${userID}`;
+    return fetch(endpoint, {
+        method: 'GET',
+        headers
+    })
+    .then(() => {
+        users.update(users => users.map((user: User) => {
+            return user.id === userID 
+                ? { ...user, isConnected: false } 
+                : user;
+        }) )
+    })
+    .catch((error) => console.error('Error:', error));
+}

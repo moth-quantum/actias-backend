@@ -1,6 +1,6 @@
 <script lang="ts">
     import { connectedUsers, searchResults, activeUsersCount, search } from '$lib/stores/users'
-    import { connect, getUsers } from '$lib/networking/users';
+    import { connect, disconnect, getUsers } from '$lib/networking/users';
     // @ts-ignore
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { faRefresh, faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -19,7 +19,11 @@
                     class="users__user"
                     class:users__user--active={user.isActive}
                 >
-                    <span>{user.name} <button>Remove</button></span>
+                    <span>{user.name} 
+                        <button
+                            on:click={() => disconnect(user.id)}
+                        >Remove</button>
+                    </span>
                 </li>
             {/each}
         </ul>
