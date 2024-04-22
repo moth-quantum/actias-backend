@@ -5,7 +5,7 @@ import { add } from '../utils/utils';
 import { redrawCables } from './patching';
 import { disconnectSocket } from './patching';
 import { circuit } from './circuit';
-
+    
 export const qubits = writable<{active: boolean, user: 'you' | number, axes: Axis[]}[]>(
     Array(12).fill(null).map((_, i) => ({
         active: i === 0, 

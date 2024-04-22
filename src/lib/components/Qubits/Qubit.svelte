@@ -4,7 +4,7 @@
     import type { p5, Sketch } from 'p5-svelte';
     import { Vector } from 'p5'
     import { linear } from 'svelte/easing';
-    import { clamp, min } from '../../utils/utils';
+    import { clamp, min, throttle } from '../../utils/utils';
     import { debounce } from '$lib/utils/utils';
     import { onMount } from 'svelte';
     import { get } from 'svelte/store';
@@ -93,7 +93,7 @@
             resize = debounce(handleResize, 100)
         }
 
-        const debouncedMouseDragged = debounce(() => {
+        const debouncedMouseDragged = throttle(() => {
             if (!isWithinCanvas(p5.mouseX, p5.mouseY) || !p5.mouseIsPressed) return;
 
             const setPhase = p5.keyIsPressed && p5.key === 'Shift';
@@ -106,7 +106,7 @@
             }
 
             return false;
-        }, 10);
+        }, 25);
 
         p5.mouseDragged = () => {
             if(disabled) return;

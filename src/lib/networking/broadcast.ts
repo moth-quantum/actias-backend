@@ -4,8 +4,9 @@ import { throttle } from '$lib/utils/utils';
 import { id } from '$lib/stores/profile';
 import { apiDomain, headers } from './config';
 
-const sendPosition = (axes: number[]) => {
-    // console.log(axes[2])
+const sendPosition = 
+throttle(
+    (axes: number[]) => {
     const endpoint = `${apiDomain}/api/app-user/${get(id)}/position`;
 
     fetch(endpoint, {
@@ -23,12 +24,10 @@ const sendPosition = (axes: number[]) => {
     // .then(data => console.log('Success:', data))
     .catch((error) => console.error('Error:', error));
 }
+, 50)
 
 
-const handleBroadcast = 
-// TODO: remove this and only have it on the mousedrag?
-throttle(
-    (e: any) => {
+const handleBroadcast = (e: any) => {
     const qs = get(qubits);
     const changedQubit = e.detail;
     const yourQubit = qs.findIndex(q => q.active && q.user === 'you');
@@ -36,7 +35,6 @@ throttle(
 
     sendPosition(qs[yourQubit].axes.map(a => a.value));
 }
-, 100)
 
 export const broadcast = () => {
     document.addEventListener('updateQubit', handleBroadcast);
