@@ -1,15 +1,11 @@
 import { get } from 'svelte/store';
 import { id, name, location } from '$lib/stores/profile';
-import { apiDomain, apiToken } from './config';
+import { apiDomain, headers } from './config';
 import { debounce } from '$lib/utils/utils';
 
 export const updateProfile = () => {
     const endpoint = `${apiDomain}/api/app-user/${get(id)}/update`;
     const method = 'PATCH';
-    const headers = {
-        'Authorization' : `Bearer ${apiToken}`,
-        'Content-Type': 'application/json',
-    }
     
     // listen for changes to the name and location stores
     const unsubscribeName = name.subscribe(debounce((value: string) => {

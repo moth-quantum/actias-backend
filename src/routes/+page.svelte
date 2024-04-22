@@ -50,11 +50,11 @@
         await login()
         const unsubscribeUpdateProfile = updateProfile()
         await getUsers()
-        // const unsubscribeBroadcast = broadcast()
+        const unsubscribeBroadcast = broadcast()
         // const unsubscribeListen = listen()
 
         return () => {
-        //     unsubscribeBroadcast()
+            unsubscribeBroadcast()
         //     unsubscribeListen()
             unsubscribeUpdateProfile()
         }

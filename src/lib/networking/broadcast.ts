@@ -2,19 +2,15 @@ import { get } from 'svelte/store';
 import { qubits } from '$lib/stores/qubits';
 import { debounce } from '$lib/utils/utils';
 import { id } from '$lib/stores/profile';
+import { apiDomain, headers } from './config';
 
 const sendPosition = (axes: number[]) => {
-    // TODO: bearer token from Electron APP
-    // TODO: API domain from Electron APP
-    // TODO: rename endpoint
-    fetch('https://moth-api-staging.lunar.build/api/send', {
+    const endpoint = `${apiDomain}/api/app-user/${get(id)}/position`;
+
+    fetch(endpoint, {
         method: 'POST',
-        headers: {
-            'Authorization' : 'Bearer 1|YqZjOA0xTOGPviHOvHKxFqaeC1wAVnkoyGDQ7xXkf2a3cf2f',
-            'Content-Type': 'application/json',
-        },
+        headers,
         body: JSON.stringify({
-            "id": get(id),
             "coords": {
                 x: axes[0],
                 y: axes[1],
@@ -22,13 +18,7 @@ const sendPosition = (axes: number[]) => {
             }
         })
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+    .catch((error) => console.error('Error:', error));
 }
 
 
