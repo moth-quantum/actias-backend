@@ -26,6 +26,7 @@ const sendPosition = (axes: number[]) => {
 
 
 const handleBroadcast = 
+// TODO: remove this and only have it on the mousedrag?
 throttle(
     (e: any) => {
     const qs = get(qubits);

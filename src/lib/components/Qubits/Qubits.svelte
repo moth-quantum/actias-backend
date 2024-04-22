@@ -53,8 +53,8 @@
             <div class="qubit__qubit">
                 <Qubit 
                     id={i}
-                    bind:phi={qubit.axes[1].value}
                     bind:theta={qubit.axes[2].value}
+                    bind:phi={qubit.axes[1].value}
                     bind:phase={qubit.axes[0].value}
                     disabled={qubit.user !== 'you' || $isMeasuring}
                 />

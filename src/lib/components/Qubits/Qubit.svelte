@@ -1,18 +1,25 @@
 <script lang="ts">
     import P5 from 'p5-svelte'
+    import { tweened, type Tweened } from 'svelte/motion';
     import type { p5, Sketch } from 'p5-svelte';
     import { Vector } from 'p5'
+    import { linear } from 'svelte/easing';
     import { clamp, min } from '../../utils/utils';
     import { debounce } from '$lib/utils/utils';
     import { onMount } from 'svelte';
+    import { get } from 'svelte/store';
     import { activeQubitCount } from '$lib/stores/qubits';
     import { redrawCables } from '$lib/stores/patching';
     
     export let id: number;
-    export let phase: number = 0;
-    export let phi: number = 0;
-    export let theta: number = 0;
+    export let theta: number = 0; // 2
+    export let phi: number = 0; // 1
+    export let phase: number = 0; // 0
     export let disabled: boolean = false;
+
+    let smoothedTheta: Tweened<number> = tweened(theta, { duration: 100, easing: linear });
+    let smoothedPhi: Tweened<number> = tweened(phi, { duration: 100, easing: linear });
+    let smoothedPhase: Tweened<number> = tweened(phase, { duration: 100, easing: linear });
     
     let container: HTMLDivElement
     let p5Instance: p5 | null = null;
@@ -110,7 +117,11 @@
             p5.smooth()
             p5.background('#404040')
             
-            const vector = Vector.fromAngles(p5.radians(theta * 180), p5.radians(phi * 180), radius)
+            const vector = Vector.fromAngles(
+                p5.radians(theta * 180), 
+                p5.radians(phi * 180), 
+                radius
+            )
 
             // sphere
             p5.push()
