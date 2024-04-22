@@ -35,6 +35,18 @@ export function debounce(func: Function, delay: number) {
     };
 }
 
+export function throttle(func: Function, delay: number) {
+    let lastCall = 0;
+    return (...args: any[]) => {
+        const now = new Date().getTime();
+        if (now - lastCall < delay) {
+            return;
+        }
+        lastCall = now;
+        return func(...args);
+    };
+}
+
 export function add(a: number, b: number) {
     return a + b;
 }
