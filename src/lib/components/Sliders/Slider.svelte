@@ -4,7 +4,6 @@
 	import { cubicOut } from 'svelte/easing';
     import { onMount } from 'svelte';
     import { clamp, throttle } from "$lib/utils/utils";
-    import { debounce } from '$lib/utils/utils';
     
     const dispatch = createEventDispatcher();
     export let name: string = '';

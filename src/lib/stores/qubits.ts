@@ -1,4 +1,5 @@
 import { writable, get, derived } from 'svelte/store';
+import { tweened, type Tweened } from 'svelte/motion';
 import { mapToRange, clamp } from '../utils/utils';
 import type { Axis } from '../types';
 import { add } from '../utils/utils';
@@ -6,6 +7,25 @@ import { redrawCables } from './patching';
 import { disconnectSocket } from './patching';
 import { circuit } from './circuit';
     
+// TODO: split out qubits details from axes...
+// Axes become separate tweened stores
+// Qubit components should subscribe to these stores and redraw when they change
+// We could then create a derived store for 'your' qubit and listen to that - updating the api when that changes
+// The first qubit would always belong to you, and you can't reassign it...
+export const quubits = writable<{active: boolean, user: 'you' | number}[]>(
+    Array(12).fill(null).map((_, i) => ({active: i === 0, user: 'you'}))
+);
+
+export const axes: {
+    x: Tweened<number>, 
+    y: Tweened<number>, 
+    z: Tweened<number>
+}[] = Array(12).fill(null).map(() => ({
+    x: tweened(0),
+    y: tweened(0),
+    z: tweened(0)
+}));
+
 export const qubits = writable<{active: boolean, user: 'you' | number, axes: Axis[]}[]>(
     Array(12).fill(null).map((_, i) => ({
         active: i === 0, 
