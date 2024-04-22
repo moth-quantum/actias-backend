@@ -51,11 +51,11 @@
         const unsubscribeUpdateProfile = updateProfile()
         await getUsers()
         const unsubscribeBroadcast = broadcast()
-        // const unsubscribeListen = listen()
+        const unsubscribeListen = listen()
 
         return () => {
             unsubscribeBroadcast()
-        //     unsubscribeListen()
+            unsubscribeListen()
             unsubscribeUpdateProfile()
         }
     });
