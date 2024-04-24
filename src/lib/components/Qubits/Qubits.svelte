@@ -17,10 +17,10 @@
     const handleScroll = debounce(() => redrawCables(), 1);
 
     const handleSliderChange = (e: CustomEvent, qubit: number, axis: number) => {
-        axes[qubit].update(axes => {
-            axes[axis] = e.detail;
-            return axes;
-        });
+        // axes[qubit].update(axes => {
+        //     axes[axis] = e.detail;
+        //     return axes;
+        // });
     }
 
     $: isSingle = $activeQubitCount === 1 || windowWidth < 1000;

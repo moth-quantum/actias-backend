@@ -42,8 +42,7 @@
         sidebarIsHidden = true
     }
 
-    const handleShutdown = (e) => {
-        e.preventDefault()
+    const handleShutdown = () => {
         logout()
     }
 
@@ -58,13 +57,19 @@
         const unsubscribeBroadcast = broadcast()
         const unsubscribeListen = listen()
 
-        // window.addEventListener("beforeunload", handleShutdown);
+        window.addEventListener("beforeunload", handleShutdown);
+        window.addEventListener("keydown", (event) => {
+            if (event.key === "q") {
+                console.log(event.key)
+                handleShutdown();
+            }
+        });
 
         return () => {
             unsubscribeBroadcast()
             unsubscribeListen()
             unsubscribeUpdateProfile()
-            // window.removeEventListener("beforeunload", handleShutdown);
+            window.removeEventListener("beforeunload", handleShutdown);
         }
     });
 

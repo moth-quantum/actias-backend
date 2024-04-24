@@ -10,7 +10,6 @@ import type { User } from '$lib/types';
 
 // TODO: do we need the window.Pusher and window.Echo declarations? 
 // TODO: get key and host from the Electron app
-// TODO: channel logic
 export const listen = () => {
     const thisUser = get(id);
 	window.Pusher = Pusher;
@@ -29,8 +28,8 @@ export const listen = () => {
 	window.Echo.channel('userStatus').listen('UserStatusChange', (e: any) => {
 		const {id, isActive} = e;
 		users.update(users => users.map((user: User) => {
-			return user.id === id
-				? { ...user, isActive }
+			return user.id === +id
+				? { ...user, isActive: !!isActive }
 				: user;
 		}));
 	});
