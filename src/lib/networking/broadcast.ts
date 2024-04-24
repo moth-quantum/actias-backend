@@ -28,7 +28,7 @@ throttle(
 
 export const broadcast = () => {
     const unsubscribeAxes = axes[0].subscribe((axes) => {
-        sendPosition(axes);
+        // sendPosition(axes);
     })
 
     return () => {

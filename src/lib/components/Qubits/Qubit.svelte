@@ -21,15 +21,8 @@
     let radius = height / 3;
     let resize: (...args: any[]) => void;
 
-    const handleRedrawQubit = () => {
-        // if (e.detail === id && p5Instance) {
-            p5Instance && p5Instance.draw();
-        // }
-    }
-
     onMount(() => {
         window.addEventListener('resize', resize)
-        // document.addEventListener('updateQubit', handleRedrawQubit)
         
         let timeoutID: NodeJS.Timeout;
         const unsubscribeQuubits= quubits.subscribe(() => {
@@ -42,13 +35,12 @@
             theta = z
             phi = y
             phase = x
-            handleRedrawQubit()
+            p5Instance && p5Instance.draw()
         })
 
         return () => {
             if (timeoutID) clearTimeout(timeoutID)
             window.removeEventListener('resize', resize)
-            // document.removeEventListener('updateQubit', handleRedrawQubit)
             unsubscribeQuubits()
             unsubscribeAxes()
             p5Instance?.remove()

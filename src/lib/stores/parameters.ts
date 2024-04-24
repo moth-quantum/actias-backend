@@ -94,7 +94,11 @@ export const allParameters: Readable<Parameter[]> = derived(
 
 const prevParamValues: Writable<{[key: string]: number}> = writable({});
 export const paramValues: Readable<{[key: string]: number}> = derived(
-    [allParameters, connections, ...axes], 
+    [
+        allParameters, 
+        connections, 
+        ...axes
+    ], 
     ([$allParameters]) => {
         const nextParamValues = $allParameters.reduce((obj, param) => ({
             ...obj,

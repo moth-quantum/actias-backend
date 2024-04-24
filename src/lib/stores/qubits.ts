@@ -59,31 +59,6 @@ export const deactivateQubit = () => {
     redrawCables();
 }
 
-// Handle redraw events for individual qubits
-let previousQubitsStates = get(qubits).map(q => q.axes.map(a => a.value));
-qubits.subscribe((qubits) => {
-    const newQubitsStates = qubits.map(q => q.axes.map(a => a.value));
-    
-    // needs to work out all qubits that have changed, not just the first one...
-    const changedQubits: number[] = newQubitsStates
-        .map((qubit, i) => {
-            return qubit.reduce(add) !== previousQubitsStates[i].reduce(add)
-                ? i
-                : -1;
-        })
-        .filter(q => q !== -1);
-
-    previousQubitsStates = newQubitsStates;
-    
-    // Fire a redraw event with the index of the qubit to be redrawn
-    // This prevents all qubits from being redrawn each time a single qubit changes
-    if(typeof document === 'undefined') return
-    changedQubits.forEach((changedQubitIndex: number) => {
-        const redrawEvent = new CustomEvent('updateQubit', { detail: changedQubitIndex });
-        document.dispatchEvent(redrawEvent);
-    })
-});
-
 const u3Params = (theta: number, phi: number, lambda: number) => {
     return {
         params: {
