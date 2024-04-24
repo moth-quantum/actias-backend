@@ -1,5 +1,5 @@
 import { get } from 'svelte/store';
-import { id, name, location } from '$lib/stores/profile';
+import { id, name, location, isLoggedIn } from '$lib/stores/profile';
 import { apiDomain, headers } from './config';
 
 export const login = async () => {
@@ -38,7 +38,7 @@ export const login = async () => {
             // ensure that we store the user id for future requests
             id.set(user.id)
             localStorage.setItem('q.id', user.id);
-            console.log('logged in')
+            isLoggedIn.set(true);
         })
         .catch((error) => console.error('Error:', error));
 }

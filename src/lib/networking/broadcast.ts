@@ -1,15 +1,13 @@
 import { get } from 'svelte/store';
 import { axes } from '$lib/stores/qubits';
 import { throttle } from '$lib/utils/utils';
-import { id } from '$lib/stores/profile';
+import { id, isLoggedIn } from '$lib/stores/profile';
 import { apiDomain, headers } from './config';
 
-const sendPosition = 
-throttle(
-    (axes: number[]) => {
-    const endpoint = `${apiDomain}/api/app-user/${get(id)}/position`;
+const sendPosition = (axes: number[]) => {
+    if(!get(isLoggedIn)) return;
 
-    fetch(endpoint, {
+    fetch(`${apiDomain}/api/app-user/${get(id)}/position`, {
         method: 'POST',
         headers,
         body: JSON.stringify({
@@ -20,16 +18,11 @@ throttle(
             }
         })
     })
-    // .then(response => response.json())
-    // .then(data => console.log('Success:', data))
     .catch((error) => console.error('Error:', error));
 }
-, 50)
 
 export const broadcast = () => {
-    const unsubscribeAxes = axes[0].subscribe((axes) => {
-        // sendPosition(axes);
-    })
+    const unsubscribeAxes = axes[0].subscribe(throttle(sendPosition, 100))
 
     return () => {
         unsubscribeAxes();

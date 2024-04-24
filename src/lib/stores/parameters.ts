@@ -1,10 +1,10 @@
 import { writable, type Writable, get, derived, type Readable } from 'svelte/store';
-import { qubits, axes } from '$lib/stores/qubits';
+import { axes } from '$lib/stores/qubits';
 import { samples } from '$lib/stores/samples';
 import { envelopeValues } from './envelopes';
 import { initialiseConnections, getConnections, connections} from './patching';
 import { mapToStepRange, roundToFactor } from '$lib/utils/utils';
-import type { InstrumentName, Parameter, Axis } from '$lib/types';
+import type { InstrumentName, Parameter } from '$lib/types';
 
 export const instrument: Writable<InstrumentName> = writable('synth');
 export const instruments: {name: InstrumentName, active: boolean}[] = [
@@ -200,7 +200,7 @@ export const getAppState = () => {
         instrumentParameters: get(instrumentParameters),
         globalParameters: get(globalParameters),
         fxParameters: get(fxParameters),
-        axes: get(qubits)[0].axes,
+        axes: get(axes[0]),
         connections: get(connections),
         drone: get(drone),
         envelopeValues: get(envelopeValues),
