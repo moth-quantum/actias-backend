@@ -8,7 +8,6 @@
     import { redrawCables } from '$lib/stores/patching';
     import type { Tweened } from 'svelte/motion';
     
-    export let id: number;
     export let axes: Tweened<number[]>;
     let theta: number = 0; // 2
     let phi: number = 0; // 1
@@ -21,7 +20,7 @@
     let radius = height / 3;
     let resize: (...args: any[]) => void;
 
-    onMount(() => {
+    onMount(async () => {
         window.addEventListener('resize', resize)
         
         let timeoutID: NodeJS.Timeout;
@@ -31,7 +30,14 @@
             timeoutID = setTimeout(resize, 100)
         })
 
+        // Wait for p5 instance to be created before subscribing to axes
+        // Fixes a firefox error where it can't find the renderer
+        while (!p5Instance) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+
         const unsubscribeAxes = axes.subscribe(([x,y,z]) => {
+            if(!p5Instance) return;
             theta = z
             phi = y
             phase = x
