@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { quubits, axes, activeQubitCount, isMeasuring } from '$lib/stores/qubits';
+    import { qubits, axes, activeQubitCount, isMeasuring } from '$lib/stores/qubits';
     import { redrawCables } from '$lib/stores/patching';
     import Qubit from './Qubit.svelte';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
@@ -33,7 +33,7 @@
     class="qubits"
     on:scroll={() => handleScroll()}
 >
-    {#each $quubits.filter(q => q.active) as qubit, i}
+    {#each $qubits.filter(q => q.active) as qubit, i}
         <div 
             class="qubit"
             class:qubit--single={isSingle}

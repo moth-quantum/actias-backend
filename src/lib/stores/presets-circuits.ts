@@ -1,6 +1,6 @@
 import { writable, derived, get } from 'svelte/store';
 import { circuit } from '$lib/stores/circuit';
-import { quubits, initGates } from '$lib/stores/qubits';
+import { qubits, initGates } from '$lib/stores/qubits';
 
 export const presets = writable({} as {[key: string]: any | null})
 
@@ -36,7 +36,7 @@ export function loadPreset(key: string) {
     
     circuit.load(preset)
 
-    const numQubits = get(quubits).reduce((acc, q) => {
+    const numQubits = get(qubits).reduce((acc, q) => {
         return acc = q.active ? acc + 1 : acc;
     }, 0)
 
@@ -46,7 +46,7 @@ export function loadPreset(key: string) {
 
     // if the number of qubits in the circuit is more than the number of qubits in the store, add additional qubits to the store
     preset.numQubits > numQubits &&
-    quubits.update(qs => {
+    qubits.update(qs => {
         return qs.map((q, i) => ({
             ...q,
             active: i < preset.numQubits

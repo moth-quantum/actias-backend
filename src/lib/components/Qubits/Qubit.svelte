@@ -4,7 +4,7 @@
     import { Vector } from 'p5'
     import { debounce, clamp, min, throttle } from '$lib/utils/utils';
     import { onMount } from 'svelte';
-    import { quubits } from '$lib/stores/qubits';
+    import { qubits } from '$lib/stores/qubits';
     import { redrawCables } from '$lib/stores/patching';
     import type { Tweened } from 'svelte/motion';
     
@@ -25,7 +25,7 @@
         window.addEventListener('resize', resize)
         
         let timeoutID: NodeJS.Timeout;
-        const unsubscribeQuubits= quubits.subscribe(() => {
+        const unsubscribeQubits= qubits.subscribe(() => {
             if (!p5Instance) return;
             if (timeoutID) clearTimeout(timeoutID)
             timeoutID = setTimeout(resize, 100)
@@ -41,7 +41,7 @@
         return () => {
             if (timeoutID) clearTimeout(timeoutID)
             window.removeEventListener('resize', resize)
-            unsubscribeQuubits()
+            unsubscribeQubits()
             unsubscribeAxes()
             p5Instance?.remove()
             p5Instance = null
