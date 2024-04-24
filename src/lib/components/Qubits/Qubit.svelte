@@ -1,25 +1,19 @@
 <script lang="ts">
     import P5 from 'p5-svelte'
-    import { tweened, type Tweened } from 'svelte/motion';
     import type { p5, Sketch } from 'p5-svelte';
     import { Vector } from 'p5'
-    import { linear } from 'svelte/easing';
-    import { clamp, min, throttle } from '../../utils/utils';
-    import { debounce } from '$lib/utils/utils';
+    import { debounce, clamp, min, throttle } from '$lib/utils/utils';
     import { onMount } from 'svelte';
-    import { get } from 'svelte/store';
-    import { activeQubitCount } from '$lib/stores/qubits';
+    import { quubits } from '$lib/stores/qubits';
     import { redrawCables } from '$lib/stores/patching';
+    import type { Tweened } from 'svelte/motion';
     
     export let id: number;
-    export let theta: number = 0; // 2
-    export let phi: number = 0; // 1
-    export let phase: number = 0; // 0
+    export let axes: Tweened<number[]>;
+    let theta: number = 0; // 2
+    let phi: number = 0; // 1
+    let phase: number = 0; // 0
     export let disabled: boolean = false;
-
-    let smoothedTheta: Tweened<number> = tweened(theta, { duration: 100, easing: linear });
-    let smoothedPhi: Tweened<number> = tweened(phi, { duration: 100, easing: linear });
-    let smoothedPhase: Tweened<number> = tweened(phase, { duration: 100, easing: linear });
     
     let container: HTMLDivElement
     let p5Instance: p5 | null = null;
@@ -27,28 +21,36 @@
     let radius = height / 3;
     let resize: (...args: any[]) => void;
 
-    const handleRedrawQubit = (e: any) => {
-        if (e.detail === id && p5Instance) {
-            p5Instance.draw();
-        }
+    const handleRedrawQubit = () => {
+        // if (e.detail === id && p5Instance) {
+            p5Instance && p5Instance.draw();
+        // }
     }
 
     onMount(() => {
         window.addEventListener('resize', resize)
-        document.addEventListener('updateQubit', handleRedrawQubit)
+        // document.addEventListener('updateQubit', handleRedrawQubit)
         
         let timeoutID: NodeJS.Timeout;
-        const unsubscribeQubitCount = activeQubitCount.subscribe(() => {
+        const unsubscribeQuubits= quubits.subscribe(() => {
             if (!p5Instance) return;
             if (timeoutID) clearTimeout(timeoutID)
             timeoutID = setTimeout(resize, 100)
         })
 
+        const unsubscribeAxes = axes.subscribe(([x,y,z]) => {
+            theta = z
+            phi = y
+            phase = x
+            handleRedrawQubit()
+        })
+
         return () => {
             if (timeoutID) clearTimeout(timeoutID)
             window.removeEventListener('resize', resize)
-            document.removeEventListener('updateQubit', handleRedrawQubit)
-            unsubscribeQubitCount()
+            // document.removeEventListener('updateQubit', handleRedrawQubit)
+            unsubscribeQuubits()
+            unsubscribeAxes()
             p5Instance?.remove()
             p5Instance = null
         }
@@ -104,6 +106,8 @@
                 phi = clamp(p5.mouseX / (p5.width * 0.95));
                 theta = clamp(p5.mouseY / (p5.height * 0.95));
             }
+
+            axes.set([phase, phi, theta])
 
             return false;
         }, 25);

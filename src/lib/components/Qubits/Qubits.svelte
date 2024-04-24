@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { qubits, activeQubitCount, isMeasuring } from '$lib/stores/qubits';
+    import { quubits, axes, activeQubitCount, isMeasuring } from '$lib/stores/qubits';
     import { redrawCables } from '$lib/stores/patching';
     import Qubit from './Qubit.svelte';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
@@ -9,8 +9,8 @@
     import { isApp } from '$lib/stores/global';
     import { onMount } from 'svelte';
     
-    let axesIds = $qubits[0].axes.map(({key}) => key);
-    let axesNames = $qubits[0].axes.map(({name}) => name);
+    let axesIds = ['x', 'y', 'z'];
+    let axesNames = ['λ', 'φ', 'θ'];
     let windowWidth: number;
 
     const handleScroll = debounce(() => redrawCables(), 1);
@@ -33,7 +33,7 @@
     class="qubits"
     on:scroll={() => handleScroll()}
 >
-    {#each $qubits.filter(q => q.active) as qubit, i}
+    {#each $quubits.filter(q => q.active) as qubit, i}
         <div 
             class="qubit"
             class:qubit--single={isSingle}
@@ -53,9 +53,7 @@
             <div class="qubit__qubit">
                 <Qubit 
                     id={i}
-                    bind:theta={qubit.axes[2].value}
-                    bind:phi={qubit.axes[1].value}
-                    bind:phase={qubit.axes[0].value}
+                    axes={axes[i]}
                     disabled={qubit.user !== 'you' || $isMeasuring}
                 />
             </div>
@@ -65,7 +63,7 @@
                     labels={axesNames.reverse()} 
                 />
             </div>
-            <div class="qubit__sliders">
+            <!-- <div class="qubit__sliders">
                 {#each qubit.axes as {value, name, colour} (name)}
                     <Slider
                         disabled={qubit.user !== 'you' || $isMeasuring}
@@ -73,7 +71,7 @@
                         bind:value={value}
                     />
                 {/each}
-            </div>
+            </div> -->
         </div>
     {/each}
 </div>

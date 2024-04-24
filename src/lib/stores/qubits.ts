@@ -16,14 +16,8 @@ export const quubits = writable<{active: boolean, user: 'you' | number}[]>(
     Array(12).fill(null).map((_, i) => ({active: i === 0, user: 'you'}))
 );
 
-export const axes: {
-    x: Tweened<number>, 
-    y: Tweened<number>, 
-    z: Tweened<number>
-}[] = Array(12).fill(null).map(() => ({
-    x: tweened(0),
-    y: tweened(0),
-    z: tweened(0)
+export const axes: Tweened<number[]>[] = Array(12).fill(null).map(() => tweened([0,0,0], {
+    duration: 100,
 }));
 
 export const qubits = writable<{active: boolean, user: 'you' | number, axes: Axis[]}[]>(
@@ -38,8 +32,8 @@ export const qubits = writable<{active: boolean, user: 'you' | number, axes: Axi
     }))
 );
 
-export const activeQubitCount = derived(qubits, ($qubits) => {
-    return $qubits.filter(q => q.active).length;
+export const activeQubitCount = derived(quubits, ($quubits) => {
+    return $quubits.filter(q => q.active).length;
 });
 
 export const activateQubit = () => {
