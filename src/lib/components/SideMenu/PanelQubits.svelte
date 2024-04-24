@@ -33,17 +33,21 @@
 
                 <!-- {#if isApp()} -->
                     <div class="qubit__user">
-                        <Select 
-                            id={`${i}`}
-                            options={[
-                                { name: 'You', value: 'you', active: true },
-                                ...$connectedUsers.map(user => ({ name: user.name, value: user.id, active: true }))
-                            ]}
-                            background={getUserColour(qubit.user)}
-                            color="var(--color-grey-darker)"
-                            border="none"
-                            bind:selected={qubit.user}
-                        />
+                        {#if i === 0}
+                            <h3>You</h3>
+                        {:else}
+                            <Select 
+                                id={`${i}`}
+                                options={[
+                                    { name: 'You', value: 'you', active: true },
+                                    ...$connectedUsers.map(user => ({ name: user.name, value: user.id, active: true }))
+                                ]}
+                                background={getUserColour(qubit.user)}
+                                color="var(--color-grey-darker)"
+                                border="none"
+                                bind:selected={qubit.user}
+                            />
+                        {/if}
                     </div>
                 <!-- {/if} -->
             </div>
@@ -143,11 +147,22 @@
                 color: var(--color-grey-darker);
                 font-weight: bold;
                 text-align: center;
-                // @for $i from 0 through 11 {
-                //     &--#{$i} {
-                //         background-color: var(--color-theme-#{$i%3 + 1});
-                //     }
-                // }
+            }
+
+            &__user {
+                h3 {
+                    background-color: var(--color-theme-1);
+                    color: var(--color-grey-darker);
+                    border: none;
+                    text-transform: uppercase;
+                    font-size: var(--text-sm);
+                    padding: 0.375rem 2rem 0.375rem 1rem;
+                    width: 100%;
+                    border-radius: 5px;
+                    height: 100%;
+                    letter-spacing: 0.0625rem;
+                    cursor: not-allowed;
+                }
             }
             
         }
