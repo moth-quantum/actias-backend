@@ -5,11 +5,6 @@ import { redrawCables } from './patching';
 import { disconnectSocket } from './patching';
 import { circuit } from './circuit';
     
-// TODO: split out qubits details from axes...
-// Axes become separate tweened stores
-// Qubit components should subscribe to these stores and redraw when they change
-// We could then create a derived store for 'your' qubit and listen to that - updating the api when that changes
-// The first qubit would always belong to you, and you can't reassign it...
 export const quubits = writable<{active: boolean, user: 'you' | number}[]>(
     Array(12).fill(null).map((_, i) => ({active: i === 0, user: 'you'}))
 );
@@ -17,8 +12,6 @@ export const quubits = writable<{active: boolean, user: 'you' | number}[]>(
 export const axes: Tweened<number[]>[] = Array(12).fill(null).map(() => tweened([0,0,0], {
     duration: 100,
 }));
-
-console.log(axes)
 
 export const activeQubitCount = derived(quubits, ($quubits) => {
     return $quubits.filter(q => q.active).length;
