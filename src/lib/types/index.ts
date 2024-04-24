@@ -26,6 +26,7 @@ export interface Parameter {
     outmin?: number;
     outmax?: number;
     isLocked?: boolean;
+    tooltipMessage?: string;
 }
 
 export interface Socket {

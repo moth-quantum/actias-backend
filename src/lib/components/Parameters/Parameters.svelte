@@ -35,7 +35,7 @@
         <h2>Instrument</h2>
     </button>
     {#each $instrumentParameters.filter(({key}) => $keys.includes(key)) 
-        as {type, name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)
+        as {type, name, min, max, step, units, key, rangeA, rangeB, isLocked, tooltipMessage} (key)
     }
         <div class="parameter parameter--{type}">
 
@@ -57,7 +57,7 @@
             {#if type === 'range'}
                 <div class="tooltip--parent">
                     {#if hoveredKey === key}
-                        <Tooltip classes="parameter" message="This is a tooltip message"/>
+                        <Tooltip classes="parameter" message={tooltipMessage || ''}/>
                     {/if}
                     
                     <h3 
@@ -105,11 +105,11 @@
     <button on:click={() => randomise('global')}>
         <h2>Global</h2>
     </button>
-    {#each $globalParameters as {name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)}
+    {#each $globalParameters as {name, min, max, step, units, key, rangeA, rangeB, isLocked, tooltipMessage} (key)}
         <div class="parameter">
             <div class="tooltip--parent">
                 {#if hoveredKey === key}
-                    <Tooltip classes="parameter" message="This is a tooltip message"/>
+                    <Tooltip classes="parameter" message={ tooltipMessage || ''}/>
                 {/if}
                 
                 <h3 
@@ -157,11 +157,11 @@
         <h2>Effects</h2>
     </button>
 
-    {#each $fxParameters as {name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)}
+    {#each $fxParameters as {name, min, max, step, units, key, rangeA, rangeB, isLocked, tooltipMessage} (key)}
         <div class="parameter">
             <div class="tooltip--parent">
                 {#if hoveredKey === key}
-                    <Tooltip classes="parameter" message="This is a tooltip message"/>
+                    <Tooltip classes="parameter" message={ tooltipMessage || ''}/>
                 {/if}
                 
                 <h3 

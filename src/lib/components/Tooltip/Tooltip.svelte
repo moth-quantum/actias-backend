@@ -13,7 +13,7 @@
 	.tooltip {
 		position: absolute;
 		min-width: 16rem;
-		top: -3.4rem;
+		bottom: 2rem;
 		background: #7FD6D1;
 		color: black;
 		padding: 0.5rem;
