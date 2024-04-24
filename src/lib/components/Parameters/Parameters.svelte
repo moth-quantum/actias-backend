@@ -37,11 +37,8 @@
     {#each $instrumentParameters.filter(({key}) => $keys.includes(key)) 
         as {type, name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)
     }
-        {#if hoveredKey === key}
-            <Tooltip classes="parameter" message="This is a tooltip message"/>
-        {/if}
-
         <div class="parameter parameter--{type}">
+
             {#if type === 'select'}
                 <div class="samples">
                     <Select 
@@ -58,20 +55,25 @@
                 </div>
             {/if}
             {#if type === 'range'}
-                <h3 
-                    on:mouseenter={() => {
-                        clearTimeout(timeoutId);
-                        hoveredKey = key;
-                    }}
-                    on:mouseleave={() => {
-                        timeoutId = setTimeout(() => {
-                            hoveredKey = null;
-                        }, 500); // delay in milliseconds
-                    }}
-                >
-                    {name}
-                </h3>
-
+                <div class="tooltip--parent">
+                    {#if hoveredKey === key}
+                        <Tooltip classes="parameter" message="This is a tooltip message"/>
+                    {/if}
+                    
+                    <h3 
+                        on:mouseenter={() => {
+                            clearTimeout(timeoutId);
+                            hoveredKey = key;
+                        }}
+                        on:mouseleave={() => {
+                            timeoutId = setTimeout(() => {
+                                hoveredKey = null;
+                            }, 500); // delay in milliseconds
+                        }}
+                    >
+                        {name}
+                    </h3>
+                </div>
                 <RangeSlider 
                     {min} {max} {step} {units} 
                     value={$paramValues[key]}
@@ -236,5 +238,23 @@
 
     .group:last-of-type {
         margin-bottom: 0;
+    }
+
+    .tooltip--parent {
+        position: relative;
+
+        & > h3 {
+            cursor: pointer;
+            width: fit-content;
+
+            &:hover {
+                background-color: rgba(7,157,147, 0.9);
+                border-radius: 5px;
+                box-shadow: 0 0 10px 10px rgba(7,157,147, 0.9);
+                transition: all 0.3s;
+            }
+            
+
+        }
     }
 </style>

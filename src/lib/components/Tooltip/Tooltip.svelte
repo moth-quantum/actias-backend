@@ -12,11 +12,13 @@
 <style>
 	.tooltip {
 		position: absolute;
+		min-width: 16rem;
+		top: -3.4rem;
 		background: #7FD6D1;
 		color: black;
 		padding: 0.5rem;
 		border-radius: 0.5rem;
-		opacity: 0.9;
+		opacity: 1;
 		transition: opacity 0.2s;
 		z-index: 1000;
 	}
