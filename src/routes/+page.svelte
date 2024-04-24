@@ -57,13 +57,8 @@
         const unsubscribeBroadcast = broadcast()
         const unsubscribeListen = listen()
 
+        // TODO: not sure this is working
         window.addEventListener("beforeunload", handleShutdown);
-        window.addEventListener("keydown", (event) => {
-            if (event.key === "q") {
-                console.log(event.key)
-                handleShutdown();
-            }
-        });
 
         return () => {
             unsubscribeBroadcast()
