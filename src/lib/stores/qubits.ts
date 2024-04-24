@@ -9,7 +9,7 @@ export const qubits = writable<{active: boolean, user: 'you' | number}[]>(
     Array(12).fill(null).map((_, i) => ({active: i === 0, user: 'you'}))
 );
 
-export const axes: Tweened<number[]>[] = Array(12).fill(null).map(() => tweened([0,0,0], {
+export const axes: Tweened<number[]>[] = Array(12).fill(null).map(() => tweened([0.5,0,0], {
     duration: 100,
 }));
 

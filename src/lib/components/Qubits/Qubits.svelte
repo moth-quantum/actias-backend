@@ -8,12 +8,21 @@
     import { getUserColour, getUserName } from '$lib/stores/users';
     import { isApp } from '$lib/stores/global';
     import { onMount } from 'svelte';
+    import { get } from 'svelte/store';
     
     let axesIds = ['x', 'y', 'z'];
     let axesNames = ['λ', 'φ', 'θ'];
     let windowWidth: number;
 
     const handleScroll = debounce(() => redrawCables(), 1);
+
+    const handleSliderChange = (e: CustomEvent, qubit: number, axis: number) => {
+        console.log(e.detail, qubit, axis)
+        axes[qubit].update(axes => {
+            axes[axis] = e.detail;
+            return axes;
+        });
+    }
 
     $: isSingle = $activeQubitCount === 1 || windowWidth < 1000;
     $: isDouble = ($activeQubitCount%2 === 0 || $activeQubitCount === 3 || windowWidth < 1500) && !isSingle;
@@ -63,15 +72,17 @@
                     labels={axesNames.reverse()} 
                 />
             </div>
-            <!-- <div class="qubit__sliders">
-                {#each qubit.axes as {value, name, colour} (name)}
+            <div class="qubit__sliders">
+                {#each get(axes[i]).reverse() as value, axis}
                     <Slider
                         disabled={qubit.user !== 'you' || $isMeasuring}
-                        {name} {colour}
-                        bind:value={value}
+                        name={axesNames[2 - axis]}
+                        colour={`var(--color-theme-${3 - axis})`}
+                        value={value}
+                        on:change={e => handleSliderChange(e,i,axis)}
                     />
                 {/each}
-            </div> -->
+            </div>
         </div>
     {/each}
 </div>

@@ -13,7 +13,7 @@
     export let disabled: boolean = false;
 
     let sliderValue: Tweened<number> = tweened(value, {
-		duration: 400,
+		duration: 100,
 		easing: cubicOut
 	});
     
