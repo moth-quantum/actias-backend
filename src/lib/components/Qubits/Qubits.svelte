@@ -17,7 +17,6 @@
     const handleScroll = debounce(() => redrawCables(), 1);
 
     const handleSliderChange = (e: CustomEvent, qubit: number, axis: number) => {
-        console.log(e.detail, qubit, axis)
         axes[qubit].update(axes => {
             axes[axis] = e.detail;
             return axes;

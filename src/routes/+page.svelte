@@ -21,7 +21,7 @@
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faBars } from '@fortawesome/free-solid-svg-icons';
     
-    import { login } from '$lib/networking/login';
+    import { login, logout } from '$lib/networking/login';
     import { getUsers } from '$lib/networking/users';
     import { broadcast } from '$lib/networking/broadcast';
     import { listen } from '$lib/networking/listen';
@@ -42,6 +42,11 @@
         sidebarIsHidden = true
     }
 
+    const handleShutdown = (e) => {
+        e.preventDefault()
+        logout()
+    }
+
     onMount(async () => {
         isDesktop = window.innerWidth > 1200
         redrawCables(500)
@@ -53,10 +58,13 @@
         const unsubscribeBroadcast = broadcast()
         const unsubscribeListen = listen()
 
+        // window.addEventListener("beforeunload", handleShutdown);
+
         return () => {
             unsubscribeBroadcast()
             unsubscribeListen()
             unsubscribeUpdateProfile()
+            // window.removeEventListener("beforeunload", handleShutdown);
         }
     });
 

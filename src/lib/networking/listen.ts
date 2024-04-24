@@ -5,6 +5,8 @@ import Pusher from "pusher-js";
 import { id } from '$lib/stores/profile';
 import { pusherKey } from './config';
 import { axes, qubits } from '$lib/stores/qubits';
+import { users } from '$lib/stores/users';
+import type { User } from '$lib/types';
 
 // TODO: do we need the window.Pusher and window.Echo declarations? 
 // TODO: get key and host from the Electron app
@@ -25,8 +27,12 @@ export const listen = () => {
 	});
 
 	window.Echo.channel('userStatus').listen('UserStatusChange', (e: any) => {
-        // TODO
-		console.log(e);
+		const {id, isActive} = e;
+		users.update(users => users.map((user: User) => {
+			return user.id === id
+				? { ...user, isActive }
+				: user;
+		}));
 	});
 
 	window.Echo.channel('userPositions.' + thisUser).listen('UserPositionChange', (e: any) => {

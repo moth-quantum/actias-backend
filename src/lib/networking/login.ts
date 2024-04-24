@@ -43,3 +43,11 @@ export const login = async () => {
         .catch((error) => console.error('Error:', error));
 }
 
+export const logout = () => {
+    const endpoint = `/api/app-user/${get(id)}/logout`
+
+    return fetch(`${apiDomain}${endpoint}`, {
+        headers,
+        method: 'GET'
+    })
+}
