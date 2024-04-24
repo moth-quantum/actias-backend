@@ -4,7 +4,7 @@ import Pusher from "pusher-js";
 
 import { id } from '$lib/stores/profile';
 import { pusherKey } from './config';
-import { qubits } from '$lib/stores/qubits';
+import { axes, quubits } from '$lib/stores/qubits';
 
 // TODO: do we need the window.Pusher and window.Echo declarations? 
 // TODO: get key and host from the Electron app
@@ -30,22 +30,21 @@ export const listen = () => {
 	});
 
 	window.Echo.channel('userPositions.' + thisUser).listen('UserPositionChange', (e: any) => {
-        // TODO
 		const user = e.sender?.id;
 		if(!user) return;
 
-		const axes: number[] = Object.values(e.coords);
+		// get the indexes of the qubits that are active and belong to the user
+		const usersQubits = get(quubits).reduce((indexes: number[], q, i) => {
+			return q.active && q.user === user
+				? [...indexes, i]
+				: indexes;
+		}, []);
 		
-		qubits.update(qs => {
-			return qs.map(q => {
-				if (q.user === user) {
-					axes.forEach((a, i) => {
-						q.axes[i].value = a;
-					});
-				}
-				return q;
-			})
-		});
+
+		// update the axes of the qubits that belong to the user
+		axes.filter((_, i) => usersQubits.includes(i)).forEach(store => {
+			store.set(Object.values(e.coords))
+		})
 	});
 
     return () => {

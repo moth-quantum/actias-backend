@@ -1,5 +1,5 @@
 import { get } from 'svelte/store';
-import { qubits } from '$lib/stores/qubits';
+import { axes } from '$lib/stores/qubits';
 import { throttle } from '$lib/utils/utils';
 import { id } from '$lib/stores/profile';
 import { apiDomain, headers } from './config';
@@ -26,18 +26,12 @@ throttle(
 }
 , 50)
 
-
-const handleBroadcast = (e: any) => {
-    const qs = get(qubits);
-    const changedQubit = e.detail;
-    const yourQubit = qs.findIndex(q => q.active && q.user === 'you');
-    if (yourQubit === -1 || changedQubit !== yourQubit) return;
-
-    sendPosition(qs[yourQubit].axes.map(a => a.value));
-}
-
 export const broadcast = () => {
-    document.addEventListener('updateQubit', handleBroadcast);
+    const unsubscribeAxes = axes[0].subscribe((axes) => {
+        sendPosition(axes);
+    })
 
-    return () => document.removeEventListener('updateQubit', handleBroadcast);
+    return () => {
+        unsubscribeAxes();
+    }
 }
