@@ -1,7 +1,7 @@
 <script lang="ts">
     import { isApp } from '$lib/stores/global';
     import qubitImg from '$lib/images/qubit.png';
-    import { qubits, activateQubit, deactivateQubit } from '$lib/stores/qubits';
+    import { quubits, activateQubit, deactivateQubit } from '$lib/stores/qubits';
     import { connectedUsers, getUserColour } from '$lib/stores/users';
     import Select from '$lib/components/Forms/Select.svelte';
     // @ts-ignore
@@ -13,7 +13,7 @@
 
 <section>
     <div class="qubits">
-        {#each $qubits.filter(q => q.active) as qubit, i}
+        {#each $quubits.filter(q => q.active) as qubit, i}
             <div class="qubits__qubit">
                 <div 
                     class="qubit__placeholder"
@@ -24,7 +24,7 @@
                         class="qubit__i"
                         style="background-color: {getUserColour(qubit.user)}"
                     >{(i+1).toString().padStart(2, '0')}</span>
-                    {#if i && i === ($qubits.filter(q => q.active).length - 1)}
+                    {#if i && i === ($quubits.filter(q => q.active).length - 1)}
                         <button on:click={() => deactivateQubit()}>
                             <FontAwesomeIcon icon={faClose} />
                         </button>
@@ -49,7 +49,7 @@
             </div>
         {/each}
 
-        {#if $qubits.some(q => !q.active)}
+        {#if $quubits.some(q => !q.active)}
             <div class="qubits__qubit">
                 <button 
                     on:click={() => activateQubit()}

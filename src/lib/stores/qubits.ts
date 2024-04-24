@@ -37,8 +37,8 @@ export const activeQubitCount = derived(quubits, ($quubits) => {
 });
 
 export const activateQubit = () => {
-    const i = get(qubits).findIndex(q => !q.active);
-    i !== -1 && qubits.update(qs => {
+    const i = get(quubits).findIndex(q => !q.active);
+    i !== -1 && quubits.update(qs => {
         qs[i].active = true;
         return qs
     })
@@ -46,7 +46,7 @@ export const activateQubit = () => {
 }
 
 export const deactivateQubit = () => {
-    qubits.update(qs => {
+    quubits.update(qs => {
         const i = qs.filter(q => q.active).length - 1
         qs[i].active = false;
         // tidy up connections that were connected to this qubit
