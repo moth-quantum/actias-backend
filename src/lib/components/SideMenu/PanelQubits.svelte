@@ -31,7 +31,7 @@
                     {/if}
                 </div>
 
-                <!-- {#if isApp()} -->
+                {#if isApp()}
                     <div class="qubit__user">
                         {#if i === 0}
                             <h3>You</h3>
@@ -49,7 +49,7 @@
                             />
                         {/if}
                     </div>
-                <!-- {/if} -->
+                {/if}
             </div>
         {/each}
 
