@@ -1,7 +1,7 @@
-<script lang="ts">
-    
+<script lang="ts">    
     import { get } from 'svelte/store';
     import { activateInput, deactivateInput, inputs, activeInputs } from '$lib/stores/midi';
+    import { actions } from '$lib/stores/midi';
     import Select from '$lib/components/Forms/Select.svelte';
     import Counter from '$lib/components/Forms/Counter.svelte';
 
@@ -60,9 +60,13 @@
         </div>
         {/if}
     </div>
-    <div class="group learn">
+    <div class="group map">
         <h3 class="title">Midi Map</h3>
-                    
+        <ul class="map__list">
+            {#each Object.entries($actions) as [i, {label}]}
+                <li>cc{i}: {label}</li>
+            {/each}
+        </ul>
     </div>
 </section>
 
@@ -118,6 +122,15 @@
 
         & .group {
             margin-bottom: 2rem;            
+        }
+
+        .map {
+            &__list {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                font-size: var(--text-sm);
+            }
         }
     }
 </style>

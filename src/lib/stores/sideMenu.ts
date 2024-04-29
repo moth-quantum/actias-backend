@@ -1,10 +1,8 @@
 import { writable, derived } from 'svelte/store';
 import { isApp } from '$lib/stores/global';
-import { library } from '@fortawesome/fontawesome-svg-core';
 import keyboard from '$lib/images/keyboard.svg';
 import midi from '$lib/images/midi-white.svg';
-import { faGlobe, faUser, faUsers, faCircleQuestion, faGear, faPlay, faDiagramProject } from '@fortawesome/free-solid-svg-icons';
-library.add(faGlobe, faUser, faUsers, faCircleQuestion, faGear, faPlay, faDiagramProject);
+import { faGlobe, faUser, faUsers, faCircleQuestion, faPlay, faDiagramProject } from '@fortawesome/free-solid-svg-icons';
 
 export const menuItems = writable([
     { name: 'profile', icon: faUser, isVisible: isApp(), isActive: false, hasSubMenu: true},

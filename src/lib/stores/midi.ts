@@ -12,6 +12,8 @@ export const inputs: Writable<{name: string, active: boolean, channel: number}[]
 // maintain the order of active inputs
 export const activeInputs: Writable<string[]> =writable([]);
 
+export const learn = writable(false);
+
 // Subscribe to inputs and activeInputs changes and save them in local storage
 export function activateInput(name: string) {
     activeInputs.set([
@@ -82,7 +84,7 @@ function removeCCListeners(name: string) {
 }
 
 // TODO: default mapping for n qubits
-const actions: {[key: number]: {label: string, action: (value: number) => void}} = {
+export const actions: Writable<{[key: number]: {label: string, action: (value: number) => void}}> = writable({
     0: {label: 'Q01 θ', action: (value: number) => axes[0].update(a => [a[0], a[1], value])},
     1: {label: 'Q01 φ', action: (value: number) => axes[0].update(a => [a[0], value, a[2]])},
     2: {label: 'Q01 ψ', action: (value: number) => axes[0].update(a => [value, a[1], a[2]])},
@@ -103,11 +105,11 @@ const actions: {[key: number]: {label: string, action: (value: number) => void}}
     17: {label: '? FX', action: (value: number) => value && randomise('fx')},
     18: {label: '? All', action: (value: number) => value && randomise('inst') && randomise('global') && randomise('fx')},
     19: {label: '? Connections', action: (value: number) => value && randomiseConnections()},
-}
+})
     
 function handleControlChange(e: any) {
     const { value, controller: { number } } = e;
-    actions[number]?.action(value)
+    get(actions)[number]?.action(value)
 }
     
 inputs.subscribe(inputs => {
