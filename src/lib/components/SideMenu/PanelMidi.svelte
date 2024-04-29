@@ -1,4 +1,5 @@
 <script lang="ts">
+    
     import { get } from 'svelte/store';
     import { activateInput, deactivateInput, inputs, activeInputs } from '$lib/stores/midi';
     import Select from '$lib/components/Forms/Select.svelte';
@@ -60,7 +61,8 @@
         {/if}
     </div>
     <div class="group learn">
-        <h3 class="title">Midi Learn</h3>
+        <h3 class="title">Midi Map</h3>
+                    
     </div>
 </section>
 

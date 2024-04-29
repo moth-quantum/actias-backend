@@ -6,15 +6,13 @@ import { randomiseConnections } from '$lib/stores/patching';
 import { presetKeys, activePreset } from '$lib/stores/presets-synths';
 import { volume } from '$lib/stores/global';
 import { updateEnvelopeValue } from '$lib/stores/envelopes';
-import { measure } from '$lib/stores/qubits';
+import { measure, axes } from '$lib/stores/qubits';
 
 export const inputs: Writable<{name: string, active: boolean, channel: number}[]> = writable([]);
 // maintain the order of active inputs
 export const activeInputs: Writable<string[]> =writable([]);
 
 // Subscribe to inputs and activeInputs changes and save them in local storage
-
-
 export function activateInput(name: string) {
     activeInputs.set([
         ...get(activeInputs).filter(n => n !== name),
@@ -57,7 +55,7 @@ WebMidi
         
         inputs.update(() => WebMidi.inputs.map(({name}) => ({
             name, 
-            active: false, 
+            active: savedInputs ? savedInputs.find((input: any) => input.name === name)?.active : false, 
             channel: savedInputs ? savedInputs.find((input: any) => input.name === name)?.channel || 1 : 1
         })));
 
@@ -72,10 +70,10 @@ WebMidi
         });
     })
 
-function addCCListeners(name: string) {
+function addCCListeners(name: string, channel: number) {
     const input = WebMidi.getInputByName(name);
     if(input?.hasListener("controlchange", handleControlChange)) return
-    input?.addListener("controlchange", handleControlChange);
+    input?.addListener("controlchange", handleControlChange, {channels: [channel]});
 }
 
 function removeCCListeners(name: string) {
@@ -84,37 +82,40 @@ function removeCCListeners(name: string) {
 }
 
 // TODO: default mapping for n qubits
-const actions: {[key: number]: (value: number) => void} = {
-    // 1: (value: number) => axes.update(a => a.map(a => a.key === 'z' ? {...a, value} : a)),
-    // 2: (value: number) => axes.update(a => a.map(a => a.key === 'y' ? {...a, value} : a)),
-    // 3: (value: number) => axes.update(a => a.map(a => a.key === 'x' ? {...a, value} : a)),
-    4: (value: number) => instrument.set(instruments[Math.floor(value * instruments.length)].name),
-    5: (value: number) => activePreset.set(get(presetKeys)[Math.floor(value * get(presetKeys).length)]),
-    6: (value: number) => volume.set(value),
-    7: (value: number) => updateEnvelopeValue(0, 'a', value),
-    8: (value: number) => updateEnvelopeValue(0, 'd', value),
-    9: (value: number) => updateEnvelopeValue(0, 's', value),
-    10: (value: number) => updateEnvelopeValue(0, 'r', value),
-    11: (value: number) => updateEnvelopeValue(1, 'a', value),
-    12: (value: number) => updateEnvelopeValue(1, 'd', value),
-    13: (value: number) => updateEnvelopeValue(1, 's', value),
-    14: (value: number) => updateEnvelopeValue(1, 'r', value),
-    15: (value: number) => value && measure(),
-    16: (value: number) => value && randomise('inst'),
-    17: (value: number) => value && randomise('global'),
-    18: (value: number) => value && randomise('fx'),
-    19: (value: number) => value && randomise('inst') && randomise('global') && randomise('fx'),
-    20: (value: number) => value && randomiseConnections(),
+const actions: {[key: number]: {label: string, action: (value: number) => void}} = {
+    0: {label: 'Q01 θ', action: (value: number) => axes[0].update(a => [a[0], a[1], value])},
+    1: {label: 'Q01 φ', action: (value: number) => axes[0].update(a => [a[0], value, a[2]])},
+    2: {label: 'Q01 ψ', action: (value: number) => axes[0].update(a => [value, a[1], a[2]])},
+    3: {label: 'Instrument', action: (value: number) => instrument.set(instruments[Math.floor(value * instruments.length)].name)},
+    4: {label: 'Preset', action: (value: number) => activePreset.set(get(presetKeys)[Math.floor(value * get(presetKeys).length)])},
+    5: {label: 'Volume', action: (value: number) => volume.set(value)},
+    6: {label: 'Env1 A', action: (value: number) => updateEnvelopeValue(0, 'a', value)},
+    7: {label: 'Env1 D', action: (value: number) => updateEnvelopeValue(0, 'd', value)},
+    8: {label: 'Env1 S', action: (value: number) => updateEnvelopeValue(0, 's', value)},
+    9: {label: 'Env1 R', action: (value: number) => updateEnvelopeValue(0, 'r', value)},
+    10: {label: 'Env2 A', action: (value: number) => updateEnvelopeValue(1, 'a', value)},
+    11: {label: 'Env2 D', action: (value: number) => updateEnvelopeValue(1, 'd', value)},
+    12: {label: 'Env2 S', action: (value: number) => updateEnvelopeValue(1, 's', value)},
+    13: {label: 'Env2 R', action: (value: number) => updateEnvelopeValue(1, 'r', value)},
+    14: {label: 'Measure', action: (value: number) => value && measure()},
+    15: {label: '? Instrument', action: (value: number) => value && randomise('inst')},
+    16: {label: '? Global', action: (value: number) => value && randomise('global')},
+    17: {label: '? FX', action: (value: number) => value && randomise('fx')},
+    18: {label: '? All', action: (value: number) => value && randomise('inst') && randomise('global') && randomise('fx')},
+    19: {label: '? Connections', action: (value: number) => value && randomiseConnections()},
 }
     
 function handleControlChange(e: any) {
-    const { value, controller: {number} } = e;
-    actions[number](value)
+    const { value, controller: { number } } = e;
+    actions[number]?.action(value)
 }
     
 inputs.subscribe(inputs => {
-    inputs.forEach(({name, active}) => active 
-        ? addCCListeners(name)
-        : removeCCListeners(name)
-    )
+
+    inputs.forEach(({name, active, channel}) => {
+        // clear previous config
+        removeCCListeners(name)
+        // add a listener for that name and channel
+        active && addCCListeners(name, channel)
+    })
 })
