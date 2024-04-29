@@ -29,6 +29,11 @@ export interface Parameter {
     tooltipMessage?: string;
 }
 
+export interface Tooltip {
+    element: string;
+    message: string;
+}
+
 export interface Socket {
     id: string;
     type: 'origin' | 'remote';

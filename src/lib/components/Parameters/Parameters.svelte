@@ -5,7 +5,7 @@
     import { menuItems } from '$lib/stores/sideMenu';
     import { qubits } from '$lib/stores/qubits';
     import { samples } from '$lib/stores/samples';
-    import { tooltips } from '$lib/stores/tooltips';
+    import { sliderTooltips } from '$lib/stores/tooltips';
     import RangeSlider from '$lib/components/Sliders/RangeSlider.svelte';
     import Socket from '$lib/components/Patching/Socket.svelte';
     import Buttons from '$lib/components/Patching/Buttons.svelte';
@@ -31,14 +31,10 @@
             let tooltipsMode = items.find(item => item.name === 'tooltips');
             tooltipsActive = tooltipsMode?.isActive || false;
         });
-        const unsubscribeTooltips = tooltips.subscribe(tooltips => {
-            // console.log(tooltips);
-        });
 
         return () => {
             unsubscribeSamples();
             unsubscribeMenuItems();
-            unsubscribeTooltips();
         }
     })
 </script>
@@ -73,7 +69,7 @@
                         {#if hoveredKey === key}
                             <Tooltip
                                 element={key.toLowerCase()} 
-                                message={ $tooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}
+                                message={ $sliderTooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}
                             />
                         {/if}
                         
@@ -132,7 +128,7 @@
                     {#if hoveredKey === key}
                         <Tooltip
                             element={key.toLowerCase()} 
-                            message={ $tooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}
+                            message={ $sliderTooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}
                         />
                     {/if}
                     
@@ -191,7 +187,7 @@
                     {#if hoveredKey === key}
                         <Tooltip 
                             element={key.toLowerCase()} 
-                            message={ $tooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}
+                            message={ $sliderTooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}
                         />
                     {/if}
                     

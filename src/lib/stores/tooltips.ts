@@ -1,6 +1,7 @@
+import type { Tooltip } from '$lib/types';
 import { writable } from 'svelte/store';
 
-const tooltipContent: Array<{ element: string; message: string; }> = [
+const tooltipContent: Tooltip[] = [
 	{ element: 'op1fb', message: 'This is an op1fb tooltip message' },
 	{ element: 'op2ratio', message: 'This is an op2ratio tooltip message' },
 	{ element: 'op2gain', message: 'This is an op2gain tooltip message' },
@@ -26,4 +27,4 @@ const tooltipContent: Array<{ element: string; message: string; }> = [
 	{ element: 'locut', message: 'This is an locut tooltip message' },
 ];
 
-export const tooltips = writable(tooltipContent);
+export const sliderTooltips = writable(tooltipContent);
