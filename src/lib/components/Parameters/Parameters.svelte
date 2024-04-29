@@ -71,7 +71,10 @@
                 {#if tooltipsActive}
                     <div class="tooltip--parent">
                         {#if hoveredKey === key}
-                            <Tooltip classes="parameter" element={key} message={ $tooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}/>
+                            <Tooltip
+                                element={key.toLowerCase()} 
+                                message={ $tooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}
+                            />
                         {/if}
                         
                         <h3 
@@ -127,7 +130,10 @@
             {#if tooltipsActive}
                 <div class="tooltip--parent">
                     {#if hoveredKey === key}
-                        <Tooltip classes="parameter" element={key} message={ $tooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}/>
+                        <Tooltip
+                            element={key.toLowerCase()} 
+                            message={ $tooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}
+                        />
                     {/if}
                     
                     <h3 
@@ -183,7 +189,10 @@
             {#if tooltipsActive}
                 <div class="tooltip--parent">
                     {#if hoveredKey === key}
-                        <Tooltip classes="parameter" element={key} message={ $tooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}/>
+                        <Tooltip 
+                            element={key.toLowerCase()} 
+                            message={ $tooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}
+                        />
                     {/if}
                     
                     <h3 
