@@ -4,7 +4,8 @@
     import { instrumentParameters, fxParameters, globalParameters, paramValues, randomise, keys } from '$lib/stores/parameters';
     import { menuItems } from '$lib/stores/sideMenu';
     import { qubits } from '$lib/stores/qubits';
-    import { samples } from '$lib/stores/samples'
+    import { samples } from '$lib/stores/samples';
+    import { tooltips } from '$lib/stores/tooltips';
     import RangeSlider from '$lib/components/Sliders/RangeSlider.svelte';
     import Socket from '$lib/components/Patching/Socket.svelte';
     import Buttons from '$lib/components/Patching/Buttons.svelte';
@@ -13,6 +14,7 @@
     // @ts-ignore
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { faLock } from '@fortawesome/free-solid-svg-icons';
+  import { log } from 'tone/build/esm/core/util/Debug';
     export let showSockets = true;
     let hoveredKey: string | null = null;
     let timeoutId: number;
@@ -29,10 +31,14 @@
             let tooltipsMode = items.find(item => item.name === 'tooltips');
             tooltipsActive = tooltipsMode?.isActive || false;
         });
+        const unsubscribeTooltips = tooltips.subscribe(tooltips => {
+            // console.log(tooltips);
+        });
 
         return () => {
             unsubscribeSamples();
             unsubscribeMenuItems();
+            unsubscribeTooltips();
         }
     })
 </script>
@@ -65,7 +71,7 @@
                 {#if tooltipsActive}
                     <div class="tooltip--parent">
                         {#if hoveredKey === key}
-                            <Tooltip classes="parameter" message={'Tooltip' || ''}/>
+                            <Tooltip classes="parameter" element={key} message={ $tooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}/>
                         {/if}
                         
                         <h3 
@@ -121,7 +127,7 @@
             {#if tooltipsActive}
                 <div class="tooltip--parent">
                     {#if hoveredKey === key}
-                        <Tooltip classes="parameter" message={ 'Tooltip' || ''}/>
+                        <Tooltip classes="parameter" element={key} message={ $tooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}/>
                     {/if}
                     
                     <h3 
@@ -177,7 +183,7 @@
             {#if tooltipsActive}
                 <div class="tooltip--parent">
                     {#if hoveredKey === key}
-                        <Tooltip classes="parameter" message={ 'Tooltip' || ''}/>
+                        <Tooltip classes="parameter" element={key} message={ $tooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}/>
                     {/if}
                     
                     <h3 

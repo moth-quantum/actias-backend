@@ -4,8 +4,6 @@ import initElectronAPI from '$lib/electronAPI';
 
 export const volume = writable(0.5);
 
-export const tooltip = writable('');
-
 export const mute = writable(false);
 
 export const fullscreen = writable(false);

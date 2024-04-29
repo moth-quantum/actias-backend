@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { tooltip } from '$lib/stores/global';
-	import { onMount } from 'svelte';
+	import { tooltips } from '$lib/stores/tooltips';
+	export let element: string;
 	export let message: string;
 	export let classes: string;
 </script>
