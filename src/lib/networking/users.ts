@@ -29,7 +29,7 @@ export const getUsers = async () => {
 }
 
 export const connect = async (userID: number) => {
-    const endpoint = `${apiDomain}/api/app-user/connect/${get(id)}/${userID}`;
+    const endpoint = `${get(apiDomain)}/api/app-user/connect/${get(id)}/${userID}`;
     return fetch(endpoint, {
         method: 'GET',
         headers: get(headers)
