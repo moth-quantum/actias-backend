@@ -7,20 +7,20 @@ export const login = async () => {
     const storedId = localStorage.getItem('q.id') || '';
     const storedName = localStorage.getItem('q.name') || '';
     const storedLocation = localStorage.getItem('q.location') || '';
-
-    id.set(storedId ? +storedId : undefined);
+    
+    id.set(+storedId);
     name.set(storedName || 'Quantum Explorer ' + Math.random().toString(36).substring(2, 10));
     location.set(storedLocation || 'Outer Space');
 
     // If we have a stored user, we can just login, otherwise we need to register
-    const endpoint = get(id) !== undefined
+    const endpoint = get(id)
         ? `/api/app-user/${get(id)}/login`
         : '/api/app-user/register';
 
     const method = get(id) ? 'GET' : 'POST';
 
     let request: {headers: {}, method: string, body?: string} = {
-        headers,
+        headers: get(headers),
         method
     }
 
@@ -30,9 +30,9 @@ export const login = async () => {
         "name": get(name),
         "location": get(location),
     })})
-    
+
     // Conditionally login / register
-    return fetch(`${apiDomain}${endpoint}`, request)
+    return fetch(`${get(apiDomain)}${endpoint}`, request)
         .then(response => response.json())
         .then(({user}) => {
             // ensure that we store the user id for future requests
@@ -46,8 +46,8 @@ export const login = async () => {
 export const logout = () => {
     const endpoint = `/api/app-user/${get(id)}/logout`
 
-    return fetch(`${apiDomain}${endpoint}`, {
-        headers,
+    return fetch(`${get(apiDomain)}${endpoint}`, {
+        headers: get(headers),
         method: 'GET'
     })
 }

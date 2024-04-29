@@ -7,9 +7,9 @@ import { apiDomain, headers } from './config';
 const sendPosition = (axes: number[]) => {
     if(!get(isLoggedIn)) return;
 
-    fetch(`${apiDomain}/api/app-user/${get(id)}/position`, {
+    fetch(`${get(apiDomain)}/api/app-user/${get(id)}/position`, {
         method: 'POST',
-        headers,
+        headers: get(headers),
         body: JSON.stringify({
             "coords": {
                 x: axes[0],

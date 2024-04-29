@@ -4,7 +4,7 @@ import { apiDomain, headers } from './config';
 import { debounce } from '$lib/utils/utils';
 
 export const updateProfile = () => {
-    const endpoint = `${apiDomain}/api/app-user/${get(id)}/update`;
+    const endpoint = `${get(apiDomain)}/api/app-user/${get(id)}/update`;
     const method = 'PATCH';
     
     // listen for changes to the name and location stores
@@ -14,7 +14,7 @@ export const updateProfile = () => {
         
         // update the api
         const body = JSON.stringify({"name": value});
-        fetch(endpoint, { method, headers, body })
+        fetch(endpoint, { method, headers: get(headers), body })
             .catch((error) => console.error('Error:', error));
 
     }, 500))
@@ -25,7 +25,7 @@ export const updateProfile = () => {
         
         // update the api
         const body = JSON.stringify({"location": value});
-        fetch(endpoint, { method, headers, body })
+        fetch(endpoint, { method, headers: get(headers), body })
             .catch((error) => console.error('Error:', error));
 
     }, 500))

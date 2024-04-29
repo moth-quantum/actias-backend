@@ -16,7 +16,7 @@ export const listen = () => {
 	window.Echo = new Echo({
 		broadcaster: 'reverb',
 		cluster: 'eu',
-		key: pusherKey,
+		key: get(pusherKey),
 		wsHost: "127.0.0.1",
 		wsPort: "8080",
 		wssPort: "8080",

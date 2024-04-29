@@ -5,10 +5,10 @@ import { apiDomain, headers } from './config';
 import type { User } from '$lib/types';
 
 export const getUsers = async () => {
-    const endpoint = `${apiDomain}/api/app-users/${get(id)}`;
+    const endpoint = `${get(apiDomain)}/api/app-users/${get(id)}`;
     return fetch(endpoint, {
         method: 'GET',
-        headers
+        headers: get(headers)
     })
     .then(response => response.json())
     .then((data) => {
@@ -32,7 +32,7 @@ export const connect = async (userID: number) => {
     const endpoint = `${apiDomain}/api/app-user/connect/${get(id)}/${userID}`;
     return fetch(endpoint, {
         method: 'GET',
-        headers
+        headers: get(headers)
     })
     .then(() => {
         users.update(users => users.map((user: User) => {
@@ -48,7 +48,7 @@ export const disconnect = async (userID: number) => {
     const endpoint = `${apiDomain}/api/app-user/disconnect/${get(id)}/${userID}`;
     return fetch(endpoint, {
         method: 'GET',
-        headers
+        headers: get(headers)
     })
     .then(() => {
         users.update(users => users.map((user: User) => {

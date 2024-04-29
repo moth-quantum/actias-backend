@@ -26,6 +26,8 @@
     import { broadcast } from '$lib/networking/broadcast';
     import { listen } from '$lib/networking/listen';
     import { updateProfile } from '$lib/networking/profile';
+
+    import initElectronAPI from '$lib/electronAPI';
     
     library.add(faBars);
 
@@ -47,6 +49,8 @@
         redrawCables(500)
         
         if(!isApp()) return
+        
+        initElectronAPI()
         
         await login()
         const unsubscribeUpdateProfile = updateProfile()

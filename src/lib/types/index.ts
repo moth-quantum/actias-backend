@@ -52,7 +52,11 @@ export interface Preset {
 declare global {
     interface Window {
         isApp: boolean;
+        apiDomain: string;
+        apiToken: string;
+        apiPusherKey: string;
         electronAPI: {
+            onSetAPICredentials(callback: (data: {apiDomain: string, apiToken: string, apiPusherKey: string}) => void): void;
             onSetPreset(callback: (key: string) => void): void;
             onSavePreset(callback: () => void): void;
             onImportPreset(callback: (data: any) => void): void;
