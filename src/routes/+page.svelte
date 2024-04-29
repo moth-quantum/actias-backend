@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { startAudio } from '../sound';
-    import { fullscreen as fs, showKeyboard, showSideMenu } from '$lib/stores/global';
+    import { fullscreen as fs, showKeyboard, showSideMenu, isApp } from '$lib/stores/global';
     import { redrawCables } from '$lib/stores/patching';
     import { activeQubitCount } from '$lib/stores/qubits';
     import Presets from '$lib/components/Presets/Presets.svelte';
@@ -42,29 +42,25 @@
         sidebarIsHidden = true
     }
 
-    const handleShutdown = () => {
-        logout()
-    }
-
     onMount(async () => {
         isDesktop = window.innerWidth > 1200
         redrawCables(500)
         
-        // TODO: conditional functionality if isApp()
+        if(!isApp()) return
+        
         await login()
         const unsubscribeUpdateProfile = updateProfile()
         await getUsers()
         const unsubscribeBroadcast = broadcast()
         const unsubscribeListen = listen()
 
-        // TODO: not sure this is working
-        window.addEventListener("beforeunload", handleShutdown);
+        window.addEventListener("beforeunload", logout);
 
         return () => {
             unsubscribeBroadcast()
             unsubscribeListen()
             unsubscribeUpdateProfile()
-            window.removeEventListener("beforeunload", handleShutdown);
+            window.removeEventListener("beforeunload", logout);
         }
     });
 

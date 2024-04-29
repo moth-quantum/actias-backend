@@ -7,10 +7,8 @@ import { faGlobe, faUser, faUsers, faCircleQuestion, faGear, faPlay, faDiagramPr
 library.add(faGlobe, faUser, faUsers, faCircleQuestion, faGear, faPlay, faDiagramProject);
 
 export const menuItems = writable([
-    // { name: 'profile', icon: faUser, isVisible: isApp(), isActive: false, hasSubMenu: true},
-    { name: 'profile', icon: faUser, isVisible: true, isActive: false, hasSubMenu: true},
-    // { name: 'connect', icon: faUsers, isVisible: isApp(), isActive: false, hasSubMenu: true},
-    { name: 'connect', icon: faUsers, isVisible: true, isActive: false, hasSubMenu: true},
+    { name: 'profile', icon: faUser, isVisible: isApp(), isActive: false, hasSubMenu: true},
+    { name: 'connect', icon: faUsers, isVisible: isApp(), isActive: false, hasSubMenu: true},
     { name: 'qubits', icon: faGlobe, isVisible: true, isActive: false, hasSubMenu: true},
     { name: 'circuit', icon: faDiagramProject, isVisible: true, isActive: false, hasSubMenu: true},
     { name: 'midi', image: midi, isVisible: true, isActive: false, hasSubMenu: true},
