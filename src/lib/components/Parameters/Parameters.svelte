@@ -2,6 +2,7 @@
     import Select from '$lib/components/Forms/Select.svelte'; 
     import Tooltip from '$lib/components/Tooltip/Tooltip.svelte';  
     import { instrumentParameters, fxParameters, globalParameters, paramValues, randomise, keys } from '$lib/stores/parameters';
+    import { menuItems } from '$lib/stores/sideMenu';
     import { qubits } from '$lib/stores/qubits';
     import { samples } from '$lib/stores/samples'
     import RangeSlider from '$lib/components/Sliders/RangeSlider.svelte';
@@ -18,14 +19,20 @@
 
     let axesIds = $qubits[0].axes.map(({key}) => key);
     let sampleOptions: {name: string, value: number, active: boolean}[] = [];
+    let tooltipsActive: boolean = false;
 
     onMount(() => {
         const unsubscribeSamples = samples.subscribe(urls => {
             sampleOptions = urls.map((url, i) => ({name: url.split('/').pop() || '', value: i, active: true}));
         })
+        const unsubscribeMenuItems = menuItems.subscribe(items => {
+            let tooltipsMode = items.find(item => item.name === 'tooltips');
+            tooltipsActive = tooltipsMode?.isActive || false;
+        });
 
         return () => {
             unsubscribeSamples();
+            unsubscribeMenuItems();
         }
     })
 </script>
@@ -35,7 +42,7 @@
         <h2>Instrument</h2>
     </button>
     {#each $instrumentParameters.filter(({key}) => $keys.includes(key)) 
-        as {type, name, min, max, step, units, key, rangeA, rangeB, isLocked, tooltipMessage} (key)
+        as {type, name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)
     }
         <div class="parameter parameter--{type}">
 
@@ -55,25 +62,29 @@
                 </div>
             {/if}
             {#if type === 'range'}
-                <div class="tooltip--parent">
-                    {#if hoveredKey === key}
-                        <Tooltip classes="parameter" message={tooltipMessage || ''}/>
-                    {/if}
-                    
-                    <h3 
-                        on:mouseenter={() => {
-                            clearTimeout(timeoutId);
-                            hoveredKey = key;
-                        }}
-                        on:mouseleave={() => {
-                            timeoutId = setTimeout(() => {
-                                hoveredKey = null;
-                            }, 500); // delay in milliseconds
-                        }}
-                    >
-                        {name}
-                    </h3>
-                </div>
+                {#if tooltipsActive}
+                    <div class="tooltip--parent">
+                        {#if hoveredKey === key}
+                            <Tooltip classes="parameter" message={'Tooltip' || ''}/>
+                        {/if}
+                        
+                        <h3 
+                            on:mouseenter={() => {
+                                clearTimeout(timeoutId);
+                                hoveredKey = key;
+                            }}
+                            on:mouseleave={() => {
+                                timeoutId = setTimeout(() => {
+                                    hoveredKey = null;
+                                }, 500); // delay in milliseconds
+                            }}
+                        >
+                            {name}
+                        </h3>
+                    </div>
+                {:else}
+                    <h3>{name}</h3>
+                {/if}
                 <RangeSlider 
                     {min} {max} {step} {units} 
                     value={$paramValues[key]}
@@ -105,27 +116,31 @@
     <button on:click={() => randomise('global')}>
         <h2>Global</h2>
     </button>
-    {#each $globalParameters as {name, min, max, step, units, key, rangeA, rangeB, isLocked, tooltipMessage} (key)}
+    {#each $globalParameters as {name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)}
         <div class="parameter">
-            <div class="tooltip--parent">
-                {#if hoveredKey === key}
-                    <Tooltip classes="parameter" message={ tooltipMessage || ''}/>
-                {/if}
-                
-                <h3 
-                    on:mouseenter={() => {
-                        clearTimeout(timeoutId);
-                        hoveredKey = key;
-                    }}
-                    on:mouseleave={() => {
-                        timeoutId = setTimeout(() => {
-                            hoveredKey = null;
-                        }, 500); // delay in milliseconds
-                    }}
-                >
-                    {name}
-                </h3>
-            </div>
+            {#if tooltipsActive}
+                <div class="tooltip--parent">
+                    {#if hoveredKey === key}
+                        <Tooltip classes="parameter" message={ 'Tooltip' || ''}/>
+                    {/if}
+                    
+                    <h3 
+                        on:mouseenter={() => {
+                            clearTimeout(timeoutId);
+                            hoveredKey = key;
+                        }}
+                        on:mouseleave={() => {
+                            timeoutId = setTimeout(() => {
+                                hoveredKey = null;
+                            }, 500); // delay in milliseconds
+                        }}
+                    >
+                        {name}
+                    </h3>
+                </div>
+            {:else}
+                <h3>{name}</h3>
+            {/if}
             <RangeSlider 
                 {min} {max} {step} {units} 
                 value={$paramValues[key]}
@@ -157,27 +172,31 @@
         <h2>Effects</h2>
     </button>
 
-    {#each $fxParameters as {name, min, max, step, units, key, rangeA, rangeB, isLocked, tooltipMessage} (key)}
+    {#each $fxParameters as {name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)}
         <div class="parameter">
-            <div class="tooltip--parent">
-                {#if hoveredKey === key}
-                    <Tooltip classes="parameter" message={ tooltipMessage || ''}/>
-                {/if}
-                
-                <h3 
-                    on:mouseenter={() => {
-                        clearTimeout(timeoutId);
-                        hoveredKey = key;
-                    }}
-                    on:mouseleave={() => {
-                        timeoutId = setTimeout(() => {
-                            hoveredKey = null;
-                        }, 500); // delay in milliseconds
-                    }}
-                >
-                    {name}
-                </h3>
-            </div>
+            {#if tooltipsActive}
+                <div class="tooltip--parent">
+                    {#if hoveredKey === key}
+                        <Tooltip classes="parameter" message={ 'Tooltip' || ''}/>
+                    {/if}
+                    
+                    <h3 
+                        on:mouseenter={() => {
+                            clearTimeout(timeoutId);
+                            hoveredKey = key;
+                        }}
+                        on:mouseleave={() => {
+                            timeoutId = setTimeout(() => {
+                                hoveredKey = null;
+                            }, 500); // delay in milliseconds
+                        }}
+                    >
+                        {name}
+                    </h3>
+                </div>
+            {:else}
+                <h3>{name}</h3>
+            {/if}
             <RangeSlider 
                 {min} {max} {step} {units} 
                 value={$paramValues[key]}

@@ -9,7 +9,8 @@
     import { toggleKeyboard } from '$lib/stores/global';
     import Panel from './Panel.svelte';
     import CircuitDesigner from '$lib/components/CircuitDesigner/CircuitDesigner.svelte';
-
+  import { log } from 'tone/build/esm/core/util/Debug';
+    
     const handleMenuClick = (name: string) => {
         
         menuItems.update(items => items.map(item => {
