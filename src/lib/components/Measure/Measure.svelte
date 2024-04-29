@@ -1,10 +1,15 @@
-<script>
+<script lang="ts">
     import Select from '$lib/components/Forms/Select.svelte';   
     import { measure, seconds, bpm, beats, source, isMeasuring } from '$lib/stores/qubits';
+    import { buttonTooltips } from '$lib/stores/tooltips';
     import { isApp, mute } from '$lib/stores/global';
     import Lottie from '$lib/components/Lottie/Lottie.svelte';
     import lottieSrc from '$lib/images/measuring.json';
+    import Tooltip from '$lib/components/Tooltip/Tooltip.svelte';
 
+    export let tooltips: boolean = false;
+    let isHovered = false;
+    
     const machines = [
         {name: 'local', active: true}, 
         // {name: 'qasm_simulator', active: false}, 
@@ -49,17 +54,37 @@
         />
     </form>
     <div class="button">
-        <button
-            on:click|preventDefault={() => measure()}
-            disabled={$isMeasuring}
-        >
-            {#if $isMeasuring}
-                <Lottie src={lottieSrc} />
-            {:else}
-                <span class="button__text">Measure</span>
-            {/if}
-
-        </button>
+        {#if tooltips}
+            <div class="tooltip--parent">
+                <!-- {#if isHovered} -->
+                    <Tooltip classes="tooltip--measure {isHovered ? 'tooltip--show' : ''}" element='measure' message={ $buttonTooltips.find(tooltip => tooltip.element.toLowerCase() === 'measure')?.message || ''} />
+                <!-- {/if} -->
+                <button
+                    on:click|preventDefault={() => measure()}
+                    disabled={$isMeasuring}
+                    on:mouseenter={() => isHovered = true}
+                    on:mouseleave={() => isHovered = false}
+                >
+                    {#if $isMeasuring}
+                        <Lottie src={lottieSrc} />
+                    {:else}
+                        <span class="button__text">Measure</span>
+                    {/if}
+                 </button>
+            </div>
+        {:else}
+            <button
+                on:click|preventDefault={() => measure()}
+                disabled={$isMeasuring}
+            >
+                {#if $isMeasuring}
+                    <Lottie src={lottieSrc} />
+                {:else}
+                    <span class="button__text">Measure</span>
+                {/if}
+            </button>
+        {/if}
+        
     </div>
 </div>
 
@@ -167,6 +192,21 @@
             }
         }
 
+    }
+
+    .tooltip--parent {
+        position: relative;
+        height: 100%;
+        & > button {
+            cursor: pointer;
+
+            &:hover {
+                border-radius: 5px;
+                border: 1px solid white;
+                box-shadow: 0 0 5px 5px rgba(7,157,147, 0.9);
+                transition: all 0.3s;
+            }
+        }
     }
 
 </style>

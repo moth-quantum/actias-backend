@@ -14,27 +14,24 @@
     // @ts-ignore
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { faLock } from '@fortawesome/free-solid-svg-icons';
-  import { log } from 'tone/build/esm/core/util/Debug';
+    import { log } from 'tone/build/esm/core/util/Debug';
+    
     export let showSockets = true;
+    export let tooltips: boolean = false;
+
     let hoveredKey: string | null = null;
     let timeoutId: number;
 
     let axesIds = $qubits[0].axes.map(({key}) => key);
     let sampleOptions: {name: string, value: number, active: boolean}[] = [];
-    let tooltipsActive: boolean = false;
 
     onMount(() => {
         const unsubscribeSamples = samples.subscribe(urls => {
             sampleOptions = urls.map((url, i) => ({name: url.split('/').pop() || '', value: i, active: true}));
         })
-        const unsubscribeMenuItems = menuItems.subscribe(items => {
-            let tooltipsMode = items.find(item => item.name === 'tooltips');
-            tooltipsActive = tooltipsMode?.isActive || false;
-        });
 
         return () => {
             unsubscribeSamples();
-            unsubscribeMenuItems();
         }
     })
 </script>
@@ -64,15 +61,15 @@
                 </div>
             {/if}
             {#if type === 'range'}
-                {#if tooltipsActive}
+                {#if tooltips}
                     <div class="tooltip--parent">
                         {#if hoveredKey === key}
                             <Tooltip
+                                classes="tooltip--show"
                                 element={key.toLowerCase()} 
                                 message={ $sliderTooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}
                             />
                         {/if}
-                        
                         <h3 
                             on:mouseenter={() => {
                                 clearTimeout(timeoutId);
@@ -123,10 +120,11 @@
     </button>
     {#each $globalParameters as {name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)}
         <div class="parameter">
-            {#if tooltipsActive}
+            {#if tooltips}
                 <div class="tooltip--parent">
                     {#if hoveredKey === key}
                         <Tooltip
+                            classes="tooltip--show"
                             element={key.toLowerCase()} 
                             message={ $sliderTooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}
                         />
@@ -182,10 +180,11 @@
 
     {#each $fxParameters as {name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)}
         <div class="parameter">
-            {#if tooltipsActive}
+            {#if tooltips}
                 <div class="tooltip--parent">
                     {#if hoveredKey === key}
                         <Tooltip 
+                            classes="tooltip--show"
                             element={key.toLowerCase()} 
                             message={ $sliderTooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}
                         />
@@ -308,15 +307,15 @@
 
     .tooltip--parent {
         position: relative;
-
+        height: 100%;
         & > h3 {
             cursor: pointer;
             width: fit-content;
 
             &:hover {
                 background-color: rgba(7,157,147, 0.9);
-                border-radius: 5px;
-                box-shadow: 0 0 10px 10px rgba(7,157,147, 0.9);
+                border-radius: 2px;
+                box-shadow: 0 0 5px 5px rgba(7,157,147, 0.9);
                 transition: all 0.3s;
             }
             

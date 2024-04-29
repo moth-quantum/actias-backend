@@ -4,6 +4,7 @@
     import { fullscreen as fs, showKeyboard, showSideMenu } from '$lib/stores/global';
     import { redrawCables } from '$lib/stores/patching';
     import { activeQubitCount } from '$lib/stores/qubits';
+    import { menuItems } from '$lib/stores/sideMenu';
     import { login } from '$lib/networking/login';
     import Presets from '$lib/components/Presets/Presets.svelte';
     import Parameters from '$lib/components/Parameters/Parameters.svelte';
@@ -33,6 +34,7 @@
         duration: 200,
         easing: sineIn
     };
+    let tooltipsActive: boolean = false;
 
     const handleResize = () => {
         isDesktop = window.innerWidth > 1200
@@ -47,10 +49,15 @@
         login()
         const unsubscribeBroadcast = broadcast()
         const unsubscribeListen = listen()
+        const unsubscribeMenuItems = menuItems.subscribe(items => {
+            let tooltipsMode = items.find(item => item.name === 'tooltips');
+            tooltipsActive = tooltipsMode?.isActive || false;
+        });
 
         return () => {
             unsubscribeBroadcast()
             unsubscribeListen()
+            unsubscribeMenuItems()
         }
     });
 
@@ -124,7 +131,7 @@
 <section class={`container synth ${ $fs ? 'synth--fullscreen' : ''}`}>
     
     <div class="parameters">
-        <Parameters />
+        <Parameters tooltips={tooltipsActive}/>
     </div>
 
     <div class="interface">
@@ -143,7 +150,11 @@
                 </div>
         
                 <div class="measure">
-                    <Measure />
+                    {#if tooltipsActive}
+                        <Measure tooltips={tooltipsActive}/>
+                    {:else}
+                        <Measure />
+                    {/if}
                 </div>
             </div>
         {/if}
