@@ -2,21 +2,44 @@
     import { envelopes } from '$lib/stores/envelopes';
     import { volume } from '$lib/stores/global';
     import { drone } from '$lib/stores/parameters';
+    import { buttonTooltips } from '$lib/stores/tooltips';
     import Knob from '$lib/components/Knob/Knob.svelte';
     import Keyboard from '$lib/components/Keyboard/Keyboard.svelte';
     import Button from '$lib/components/Button/Button.svelte';
-
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faSignal, faCircle } from '@fortawesome/free-solid-svg-icons';
+    import Tooltip from '../Tooltip/Tooltip.svelte';
+
     library.add(faSignal, faCircle);
     
+    export let tooltips: boolean = false;
+    let isHovered = false;
 </script>
 
 <div class="controls">
     <h2 class="visually-hidden">Controls</h2>
     
-    <div class="buttons">
-        <Button orientation="vertical" text="Drone" colour="grey" active={$drone} onClick={() => drone.update(d => !d)} icon={faSignal} />
+    <div class="buttons" on:mouseenter={() => isHovered = true}
+        on:mouseleave={() => isHovered = false}>
+        {#if tooltips}
+            <div class="tooltip--parent">
+                <Tooltip 
+                    classes="tooltip--drone {isHovered ? 'tooltip--show' : ''}" 
+                    element='drone' 
+                    message={$buttonTooltips.find(tooltip => tooltip.element.toLowerCase() === 'drone')?.message || ''} 
+                />
+                <Button 
+                    orientation="vertical" 
+                    text="Drone" 
+                    colour="grey" 
+                    active={$drone} 
+                    onClick={() => drone.update(d => !d)} 
+                    icon={faSignal} 
+                />
+            </div>
+        {:else}
+            <Button orientation="vertical" text="Drone" colour="grey" active={$drone} onClick={() => drone.update(d => !d)} icon={faSignal} />
+        {/if}
     </div>
     <div class="controller">
         <div class="keys">
@@ -70,7 +93,6 @@
     .controls {
         display: flex;
         padding: 1rem;
-        overflow-x: scroll;
         
         @media (min-width: 1200px) {
             padding: 1rem 2rem;
@@ -208,6 +230,20 @@
                 grid-column: 7 / span 1;
                 grid-row: 2 / span 1;
             }
+        }
+    }
+
+    .tooltip--parent {
+        position: relative;
+        height: 100%;
+        cursor: pointer;
+        &:hover {
+                border-radius: 5px;
+                box-shadow: 0 0 5px 5px rgba(7,157,147, 0.9);
+                transition: all 0.3s;
+            }
+        & > button {
+            height: 100%;
         }
     }
 </style>

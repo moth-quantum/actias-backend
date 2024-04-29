@@ -146,7 +146,11 @@
         {#if $showKeyboard}
             <div class="controls">
                 <div class="keyboard">
-                    <Controls />
+                    {#if tooltipsActive}
+                        <Controls tooltips={tooltipsActive}/>
+                    {:else}
+                        <Controls />
+                    {/if}
                 </div>
         
                 <div class="measure">

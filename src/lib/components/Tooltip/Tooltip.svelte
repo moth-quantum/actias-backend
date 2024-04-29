@@ -26,6 +26,10 @@
 		bottom: 5rem;
 	}
 
+	.tooltip--drone {
+		bottom: 12rem;
+	}
+
 	.tooltip--show {
 		opacity: 1;
 		transition: opacity 0.2s;
