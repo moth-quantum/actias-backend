@@ -28,23 +28,9 @@
     $: isTriple = !isSingle && !isDouble;
     $: isFullHeight = ($activeQubitCount === 1 && windowWidth > 1000) 
         || ($activeQubitCount === 2 && windowWidth > 1000);
-    
-    // let positions: {[key: number]: number[]} = {
-    //     0: [0, 0, 0],
-    // }
 
     onMount(() => {
         windowWidth = window.innerWidth;
-        // let unsubscribeAxes: any[] = [];
-        // axes.forEach((store, i) => {
-        //     unsubscribeAxes.push(store.subscribe(values => {
-        //         positions[i] = values;
-        //     }));
-        // })
-
-        // return () => {
-        //     unsubscribeAxes.map(cb => cb());
-        // }
     });
 
 </script>
@@ -55,47 +41,49 @@
     class="qubits"
     on:scroll={() => handleScroll()}
 >
-    {#each $qubits.filter(q => q.active) as qubit, i}
-        <div 
-            class="qubit"
-            class:qubit--single={isSingle}
-            class:qubit--double={isDouble}
-            class:qubit--triple={isTriple}
-            class:qubit--full-height={isFullHeight}
-            class:qubit--border={qubit.user !== 'you'}
-            style="border-color: {getUserColour(qubit.user)};"
+    {#each axes as store, i}
+        {#if $qubits[i].active}
+            <div 
+                class="qubit"
+                class:qubit--single={isSingle}
+                class:qubit--double={isDouble}
+                class:qubit--triple={isTriple}
+                class:qubit--full-height={isFullHeight}
+                class:qubit--border={$qubits[i].user !== 'you'}
+                style="border-color: {getUserColour($qubits[i].user)};"
 
-        >
-            {#if isApp()}
-                <h3 class="qubit__info">
-                    <span style="background-color: {getUserColour(qubit.user)}">{(i + 1).toString().padStart(2, '0')}</span>
-                    <span style="background-color: {getUserColour(qubit.user)}">{getUserName(qubit.user)}</span>
-                </h3>
-            {/if}
-            <div class="qubit__qubit">
-                <Qubit 
-                    axes={axes[i]}
-                    disabled={qubit.user !== 'you' || $isMeasuring}
-                />
-            </div>
-            <div class="qubit__patchbay">    
-                <Patchbay 
-                    ids={axesIds.map(id => `${id}${i}`).reverse()} 
-                    labels={axesNames.reverse()} 
-                />
-            </div>
-            <div class="qubit__sliders">
-                {#each get(axes[i]).reverse() as value, axis}
-                    <Slider
-                        disabled={qubit.user !== 'you' || $isMeasuring}
-                        name={axesNames[2 - axis]}
-                        colour={`var(--color-theme-${3 - axis})`}
-                        value={value}
-                        on:change={e => handleSliderChange(e,i,axis)}
+            >
+                {#if isApp()}
+                    <h3 class="qubit__info">
+                        <span style="background-color: {getUserColour($qubits[i].user)}">{(i + 1).toString().padStart(2, '0')}</span>
+                        <span style="background-color: {getUserColour($qubits[i].user)}">{getUserName($qubits[i].user)}</span>
+                    </h3>
+                {/if}
+                <div class="qubit__qubit">
+                    <Qubit 
+                        axes={store}
+                        disabled={$qubits[i].user !== 'you' || $isMeasuring}
                     />
-                {/each}
+                </div>
+                <div class="qubit__patchbay">    
+                    <Patchbay 
+                        ids={axesIds.map(id => `${id}${i}`).reverse()} 
+                        labels={axesNames.reverse()} 
+                    />
+                </div>
+                <div class="qubit__sliders">
+                    {#each get(store) as value, axis}
+                        <Slider
+                            disabled={$qubits[i].user !== 'you' || $isMeasuring}
+                            name={axesNames[2 - axis]}
+                            colour={`var(--color-theme-${3 - axis})`}
+                            bind:value={value}
+                            on:change={e => handleSliderChange(e,i,axis)}
+                        />
+                    {/each}
+                </div>
             </div>
-        </div>
+        {/if}
     {/each}
 </div>
 
