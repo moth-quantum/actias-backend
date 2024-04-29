@@ -28,9 +28,23 @@
     $: isTriple = !isSingle && !isDouble;
     $: isFullHeight = ($activeQubitCount === 1 && windowWidth > 1000) 
         || ($activeQubitCount === 2 && windowWidth > 1000);
+    
+    // let positions: {[key: number]: number[]} = {
+    //     0: [0, 0, 0],
+    // }
 
     onMount(() => {
         windowWidth = window.innerWidth;
+        // let unsubscribeAxes: any[] = [];
+        // axes.forEach((store, i) => {
+        //     unsubscribeAxes.push(store.subscribe(values => {
+        //         positions[i] = values;
+        //     }));
+        // })
+
+        // return () => {
+        //     unsubscribeAxes.map(cb => cb());
+        // }
     });
 
 </script>
