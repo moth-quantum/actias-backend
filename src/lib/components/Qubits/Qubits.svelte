@@ -1,5 +1,6 @@
 <script lang="ts">
     import { qubits, axes, activeQubitCount, isMeasuring } from '$lib/stores/qubits';
+    import { axesValues } from '$lib/stores/qubits';
     import { redrawCables } from '$lib/stores/patching';
     import Qubit from './Qubit.svelte';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
@@ -28,7 +29,7 @@
     $: isTriple = !isSingle && !isDouble;
     $: isFullHeight = ($activeQubitCount === 1 && windowWidth > 1000) 
         || ($activeQubitCount === 2 && windowWidth > 1000);
-
+    
     onMount(() => {
         windowWidth = window.innerWidth;
     });
@@ -77,7 +78,7 @@
                             disabled={$qubits[i].user !== 'you' || $isMeasuring}
                             name={axesNames[2 - axis]}
                             colour={`var(--color-theme-${3 - axis})`}
-                            bind:value={value}
+                            value={$axesValues[i][axis]}
                             on:change={e => handleSliderChange(e,i,axis)}
                         />
                     {/each}
