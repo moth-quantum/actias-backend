@@ -64,6 +64,7 @@ declare global {
             onExportPreset(callback: () => void): void;
             exportPresetResponse(data: any): void;
             syncUserPresets(data: {[key: string]: Preset | null}): void;
+            onQuit(callback: () => void): void;
         };
         Pusher: typeof Pusher;
         Echo: Echo;
