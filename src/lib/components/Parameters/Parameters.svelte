@@ -58,7 +58,7 @@
             {/if}
             {#if type === 'range'}
                 {#if showTooltips}
-                    <Tooltip element={key}>
+                    <Tooltip element={key} type="parameter">
                         <h3>{name}</h3>
                     </Tooltip>
                 {:else}
@@ -98,7 +98,7 @@
     {#each $globalParameters as {name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)}
         <div class="parameter">
             {#if showTooltips}
-                <Tooltip element={key}>
+                <Tooltip element={key} type="parameter">
                     <h3>{name}</h3>
                 </Tooltip>
             {:else}
@@ -138,7 +138,7 @@
     {#each $fxParameters as {name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)}
         <div class="parameter">
             {#if showTooltips}
-                <Tooltip element={key}>
+                <Tooltip element={key} type="parameter">
                     <h3>{name}</h3>
                 </Tooltip>
             {:else}

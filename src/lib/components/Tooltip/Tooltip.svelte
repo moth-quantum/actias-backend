@@ -16,7 +16,7 @@
 		{message}
 	</div>
 	<div 
-		class="tooltip-element tooltip-element--{element}" 
+		class="tooltip-element {type ? `tooltip-element--${type}` : ''} tooltip-element--{element}" 
 		on:mouseenter={() => {
 			clearTimeout(timeoutId);
 			hoveredEl = element;
@@ -60,10 +60,20 @@
 	}
 	.tooltip-element {
 		height: 100%;
+		
 	}
+
 	.tooltip-element:hover {
 		border-radius: 5px;
 		box-shadow: 0 0 5px 5px rgba(7,157,147, 0.9);
 		transition: all 0.3s;
+	}
+
+	.tooltip-element--parameter {
+		width: fit-content;
+	}
+
+	.tooltip-element--parameter:hover {
+		background-color: rgba(7,157,147, 0.9);
 	}
 </style>
