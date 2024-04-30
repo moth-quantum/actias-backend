@@ -6,7 +6,6 @@
 
 	let message = $tooltips.find(tooltip => tooltip.element.toLowerCase() === element.toLowerCase())?.message || '';
 	let hoveredEl: any = null;
-	let timeoutId: number;
 </script>
 
 <div 
@@ -15,22 +14,13 @@
 	<div class="tooltip tooltip--{element} {hoveredEl === element ? 'tooltip--show' : ''} {classes}">
 		{message}
 	</div>
-	<div 
-		class="tooltip-element {type ? `tooltip-element--${type}` : ''} tooltip-element--{element}" 
-		on:mouseenter={() => {
-			clearTimeout(timeoutId);
-			hoveredEl = element;
-		}}
-		on:mouseleave={() => {
-				timeoutId = setTimeout(() => {
-						hoveredEl = null;
-				}, 500); // delay in milliseconds
-		}}
-		on:mouseenter={() => hoveredEl = element}
-		on:mouseleave={() => hoveredEl = null}
-	>
-		<slot></slot>
-	</div>
+		<div 
+			class="{type !== 'knob' ? 'tooltip-element' : ''} tooltip-element--{type} tooltip-element--{element}" 
+			on:mouseenter={() => hoveredEl = element}
+			on:mouseleave={() => hoveredEl = null}
+		>
+			<slot></slot>
+		</div>
 </div>
 
 <style>
@@ -60,7 +50,6 @@
 	}
 	.tooltip-element {
 		height: 100%;
-		
 	}
 
 	.tooltip-element:hover {
@@ -76,4 +65,10 @@
 	.tooltip-element--parameter:hover {
 		background-color: rgba(7,157,147, 0.9);
 	}
+
+	.tooltip-element--knob:hover :global(.knob__inner) {
+		border-radius: 50%;
+		box-shadow: 0 0 8px 8px rgba(7,157,147, 0.9);
+		transition: box-shadow 0.3s;
+  }
 </style>
