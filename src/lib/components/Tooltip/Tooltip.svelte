@@ -25,20 +25,12 @@
 		position: relative;
 		height: 100%;
     cursor: pointer;
-
-		/* &:hover {
-				border-radius: 5px;
-				box-shadow: 0 0 8px 8px rgba(7,157,147, 0.9);
-				transition: all 0.3s;
-		}
-		& > button {
-				height: 100%;
-		} */
 	}
+
 	.tooltip {
 		position: absolute;
 		min-width: 16rem;
-		bottom: 2rem;
+		bottom: calc(100% + 1rem);
 		background: #7FD6D1;
 		color: black;
 		padding: 0.5rem;
@@ -52,13 +44,12 @@
 		opacity: 1;
 		transition: opacity 0.2s;
 	}
-	.tooltip--measure {
-		bottom: 5rem;
+	.tooltip-element {
+		height: 100%;
 	}
-
-	.tooltip--drone {
-		bottom: 12rem;
+	.tooltip-element:hover {
+		border-radius: 5px;
+		box-shadow: 0 0 5px 5px rgba(7,157,147, 0.9);
+		transition: all 0.3s;
 	}
-
-	
 </style>

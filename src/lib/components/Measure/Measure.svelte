@@ -53,24 +53,19 @@
         />
     </form>
     <div class="button">
-        <!-- {#if showTooltips}
-            <div class="tooltip--parent">
-                {#if isHovered}
-                    <Tooltip classes="tooltip--measure {isHovered ? 'tooltip--show' : ''}" element='measure' message={ $tooltips.find(tooltip => tooltip.element.toLowerCase() === 'measure')?.message || ''} />
-                {/if}
+        {#if showTooltips}
+            <Tooltip element='measure'>
                 <button
                     on:click|preventDefault={() => measure()}
                     disabled={$isMeasuring}
-                    on:mouseenter={() => isHovered = true}
-                    on:mouseleave={() => isHovered = false}
                 >
-                    {#if $isMeasuring}
-                        <Lottie src={lottieSrc} />
-                    {:else}
-                        <span class="button__text">Measure</span>
-                    {/if}
+                {#if $isMeasuring}
+                    <Lottie src={lottieSrc} />
+                {:else}
+                    <span class="button__text">Measure</span>
+                {/if}
                  </button>
-            </div>
+            </Tooltip>
         {:else}
             <button
                 on:click|preventDefault={() => measure()}
@@ -82,7 +77,7 @@
                     <span class="button__text">Measure</span>
                 {/if}
             </button>
-        {/if} -->
+        {/if}
         
     </div>
 </div>

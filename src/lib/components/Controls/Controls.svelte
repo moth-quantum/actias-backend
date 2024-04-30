@@ -2,7 +2,6 @@
     import { envelopes } from '$lib/stores/envelopes';
     import { volume } from '$lib/stores/global';
     import { drone } from '$lib/stores/parameters';
-    import { tooltips } from '$lib/stores/tooltips';
     import Knob from '$lib/components/Knob/Knob.svelte';
     import Keyboard from '$lib/components/Keyboard/Keyboard.svelte';
     import Button from '$lib/components/Button/Button.svelte';
