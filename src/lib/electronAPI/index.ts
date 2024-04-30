@@ -10,7 +10,7 @@ export default function initElectronAPI() {
     
     // Set API credentials
     // TODO: protocol / SSL
-    apiDomain.set('http://' + window.apiDomain)
+    apiDomain.set(window.apiDomain)
     apiWsDomain.set(window.apiWsDomain)
     apiToken.set(window.apiToken)
     pusherKey.set(window.apiPusherKey)
