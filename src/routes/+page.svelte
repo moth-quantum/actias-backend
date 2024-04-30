@@ -1,11 +1,10 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { startAudio } from '../sound';
-    import { fullscreen as fs, showKeyboard, showSideMenu } from '$lib/stores/global';
+    import { fullscreen as fs, showKeyboard, showSideMenu, isApp } from '$lib/stores/global';
     import { redrawCables } from '$lib/stores/patching';
     import { activeQubitCount } from '$lib/stores/qubits';
     import { menuItems } from '$lib/stores/sideMenu';
-    import { login } from '$lib/networking/login';
     import Presets from '$lib/components/Presets/Presets.svelte';
     import Parameters from '$lib/components/Parameters/Parameters.svelte';
     // @ts-ignore
@@ -22,8 +21,14 @@
 
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faBars } from '@fortawesome/free-solid-svg-icons';
+    
+    import { login, logout } from '$lib/networking/login';
+    import { getUsers } from '$lib/networking/users';
     import { broadcast } from '$lib/networking/broadcast';
     import { listen } from '$lib/networking/listen';
+    import { updateProfile } from '$lib/networking/profile';
+
+    import initElectronAPI from '$lib/electronAPI';
     
     library.add(faBars);
 
@@ -35,29 +40,42 @@
         easing: sineIn
     };
     let tooltipsActive: boolean = false;
-
+    
     const handleResize = () => {
         isDesktop = window.innerWidth > 1200
         sidebarIsHidden = true
     }
 
-    onMount(() => {
+    onMount(async () => {
         isDesktop = window.innerWidth > 1200
         redrawCables(500)
         
-        // TODO: conditional functionality if isApp()
-        login()
-        const unsubscribeBroadcast = broadcast()
-        const unsubscribeListen = listen()
         const unsubscribeMenuItems = menuItems.subscribe(items => {
             let tooltipsMode = items.find(item => item.name === 'tooltips');
             tooltipsActive = tooltipsMode?.isActive || false;
+            console.log(tooltipsActive, $menuItems)
         });
+
+        if(!isApp()) return () => {
+            unsubscribeMenuItems()
+        }
+        
+        initElectronAPI()
+        
+        await login()
+        const unsubscribeUpdateProfile = updateProfile()
+        await getUsers()
+        const unsubscribeBroadcast = broadcast()
+        const unsubscribeListen = listen()
+
+        window.addEventListener("beforeunload", logout);
 
         return () => {
             unsubscribeBroadcast()
             unsubscribeListen()
             unsubscribeMenuItems()
+            unsubscribeUpdateProfile()
+            window.removeEventListener("beforeunload", logout);
         }
     });
 

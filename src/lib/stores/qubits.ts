@@ -1,22 +1,17 @@
 import { writable, get, derived } from 'svelte/store';
+import { tweened, type Tweened } from 'svelte/motion';
 import { mapToRange, clamp } from '../utils/utils';
-import type { Axis } from '../types';
-import { add } from '../utils/utils';
 import { redrawCables } from './patching';
 import { disconnectSocket } from './patching';
 import { circuit } from './circuit';
-
-export const qubits = writable<{active: boolean, user: 'you' | number, axes: Axis[]}[]>(
-    Array(12).fill(null).map((_, i) => ({
-        active: i === 0, 
-        user: 'you',
-        axes: [
-            {key: 'x', name: 'λ', value: 0, min: 0, max: 1, step: 0.001, colour: '#00A399'},
-            {key: 'y', name: 'φ', value: 0, min: 0, max: 1, step: 0.001, colour: '#E5007F'},
-            {key: 'z', name: 'θ', value: 0, min: 0, max: 1, step: 0.001, colour: '#FF695A'}
-        ]
-    }))
+    
+export const qubits = writable<{active: boolean, user: 'you' | number}[]>(
+    Array(12).fill(null).map((_, i) => ({active: i === 0, user: 'you'}))
 );
+
+export const axes: Tweened<number[]>[] = Array(12).fill(null).map(() => tweened([0,0,0], {
+    duration: 100,
+}));
 
 export const activeQubitCount = derived(qubits, ($qubits) => {
     return $qubits.filter(q => q.active).length;
@@ -45,31 +40,6 @@ export const deactivateQubit = () => {
     redrawCables();
 }
 
-// Handle redraw events for individual qubits
-let previousQubitsStates = get(qubits).map(q => q.axes.map(a => a.value));
-qubits.subscribe((qubits) => {
-    const newQubitsStates = qubits.map(q => q.axes.map(a => a.value));
-    
-    // needs to work out all qubits that have changed, not just the first one...
-    const changedQubits: number[] = newQubitsStates
-        .map((qubit, i) => {
-            return qubit.reduce(add) !== previousQubitsStates[i].reduce(add)
-                ? i
-                : -1;
-        })
-        .filter(q => q !== -1);
-
-    previousQubitsStates = newQubitsStates;
-    
-    // Fire a redraw event with the index of the qubit to be redrawn
-    // This prevents all qubits from being redrawn each time a single qubit changes
-    if(typeof document === 'undefined') return
-    changedQubits.forEach((changedQubitIndex: number) => {
-        const redrawEvent = new CustomEvent('updateQubit', { detail: changedQubitIndex });
-        document.dispatchEvent(redrawEvent);
-    })
-});
-
 const u3Params = (theta: number, phi: number, lambda: number) => {
     return {
         params: {
@@ -88,7 +58,7 @@ export const initGates = (i: number, theta: number = 0, phi: number = 0, lambda:
 qubits.subscribe((qubits) => {
     qubits.forEach((q, i) => {
         q.active
-            ? initGates(i, q.axes[2].value, q.axes[1].value, q.axes[0].value)
+            ? initGates(i, get(axes[i])[2], get(axes[i])[1], get(axes[i])[0])
             : circuit.removeQubit(i);
     })
 })
@@ -123,16 +93,9 @@ export function collapse(destinations: number[]) {
     isMeasuring.set(true);
     const startTime = new Date().getTime();
     const endTime = startTime + (get(collapseTime) * 1000);
+    const startValues: number[][] = destinations.map((_, i) => get(axes[0]));
 
-    const startValues: {[key: string]: number}[] = destinations.map((_, i) => {
-        return {
-            x: get(qubits)[i].axes[0].value, 
-            y: get(qubits)[i].axes[1].value, 
-            z: get(qubits)[i].axes[2].value, 
-        }
-    })
-
-    const endValues: {[key: string]: number}[] = destinations.map(dest => ({x: 0, y: 0, z: dest}));
+    const endValues: number[][] = destinations.map(dest => [0,0,dest]);
 
     const interval = setInterval(() => {
         const now = new Date().getTime();
@@ -141,22 +104,15 @@ export function collapse(destinations: number[]) {
             clearInterval(interval);
             isMeasuring.set(false);
         }
-        qubits.update(qs => {
-            return qs.map((q, i) => {
-                if (destinations.length > i) {
-                    return {
-                        ...q,
-                        axes: q.axes.map(axis => ({
-                            ...axis, 
-                            value: clamp(
-                                mapToRange(progress, 0, 1, startValues[i][axis.key], endValues[i][axis.key]),
-                                0, 1
-                            )
-                        }))
-                    }
-                }
-                return q;
-            })
-        });
-    }, 10);
+        
+            axes.forEach((store, qubit) => {
+                if (destinations.length <= qubit) return;
+                store.update((arr) => {
+                    return arr.map((_,axis) => clamp(
+                        mapToRange(progress, 0, 1, startValues[qubit][axis], endValues[qubit][axis]),
+                        0, 1
+                    ))
+                });
+            });
+    }, 100);
 }

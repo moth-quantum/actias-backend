@@ -1,7 +1,6 @@
 <script lang="ts">
     import Select from '$lib/components/Forms/Select.svelte';   
     import { measure, seconds, bpm, beats, source, isMeasuring } from '$lib/stores/qubits';
-    import { tooltips } from '$lib/stores/tooltips';
     import { isApp, mute } from '$lib/stores/global';
     import Lottie from '$lib/components/Lottie/Lottie.svelte';
     import lottieSrc from '$lib/images/measuring.json';
@@ -36,20 +35,14 @@
         <input 
             id="seconds" placeholder="Seconds" type="number" 
             bind:value={$seconds}
-            on:focus={() => mute.set(true)}
-            on:focusout={() => mute.set(false)}
         />
         <input 
             id="bpm" placeholder="BPM" type="number" 
             bind:value={$bpm}
-            on:focus={() => mute.set(true)}
-            on:focusout={() => mute.set(false)}
         />
         <input 
             id="beats" placeholder="Beats" type="number" 
             bind:value={$beats}
-            on:focus={() => mute.set(true)}
-            on:focusout={() => mute.set(false)}
         />
     </form>
     <div class="button">
@@ -186,21 +179,6 @@
             }
         }
 
-    }
-
-    .tooltip--parent {
-        position: relative;
-        height: 100%;
-        & > button {
-            cursor: pointer;
-
-            &:hover {
-                border-radius: 5px;
-                border: 1px solid white;
-                box-shadow: 0 0 5px 5px rgba(7,157,147, 0.9);
-                transition: all 0.3s;
-            }
-        }
     }
 
 </style>

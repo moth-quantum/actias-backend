@@ -34,6 +34,7 @@
     on:keydown={e => {
         e.stopPropagation()
         e.key === 'Enter' && value !== '' && dispatch('enter', value)
+        e.key === 'Escape' && dispatch('escape', value)
     }}
     style={`
         border: ${border}; 
@@ -52,13 +53,15 @@
         height: 100%;
         background-color: transparent;
         font-size: var(--text-sm);
+        width: 100%;
+        :focus {
+            outline: var(--color-theme-1)
+        }
     }
 
     input::placeholder {
         color: white;
     }
 
-    :focus {
-        outline: var(--color-theme-1)
-    }
+    
 </style>

@@ -1,5 +1,12 @@
 <script lang="ts">
-    import { connectedUsers, otherUsers } from '$lib/stores/users'
+    import { connectedUsers, searchResults, activeUsersCount, search } from '$lib/stores/users'
+    import { connect, disconnect, getUsers } from '$lib/networking/users';
+    // @ts-ignore
+    import { FontAwesomeIcon } from 'fontawesome-svelte';
+    import { faRefresh, faSearch } from '@fortawesome/free-solid-svg-icons';
+    import Input from '$lib/components/Forms/Input.svelte';
+
+    let showSearch = false;
 </script>
 
 <section>
@@ -12,19 +19,63 @@
                     class="users__user"
                     class:users__user--active={user.isActive}
                 >
-                    <span>{user.username} <button>Remove</button></span>
+                    <span>{user.name} 
+                        <button
+                            on:click={() => disconnect(user.id)}
+                        >Remove</button>
+                    </span>
                 </li>
             {/each}
         </ul>
     </div>
     <div class="group">
-        <h3 class="title">Everyone</h3>
-        {#each $otherUsers as user}
+        <div class="search title">
+            <h3 
+                class="search__title"
+                class:hidden={showSearch}
+            >
+                Everyone ({$activeUsersCount} Online)
+                <button
+                    class:hidden={showSearch}
+                    on:click={getUsers}
+                >
+                    <FontAwesomeIcon 
+                        icon={faRefresh} 
+                    />
+                </button>
+            </h3>
+            <button
+                class="search__button"
+                on:click={() => showSearch = !showSearch}
+            >
+                <FontAwesomeIcon 
+                    icon={faSearch} 
+                />
+            </button>
+            <div
+                class="search__input" 
+                class:hidden={!showSearch}
+            >
+                <Input 
+                    id="search" 
+                    placeholder="Search by ID or name"
+                    showLabel={false}
+                    bind:value={$search}
+                    on:escape={() => showSearch = false}
+                />
+            </div>
+        </div>
+        {#each $searchResults as user}
             <li 
                 class="users__user"
                 class:users__user--active={user.isActive}
             >
-                <span>{user.username} <button>Connect</button></span>
+                <span>{user.name} 
+                    <button
+                        on:click={() => connect(user.id)}
+                        disabled={$connectedUsers.map(u => u.id).includes(user.id)}
+                    >Connect</button>
+                </span>
             </li>
         {/each}
     </div>
@@ -86,7 +137,22 @@
                 & button {
                     text-transform: uppercase;
                     font-size: var(--text-xs);
+                    &:disabled {
+                        opacity: 0.25;
+                    }
                 }
+            }
+        }
+
+        .search {
+            display: flex;
+            &__input {
+                margin-left: 0.5rem;
+
+            }
+            &__title {
+                width: 100%;
+                font-size: var(--text-sm);
             }
         }
     }

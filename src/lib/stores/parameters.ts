@@ -1,10 +1,10 @@
 import { writable, type Writable, get, derived, type Readable } from 'svelte/store';
-import { qubits } from '$lib/stores/qubits';
+import { axes } from '$lib/stores/qubits';
 import { samples } from '$lib/stores/samples';
 import { envelopeValues } from './envelopes';
 import { initialiseConnections, getConnections, connections} from './patching';
 import { mapToStepRange, roundToFactor } from '$lib/utils/utils';
-import type { InstrumentName, Parameter, Axis } from '$lib/types';
+import type { InstrumentName, Parameter } from '$lib/types';
 
 export const instrument: Writable<InstrumentName> = writable('synth');
 export const instruments: {name: InstrumentName, active: boolean}[] = [
@@ -94,13 +94,17 @@ export const allParameters: Readable<Parameter[]> = derived(
 
 const prevParamValues: Writable<{[key: string]: number}> = writable({});
 export const paramValues: Readable<{[key: string]: number}> = derived(
-    [allParameters, qubits, connections], 
-    ([$allParameters, $qubits, $connections]) => {
+    [
+        allParameters, 
+        connections, 
+        ...axes
+    ], 
+    ([$allParameters]) => {
         const nextParamValues = $allParameters.reduce((obj, param) => ({
             ...obj,
             [param.key]: (param.isLocked 
                 ? get(prevParamValues)[param.key]
-                : param.rangeA + (param.rangeB - param.rangeA) * getAxis(param.key).value) || 0
+                : param.rangeA + (param.rangeB - param.rangeA) * getAxis(param.key)) || 0
         }), {})
 
         prevParamValues.set(nextParamValues);
@@ -108,13 +112,12 @@ export const paramValues: Readable<{[key: string]: number}> = derived(
         return nextParamValues;
     })
 
-function getAxis(key: string) : Axis {
+function getAxis(key: string) : number {
     const connection = getConnections(key)[0] || 'z0';
     const axis = connection.charAt(0);
     const qubitIndex = parseInt(connection.slice(1)) || 0;
-    const qubit = get(qubits)[qubitIndex]
-    return qubit.axes.find((a) => a.key === axis) || qubit.axes[0];
-    
+    const axisIndex = ['x','y','z'].indexOf(axis);
+    return get(axes[qubitIndex])[axisIndex];
 }
 
 const initConnections = () => initialiseConnections([
@@ -197,7 +200,7 @@ export const getAppState = () => {
         instrumentParameters: get(instrumentParameters),
         globalParameters: get(globalParameters),
         fxParameters: get(fxParameters),
-        axes: get(qubits)[0].axes,
+        axes: get(axes[0]),
         connections: get(connections),
         drone: get(drone),
         envelopeValues: get(envelopeValues),

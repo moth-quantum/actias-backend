@@ -8,7 +8,7 @@ import { samples } from '$lib/stores/samples'
 import { drone, synthValues } from '$lib/stores/parameters'
 import { envelopeValues } from '$lib/stores/envelopes'
 import { volume, mute } from '$lib/stores/global'
-import { mapToStepRange } from '$lib/utils/utils'
+import { mapToStepRange, throttle } from '$lib/utils/utils'
 
 export async function startAudio() {
     await start()    
@@ -98,7 +98,7 @@ export const loadSample = (i) => {
     Object.values(instruments).map(inst => inst.loadSample && inst.loadSample('default', i))
 }
 
-synthValues.subscribe(values => handleMutation(values))
+synthValues.subscribe(throttle(values => handleMutation(values), 100))
 
 drone.subscribe(d => {
     !d && cut();

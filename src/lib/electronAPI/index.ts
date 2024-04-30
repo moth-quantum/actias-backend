@@ -1,9 +1,17 @@
 import { activePreset, presets } from '$lib/stores/presets-synths';
 import { updateSamples } from '$lib/stores/samples';
 import { getAppState } from '$lib/stores/parameters';
+import { apiDomain, apiToken, pusherKey } from '$lib/networking/config';
+import { logout } from '$lib/networking/logout';
 
 export default function initElectronAPI() {
-    if(typeof document === 'undefined') return
+
+    if(typeof document === 'undefined' || (typeof window === 'undefined')) return
+    
+    // Set API credentials
+    apiDomain.set(window.apiDomain)
+    apiToken.set(window.apiToken)
+    pusherKey.set(window.apiPusherKey)
     
     // presets
     window.electronAPI.onSetPreset((key: string) => activePreset.set(key))
@@ -20,4 +28,6 @@ export default function initElectronAPI() {
         console.log(data)
     })
     window.electronAPI.onUpdateSamples(updateSamples)
+
+    window.electronAPI.onQuit(logout)
 }

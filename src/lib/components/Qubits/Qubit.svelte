@@ -2,16 +2,16 @@
     import P5 from 'p5-svelte'
     import type { p5, Sketch } from 'p5-svelte';
     import { Vector } from 'p5'
-    import { clamp, min } from '../../utils/utils';
-    import { debounce } from '$lib/utils/utils';
+    import { debounce, clamp, min, throttle } from '$lib/utils/utils';
     import { onMount } from 'svelte';
-    import { activeQubitCount } from '$lib/stores/qubits';
+    import { qubits } from '$lib/stores/qubits';
     import { redrawCables } from '$lib/stores/patching';
+    import type { Tweened } from 'svelte/motion';
     
-    export let id: number;
-    export let phase: number = 0;
-    export let phi: number = 0;
-    export let theta: number = 0;
+    export let axes: Tweened<number[]>;
+    let theta: number = 0; // 2
+    let phi: number = 0; // 1
+    let phase: number = 0; // 0
     export let disabled: boolean = false;
     
     let container: HTMLDivElement
@@ -20,29 +20,35 @@
     let radius = height / 3;
     let resize: (...args: any[]) => void;
 
-    const handleRedrawQubit = (e: any) => {
-        if (e.detail === id && p5Instance) {
-            p5Instance.draw();
-        }
-    }
-
-    onMount(() => {
+    onMount(async () => {
         window.addEventListener('resize', resize)
-        document.addEventListener('updateQubit', handleRedrawQubit)
         
-        // @ts-ignore
-        let timeoutID: Timeout;
-        const unsubscribeQubitCount = activeQubitCount.subscribe(() => {
+        let timeoutID: NodeJS.Timeout;
+        const unsubscribeQubits= qubits.subscribe(() => {
             if (!p5Instance) return;
             if (timeoutID) clearTimeout(timeoutID)
             timeoutID = setTimeout(resize, 100)
         })
 
+        // Wait for p5 instance to be created before subscribing to axes
+        // Fixes a firefox error where it can't find the renderer
+        while (!p5Instance) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+
+        const unsubscribeAxes = axes.subscribe(([x,y,z]) => {
+            if(!p5Instance) return;
+            theta = z
+            phi = y
+            phase = x
+            p5Instance && p5Instance.draw()
+        })
+
         return () => {
             if (timeoutID) clearTimeout(timeoutID)
             window.removeEventListener('resize', resize)
-            document.removeEventListener('updateQubit', handleRedrawQubit)
-            unsubscribeQubitCount()
+            unsubscribeQubits()
+            unsubscribeAxes()
             p5Instance?.remove()
             p5Instance = null
         }
@@ -87,7 +93,7 @@
             resize = debounce(handleResize, 100)
         }
 
-        const debouncedMouseDragged = debounce(() => {
+        const debouncedMouseDragged = throttle(() => {
             if (!isWithinCanvas(p5.mouseX, p5.mouseY) || !p5.mouseIsPressed) return;
 
             const setPhase = p5.keyIsPressed && p5.key === 'Shift';
@@ -99,8 +105,10 @@
                 theta = clamp(p5.mouseY / (p5.height * 0.95));
             }
 
+            axes.set([phase, phi, theta])
+
             return false;
-        }, 10);
+        }, 25);
 
         p5.mouseDragged = () => {
             if(disabled) return;
@@ -111,7 +119,11 @@
             p5.smooth()
             p5.background('#404040')
             
-            const vector = Vector.fromAngles(p5.radians(theta * 180), p5.radians(phi * 180), radius)
+            const vector = Vector.fromAngles(
+                p5.radians(theta * 180), 
+                p5.radians(phi * 180), 
+                radius
+            )
 
             // sphere
             p5.push()

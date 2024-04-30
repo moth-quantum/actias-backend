@@ -52,7 +52,8 @@ body {
 select:focus {
 	border: none;
 	--tw-ring-shadow: none;
-	outline: 2px dotted var(--color-theme-1);
+	outline: 2px dotted var(--color-theme-1)!important;
+	box-shadow: none!important;
 }
 
 h1,
@@ -190,30 +191,31 @@ button:focus:not(:focus-visible) {
 canvas {
 	contain: paint;
 }
-
-.qc-circuit {
-	line {
-		stroke: var(--color-theme-1)!important;
-	}
-
-	text {
-		font-size: var(--text-xs);
-	}
-
-	text, circle {
-		fill: var(--color-theme-1)!important;
-		stroke: none!important;
-	}
-
-	ellipse, rect, path {
-		fill: var(--color-grey-darker)!important;
-		stroke: var(--color-theme-1)!important;
-		cursor: grab;
-	}
+.qc-circuit line {
+	stroke: var(--color-theme-1)!important;
 }
 
-.gate--selected {
-	& rect, & ellipse, & circle, & line {
-		stroke: var(--color-grey-light)!important;
-	}
+.qc-circuit text {
+	font-size: var(--text-xs);
+}
+
+.qc-circuit text, 
+.qc-circuit circle {
+	fill: var(--color-theme-1)!important;
+	stroke: none!important;
+}
+
+.qc-circuit ellipse, 
+.qc-circuit rect, 
+.qc-circuit path {
+	fill: var(--color-grey-darker)!important;
+	stroke: var(--color-theme-1)!important;
+	cursor: grab;
+}
+
+.gate--selected rect,
+.gate--selected ellipse,
+.gate--selected circle,
+.gate--selected line {
+	stroke: var(--color-grey-light)!important;
 }

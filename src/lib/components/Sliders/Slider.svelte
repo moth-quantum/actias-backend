@@ -3,8 +3,7 @@
     import { tweened, type Tweened } from 'svelte/motion';
 	import { cubicOut } from 'svelte/easing';
     import { onMount } from 'svelte';
-    import { clamp } from "$lib/utils/utils";
-    import { debounce } from '$lib/utils/utils';
+    import { clamp, throttle } from "$lib/utils/utils";
     
     const dispatch = createEventDispatcher();
     export let name: string = '';
@@ -14,7 +13,7 @@
     export let disabled: boolean = false;
 
     let sliderValue: Tweened<number> = tweened(value, {
-		duration: 400,
+		duration: 100,
 		easing: cubicOut
 	});
     
@@ -55,10 +54,10 @@
     }
 
     onMount(() => {
-        const unsubscribesliderValue = sliderValue.subscribe(debounce((v: number) => {
+        const unsubscribesliderValue = sliderValue.subscribe(throttle((v: number) => {
             value = v
             dispatch('change', value);
-        }, 10))
+        }, 25))
 
         return () => {
             unsubscribesliderValue();

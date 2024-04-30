@@ -58,7 +58,11 @@ export interface Preset {
 declare global {
     interface Window {
         isApp: boolean;
+        apiDomain: string;
+        apiToken: string;
+        apiPusherKey: string;
         electronAPI: {
+            onSetAPICredentials(callback: (data: {apiDomain: string, apiToken: string, apiPusherKey: string}) => void): void;
             onSetPreset(callback: (key: string) => void): void;
             onSavePreset(callback: () => void): void;
             onImportPreset(callback: (data: any) => void): void;
@@ -66,6 +70,7 @@ declare global {
             onExportPreset(callback: () => void): void;
             exportPresetResponse(data: any): void;
             syncUserPresets(data: {[key: string]: Preset | null}): void;
+            onQuit(callback: () => void): void;
         };
         Pusher: typeof Pusher;
         Echo: Echo;
@@ -84,7 +89,7 @@ export interface Axis {
 
 export interface User {
     id: number;
-    username: string;
+    name: string;
     location: string;
     x: number;
     y: number;
