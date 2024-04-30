@@ -53,6 +53,7 @@ declare global {
     interface Window {
         isApp: boolean;
         apiDomain: string;
+        apiWsDomain: string;
         apiToken: string;
         apiPusherKey: string;
         electronAPI: {
