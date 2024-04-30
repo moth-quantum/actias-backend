@@ -2,10 +2,9 @@
     import Select from '$lib/components/Forms/Select.svelte'; 
     import Tooltip from '$lib/components/Tooltip/Tooltip.svelte';  
     import { instrumentParameters, fxParameters, globalParameters, paramValues, randomise, keys } from '$lib/stores/parameters';
-    import { menuItems } from '$lib/stores/sideMenu';
+    import { tooltips } from '$lib/stores/tooltips';
     import { qubits } from '$lib/stores/qubits';
     import { samples } from '$lib/stores/samples';
-    import { sliderTooltips } from '$lib/stores/tooltips';
     import RangeSlider from '$lib/components/Sliders/RangeSlider.svelte';
     import Socket from '$lib/components/Patching/Socket.svelte';
     import Buttons from '$lib/components/Patching/Buttons.svelte';
@@ -17,7 +16,7 @@
     import { log } from 'tone/build/esm/core/util/Debug';
     
     export let showSockets = true;
-    export let tooltips: boolean = false;
+    export let showTooltips: boolean = false;
 
     let hoveredKey: string | null = null;
     let timeoutId: number;
@@ -61,7 +60,7 @@
                 </div>
             {/if}
             {#if type === 'range'}
-                {#if tooltips}
+                <!-- {#if showTooltips}
                     <div class="tooltip--parent">
                         {#if hoveredKey === key}
                             <Tooltip
@@ -86,7 +85,7 @@
                     </div>
                 {:else}
                     <h3>{name}</h3>
-                {/if}
+                {/if} -->
                 <RangeSlider 
                     {min} {max} {step} {units} 
                     value={$paramValues[key]}
@@ -120,13 +119,14 @@
     </button>
     {#each $globalParameters as {name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)}
         <div class="parameter">
-            {#if tooltips}
+            
+            <!-- {#if showTooltips}
                 <div class="tooltip--parent">
                     {#if hoveredKey === key}
                         <Tooltip
                             classes="tooltip--show"
                             element={key.toLowerCase()} 
-                            message={ $sliderTooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}
+                            message={ $tooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}
                         />
                     {/if}
                     
@@ -146,7 +146,7 @@
                 </div>
             {:else}
                 <h3>{name}</h3>
-            {/if}
+            {/if} -->
             <RangeSlider 
                 {min} {max} {step} {units} 
                 value={$paramValues[key]}
@@ -180,13 +180,13 @@
 
     {#each $fxParameters as {name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)}
         <div class="parameter">
-            {#if tooltips}
+            <!-- {#if showTooltips}
                 <div class="tooltip--parent">
                     {#if hoveredKey === key}
                         <Tooltip 
                             classes="tooltip--show"
                             element={key.toLowerCase()} 
-                            message={ $sliderTooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}
+                            message={ $tooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}
                         />
                     {/if}
                     
@@ -206,7 +206,7 @@
                 </div>
             {:else}
                 <h3>{name}</h3>
-            {/if}
+            {/if} -->
             <RangeSlider 
                 {min} {max} {step} {units} 
                 value={$paramValues[key]}

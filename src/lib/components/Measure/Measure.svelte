@@ -1,14 +1,13 @@
 <script lang="ts">
     import Select from '$lib/components/Forms/Select.svelte';   
     import { measure, seconds, bpm, beats, source, isMeasuring } from '$lib/stores/qubits';
-    import { buttonTooltips } from '$lib/stores/tooltips';
+    import { tooltips } from '$lib/stores/tooltips';
     import { isApp, mute } from '$lib/stores/global';
     import Lottie from '$lib/components/Lottie/Lottie.svelte';
     import lottieSrc from '$lib/images/measuring.json';
     import Tooltip from '$lib/components/Tooltip/Tooltip.svelte';
 
-    export let tooltips: boolean = false;
-    let isHovered = false;
+    export let showTooltips: boolean = false;
     
     const machines = [
         {name: 'local', active: true}, 
@@ -54,11 +53,11 @@
         />
     </form>
     <div class="button">
-        {#if tooltips}
+        <!-- {#if showTooltips}
             <div class="tooltip--parent">
-                <!-- {#if isHovered} -->
-                    <Tooltip classes="tooltip--measure {isHovered ? 'tooltip--show' : ''}" element='measure' message={ $buttonTooltips.find(tooltip => tooltip.element.toLowerCase() === 'measure')?.message || ''} />
-                <!-- {/if} -->
+                {#if isHovered}
+                    <Tooltip classes="tooltip--measure {isHovered ? 'tooltip--show' : ''}" element='measure' message={ $tooltips.find(tooltip => tooltip.element.toLowerCase() === 'measure')?.message || ''} />
+                {/if}
                 <button
                     on:click|preventDefault={() => measure()}
                     disabled={$isMeasuring}
@@ -83,7 +82,7 @@
                     <span class="button__text">Measure</span>
                 {/if}
             </button>
-        {/if}
+        {/if} -->
         
     </div>
 </div>

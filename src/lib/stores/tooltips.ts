@@ -1,8 +1,7 @@
 import type { Tooltip } from '$lib/types';
 import { writable, type Writable } from 'svelte/store';
 
-// range parameters tooltips - element must match 'key' property in parameters.ts (all lower case)
-export const sliderTooltips: Writable<Tooltip[]> = writable<Tooltip[]>([
+export const tooltips: Writable<Tooltip[]> = writable<Tooltip[]>([
 	{ element: 'op1fb', message: 'This is an op1fb tooltip message' },
 	{ element: 'op2ratio', message: 'This is an op2ratio tooltip message' },
 	{ element: 'op2gain', message: 'This is an op2gain tooltip message' },
@@ -26,16 +25,8 @@ export const sliderTooltips: Writable<Tooltip[]> = writable<Tooltip[]>([
 	{ element: 'crush', message: 'This is an crush tooltip message' },
 	{ element: 'hicut', message: 'This is an hicut tooltip message' },
 	{ element: 'locut', message: 'This is an locut tooltip message' },
-]);
-
-// misc button tooltips
-export const buttonTooltips: Writable<Tooltip[]> = writable<Tooltip[]>([
 	{ element: 'measure', message: 'This is a Measure tooltip message' },
-	{ element: 'drone', message: 'This is a Drone tooltip message' }
-]);
-
-// knobs tooltips
-export const knobTooltips: Writable<Tooltip[]> = writable<Tooltip[]>([
+	{ element: 'drone', message: 'This is a Drone tooltip message' },
 	{ element: 'vol', message: 'This is a volume tooltip message' },
 	{ element: 'amp_a', message: 'This is an amp_a tooltip message' },
 	{ element: 'amp_d', message: 'This is an amp_d tooltip message' },
@@ -44,5 +35,5 @@ export const knobTooltips: Writable<Tooltip[]> = writable<Tooltip[]>([
 	{ element: 'mod_a', message: 'This is a mod_a tooltip message' },
 	{ element: 'mod_d', message: 'This is a mod_d tooltip message' },
 	{ element: 'mod_s', message: 'This is a mod_s tooltip message' },
-	{ element: 'mod_r', message: 'This is a mod_r tooltip message' },
+	{ element: 'mod_r', message: 'This is a mod_r tooltip message' }
 ]);

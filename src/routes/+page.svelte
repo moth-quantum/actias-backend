@@ -131,7 +131,7 @@
 <section class={`container synth ${ $fs ? 'synth--fullscreen' : ''}`}>
     
     <div class="parameters">
-        <Parameters tooltips={tooltipsActive}/>
+        <Parameters showTooltips={tooltipsActive}/>
     </div>
 
     <div class="interface">
@@ -147,7 +147,7 @@
             <div class="controls">
                 <div class="keyboard">
                     {#if tooltipsActive}
-                        <Controls tooltips={tooltipsActive}/>
+                        <Controls showTooltips={tooltipsActive}/>
                     {:else}
                         <Controls />
                     {/if}
@@ -155,7 +155,7 @@
         
                 <div class="measure">
                     {#if tooltipsActive}
-                        <Measure tooltips={tooltipsActive}/>
+                        <Measure showTooltips={tooltipsActive}/>
                     {:else}
                         <Measure />
                     {/if}
