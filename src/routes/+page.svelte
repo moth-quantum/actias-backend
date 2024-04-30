@@ -2,7 +2,6 @@
     import { onMount } from 'svelte';
     import { startAudio } from '../sound';
     import { fullscreen as fs, showKeyboard, showSideMenu, isApp } from '$lib/stores/global';
-    import { menuItems } from '$lib/stores/sideMenu';
     import { redrawCables } from '$lib/stores/patching';
     import { activeQubitCount } from '$lib/stores/qubits';
     import Presets from '$lib/components/Presets/Presets.svelte';
@@ -32,7 +31,6 @@
     
     library.add(faBars);
 
-    let performanceModeActive = false;
     let isDesktop = false;
     let sidebarIsHidden = true; 
     let transitionParams = {
@@ -49,14 +47,8 @@
     onMount(async () => {
         isDesktop = window.innerWidth > 1200
         redrawCables(500)
-        
-        const unsubscribeMenuItems = menuItems.subscribe(items => {
-            let performanceMode = items.find(item => item.name === 'perform');
-            performanceModeActive = performanceMode?.isActive || false;
-            console.log(performanceModeActive)
-        });
 
-        if(!isApp()) return () => unsubscribeMenuItems()
+        if(!isApp()) return
         
         initElectronAPI()
         
