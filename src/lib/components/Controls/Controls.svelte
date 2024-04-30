@@ -2,7 +2,7 @@
     import { envelopes } from '$lib/stores/envelopes';
     import { volume } from '$lib/stores/global';
     import { drone } from '$lib/stores/parameters';
-    import { buttonTooltips } from '$lib/stores/tooltips';
+    import { buttonTooltips, knobTooltips } from '$lib/stores/tooltips';
     import Knob from '$lib/components/Knob/Knob.svelte';
     import Keyboard from '$lib/components/Keyboard/Keyboard.svelte';
     import Button from '$lib/components/Button/Button.svelte';
@@ -13,18 +13,18 @@
     library.add(faSignal, faCircle);
     
     export let tooltips: boolean = false;
-    let isHovered = false;
+    let hoveredEl: string | null = null;
 </script>
 
 <div class="controls">
     <h2 class="visually-hidden">Controls</h2>
     
-    <div class="buttons" on:mouseenter={() => isHovered = true}
-        on:mouseleave={() => isHovered = false}>
+    <div class="buttons" on:mouseenter={() => hoveredEl = 'drone'}
+        on:mouseleave={() => hoveredEl = null}>
         {#if tooltips}
             <div class="tooltip--parent">
                 <Tooltip 
-                    classes="tooltip--drone {isHovered ? 'tooltip--show' : ''}" 
+                    classes="tooltip--drone {hoveredEl === 'drone' ? 'tooltip--show' : ''}" 
                     element='drone' 
                     message={$buttonTooltips.find(tooltip => tooltip.element.toLowerCase() === 'drone')?.message || ''} 
                 />
@@ -50,14 +50,40 @@
                 <h3>Vol</h3>
             </div>
             <div class="knobs__knob knobs__knob--vol">
-                <Knob name="Vol" pixelRange={200} bind:value={$volume}/>
+                {#if tooltips}
+                <div class="tooltip--parent-knob">
+                    <Tooltip 
+                        classes="tooltip--knob {hoveredEl === 'vol' ? 'tooltip--show' : ''}" 
+                        element='Vol' 
+                        message={$knobTooltips.find(tooltip => tooltip.element.toLowerCase() === 'vol')?.message || ''} 
+                    />
+                    <div on:mouseenter={() => hoveredEl = 'vol'}
+                        on:mouseleave={() => hoveredEl = null}>
+                        <Knob name="Vol" pixelRange={200} bind:value={$volume}/>
+                    </div>
+                </div>
+                {:else}
+                    <Knob name="Vol" pixelRange={200} bind:value={$volume}/>
+                {/if}
             </div>
             {#each $envelopes as {name, a, d, s, r}, i (name)}
                 <div class="knobs__title knobs__title--envelope__{i}">
                     <h3>{name}</h3>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_a`}">
-                    <Knob bind:value={a} pixelRange={200} min={0.01} name="a"/>
+                    {#if tooltips}
+                    <div class="tooltip--parent-knob" on:mouseenter={() => hoveredEl = `${name}_a`}
+                        on:mouseleave={() => hoveredEl = null}>
+                        <Tooltip 
+                            classes="tooltip--knob {hoveredEl === `${name}_a` ? 'tooltip--show' : ''}" 
+                            element={`${name}_a`} 
+                            message={$knobTooltips.find(tooltip => tooltip.element.toLowerCase() === `${name}_a`.toLowerCase())?.message || ''} 
+                        />
+                        <Knob bind:value={a} pixelRange={200} min={0.01} name="a"/>
+                    </div>
+                    {:else}
+                        <Knob bind:value={a} pixelRange={200} min={0.01} name="a"/>
+                    {/if}
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_d`}">
                     <Knob bind:value={d} pixelRange={200} min={0.01} name="d"/>
@@ -238,10 +264,10 @@
         height: 100%;
         cursor: pointer;
         &:hover {
-                border-radius: 5px;
-                box-shadow: 0 0 5px 5px rgba(7,157,147, 0.9);
-                transition: all 0.3s;
-            }
+            border-radius: 5px;
+            box-shadow: 0 0 8px 8px rgba(7,157,147, 0.9);
+            transition: all 0.3s;
+        }
         & > button {
             height: 100%;
         }
