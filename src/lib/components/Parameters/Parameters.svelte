@@ -18,9 +18,6 @@
     export let showSockets = true;
     export let showTooltips: boolean = false;
 
-    let hoveredKey: string | null = null;
-    let timeoutId: number;
-
     let axesIds = $qubits[0].axes.map(({key}) => key);
     let sampleOptions: {name: string, value: number, active: boolean}[] = [];
 
@@ -60,32 +57,13 @@
                 </div>
             {/if}
             {#if type === 'range'}
-                <!-- {#if showTooltips}
-                    <div class="tooltip--parent">
-                        {#if hoveredKey === key}
-                            <Tooltip
-                                classes="tooltip--show"
-                                element={key.toLowerCase()} 
-                                message={ $sliderTooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}
-                            />
-                        {/if}
-                        <h3 
-                            on:mouseenter={() => {
-                                clearTimeout(timeoutId);
-                                hoveredKey = key;
-                            }}
-                            on:mouseleave={() => {
-                                timeoutId = setTimeout(() => {
-                                    hoveredKey = null;
-                                }, 500); // delay in milliseconds
-                            }}
-                        >
-                            {name}
-                        </h3>
-                    </div>
+                {#if showTooltips}
+                    <Tooltip element={key}>
+                        <h3>{name}</h3>
+                    </Tooltip>
                 {:else}
                     <h3>{name}</h3>
-                {/if} -->
+                {/if}
                 <RangeSlider 
                     {min} {max} {step} {units} 
                     value={$paramValues[key]}
@@ -119,34 +97,13 @@
     </button>
     {#each $globalParameters as {name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)}
         <div class="parameter">
-            
-            <!-- {#if showTooltips}
-                <div class="tooltip--parent">
-                    {#if hoveredKey === key}
-                        <Tooltip
-                            classes="tooltip--show"
-                            element={key.toLowerCase()} 
-                            message={ $tooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}
-                        />
-                    {/if}
-                    
-                    <h3 
-                        on:mouseenter={() => {
-                            clearTimeout(timeoutId);
-                            hoveredKey = key;
-                        }}
-                        on:mouseleave={() => {
-                            timeoutId = setTimeout(() => {
-                                hoveredKey = null;
-                            }, 500); // delay in milliseconds
-                        }}
-                    >
-                        {name}
-                    </h3>
-                </div>
+            {#if showTooltips}
+                <Tooltip element={key}>
+                    <h3>{name}</h3>
+                </Tooltip>
             {:else}
                 <h3>{name}</h3>
-            {/if} -->
+            {/if}
             <RangeSlider 
                 {min} {max} {step} {units} 
                 value={$paramValues[key]}
@@ -180,33 +137,13 @@
 
     {#each $fxParameters as {name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)}
         <div class="parameter">
-            <!-- {#if showTooltips}
-                <div class="tooltip--parent">
-                    {#if hoveredKey === key}
-                        <Tooltip 
-                            classes="tooltip--show"
-                            element={key.toLowerCase()} 
-                            message={ $tooltips.find(tooltip => tooltip.element.toLowerCase() === key.toLowerCase())?.message || ''}
-                        />
-                    {/if}
-                    
-                    <h3 
-                        on:mouseenter={() => {
-                            clearTimeout(timeoutId);
-                            hoveredKey = key;
-                        }}
-                        on:mouseleave={() => {
-                            timeoutId = setTimeout(() => {
-                                hoveredKey = null;
-                            }, 500); // delay in milliseconds
-                        }}
-                    >
-                        {name}
-                    </h3>
-                </div>
+            {#if showTooltips}
+                <Tooltip element={key}>
+                    <h3>{name}</h3>
+                </Tooltip>
             {:else}
                 <h3>{name}</h3>
-            {/if} -->
+            {/if}
             <RangeSlider 
                 {min} {max} {step} {units} 
                 value={$paramValues[key]}
@@ -303,23 +240,5 @@
 
     .group:last-of-type {
         margin-bottom: 0;
-    }
-
-    .tooltip--parent {
-        position: relative;
-        height: 100%;
-        & > h3 {
-            cursor: pointer;
-            width: fit-content;
-
-            &:hover {
-                background-color: rgba(7,157,147, 0.9);
-                border-radius: 2px;
-                box-shadow: 0 0 5px 5px rgba(7,157,147, 0.9);
-                transition: all 0.3s;
-            }
-            
-
-        }
     }
 </style>

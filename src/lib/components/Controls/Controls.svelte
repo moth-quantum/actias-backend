@@ -49,51 +49,53 @@
                 <h3>Vol</h3>
             </div>
             <div class="knobs__knob knobs__knob--vol">
-                <!-- {#if showTooltips}
-                <div class="tooltip--parent-knob">
-                    <Tooltip 
-                        classes="tooltip--knob {hoveredEl === 'vol' ? 'tooltip--show' : ''}" 
-                        element='Vol' 
-                        message={$tooltips.find(tooltip => tooltip.element.toLowerCase() === 'vol')?.message || ''} 
-                    />
-                    <div on:mouseenter={() => hoveredEl = 'vol'}
-                        on:mouseleave={() => hoveredEl = null}>
+                {#if showTooltips}
+                    <Tooltip element='Vol' type="knob">
                         <Knob name="Vol" pixelRange={200} bind:value={$volume}/>
-                    </div>
-                </div>
+                    </Tooltip>
                 {:else}
                     <Knob name="Vol" pixelRange={200} bind:value={$volume}/>
-                {/if} -->
-                <Knob name="Vol" pixelRange={200} bind:value={$volume}/>
+                {/if}
             </div>
             {#each $envelopes as {name, a, d, s, r}, i (name)}
                 <div class="knobs__title knobs__title--envelope__{i}">
                     <h3>{name}</h3>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_a`}">
-                    <!-- {#if tooltips}
-                    <div class="tooltip--parent-knob" on:mouseenter={() => hoveredEl = `${name}_a`}
-                        on:mouseleave={() => hoveredEl = null}>
-                        <Tooltip 
-                            classes="tooltip--knob {hoveredEl === `${name}_a` ? 'tooltip--show' : ''}" 
-                            element={`${name}_a`} 
-                            message={$knobTooltips.find(tooltip => tooltip.element.toLowerCase() === `${name}_a`.toLowerCase())?.message || ''} 
-                        />
-                        <Knob bind:value={a} pixelRange={200} min={0.01} name="a"/>
-                    </div>
+                    {#if showTooltips}
+                        <Tooltip element={`${name}_a`} type="knob">
+                            <Knob bind:value={a} pixelRange={200} min={0.01} name="a"/>
+                        </Tooltip>
                     {:else}
                         <Knob bind:value={a} pixelRange={200} min={0.01} name="a"/>
-                    {/if} -->
-                    <Knob bind:value={a} pixelRange={200} min={0.01} name="a"/>
+                    {/if}
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_d`}">
-                    <Knob bind:value={d} pixelRange={200} min={0.01} name="d"/>
+                    {#if showTooltips}
+                        <Tooltip element={`${name}_d`} type="knob">
+                            <Knob bind:value={d} pixelRange={200} min={0.01} name="d"/>
+                        </Tooltip>
+                    {:else}
+                        <Knob bind:value={d} pixelRange={200} min={0.01} name="d"/>
+                    {/if}
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_s`}">
-                    <Knob bind:value={s} pixelRange={200} min={0.01} name="s"/>
+                    {#if showTooltips}
+                        <Tooltip element={`${name}_s`} type="knob">
+                            <Knob bind:value={s} pixelRange={200} min={0.01} name="s"/>
+                        </Tooltip>
+                    {:else}
+                        <Knob bind:value={s} pixelRange={200} min={0.01} name="s"/>
+                    {/if}
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_r`}">
-                    <Knob bind:value={r} pixelRange={200} min={0.01} name="r"/>
+                    {#if showTooltips}
+                        <Tooltip element={`${name}_r`} type="knob">
+                            <Knob bind:value={r} pixelRange={200} min={0.01} name="r"/>
+                        </Tooltip>
+                    {:else}
+                        <Knob bind:value={r} pixelRange={200} min={0.01} name="r"/>
+                    {/if}
                 </div>
             {/each}
         </div>
