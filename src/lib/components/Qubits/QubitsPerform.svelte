@@ -20,12 +20,18 @@
 					return axes;
 			});
 	}
-	$: isSingle = $activeQubitCount === 1 || windowWidth < 1000;
-	$: isDouble = ($activeQubitCount%2 === 0 || $activeQubitCount === 2) && !isSingle;
-	$: isTriple = ($activeQubitCount%3 === 0 || $activeQubitCount === 3) && !isSingle && !isDouble;
-	$: isQuadruple = ($activeQubitCount%4 === 0 || $activeQubitCount === 4) && !isSingle && !isDouble && !isTriple;
+	$: isSingle = $activeQubitCount === 1 || windowWidth < 1500;
+	$: isDouble = $activeQubitCount%2 === 0 && windowWidth >= 1500;
+	$: isTriple = $activeQubitCount%3 === 0 && windowWidth >= 1500;
+	$: isQuadruple = $activeQubitCount >= 8 && $activeQubitCount != 9 && windowWidth >= 1500;
+	$: isFive = $activeQubitCount === 5 && windowWidth > 1500;
+	$: isSeven = $activeQubitCount === 7 && windowWidth > 1500;
+	$: isEleven = $activeQubitCount === 11 && windowWidth > 1500;
+
 	$: isFullHeight = ($activeQubitCount === 1 && windowWidth > 1000) 
 			|| ($activeQubitCount === 2 && windowWidth > 1000) || ($activeQubitCount === 3 && windowWidth > 1000);
+	$: isHalfHeight = ($activeQubitCount >= 4 && windowWidth >= 1500) && !isThirdHeight;
+	$: isThirdHeight = ($activeQubitCount >= 9 && windowWidth >= 1500);
 
 	onMount(() => {
 			windowWidth = window.innerWidth;
@@ -46,6 +52,8 @@
 					class:qubit--double={isDouble && windowWidth > 1500}
 					class:qubit--triple={isTriple && windowWidth > 1500}
 					class:qubit--four={isQuadruple && windowWidth > 1500}
+					class:qubit--five={isFive && windowWidth > 1500}
+					class:qubit--seven={isSeven && windowWidth > 1500}
 					class:qubit--full-height={isFullHeight}
 					class:qubit--border={qubit.user !== 'you'}
 					style="border-color: {getUserColour(qubit.user)};"
@@ -87,47 +95,111 @@
 	}
 
 	.qubit {
-			position: relative;
-			box-sizing: border-box;
-			background-color: var(--color-grey-dark);
-			display: grid;
-			gap: 1rem;
-			grid-template-rows: 1fr;
-			grid-template-columns: 1fr;
-			border-radius: 10px;
+      position: relative;
+      box-sizing: border-box;
+      background-color: var(--color-grey-dark);
+      display: grid;
+      gap: 1rem;
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr;
+      border-radius: 10px;
 
-			&--full-height {
-					height: 100%;
-			}
+      &--full-height {
+          height: 100%;
+      }
 
-			&--single {
-					flex-basis: 100%;
-					margin-bottom: 1rem;
-					&:nth-last-of-type(1) {
-							margin-bottom: 0;
-					}
-			}
+      &--half-height {
+          height: calc(50% - 0.5rem);
 
-			&--double {
-					flex-basis: calc(50% - 0.5rem);
-					margin-bottom: 1rem;
-					&:nth-child(2n) {
-							margin-left: 1rem;
-					}
-			}
+      }
 
-			&--triple {
-					flex-basis: calc(33.3333% - 0.6666rem);
-					height: 100%;
-					margin-right: 1rem;
-					margin-bottom: 1rem;
-					&:nth-child(3n) {
-							margin-right: 0rem;
-					}
-			}
-			&--border {
-					border: 2px solid;
-			}
+      &--third-height {
+          height: calc(33.3333% - 0.6666rem);
+          margin-bottom: 1rem;
+      }
+
+      &--single {
+          flex-basis: 100%;
+          margin-bottom: 1rem;
+          &:nth-last-of-type(1) {
+              margin-bottom: 0;
+          }
+      }
+
+      &--double {
+          flex-basis: calc(50% - 0.5rem);
+          margin-bottom: 1rem;
+          &:nth-child(2n) {
+              margin-left: 1rem;
+          }
+      }
+
+      &--triple {
+          flex-basis: calc(33.33% - 1rem);
+          &:nth-child(n) {
+            margin-right: 1rem;
+            margin-left: 0;
+          }
+          &:nth-child(2) {
+            margin-right: 1rem;
+            margin-left: 0;
+          }
+          &:nth-child(3n) {
+            margin-right: 0;
+          }
+      }
+
+      &--four {
+        flex-basis: calc(25% - 0.75rem);
+        &:nth-child(2) {
+            margin-right: 1rem;
+        }
+        &:nth-child(6) {
+            margin-right: 1rem;
+        }
+      }
+      &--five {
+        flex-basis: calc(33.3333% - 0.6666rem);
+        margin-right: 1rem;
+        margin-bottom: 1rem;
+        &:nth-child(1) {
+            flex-basis: calc(50% - 0.5rem);
+        }
+        &:nth-child(2) {
+            flex-basis: calc(50% - 0.5rem);
+            margin-right: 0rem;
+        }
+        &:nth-child(5n) {
+            margin-right: 0;
+        }
+      }
+
+      &--seven {
+          flex-basis: calc(25% - 0.75rem);
+          margin-bottom: 1rem;
+
+          &:nth-child(1) {
+              margin-left: 0;
+              margin-right: 1rem;
+          }
+
+          &:nth-child(2),
+          &:nth-child(3) {
+              margin-right: 1rem;
+          }
+
+          &:nth-child(5),
+          &:nth-child(6),
+          &:nth-child(7) {
+              flex-basis: calc(33.3333% - 0.75rem);
+              margin-right: 1rem;
+          }
+
+          &:nth-child(7) {
+              margin-right: 0;
+              margin-left: 0;
+          }
+      }
 
 			&__info {
 					position: absolute;
