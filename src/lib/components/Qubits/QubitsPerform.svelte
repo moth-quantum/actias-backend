@@ -55,6 +55,8 @@
 					class:qubit--five={isFive && windowWidth > 1500}
 					class:qubit--seven={isSeven && windowWidth > 1500}
 					class:qubit--full-height={isFullHeight}
+					class:qubit--half-height={isHalfHeight}
+					class:qubit--third-height={isThirdHeight}
 					class:qubit--border={qubit.user !== 'you'}
 					style="border-color: {getUserColour(qubit.user)};"
 
