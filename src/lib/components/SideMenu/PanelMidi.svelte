@@ -4,6 +4,9 @@
     import { actions } from '$lib/stores/midi';
     import Select from '$lib/components/Forms/Select.svelte';
     import Counter from '$lib/components/Forms/Counter.svelte';
+    // @ts-ignore
+    import { FontAwesomeIcon } from 'fontawesome-svelte';
+    import { faMinus } from '@fortawesome/free-solid-svg-icons';
 
     const handleAddDevice = () => {
         const firstInactiveIndex = get(inputs).find(input => !input.active);
@@ -21,6 +24,10 @@
             : input
         ));
     }
+
+    const handleRemoveDevice = (device: string) => {
+        deactivateInput(device);
+    }
 </script>
 
 <section>
@@ -32,6 +39,9 @@
         {#each $inputs as {name, channel}}
             {#if $activeInputs.includes(name)}
                 <div class="device">
+                    <button on:click={() => handleRemoveDevice(name)} class="device__remove">
+                        <FontAwesomeIcon icon={faMinus} />
+                    </button>
                     <Select 
                         id="device" 
                         options={$inputs.map(input => ({name: input.name, value: input.name, active: true}))}
@@ -106,6 +116,14 @@
 
         .device {
             margin-bottom: 0.75rem;
+            position: relative;
+
+            &__remove {
+                position: absolute;
+                top: 0.5rem;
+                left: -1rem;
+                font-size: var(--text-sm);
+            }
         }
 
         .add-device {
