@@ -134,8 +134,10 @@ function handleControlChange(e: any) {
     const { value, controller: { number } } = e;
     const isLearning = get(learn);
     const controlToLearn = get(learnControl);
+
     if(isLearning && controlToLearn) {
         const args = controlToLearn.split('-');
+        console.log(args)
         args[0] === 'qubit' && mapQubitToMidi(parseInt(args[1]), parseInt(args[2]), number)
     }
 

@@ -55,6 +55,7 @@
                 <h3>{name}</h3>
 
                 <RangeSlider 
+                    id={name}
                     {min} {max} {step} {units} 
                     value={$paramValues[key]}
                     bind:rangeA={rangeA} 
