@@ -20,7 +20,7 @@
         activateInput(next);
     }
 
-    const handleOnChangeChannel = (device: string, channel: number) => {
+    const handleOnChangeChannel = (channel: number, device: string) => {
         inputs.update(inputs => inputs.map(input => input.name === device 
             ? { ...input, channel } 
             : input
@@ -53,7 +53,7 @@
                     />
                     <Counter 
                         value={channel}
-                        on:change={e => handleOnChangeChannel(name, e.detail.value)}
+                        on:change={e => handleOnChangeChannel(e.detail.value, name)}
                     />
                 </div>
             {/if}
