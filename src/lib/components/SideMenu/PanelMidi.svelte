@@ -1,24 +1,34 @@
-<script lang="ts">
+<script lang="ts">    
     import { get } from 'svelte/store';
     import { activateInput, deactivateInput, inputs, activeInputs } from '$lib/stores/midi';
+    import { actions } from '$lib/stores/midi';
     import Select from '$lib/components/Forms/Select.svelte';
     import Counter from '$lib/components/Forms/Counter.svelte';
+    // @ts-ignore
+    import { FontAwesomeIcon } from 'fontawesome-svelte';
+    import { faMinus } from '@fortawesome/free-solid-svg-icons';
 
     const handleAddDevice = () => {
         const firstInactiveIndex = get(inputs).find(input => !input.active);
         firstInactiveIndex && activateInput(firstInactiveIndex.name);
     }
 
-    const handleOnChangeDevice = (prev: string, next: string) => {
+    const handleOnChangeDevice = (e: Event, prev: string) => {
+        const target = e.target as HTMLButtonElement;
+        const next = target.value
         deactivateInput(prev);
         activateInput(next);
     }
 
-    const handleOnChangeChannel = (device: string, channel: number) => {
+    const handleOnChangeChannel = (channel: number, device: string) => {
         inputs.update(inputs => inputs.map(input => input.name === device 
             ? { ...input, channel } 
             : input
         ));
+    }
+
+    const handleRemoveDevice = (device: string) => {
+        deactivateInput(device);
     }
 </script>
 
@@ -31,16 +41,19 @@
         {#each $inputs as {name, channel}}
             {#if $activeInputs.includes(name)}
                 <div class="device">
+                    <button on:click={() => handleRemoveDevice(name)} class="device__remove">
+                        <FontAwesomeIcon icon={faMinus} />
+                    </button>
                     <Select 
                         id="device" 
                         options={$inputs.map(input => ({name: input.name, value: input.name, active: true}))}
                         selected={name}
-                        onChange={(e) => handleOnChangeDevice(name, e.target?.value)} 
+                        onChange={(e) => handleOnChangeDevice(e, name)} 
                         uppercase={false}
                     />
                     <Counter 
                         value={channel}
-                        on:change={e => handleOnChangeChannel(name, e.detail.value)}
+                        on:change={e => handleOnChangeChannel(e.detail.value, name)}
                     />
                 </div>
             {/if}
@@ -59,8 +72,13 @@
         </div>
         {/if}
     </div>
-    <div class="group learn">
-        <h3 class="title">Midi Learn</h3>
+    <div class="group map">
+        <h3 class="title">Midi Map</h3>
+        <ul class="map__list">
+            {#each Object.entries($actions) as [i, {label}]}
+                <li>cc{i}: {label}</li>
+            {/each}
+        </ul>
     </div>
 </section>
 
@@ -100,6 +118,14 @@
 
         .device {
             margin-bottom: 0.75rem;
+            position: relative;
+
+            &__remove {
+                position: absolute;
+                top: 0.5rem;
+                left: -1rem;
+                font-size: var(--text-sm);
+            }
         }
 
         .add-device {
@@ -116,6 +142,15 @@
 
         & .group {
             margin-bottom: 2rem;            
+        }
+
+        .map {
+            &__list {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                font-size: var(--text-sm);
+            }
         }
     }
 </style>
