@@ -13,7 +13,9 @@
         firstInactiveIndex && activateInput(firstInactiveIndex.name);
     }
 
-    const handleOnChangeDevice = (prev: string, next: string) => {
+    const handleOnChangeDevice = (e: Event, prev: string) => {
+        const target = e.target as HTMLButtonElement;
+        const next = target.value
         deactivateInput(prev);
         activateInput(next);
     }
@@ -46,7 +48,7 @@
                         id="device" 
                         options={$inputs.map(input => ({name: input.name, value: input.name, active: true}))}
                         selected={name}
-                        onChange={(e) => handleOnChangeDevice(name, e.target?.value)} 
+                        onChange={(e) => handleOnChangeDevice(e, name)} 
                         uppercase={false}
                     />
                     <Counter 
