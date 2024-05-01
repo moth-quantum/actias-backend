@@ -6,10 +6,7 @@
 	import { getUserColour, getUserName } from '$lib/stores/users';
 	import { isApp } from '$lib/stores/global';
 	import { onMount } from 'svelte';
-	import { get } from 'svelte/store';
 	
-	let axesIds = ['x', 'y', 'z'];
-	let axesNames = ['λ', 'φ', 'θ'];
 	let windowWidth: number;
 
 	const handleScroll = debounce(() => redrawCables(), 1);
@@ -26,7 +23,9 @@
 	$: isQuadruple = $activeQubitCount >= 8 && $activeQubitCount != 9 && windowWidth >= 1500;
 	$: isFive = $activeQubitCount === 5 && windowWidth > 1500;
 	$: isSeven = $activeQubitCount === 7 && windowWidth > 1500;
+	$: isTen = $activeQubitCount === 10 && windowWidth > 1500;
 	$: isEleven = $activeQubitCount === 11 && windowWidth > 1500;
+	$: isTwelve = $activeQubitCount === 12 && windowWidth > 1500;
 
 	$: isFullHeight = ($activeQubitCount === 1 && windowWidth > 1000) 
 			|| ($activeQubitCount === 2 && windowWidth > 1000) || ($activeQubitCount === 3 && windowWidth > 1000);
@@ -54,9 +53,14 @@
 					class:qubit--four={isQuadruple && windowWidth > 1500}
 					class:qubit--five={isFive && windowWidth > 1500}
 					class:qubit--seven={isSeven && windowWidth > 1500}
+					class:qubit--ten={isTen && windowWidth > 1500}
+					class:qubit--eleven={isEleven && windowWidth > 1500}
+					class:qubit--twelve={isTwelve && windowWidth > 1500}
+
 					class:qubit--full-height={isFullHeight}
 					class:qubit--half-height={isHalfHeight}
 					class:qubit--third-height={isThirdHeight}
+
 					class:qubit--border={qubit.user !== 'you'}
 					style="border-color: {getUserColour(qubit.user)};"
 
@@ -112,12 +116,10 @@
 
       &--half-height {
           height: calc(50% - 0.5rem);
-
       }
 
       &--third-height {
           height: calc(33.3333% - 0.6666rem);
-          margin-bottom: 1rem;
       }
 
       &--single {
@@ -152,6 +154,7 @@
       }
 
       &--four {
+				margin-right: 1rem;
         flex-basis: calc(25% - 0.75rem);
         &:nth-child(2) {
             margin-right: 1rem;
@@ -201,6 +204,53 @@
               margin-right: 0;
               margin-left: 0;
           }
+      }
+
+			&--ten {
+				&:nth-child(1), &:nth-child(2), &:nth-child(3), &:nth-child(4), &:nth-child(5), &:nth-child(6){
+					flex-basis: calc(33.33% - 0.75rem);
+					
+				}
+				&:nth-child(2n) {
+					margin-left: 0;
+				}
+				&:nth-child(3n) {
+					margin-right: 0;
+				}
+
+				&:nth-child(9) {
+					margin-right: 1rem;
+				}
+
+				&:nth-child(10) {
+					margin-right: 0;
+				}
+			}
+
+			&--eleven {
+				margin-right: 1rem;
+				&:nth-child(1), &:nth-child(2), &:nth-child(3) {
+					flex-basis: calc(33.33% - 0.75rem);
+				}
+				&:nth-child(3) {
+					margin-right: 0;
+				}
+
+				&:nth-child(7), &:nth-child(11) {
+					margin-right: 0;
+				}
+			}
+
+			&--twelve {
+        flex-basis: calc(25% - 0.75rem);
+        
+				&:nth-child(3n) {
+					margin-right: 1rem;
+				}
+				&:nth-child(4n) {
+					margin-right: 0;
+				}
+				
       }
 
 			&__info {
