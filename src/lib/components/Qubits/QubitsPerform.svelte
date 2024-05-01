@@ -55,11 +55,12 @@
 									<span style="background-color: {getUserColour(qubit.user)}">{(i + 1).toString().padStart(2, '0')}</span>
 									<span style="background-color: {getUserColour(qubit.user)}">{getUserName(qubit.user)}</span>
 							</h3>
+					{:else}
+							<h3 class="qubit__info">
+									<span style="border: 1px solid #FEF4E5; color: #FEF4E5;
+									">{(i + 1).toString().padStart(2, '0')}</span>
+							</h3>
 					{/if}
-					<h3 class="qubit__info">
-						<span style="background-color: {getUserColour(qubit.user)}">{(i + 1).toString().padStart(2, '0')}</span>
-						<span style="background-color: {getUserColour(qubit.user)}">{getUserName(qubit.user)}</span>
-					</h3>
 					<div class="qubit__qubit">
 							<QubitPerform 
 									number={i}
