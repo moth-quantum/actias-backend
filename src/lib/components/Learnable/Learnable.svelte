@@ -11,6 +11,8 @@
     <slot />
 {/if}
 
-<style>
-    /* Add your component styles here */
+<style lang="scss">
+    button {
+        position: relative;
+    }
 </style>

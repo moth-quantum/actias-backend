@@ -130,7 +130,15 @@ export const mapQubitToMidi = (qubit: number, axis: number, cc: number) => {
 }
 
 function handleControlChange(e: any) {
+    // Handle any new midi learn actions
     const { value, controller: { number } } = e;
+    const isLearning = get(learn);
+    const controlToLearn = get(learnControl);
+    if(isLearning && controlToLearn) {
+        const args = controlToLearn.split('-');
+        args[0] === 'qubit' && mapQubitToMidi(parseInt(args[1]), parseInt(args[2]), number)
+    }
+
+    // Perform the action
     get(actions)[number]?.action(value)
-    console.log(get(learn), get(learnControl))
 }

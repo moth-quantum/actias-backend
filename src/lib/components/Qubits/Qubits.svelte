@@ -12,8 +12,8 @@
     import { onMount } from 'svelte';
     import { get } from 'svelte/store';
     
-    let axesIds = ['x', 'y', 'z'];
-    let axesNames = ['λ', 'φ', 'θ'];
+    let axesIds = ['z', 'y', 'x'];
+    let axesNames = ['θ', 'φ', 'λ'];
     let windowWidth: number;
 
     const handleScroll = debounce(() => redrawCables(), 1);
@@ -69,12 +69,12 @@
                 </div>
                 <div class="qubit__patchbay">    
                     <Patchbay 
-                        ids={axesIds.map(id => `${id}${i}`).reverse()} 
-                        labels={axesNames.reverse()} 
+                        ids={axesIds.map(id => `${id}${i}`)} 
+                        labels={axesNames} 
                     />
                 </div>
                 <div class="qubit__sliders">
-                    {#each get(store) as _, axis}
+                    {#each get(store) as value, axis}
                         <Slider
                             id={`qubit-${i}-${axis}`}
                             name={axesNames[2 - axis]}

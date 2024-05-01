@@ -4,8 +4,10 @@
 	import { cubicOut } from 'svelte/easing';
     import { onMount } from 'svelte';
     import { clamp, throttle } from "$lib/utils/utils";
+    import Learnable from '$lib/components/Learnable/Learnable.svelte';
     
     const dispatch = createEventDispatcher();
+    export let id: string = '';
     export let name: string = '';
     export let value: number = 0;
     export let colour: string = '#000';
@@ -65,14 +67,16 @@
     })
 </script>
 
-<div 
+<div
     class={`slider__container slider__container--${orientation}`}
     class:disabled={disabled}
 >
-    <span 
-        class={'label label--' + orientation}
-        style={`color: ${colour}`}    
-    >{name}</span>
+    <Learnable {id}>
+        <span 
+            class={'label label--' + orientation}
+            style={`color: ${colour}`}    
+        >{name}</span>
+    </Learnable>
 
     <div class={`slider slider--${orientation}`} 
         on:mousedown={handleClick}
