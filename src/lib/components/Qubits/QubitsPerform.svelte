@@ -20,12 +20,12 @@
 					return axes;
 			});
 	}
-	console.log($activeQubitCount)
 	$: isSingle = $activeQubitCount === 1 || windowWidth < 1000;
 	$: isDouble = ($activeQubitCount%2 === 0 || $activeQubitCount === 2) && !isSingle;
 	$: isTriple = ($activeQubitCount%3 === 0 || $activeQubitCount === 3) && !isSingle && !isDouble;
+	$: isQuadruple = ($activeQubitCount%4 === 0 || $activeQubitCount === 4) && !isSingle && !isDouble && !isTriple;
 	$: isFullHeight = ($activeQubitCount === 1 && windowWidth > 1000) 
-			|| ($activeQubitCount === 2 && windowWidth > 1000);
+			|| ($activeQubitCount === 2 && windowWidth > 1000) || ($activeQubitCount === 3 && windowWidth > 1000);
 
 	onMount(() => {
 			windowWidth = window.innerWidth;
@@ -42,9 +42,10 @@
 	{#each $qubits.filter(q => q.active) as qubit, i}
 			<div 
 					class="qubit"
-					class:qubit--single={isSingle}
-					class:qubit--double={isDouble}
-					class:qubit--triple={isTriple}
+					class:qubit--single={isSingle || windowWidth < 1500}
+					class:qubit--double={isDouble && windowWidth > 1500}
+					class:qubit--triple={isTriple && windowWidth > 1500}
+					class:qubit--four={isQuadruple && windowWidth > 1500}
 					class:qubit--full-height={isFullHeight}
 					class:qubit--border={qubit.user !== 'you'}
 					style="border-color: {getUserColour(qubit.user)};"
@@ -110,7 +111,6 @@
 			&--double {
 					flex-basis: calc(50% - 0.5rem);
 					margin-bottom: 1rem;
-					
 					&:nth-child(2n) {
 							margin-left: 1rem;
 					}
@@ -125,7 +125,6 @@
 							margin-right: 0rem;
 					}
 			}
-
 			&--border {
 					border: 2px solid;
 			}
