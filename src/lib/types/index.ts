@@ -92,3 +92,8 @@ export interface User {
     isActive: boolean;
     isConnected: boolean;
 }
+
+export interface Action {
+    label: string;
+    action: (value: number) => void;
+}

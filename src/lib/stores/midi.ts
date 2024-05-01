@@ -1,18 +1,19 @@
 import { get, writable, type Writable} from 'svelte/store';
 import { WebMidi } from "webmidi";
-// import { qubits } from './qubits';
 import { instruments, instrument, randomise } from '$lib/stores/parameters';
 import { randomiseConnections } from '$lib/stores/patching';
 import { presetKeys, activePreset } from '$lib/stores/presets-synths';
 import { volume } from '$lib/stores/global';
 import { updateEnvelopeValue } from '$lib/stores/envelopes';
 import { measure, axes } from '$lib/stores/qubits';
+import type { Action } from '$lib/types';
 
 export const inputs: Writable<{name: string, active: boolean, channel: number}[]> = writable([]);
 // maintain the order of active inputs
 export const activeInputs: Writable<string[]> =writable([]);
 
 export const learn = writable(false);
+export const learnControl = writable('')
 
 // Subscribe to inputs and activeInputs changes and save them in local storage
 export function activateInput(name: string) {
@@ -84,7 +85,7 @@ function removeCCListeners(name: string) {
 }
 
 // TODO: default mapping for n qubits
-export const actions: Writable<{[key: number]: {label: string, action: (value: number) => void}}> = writable({
+export const actions: Writable<{[key: number]: Action}> = writable({
     0: {label: 'Q01 θ', action: (value: number) => axes[0].update(a => [a[0], a[1], value])},
     1: {label: 'Q01 φ', action: (value: number) => axes[0].update(a => [a[0], value, a[2]])},
     2: {label: 'Q01 ψ', action: (value: number) => axes[0].update(a => [value, a[1], a[2]])},
@@ -107,13 +108,7 @@ export const actions: Writable<{[key: number]: {label: string, action: (value: n
     19: {label: '? Connections', action: (value: number) => value && randomiseConnections()},
 })
     
-function handleControlChange(e: any) {
-    const { value, controller: { number } } = e;
-    get(actions)[number]?.action(value)
-}
-    
 inputs.subscribe(inputs => {
-
     inputs.forEach(({name, active, channel}) => {
         // clear previous config
         removeCCListeners(name)
@@ -121,3 +116,21 @@ inputs.subscribe(inputs => {
         active && addCCListeners(name, channel)
     })
 })
+
+export const mapQubitToMidi = (qubit: number, axis: number, cc: number) => {
+    const label = `Q${qubit.toString().padStart(2, '0')} ${['θ', 'φ', 'ψ'][axis]}`;
+    actions.update(a =>({
+        ...a,
+        [cc]: {label, action: (value: number) => axes[qubit].update(a => {
+            a[axis] = value;
+            return a;
+        })}
+    
+    }))
+}
+
+function handleControlChange(e: any) {
+    const { value, controller: { number } } = e;
+    get(actions)[number]?.action(value)
+    console.log(get(learn), get(learnControl))
+}

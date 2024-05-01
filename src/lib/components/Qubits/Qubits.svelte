@@ -1,5 +1,6 @@
 <script lang="ts">
     import { qubits, axes, activeQubitCount, isMeasuring } from '$lib/stores/qubits';
+    // @ts-ignore
     import { axesValues } from '$lib/stores/qubits';
     import { redrawCables } from '$lib/stores/patching';
     import Qubit from './Qubit.svelte';
@@ -73,10 +74,11 @@
                     />
                 </div>
                 <div class="qubit__sliders">
-                    {#each get(store) as value, axis}
+                    {#each get(store) as _, axis}
                         <Slider
-                            disabled={$qubits[i].user !== 'you' || $isMeasuring}
+                            id={`qubit-${i}-${axis}`}
                             name={axesNames[2 - axis]}
+                            disabled={$qubits[i].user !== 'you' || $isMeasuring}
                             colour={`var(--color-theme-${3 - axis})`}
                             value={$axesValues[i][axis]}
                             on:change={e => handleSliderChange(e,i,axis)}
