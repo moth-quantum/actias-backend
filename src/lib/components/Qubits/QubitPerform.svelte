@@ -190,7 +190,6 @@
 	class:disabled={disabled}
 	bind:this={container}
 >
-	<div class="qubit-tag">{number < 10 ? `0${number + 1}` : number + 1}</div>
 	<P5 {sketch} on:instance={handleInstance} />
 </div>
 
@@ -205,16 +204,6 @@
 			overflow: hidden;
 			align-items: center;
 			justify-content: center;
-			position: relative;
 	}
-	.qubit-tag {
-		position: absolute;
-		top: 1rem;
-		left: 1rem;
-		border: 1px solid #fef4e5;
-		border-radius: 2rem;
-		padding: 0.2rem 1rem;
-		color: #fef4e5;
-		background: ar(--color-grey-mid);
-	}
+
 </style>

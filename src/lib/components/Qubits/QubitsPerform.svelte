@@ -20,10 +20,10 @@
 					return axes;
 			});
 	}
-
+	console.log($activeQubitCount)
 	$: isSingle = $activeQubitCount === 1 || windowWidth < 1000;
-	$: isDouble = ($activeQubitCount%2 === 0 || $activeQubitCount === 3 || windowWidth < 1500) && !isSingle;
-	$: isTriple = !isSingle && !isDouble;
+	$: isDouble = ($activeQubitCount%2 === 0 || $activeQubitCount === 2) && !isSingle;
+	$: isTriple = ($activeQubitCount%3 === 0 || $activeQubitCount === 3) && !isSingle && !isDouble;
 	$: isFullHeight = ($activeQubitCount === 1 && windowWidth > 1000) 
 			|| ($activeQubitCount === 2 && windowWidth > 1000);
 
@@ -56,6 +56,10 @@
 									<span style="background-color: {getUserColour(qubit.user)}">{getUserName(qubit.user)}</span>
 							</h3>
 					{/if}
+					<h3 class="qubit__info">
+						<span style="background-color: {getUserColour(qubit.user)}">{(i + 1).toString().padStart(2, '0')}</span>
+						<span style="background-color: {getUserColour(qubit.user)}">{getUserName(qubit.user)}</span>
+					</h3>
 					<div class="qubit__qubit">
 							<QubitPerform 
 									number={i}
@@ -113,7 +117,7 @@
 
 			&--triple {
 					flex-basis: calc(33.3333% - 0.6666rem);
-					height: calc(400px - 1rem);
+					height: 100%;
 					margin-right: 1rem;
 					margin-bottom: 1rem;
 					&:nth-child(3n) {
