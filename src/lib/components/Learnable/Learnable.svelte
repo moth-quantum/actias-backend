@@ -14,5 +14,6 @@
 <style lang="scss">
     button {
         position: relative;
+        outline: 1px dotted var(--color-theme-3);
     }
 </style>
