@@ -1,10 +1,14 @@
 <script lang="ts">
     import { learn, learnControl } from '$lib/stores/midi';
     export let id: string = '';
+    const handleClick = (e: Event) => {
+        e.stopPropagation();
+        learnControl.set(id)
+    };
 </script>
 
 {#if $learn}
-    <button on:click={() => learnControl.set(id)}>
+    <button on:click={handleClick}>
         <slot />
     </button>
 {:else}

@@ -155,6 +155,13 @@ function mapVolumeToMidi(cc: number) {
     }))
 }
 
+function mapEnvelopeToMidi(env: number, param: string, cc: number) {
+    actions.update(a =>({
+        ...a,
+        [cc]: {label: `Env${env + 1} ${param}`, action: (value: number) => updateEnvelopeValue(env, param, value)}
+    }))
+}
+
 function handleControlChange(e: any) {
     // Handle any new midi learn actions
     const { value, controller: { number } } = e;
@@ -166,6 +173,7 @@ function handleControlChange(e: any) {
         args[0] === 'qubit' && mapQubitToMidi(parseInt(args[1]), parseInt(args[2]), number)
         args[0] === 'param' && mapParamToMidi(args[1], args[2], args[3], number)
         args[0] === 'volume' && mapVolumeToMidi(number)
+        args[0] === 'env' && mapEnvelopeToMidi(parseInt(args[1]), args[2], number)
     }
 
     // Perform the action
