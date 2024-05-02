@@ -1,8 +1,6 @@
 import { get, writable, type Writable} from 'svelte/store';
 import { WebMidi } from "webmidi";
-import { instruments, instrument, randomise, instrumentParameters, globalParameters, fxParameters, drone } from '$lib/stores/parameters';
-import { randomiseConnections } from '$lib/stores/patching';
-import { presetKeys, activePreset } from '$lib/stores/presets-synths';
+import { instrumentParameters, globalParameters, fxParameters, drone } from '$lib/stores/parameters';
 import { volume } from '$lib/stores/global';
 import { updateEnvelopeValue } from '$lib/stores/envelopes';
 import { measure, axes } from '$lib/stores/qubits';
@@ -15,6 +13,25 @@ export const activeInputs: Writable<string[]> =writable([]);
 
 export const learn = writable(false);
 export const learnControl = writable('')
+
+const defaultActions = {
+    0: {label: 'Volume', action: (value: number) => volume.set(value)},
+    1: {label: 'Env1 A', action: (value: number) => updateEnvelopeValue(0, 'a', value)},
+    2: {label: 'Env1 D', action: (value: number) => updateEnvelopeValue(0, 'd', value)},
+    3: {label: 'Env1 S', action: (value: number) => updateEnvelopeValue(0, 's', value)},
+    4: {label: 'Env1 R', action: (value: number) => updateEnvelopeValue(0, 'r', value)},
+    5: {label: 'Env2 A', action: (value: number) => updateEnvelopeValue(1, 'a', value)},
+    6: {label: 'Env2 D', action: (value: number) => updateEnvelopeValue(1, 'd', value)},
+    7: {label: 'Env2 S', action: (value: number) => updateEnvelopeValue(1, 's', value)},
+    8: {label: 'Env2 R', action: (value: number) => updateEnvelopeValue(1, 'r', value)},
+    9: {label: 'Measure', action: (value: number) => value && measure()},
+    10: {label: 'Drone', action: (value: number) => drone.set(value > 0)},
+    11: {label: 'Q01 θ', action: (value: number) => axes[0].update(a => [a[0], a[1], value])},
+    12: {label: 'Q01 φ', action: (value: number) => axes[0].update(a => [a[0], value, a[2]])},
+    13: {label: 'Q01 ψ', action: (value: number) => axes[0].update(a => [value, a[1], a[2]])},
+}
+
+export const actions: Writable<{[key: number]: Action}> = writable(defaultActions);
 
 // Subscribe to inputs and activeInputs changes and save them in local storage
 export function activateInput(name: string) {
@@ -56,12 +73,20 @@ WebMidi
         const savedInputs = localStorage.getItem('q.midi.inputs') 
             ? JSON.parse(localStorage.getItem('q.midi.inputs') || '')
             : false
-        
+
         inputs.update(() => WebMidi.inputs.map(({name}) => ({
             name, 
             active: savedInputs ? savedInputs.find((input: any) => input.name === name)?.active : false, 
             channel: savedInputs ? savedInputs.find((input: any) => input.name === name)?.channel || 1 : 1
         })));
+
+        // // sync with any saved actions
+        // const savedActions = localStorage.getItem('q.midi.actions')
+        //     ? JSON.parse(localStorage.getItem('q.midi.actions') || '')
+        //     : false
+        
+        // console.log(savedActions)
+        // actions.update(() => savedActions || defaultActions)
 
         // save inputs to local storage
         inputs.subscribe((newInputs) => {
@@ -72,6 +97,11 @@ WebMidi
         activeInputs.subscribe((newActiveInputs) => {
             localStorage.setItem('q.midi.activeInputs', JSON.stringify(newActiveInputs));
         });
+
+        // // save actions to local storage
+        // actions.subscribe((newActions) => {
+        //     localStorage.setItem('q.midi.actions', JSON.stringify(newActions));
+        // });
     })
 
 function addCCListeners(name: string, channel: number) {
@@ -172,24 +202,6 @@ function handleControlChange(e: any) {
     get(actions)[number]?.action(value)
 }
 
-const defaultActions = {
-    0: {label: 'Volume', action: (value: number) => volume.set(value)},
-    1: {label: 'Env1 A', action: (value: number) => updateEnvelopeValue(0, 'a', value)},
-    2: {label: 'Env1 D', action: (value: number) => updateEnvelopeValue(0, 'd', value)},
-    3: {label: 'Env1 S', action: (value: number) => updateEnvelopeValue(0, 's', value)},
-    4: {label: 'Env1 R', action: (value: number) => updateEnvelopeValue(0, 'r', value)},
-    5: {label: 'Env2 A', action: (value: number) => updateEnvelopeValue(1, 'a', value)},
-    6: {label: 'Env2 D', action: (value: number) => updateEnvelopeValue(1, 'd', value)},
-    7: {label: 'Env2 S', action: (value: number) => updateEnvelopeValue(1, 's', value)},
-    8: {label: 'Env2 R', action: (value: number) => updateEnvelopeValue(1, 'r', value)},
-    9: {label: 'Measure', action: (value: number) => value && measure()},
-    10: {label: 'Drone', action: (value: number) => drone.set(value > 0)},
-    11: {label: 'Q01 θ', action: (value: number) => axes[0].update(a => [a[0], a[1], value])},
-    12: {label: 'Q01 φ', action: (value: number) => axes[0].update(a => [a[0], value, a[2]])},
-    13: {label: 'Q01 ψ', action: (value: number) => axes[0].update(a => [value, a[1], a[2]])},
-}
-
-export const actions: Writable<{[key: number]: Action}> = writable(defaultActions);
 
 export function resetActions() {
     actions.set(defaultActions);
