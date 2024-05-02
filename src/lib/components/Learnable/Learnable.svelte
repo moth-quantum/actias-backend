@@ -1,6 +1,7 @@
 <script lang="ts">
     import { learn, learnControl } from '$lib/stores/midi';
     export let id: string = '';
+    export let classes: string = '';
     const handleClick = (e: Event) => {
         e.preventDefault();
         learnControl.set(id)
@@ -8,7 +9,10 @@
 </script>
 
 {#if $learn}
-    <button on:click={handleClick}>
+    <button 
+        on:click={handleClick}
+        class={classes}
+    >
         <slot />
     </button>
 {:else}

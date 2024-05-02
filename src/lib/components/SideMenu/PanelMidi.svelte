@@ -1,12 +1,12 @@
 <script lang="ts">    
     import { get } from 'svelte/store';
-    import { activateInput, deactivateInput, inputs, activeInputs } from '$lib/stores/midi';
+    import { activateInput, deactivateInput, inputs, activeInputs, resetActions } from '$lib/stores/midi';
     import { actions } from '$lib/stores/midi';
     import Select from '$lib/components/Forms/Select.svelte';
     import Counter from '$lib/components/Forms/Counter.svelte';
     // @ts-ignore
     import { FontAwesomeIcon } from 'fontawesome-svelte';
-    import { faMinus } from '@fortawesome/free-solid-svg-icons';
+    import { faMinus, faRefresh } from '@fortawesome/free-solid-svg-icons';
 
     const handleAddDevice = () => {
         const firstInactiveIndex = get(inputs).find(input => !input.active);
@@ -73,10 +73,19 @@
         {/if}
     </div>
     <div class="group map">
-        <h3 class="title">Midi Map</h3>
+        <h3 class="title">
+            Midi Map
+            <button
+                on:click={resetActions}
+            >
+                <FontAwesomeIcon 
+                    icon={faRefresh} 
+                />
+            </button>
+        </h3>
         <ul class="map__list">
             {#each Object.entries($actions) as [i, {label}]}
-                <li>cc{i}: {label}</li>
+                <li>cc{i}: <span>{label}</span></li>
             {/each}
         </ul>
     </div>
@@ -151,7 +160,7 @@
                 margin: 0;
                 font-size: var(--text-sm);
 
-                & li {
+                & li span {
                     text-transform: capitalize;
                 }
             }

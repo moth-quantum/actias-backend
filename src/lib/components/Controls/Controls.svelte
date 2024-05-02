@@ -6,6 +6,7 @@
     import Knob from '$lib/components/Knob/Knob.svelte';
     import Keyboard from '$lib/components/Keyboard/Keyboard.svelte';
     import Button from '$lib/components/Button/Button.svelte';
+    import Learnable from '$lib/components/Learnable/Learnable.svelte';
 
     import { faSignal } from '@fortawesome/free-solid-svg-icons';
     import midi from '$lib/images/midi-white.svg';
@@ -16,8 +17,14 @@
     <h2 class="visually-hidden">Controls</h2>
     
     <div class="buttons">
-        <Button orientation="vertical" text="Learn" colour="grey" active={$learn} onClick={() => learn.update(l => !l)} image={midi} classes="mb-4"/>
-        <Button orientation="vertical" text="Drone" colour="grey" active={$drone} onClick={() => drone.update(d => !d)} icon={faSignal} />
+        <div>
+            <Button orientation="vertical" text="Learn" colour="grey" active={$learn} onClick={() => learn.update(l => !l)} image={midi} classes="w-full"/>
+        </div>
+        <div>
+            <Learnable id="drone" classes="h-full rounded-lg">
+                <Button orientation="vertical" text="Drone" colour="grey" active={$drone} onClick={() => drone.update(d => !d)} icon={faSignal} />
+            </Learnable>
+        </div>
     </div>
     <div class="controller">
         <div class="keys">
@@ -83,6 +90,7 @@
     .buttons {
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         margin-right: 1rem;
         @media (min-width: 400px) {
             width: 8rem;
@@ -92,6 +100,11 @@
         }
         @media (min-width: 1200px) {
             width: 4.5rem;
+        }
+
+        & div {
+            height: calc(50% - 0.5rem);
+            width: 100%;
         }
     }
 
