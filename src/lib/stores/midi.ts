@@ -96,13 +96,12 @@ WebMidi
             channel: savedInputs ? savedInputs.find((input: any) => input.name === name)?.channel || 1 : 1
         })));
 
-        // // sync with any saved actions
-        // const savedActions = localStorage.getItem('q.midi.actions')
-        //     ? JSON.parse(localStorage.getItem('q.midi.actions') || '')
-        //     : false
+        // sync with any saved actions
+        const savedActions = localStorage.getItem('q.midi.actions')
+            ? JSON.parse(localStorage.getItem('q.midi.actions') || '')
+            : false
         
-        // console.log(savedActions)
-        // actions.update(() => savedActions || defaultActions)
+        actions.update(() => savedActions || defaultActions)
 
         // save inputs to local storage
         inputs.subscribe((newInputs) => {
@@ -114,10 +113,10 @@ WebMidi
             localStorage.setItem('q.midi.activeInputs', JSON.stringify(newActiveInputs));
         });
 
-        // // save actions to local storage
-        // actions.subscribe((newActions) => {
-        //     localStorage.setItem('q.midi.actions', JSON.stringify(newActions));
-        // });
+        // save actions to local storage
+        actions.subscribe((newActions) => {
+            localStorage.setItem('q.midi.actions', JSON.stringify(newActions));
+        });
     })
 
 function addCCListeners(name: string, channel: number) {
@@ -164,7 +163,7 @@ const performMeasureAction = (cc: number) => cc && measure();
 const performDroneAction = (cc: number) => drone.set(cc > 0);
 
 const actionFactory: {[key: string]: (...args: any) => string} = {
-    qubit: (qubit: number, axis: number) => `Q${qubit.toString().padStart(2, '0')} ${['θ', 'φ', 'ψ'][+axis]}`,
+    qubit: (qubit: number, axis: number) => `Q${(qubit+1).toString().padStart(2, '0')} ${['θ', 'φ', 'ψ'][+axis]}`,
     param: (param: string, minMax: string) => `${param} ${minMax}`,
     volume: () => 'Volume',
     env: (env: number, param: string) => `Env${env + 1} ${param}`,
@@ -198,7 +197,6 @@ function handleControlChange(e: any) {
     type === 'measure' && performMeasureAction(value)
     type === 'drone' && performDroneAction(value)
 }
-
 
 export function resetActions() {
     actions.set(defaultActions);
