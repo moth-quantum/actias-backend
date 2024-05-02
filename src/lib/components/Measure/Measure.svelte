@@ -5,6 +5,7 @@
     import Lottie from '$lib/components/Lottie/Lottie.svelte';
     import lottieSrc from '$lib/images/measuring.json';
     import Tooltip from '$lib/components/Tooltip/Tooltip.svelte';
+    import Learnable from '$lib/components/Learnable/Learnable.svelte';
 
     export let showTooltips: boolean = false;
     
@@ -16,7 +17,9 @@
 </script>
 
 <div class="measure">
-    <h2 class="title">Measure</h2>
+    <Learnable id="measure">
+        <h2 class="title">Measure</h2>
+    </Learnable>
     <form>
         {#if isApp()}
             <div class="source">

@@ -1,4 +1,6 @@
-<script>
+<script lang="ts">
+    import Learnable from "$lib/components/Learnable/Learnable.svelte";
+    export let id: string = '';
     export let min = 0;
     export let max = 1;
     export let step = 0.01;
@@ -9,13 +11,17 @@
 </script>
 
 <div class="range-slider">
-    <span class="">{rangeA.toLocaleString('fullwide', {maximumFractionDigits: 2})}{units}</span>
+    <Learnable id={`${id}-rangeA`}>
+        <span class="">{rangeA.toLocaleString('fullwide', {maximumFractionDigits: 2})}{units}</span>
+    </Learnable>
     <div class="slider">
         <input class="min" type="range" {min} {max} {step} bind:value={rangeA} />
         <input class="track" type="range" {min} {max} {step} {value} disabled/>
         <input class="max" type="range" {min} {max} {step} bind:value={rangeB} />
     </div>
-    <span class="">{rangeB.toLocaleString('fullwide', {maximumFractionDigits: 2})}{units}</span>
+    <Learnable id={`${id}-rangeB`}>
+        <span class="">{rangeB.toLocaleString('fullwide', {maximumFractionDigits: 2})}{units}</span>
+    </Learnable>
 </div>
 
 <style lang="scss">
@@ -42,6 +48,7 @@
         }
         color: var(--color-grey-light);
         font-size: var(--text-xxs);
+        letter-spacing: 0.1rem;
         text-align: center;
     }
 

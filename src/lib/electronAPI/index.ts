@@ -1,7 +1,7 @@
 import { activePreset, presets } from '$lib/stores/presets-synths';
 import { updateSamples } from '$lib/stores/samples';
 import { getAppState } from '$lib/stores/parameters';
-import { apiDomain, apiToken, pusherKey } from '$lib/networking/config';
+import { apiDomain, apiWsDomain, apiToken, pusherKey } from '$lib/networking/config';
 import { logout } from '$lib/networking/logout';
 
 export default function initElectronAPI() {
@@ -9,7 +9,9 @@ export default function initElectronAPI() {
     if(typeof document === 'undefined' || (typeof window === 'undefined')) return
     
     // Set API credentials
+    // TODO: protocol / SSL
     apiDomain.set(window.apiDomain)
+    apiWsDomain.set(window.apiWsDomain)
     apiToken.set(window.apiToken)
     pusherKey.set(window.apiPusherKey)
     

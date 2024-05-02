@@ -1,6 +1,8 @@
-<script>
+<script lang="ts">
     // @ts-nocheck
     import { clamp } from "$lib/utils/utils";
+    import Learnable from "$lib/components/Learnable/Learnable.svelte";
+    export let id: string = '';
     export let name;
     export let value; 
     export let min = 0;
@@ -41,7 +43,9 @@
             <div class="knob__indicator"></div>
         </div>
     </div>
-    <div class="knob__label">{name}</div>
+    <Learnable id={id}>
+        <p class="knob__label">{name}</p>
+    </Learnable>
 </div>
 
 <style lang="scss">
@@ -93,11 +97,11 @@
         color: var(--color-yellow);
         text-transform: uppercase;
         text-align: center;
-        width: 97%;
-        height: 2.5rem;
+        // width: 97%;
+        // height: 2.5rem;
         background-color: var(--color-grey-dark);
-        position: absolute;
-        bottom: -0.5rem;
+        // position: absolute;
+        // bottom: -0.5rem;
         display: flex;
         align-items: flex-end;
         justify-content: center;

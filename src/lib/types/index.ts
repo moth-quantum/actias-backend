@@ -59,6 +59,7 @@ declare global {
     interface Window {
         isApp: boolean;
         apiDomain: string;
+        apiWsDomain: string;
         apiToken: string;
         apiPusherKey: string;
         electronAPI: {
@@ -96,4 +97,9 @@ export interface User {
     z: number;
     isActive: boolean;
     isConnected: boolean;
+}
+
+export interface Action {
+    label: string;
+    action: (value: number) => void;
 }

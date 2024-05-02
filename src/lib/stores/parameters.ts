@@ -1,5 +1,5 @@
 import { writable, type Writable, get, derived, type Readable } from 'svelte/store';
-import { axes } from '$lib/stores/qubits';
+import { axes } from '$lib/stores/qubits'
 import { samples } from '$lib/stores/samples';
 import { envelopeValues } from './envelopes';
 import { initialiseConnections, getConnections, connections} from './patching';

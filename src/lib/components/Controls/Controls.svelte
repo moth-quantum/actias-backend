@@ -2,14 +2,15 @@
     import { envelopes } from '$lib/stores/envelopes';
     import { volume } from '$lib/stores/global';
     import { drone } from '$lib/stores/parameters';
+    import { learn } from '$lib/stores/midi';
     import Knob from '$lib/components/Knob/Knob.svelte';
     import Keyboard from '$lib/components/Keyboard/Keyboard.svelte';
     import Button from '$lib/components/Button/Button.svelte';
     import { library } from '@fortawesome/fontawesome-svg-core';
     import { faSignal, faCircle } from '@fortawesome/free-solid-svg-icons';
     import Tooltip from '../Tooltip/Tooltip.svelte';
-
-    library.add(faSignal, faCircle);
+    import Learnable from '$lib/components/Learnable/Learnable.svelte';
+    import midi from '$lib/images/midi-white.svg';
     
     export let showTooltips: boolean = false;
 </script>
@@ -18,27 +19,36 @@
     <h2 class="visually-hidden">Controls</h2>
     
     <div class="buttons">
-        {#if showTooltips}
-            <Tooltip element='drone'>
-                <Button 
-                    orientation="vertical" 
-                    text="Drone" 
-                    colour="grey" 
-                    active={$drone} 
-                    onClick={() => drone.update(d => !d)} 
-                    icon={faSignal} 
-                />
-            </Tooltip>
-        {:else}
-            <Button 
-                orientation="vertical" 
-                text="Drone" 
-                colour="grey" 
-                active={$drone} 
-                onClick={() => drone.update(d => !d)} 
-                icon={faSignal} 
-            />
-        {/if}
+        <div>
+            <Button orientation="vertical" text="Learn" colour="grey" active={$learn} onClick={() => learn.update(l => !l)} image={midi} classes="w-full"/>
+        </div>
+        <div>
+            {#if showTooltips}
+                <Tooltip element='drone'>
+                    <Learnable id="drone" classes="h-full rounded-lg">
+                        <Button 
+                            orientation="vertical" 
+                            text="Drone" 
+                            colour="grey" 
+                            active={$drone} 
+                            onClick={() => drone.update(d => !d)} 
+                            icon={faSignal} 
+                        />
+                    </Learnable>
+                </Tooltip>
+            {:else}
+                <Learnable id="drone" classes="h-full rounded-lg">
+                    <Button 
+                        orientation="vertical" 
+                        text="Drone" 
+                        colour="grey" 
+                        active={$drone} 
+                        onClick={() => drone.update(d => !d)} 
+                        icon={faSignal} 
+                    />
+                </Learnable>
+            {/if}
+        </div>
     </div>
     <div class="controller">
         <div class="keys">
@@ -48,54 +58,25 @@
             <div class="knobs__title knobs__title--volume">
                 <h3>Vol</h3>
             </div>
+            <!-- TODO: resinstate tooltips -->
             <div class="knobs__knob knobs__knob--vol">
-                {#if showTooltips}
-                    <Tooltip element='Vol' type="knob">
-                        <Knob name="Vol" pixelRange={200} bind:value={$volume}/>
-                    </Tooltip>
-                {:else}
-                    <Knob name="Vol" pixelRange={200} bind:value={$volume}/>
-                {/if}
+                <Knob id="volume" name="Vol" pixelRange={200} bind:value={$volume}/>
             </div>
             {#each $envelopes as {name, a, d, s, r}, i (name)}
                 <div class="knobs__title knobs__title--envelope__{i}">
                     <h3>{name}</h3>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_a`}">
-                    {#if showTooltips}
-                        <Tooltip element={`${name}_a`} type="knob">
-                            <Knob bind:value={a} pixelRange={200} min={0.01} name="a"/>
-                        </Tooltip>
-                    {:else}
-                        <Knob bind:value={a} pixelRange={200} min={0.01} name="a"/>
-                    {/if}
+                    <Knob id={`env-${i}-a`} bind:value={a} pixelRange={200} min={0.01} name="a"/>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_d`}">
-                    {#if showTooltips}
-                        <Tooltip element={`${name}_d`} type="knob">
-                            <Knob bind:value={d} pixelRange={200} min={0.01} name="d"/>
-                        </Tooltip>
-                    {:else}
-                        <Knob bind:value={d} pixelRange={200} min={0.01} name="d"/>
-                    {/if}
+                    <Knob id={`env-${i}-d`} bind:value={d} pixelRange={200} min={0.01} name="d"/>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_s`}">
-                    {#if showTooltips}
-                        <Tooltip element={`${name}_s`} type="knob">
-                            <Knob bind:value={s} pixelRange={200} min={0.01} name="s"/>
-                        </Tooltip>
-                    {:else}
-                        <Knob bind:value={s} pixelRange={200} min={0.01} name="s"/>
-                    {/if}
+                    <Knob id={`env-${i}-s`} bind:value={s} pixelRange={200} min={0.01} name="s"/>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_r`}">
-                    {#if showTooltips}
-                        <Tooltip element={`${name}_r`} type="knob">
-                            <Knob bind:value={r} pixelRange={200} min={0.01} name="r"/>
-                        </Tooltip>
-                    {:else}
-                        <Knob bind:value={r} pixelRange={200} min={0.01} name="r"/>
-                    {/if}
+                    <Knob id={`env-${i}-r`} bind:value={r} pixelRange={200} min={0.01} name="r"/>
                 </div>
             {/each}
         </div>
@@ -133,6 +114,7 @@
     .buttons {
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         margin-right: 1rem;
         @media (min-width: 400px) {
             width: 8rem;
@@ -142,6 +124,11 @@
         }
         @media (min-width: 1200px) {
             width: 4.5rem;
+        }
+
+        & div {
+            height: calc(50% - 0.5rem);
+            width: 100%;
         }
     }
 

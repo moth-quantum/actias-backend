@@ -54,6 +54,7 @@
             <div class="side-menu__item {item.isActive ? 'side-menu__item--active' : ''}">
                 <Button 
                     text={item.name} 
+                    active={false}
                     colour="dark" 
                     orientation="vertical"
                     onClick={() => handleMenuClick(item.name)} 
