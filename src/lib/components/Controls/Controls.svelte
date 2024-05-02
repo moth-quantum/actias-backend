@@ -18,7 +18,9 @@
     
     <div class="buttons">
         <div>
-            <Button orientation="vertical" text="Learn" colour="grey" active={$learn} onClick={() => learn.update(l => !l)} image={midi} classes="w-full"/>
+            <Tooltip element="learn">
+                <Button orientation="vertical" text="Learn" colour="grey" active={$learn} onClick={() => learn.update(l => !l)} image={midi} classes="w-full"/>
+            </Tooltip>
         </div>
         <div>
             <Tooltip element="drone">

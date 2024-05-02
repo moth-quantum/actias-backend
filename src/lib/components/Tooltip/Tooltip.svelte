@@ -31,7 +31,7 @@
 	.tooltip-container {
 		position: relative;
 		height: 100%;
-    cursor: pointer;
+    	cursor: pointer;
 	}
 
 	.tooltip {
@@ -41,11 +41,12 @@
 		bottom: calc(100% + 1rem);
 		background: #7FD6D1;
 		color: black;
-		padding: 0.5rem;
-		border-radius: 0.5rem;
+		padding: 1rem;
+		border-radius: 5px;
 		opacity: 0;
 		transition: opacity 0.2s;
 		z-index: 1000;
+		font-size: var(--text-sm);
 	}
 
 	.tooltip--show {

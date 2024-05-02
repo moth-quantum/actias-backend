@@ -41,5 +41,6 @@ export const tooltips: Writable<Tooltip[]> = writable<Tooltip[]>([
 	{ element: 'env-2-a', message: 'This is a env-2-a tooltip message' },
 	{ element: 'env-2-d', message: 'This is a env-2-d tooltip message' },
 	{ element: 'env-2-s', message: 'This is a env-2-s tooltip message' },
-	{ element: 'env-2-r', message: 'This is a env-2-r tooltip message' }
+	{ element: 'env-2-r', message: 'This is a env-2-r tooltip message' },
+	{ element: 'learn', message: 'This is a learn tooltip message' },
 ]);
