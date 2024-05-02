@@ -1,5 +1,11 @@
 import type { Tooltip } from '$lib/types';
-import { writable, type Writable } from 'svelte/store';
+import { writable, type Writable, derived, type Readable } from 'svelte/store';
+import { menuItems } from './sideMenu';
+
+export const showTooltips: Readable<boolean> = derived(
+    menuItems, 
+    $menuItems => $menuItems.find(item => item.name === 'tooltips')?.isActive || false
+);
 
 export const tooltips: Writable<Tooltip[]> = writable<Tooltip[]>([
 	{ element: 'op1fb', message: 'This is an op1fb tooltip message' },
@@ -28,12 +34,12 @@ export const tooltips: Writable<Tooltip[]> = writable<Tooltip[]>([
 	{ element: 'measure', message: 'This is a Measure tooltip message' },
 	{ element: 'drone', message: 'This is a Drone tooltip message' },
 	{ element: 'vol', message: 'This is a volume tooltip message' },
-	{ element: 'amp_a', message: 'This is an amp_a tooltip message' },
-	{ element: 'amp_d', message: 'This is an amp_d tooltip message' },
-	{ element: 'amp_s', message: 'This is an amp_s tooltip message' },
-	{ element: 'amp_r', message: 'This is an amp_r tooltip message' },
-	{ element: 'mod_a', message: 'This is a mod_a tooltip message' },
-	{ element: 'mod_d', message: 'This is a mod_d tooltip message' },
-	{ element: 'mod_s', message: 'This is a mod_s tooltip message' },
-	{ element: 'mod_r', message: 'This is a mod_r tooltip message' }
+	{ element: 'env-1-a', message: 'This is an env-1-a tooltip message' },
+	{ element: 'env-1-d', message: 'This is an env-1-d tooltip message' },
+	{ element: 'env-1-s', message: 'This is an env-1-s tooltip message' },
+	{ element: 'env-1-r', message: 'This is an env-1-r tooltip message' },
+	{ element: 'env-2-a', message: 'This is a env-2-a tooltip message' },
+	{ element: 'env-2-d', message: 'This is a env-2-d tooltip message' },
+	{ element: 'env-2-s', message: 'This is a env-2-s tooltip message' },
+	{ element: 'env-2-r', message: 'This is a env-2-r tooltip message' }
 ]);

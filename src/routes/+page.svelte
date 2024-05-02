@@ -39,7 +39,6 @@
         duration: 200,
         easing: sineIn
     };
-    let tooltipsActive: boolean = false;
     
     const handleResize = () => {
         isDesktop = window.innerWidth > 1200
@@ -49,16 +48,9 @@
     onMount(async () => {
         isDesktop = window.innerWidth > 1200
         redrawCables(500)
-        
-        const unsubscribeMenuItems = menuItems.subscribe(items => {
-            let tooltipsMode = items.find(item => item.name === 'tooltips');
-            tooltipsActive = tooltipsMode?.isActive || false;
-            console.log(tooltipsActive, $menuItems)
-        });
 
-        if(!isApp()) return () => {
-            unsubscribeMenuItems()
-        }
+        // exit at this point if not in electron
+        if(!isApp()) return
         
         initElectronAPI()
         
@@ -73,7 +65,6 @@
         return () => {
             unsubscribeBroadcast()
             unsubscribeListen()
-            unsubscribeMenuItems()
             unsubscribeUpdateProfile()
             window.removeEventListener("beforeunload", logout);
         }
@@ -149,7 +140,7 @@
 <section class={`container synth ${ $fs ? 'synth--fullscreen' : ''}`}>
     
     <div class="parameters">
-        <Parameters showTooltips={tooltipsActive}/>
+        <Parameters />
     </div>
 
     <div class="interface">
@@ -164,19 +155,11 @@
         {#if $showKeyboard}
             <div class="controls">
                 <div class="keyboard">
-                    {#if tooltipsActive}
-                        <Controls showTooltips={tooltipsActive}/>
-                    {:else}
-                        <Controls />
-                    {/if}
+                    <Controls />
                 </div>
         
                 <div class="measure">
-                    {#if tooltipsActive}
-                        <Measure showTooltips={tooltipsActive}/>
-                    {:else}
-                        <Measure />
-                    {/if}
+                    <Measure />
                 </div>
             </div>
         {/if}

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tooltips } from '$lib/stores/tooltips';
+	import { tooltips, showTooltips } from '$lib/stores/tooltips';
 	export let element: string = '';
 	export let classes: string = '';
 	export let type: string = '';
@@ -8,20 +8,24 @@
 	let hoveredEl: any = null;
 </script>
 
-<div 
-	class="tooltip-container" 
->
-	<div class="tooltip tooltip--{element} {hoveredEl === element ? 'tooltip--show' : ''} {classes}">
-		{message}
-	</div>
+{#if $showTooltips}
+	<div 
+		class="tooltip-container" 
+	>
+		<div class="tooltip tooltip--{element} {hoveredEl === element ? 'tooltip--show' : ''} {classes}">
+			{message}
+		</div>
 		<div 
 			class="{type !== 'knob' ? 'tooltip-element' : ''} tooltip-element--{type} tooltip-element--{element}" 
 			on:mouseenter={() => hoveredEl = element}
 			on:mouseleave={() => hoveredEl = null}
 		>
-			<slot></slot>
+			<slot/>
 		</div>
-</div>
+	</div>
+{:else}
+	<slot/>
+{/if}
 
 <style>
 	.tooltip-container {

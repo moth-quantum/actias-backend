@@ -49,20 +49,7 @@
         />
     </form>
     <div class="button">
-        {#if showTooltips}
-            <Tooltip element='measure'>
-                <button
-                    on:click|preventDefault={() => measure()}
-                    disabled={$isMeasuring}
-                >
-                {#if $isMeasuring}
-                    <Lottie src={lottieSrc} />
-                {:else}
-                    <span class="button__text">Measure</span>
-                {/if}
-                 </button>
-            </Tooltip>
-        {:else}
+        <Tooltip element="measure">
             <button
                 on:click|preventDefault={() => measure()}
                 disabled={$isMeasuring}
@@ -73,8 +60,7 @@
                     <span class="button__text">Measure</span>
                 {/if}
             </button>
-        {/if}
-        
+        </Tooltip>
     </div>
 </div>
 
