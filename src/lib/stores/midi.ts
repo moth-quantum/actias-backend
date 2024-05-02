@@ -118,7 +118,7 @@ inputs.subscribe(inputs => {
     })
 })
 
-const mapQubitToMidi = (qubit: number, axis: number, cc: number) => {
+function mapQubitToMidi(qubit: number, axis: number, cc: number) {
     const label = `Q${qubit.toString().padStart(2, '0')} ${['θ', 'φ', 'ψ'][axis]}`;
     actions.update(a =>({
         ...a,
@@ -130,7 +130,7 @@ const mapQubitToMidi = (qubit: number, axis: number, cc: number) => {
     }))
 }
 
-const mapParamToMidi = (group: string, param: string, minMax: string, cc: number) => {
+function mapParamToMidi(group: string, param: string, minMax: string, cc: number) {
     const store = {inst: instrumentParameters, global: globalParameters, fx: fxParameters}[group];
     if(!store) return
     const label = `${param} ${minMax}`;
@@ -148,6 +148,13 @@ const mapParamToMidi = (group: string, param: string, minMax: string, cc: number
     }))
 }
 
+function mapVolumeToMidi(cc: number) {
+    actions.update(a =>({
+        ...a,
+        [cc]: {label: 'Volume', action: (value: number) => volume.set(value)}
+    }))
+}
+
 function handleControlChange(e: any) {
     // Handle any new midi learn actions
     const { value, controller: { number } } = e;
@@ -158,6 +165,7 @@ function handleControlChange(e: any) {
         const args = controlToLearn.split('-');
         args[0] === 'qubit' && mapQubitToMidi(parseInt(args[1]), parseInt(args[2]), number)
         args[0] === 'param' && mapParamToMidi(args[1], args[2], args[3], number)
+        args[0] === 'volume' && mapVolumeToMidi(number)
     }
 
     // Perform the action

@@ -15,5 +15,6 @@
     button {
         position: relative;
         outline: 1px dotted var(--color-theme-3);
+        letter-spacing: 0.1rem;
     }
 </style>

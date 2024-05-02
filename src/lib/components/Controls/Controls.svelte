@@ -28,23 +28,23 @@
                 <h3>Vol</h3>
             </div>
             <div class="knobs__knob knobs__knob--vol">
-                <Knob name="Vol" pixelRange={200} bind:value={$volume}/>
+                <Knob id="volume" name="Vol" pixelRange={200} bind:value={$volume}/>
             </div>
             {#each $envelopes as {name, a, d, s, r}, i (name)}
                 <div class="knobs__title knobs__title--envelope__{i}">
                     <h3>{name}</h3>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_a`}">
-                    <Knob bind:value={a} pixelRange={200} min={0.01} name="a"/>
+                    <Knob id={`env-${i}-a`} bind:value={a} pixelRange={200} min={0.01} name="a"/>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_d`}">
-                    <Knob bind:value={d} pixelRange={200} min={0.01} name="d"/>
+                    <Knob id={`env-${i}-d`} bind:value={d} pixelRange={200} min={0.01} name="d"/>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_s`}">
-                    <Knob bind:value={s} pixelRange={200} min={0.01} name="s"/>
+                    <Knob id={`env-${i}-s`} bind:value={s} pixelRange={200} min={0.01} name="s"/>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_r`}">
-                    <Knob bind:value={r} pixelRange={200} min={0.01} name="r"/>
+                    <Knob id={`env-${i}-r`} bind:value={r} pixelRange={200} min={0.01} name="r"/>
                 </div>
             {/each}
         </div>
