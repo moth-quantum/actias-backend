@@ -55,7 +55,7 @@
                 <h3>{name}</h3>
 
                 <RangeSlider 
-                    id={name}
+                    id={`param-inst-${key}`}
                     {min} {max} {step} {units} 
                     value={$paramValues[key]}
                     bind:rangeA={rangeA} 
@@ -90,6 +90,7 @@
         <div class="parameter">
             <h3>{name}</h3>
             <RangeSlider 
+                id={`param-global-${key}`}
                 {min} {max} {step} {units} 
                 value={$paramValues[key]}
                 bind:rangeA={rangeA} 
@@ -124,6 +125,7 @@
         <div class="parameter">
             <h3>{name}</h3>
             <RangeSlider 
+                id={`param-fx-${key}`}
                 {min} {max} {step} {units} 
                 value={$paramValues[key]}
                 bind:rangeA={rangeA} 

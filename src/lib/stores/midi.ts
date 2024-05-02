@@ -1,12 +1,13 @@
 import { get, writable, type Writable} from 'svelte/store';
 import { WebMidi } from "webmidi";
-import { instruments, instrument, randomise } from '$lib/stores/parameters';
+import { instruments, instrument, randomise, instrumentParameters, globalParameters, fxParameters } from '$lib/stores/parameters';
 import { randomiseConnections } from '$lib/stores/patching';
 import { presetKeys, activePreset } from '$lib/stores/presets-synths';
 import { volume } from '$lib/stores/global';
 import { updateEnvelopeValue } from '$lib/stores/envelopes';
 import { measure, axes } from '$lib/stores/qubits';
-import type { Action } from '$lib/types';
+import type { Action, Parameter } from '$lib/types';
+import { roundToFactor } from '$lib/utils/utils';
 
 export const inputs: Writable<{name: string, active: boolean, channel: number}[]> = writable([]);
 // maintain the order of active inputs
@@ -117,7 +118,7 @@ inputs.subscribe(inputs => {
     })
 })
 
-export const mapQubitToMidi = (qubit: number, axis: number, cc: number) => {
+const mapQubitToMidi = (qubit: number, axis: number, cc: number) => {
     const label = `Q${qubit.toString().padStart(2, '0')} ${['θ', 'φ', 'ψ'][axis]}`;
     actions.update(a =>({
         ...a,
@@ -129,6 +130,24 @@ export const mapQubitToMidi = (qubit: number, axis: number, cc: number) => {
     }))
 }
 
+const mapParamToMidi = (group: string, param: string, minMax: string, cc: number) => {
+    const store = {inst: instrumentParameters, global: globalParameters, fx: fxParameters}[group];
+    if(!store) return
+    const label = `${param} ${minMax}`;
+    actions.update(a =>({
+        ...a,
+        [cc]: {label, action: (value: number) => store.update((params: Parameter[]) => {
+            return params.map(p => {
+                return p.key === param 
+                    ? {
+                        ...p, 
+                        [minMax]: roundToFactor(value * (p.max - p.min), p.step) + p.min
+                    } : p
+            })
+        })}
+    }))
+}
+
 function handleControlChange(e: any) {
     // Handle any new midi learn actions
     const { value, controller: { number } } = e;
@@ -137,8 +156,8 @@ function handleControlChange(e: any) {
 
     if(isLearning && controlToLearn) {
         const args = controlToLearn.split('-');
-        console.log(args)
         args[0] === 'qubit' && mapQubitToMidi(parseInt(args[1]), parseInt(args[2]), number)
+        args[0] === 'param' && mapParamToMidi(args[1], args[2], args[3], number)
     }
 
     // Perform the action

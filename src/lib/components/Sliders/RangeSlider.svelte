@@ -11,17 +11,17 @@
 </script>
 
 <div class="range-slider">
-    <span class="">{rangeA.toLocaleString('fullwide', {maximumFractionDigits: 2})}{units}</span>
+    <Learnable id={`${id}-rangeA`}>
+        <span class="">{rangeA.toLocaleString('fullwide', {maximumFractionDigits: 2})}{units}</span>
+    </Learnable>
     <div class="slider">
-        <Learnable id={`${id}-min`}>
-            <input class="min" type="range" {min} {max} {step} bind:value={rangeA} />
-        </Learnable>
+        <input class="min" type="range" {min} {max} {step} bind:value={rangeA} />
         <input class="track" type="range" {min} {max} {step} {value} disabled/>
-        <Learnable id={`${id}-max`}>
-            <input class="max" type="range" {min} {max} {step} bind:value={rangeB} />
-        </Learnable>
+        <input class="max" type="range" {min} {max} {step} bind:value={rangeB} />
     </div>
-    <span class="">{rangeB.toLocaleString('fullwide', {maximumFractionDigits: 2})}{units}</span>
+    <Learnable id={`${id}-rangeB`}>
+        <span class="">{rangeB.toLocaleString('fullwide', {maximumFractionDigits: 2})}{units}</span>
+    </Learnable>
 </div>
 
 <style lang="scss">
@@ -48,6 +48,7 @@
         }
         color: var(--color-grey-light);
         font-size: var(--text-xxs);
+        letter-spacing: 0.1rem;
         text-align: center;
     }
 
