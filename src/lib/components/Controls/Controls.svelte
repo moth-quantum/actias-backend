@@ -7,7 +7,7 @@
     import Keyboard from '$lib/components/Keyboard/Keyboard.svelte';
     import Button from '$lib/components/Button/Button.svelte';
     import Learnable from '$lib/components/Learnable/Learnable.svelte';
-
+    import Tooltip from '$lib/components/Tooltip/Tooltip.svelte';
     import { faSignal } from '@fortawesome/free-solid-svg-icons';
     import midi from '$lib/images/midi-white.svg';
     
@@ -18,12 +18,23 @@
     
     <div class="buttons">
         <div>
-            <Button orientation="vertical" text="Learn" colour="grey" active={$learn} onClick={() => learn.update(l => !l)} image={midi} classes="w-full"/>
+            <Tooltip element="learn">
+                <Button orientation="vertical" text="Learn" colour="grey" active={$learn} onClick={() => learn.update(l => !l)} image={midi} classes="w-full"/>
+            </Tooltip>
         </div>
         <div>
-            <Learnable id="drone" classes="h-full rounded-lg">
-                <Button orientation="vertical" text="Drone" colour="grey" active={$drone} onClick={() => drone.update(d => !d)} icon={faSignal} />
-            </Learnable>
+            <Tooltip element="drone">
+                <Learnable id="drone" classes="h-full rounded-lg">
+                    <Button 
+                        orientation="vertical" 
+                        text="Drone" 
+                        colour="grey" 
+                        active={$drone} 
+                        onClick={() => drone.update(d => !d)} 
+                        icon={faSignal} 
+                    />
+                </Learnable>
+            </Tooltip>
         </div>
     </div>
     <div class="controller">
@@ -34,24 +45,35 @@
             <div class="knobs__title knobs__title--volume">
                 <h3>Vol</h3>
             </div>
+            
             <div class="knobs__knob knobs__knob--vol">
-                <Knob id="volume" name="Vol" pixelRange={200} bind:value={$volume}/>
+                <Tooltip element="vol" type="knob">
+                    <Knob id="volume" name="Vol" pixelRange={200} bind:value={$volume}/>
+                </Tooltip>
             </div>
             {#each $envelopes as {name, a, d, s, r}, i (name)}
                 <div class="knobs__title knobs__title--envelope__{i}">
                     <h3>{name}</h3>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_a`}">
-                    <Knob id={`env-${i}-a`} bind:value={a} pixelRange={200} min={0.01} name="a"/>
+                    <Tooltip type="knob" element={`env-${i+1}-a`}>
+                        <Knob id={`env-${i}-a`} bind:value={a} pixelRange={200} min={0.01} name="a"/>
+                    </Tooltip>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_d`}">
-                    <Knob id={`env-${i}-d`} bind:value={d} pixelRange={200} min={0.01} name="d"/>
+                    <Tooltip type="knob" element={`env-${i+1}-d`}>
+                        <Knob id={`env-${i}-d`} bind:value={d} pixelRange={200} min={0.01} name="d"/>
+                    </Tooltip>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_s`}">
-                    <Knob id={`env-${i}-s`} bind:value={s} pixelRange={200} min={0.01} name="s"/>
+                    <Tooltip type="knob" element={`env-${i+1}-s`}>
+                        <Knob id={`env-${i}-s`} bind:value={s} pixelRange={200} min={0.01} name="s"/>
+                    </Tooltip>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_r`}">
-                    <Knob id={`env-${i}-r`} bind:value={r} pixelRange={200} min={0.01} name="r"/>
+                    <Tooltip type="knob" element={`env-${i+1}-r`}>
+                        <Knob id={`env-${i}-r`} bind:value={r} pixelRange={200} min={0.01} name="r"/>
+                    </Tooltip>
                 </div>
             {/each}
         </div>
@@ -78,7 +100,6 @@
     .controls {
         display: flex;
         padding: 1rem;
-        overflow-x: scroll;
         
         @media (min-width: 1200px) {
             padding: 1rem 2rem;
