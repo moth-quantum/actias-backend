@@ -4,6 +4,7 @@
     import { isApp } from '$lib/stores/global';
     import Lottie from '$lib/components/Lottie/Lottie.svelte';
     import lottieSrc from '$lib/images/measuring.json';
+    import Learnable from '$lib/components/Learnable/Learnable.svelte';
 
     const machines = [
         {name: 'local', active: true}, 
@@ -13,7 +14,9 @@
 </script>
 
 <div class="measure">
-    <h2 class="title">Measure</h2>
+    <Learnable id="measure">
+        <h2 class="title">Measure</h2>
+    </Learnable>
     <form>
         {#if isApp()}
             <div class="source">
