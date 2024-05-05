@@ -17,25 +17,25 @@
 					return axes;
 			});
 	}
-	$: isSingle = $activeQubitCount === 1 || windowWidth < 1500;
-	$: isDouble = $activeQubitCount%2 === 0 && windowWidth >= 1500;
-	$: isTriple = $activeQubitCount%3 === 0 && windowWidth >= 1500;
-	$: isQuadruple = $activeQubitCount >= 8 && $activeQubitCount != 9 && windowWidth >= 1500;
-	$: isFive = $activeQubitCount === 5 && windowWidth > 1500;
-	$: isSeven = $activeQubitCount === 7 && windowWidth > 1500;
-	$: isTen = $activeQubitCount === 10 && windowWidth > 1500;
-	$: isEleven = $activeQubitCount === 11 && windowWidth > 1500;
-	$: isTwelve = $activeQubitCount === 12 && windowWidth > 1500;
+	// $: isSingle = $activeQubitCount === 1 || windowWidth < 1500;
+	// $: isDouble = $activeQubitCount%2 === 0 && windowWidth >= 1500;
+	// $: isTriple = $activeQubitCount%3 === 0 && windowWidth >= 1500;
+	// $: isQuadruple = $activeQubitCount >= 8 && $activeQubitCount != 9 && windowWidth >= 1500;
+	// $: isFive = $activeQubitCount === 5 && windowWidth > 1500;
+	// $: isSeven = $activeQubitCount === 7 && windowWidth > 1500;
+	// $: isTen = $activeQubitCount === 10 && windowWidth > 1500;
+	// $: isEleven = $activeQubitCount === 11 && windowWidth > 1500;
+	// $: isTwelve = $activeQubitCount === 12 && windowWidth > 1500;
 
-	$: isFullHeight = ($activeQubitCount === 1 && windowWidth > 1000) 
-			|| ($activeQubitCount === 2 && windowWidth > 1000) || ($activeQubitCount === 3 && windowWidth > 1000);
-	$: isHalfHeight = ($activeQubitCount >= 4 && windowWidth >= 1500) && !isThirdHeight;
-	$: isThirdHeight = ($activeQubitCount >= 9 && windowWidth >= 1500);
+	// $: isFullHeight = ($activeQubitCount === 1 && windowWidth > 1000) 
+	// 		|| ($activeQubitCount === 2 && windowWidth > 1000) || ($activeQubitCount === 3 && windowWidth > 1000);
+	// $: isHalfHeight = ($activeQubitCount >= 4 && windowWidth >= 1500) && !isThirdHeight;
+	// $: isThirdHeight = ($activeQubitCount >= 9 && windowWidth >= 1500);
+	
 
 	onMount(() => {
 			windowWidth = window.innerWidth;
 	});
-
 </script>
 
 <svelte:window on:resize={() => windowWidth = window.innerWidth} />
@@ -46,21 +46,8 @@
 >
 	{#each $qubits.filter(q => q.active) as qubit, i}
 			<div 
-					class="qubit"
-					class:qubit--single={isSingle || windowWidth < 1500}
-					class:qubit--double={isDouble && windowWidth > 1500}
-					class:qubit--triple={isTriple && windowWidth > 1500}
-					class:qubit--four={isQuadruple && windowWidth > 1500}
-					class:qubit--five={isFive && windowWidth > 1500}
-					class:qubit--seven={isSeven && windowWidth > 1500}
-					class:qubit--ten={isTen && windowWidth > 1500}
-					class:qubit--eleven={isEleven && windowWidth > 1500}
-					class:qubit--twelve={isTwelve && windowWidth > 1500}
-
-					class:qubit--full-height={isFullHeight}
-					class:qubit--half-height={isHalfHeight}
-					class:qubit--third-height={isThirdHeight}
-
+					class="qubit qubit--{$activeQubitCount}"
+					class:qubit--small-screen={windowWidth < 1500}
 					class:qubit--border={qubit.user !== 'you'}
 					style="border-color: {getUserColour(qubit.user)};"
 
@@ -116,143 +103,82 @@
 
       &--half-height {
           height: calc(50% - 0.5rem);
+					margin-bottom: 1rem;
+
+					&:last-child() {
+							margin-bottom: 0;
+					}
       }
 
       &--third-height {
           height: calc(33.3333% - 0.6666rem);
+					margin-bottom: 1rem;
+					&:last-child() {
+							margin-bottom: 0;
+					}
       }
 
-      &--single {
-          flex-basis: 100%;
-          margin-bottom: 1rem;
-          &:nth-last-of-type(1) {
-              margin-bottom: 0;
-          }
-      }
+			&--1, .qubit--small-screen {
+				@extend .qubit--full-height;
+				flex-basis: 100%;
+			}
 
-      &--double {
-          flex-basis: calc(50% - 0.5rem);
-          margin-bottom: 1rem;
-          &:nth-child(2n) {
-              margin-left: 1rem;
-          }
-      }
-
-      &--triple {
-          flex-basis: calc(33.33% - 1rem);
-          &:nth-child(n) {
-            margin-right: 1rem;
-            margin-left: 0;
-          }
-          &:nth-child(2) {
-            margin-right: 1rem;
-            margin-left: 0;
-          }
-          &:nth-child(3n) {
-            margin-right: 0;
-          }
-      }
-
-      &--four {
+			&--2 {
+				@extend .qubit--full-height;
+				flex-basis: calc(50% - 0.5rem);
 				margin-right: 1rem;
-        flex-basis: calc(25% - 0.75rem);
-        &:nth-child(2) {
-            margin-right: 1rem;
-        }
-        &:nth-child(6) {
-            margin-right: 1rem;
-        }
-      }
-      &--five {
-        flex-basis: calc(33.3333% - 0.6666rem);
-        margin-right: 1rem;
-        margin-bottom: 1rem;
-        &:nth-child(1) {
-            flex-basis: calc(50% - 0.5rem);
-        }
-        &:nth-child(2) {
-            flex-basis: calc(50% - 0.5rem);
-            margin-right: 0rem;
-        }
-        &:nth-child(5n) {
-            margin-right: 0;
-        }
-      }
-
-      &--seven {
-          flex-basis: calc(25% - 0.75rem);
-          margin-bottom: 1rem;
-
-          &:nth-child(1) {
-              margin-left: 0;
-              margin-right: 1rem;
-          }
-
-          &:nth-child(2),
-          &:nth-child(3) {
-              margin-right: 1rem;
-          }
-
-          &:nth-child(5),
-          &:nth-child(6),
-          &:nth-child(7) {
-              flex-basis: calc(33.3333% - 0.75rem);
-              margin-right: 1rem;
-          }
-
-          &:nth-child(7) {
-              margin-right: 0;
-              margin-left: 0;
-          }
-      }
-
-			&--ten {
-				&:nth-child(1), &:nth-child(2), &:nth-child(3), &:nth-child(4), &:nth-child(5), &:nth-child(6){
-					flex-basis: calc(33.33% - 0.75rem);
-					
+				&:last-child {
+					margin-right: 0;
 				}
+			}
+
+			&--3 {
+				@extend .qubit--full-height;
+				margin-right: 1rem;
+				flex-basis: calc(33.33% - 0.75rem);
+
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+
+			&--4 {
+				@extend .qubit--half-height;
+				@extend .qubit--2;
 				&:nth-child(2n) {
-					margin-left: 0;
-				}
-				&:nth-child(3n) {
-					margin-right: 0;
-				}
-
-				&:nth-child(9) {
-					margin-right: 1rem;
-				}
-
-				&:nth-child(10) {
 					margin-right: 0;
 				}
 			}
 
-			&--eleven {
-				margin-right: 1rem;
-				&:nth-child(1), &:nth-child(2), &:nth-child(3) {
-					flex-basis: calc(33.33% - 0.75rem);
+			&--5 {
+				@extend .qubit--half-height;
+				@extend .qubit--3;
+				&:nth-child(1), &:nth-child(2) {
+					flex-basis: calc(50% - 0.5rem);
 				}
-				&:nth-child(3) {
-					margin-right: 0;
-				}
-
-				&:nth-child(7), &:nth-child(11) {
+				&:nth-child(2) {
 					margin-right: 0;
 				}
 			}
 
-			&--twelve {
-        flex-basis: calc(25% - 0.75rem);
-        
+			&--6 {
+				@extend .qubit--half-height;
+				@extend .qubit--3;
+
 				&:nth-child(3n) {
-					margin-right: 1rem;
-				}
-				&:nth-child(4n) {
 					margin-right: 0;
 				}
-				
-      }
+			}
 
+			&--6 {
+				@extend .qubit--half-height;
+				@extend .qubit--3;
+
+				&:nth-child(3n) {
+					margin-right: 0;
+				}
+			}
+      
 			&__info {
 					position: absolute;
 					top: 1.5rem;
