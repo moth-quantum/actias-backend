@@ -151,6 +151,11 @@
 				}
 			}
 
+			&--1, &--small-screen {
+				@extend .qubit--full-height;
+				flex-basis: 100%;
+				margin: 0 0 1rem;
+			}
 			&--2 {
 				@extend .qubit--full-height;
 				@extend .qubit-row--2;
@@ -244,12 +249,6 @@
 			&--12 {
 				@extend .qubit--third-height;
 				@extend .qubit-row--4;
-			}
-
-			&--1, &--small-screen {
-				@extend .qubit--full-height;
-				flex-basis: 100%;
-				margin: 0 0 1rem;
 			}
       
 			&__info {
