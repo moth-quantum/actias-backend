@@ -118,6 +118,38 @@
 					}
       }
 
+			&-row--2 {
+				flex-basis: calc(50% - 0.5rem);
+				margin-right: 1rem;
+				&:nth-child(2n) {
+					margin-right: 0;
+				}
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+
+			&-row--3 {
+				flex-basis: calc(33.33% - 0.75rem);
+				margin-right: 1rem;
+				&:nth-child(3n) {
+					margin-right: 0;
+				}
+
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+			&-row--4 {
+				flex-basis: calc(25% - 0.75rem);
+				margin-right: 1rem;
+				&:nth-child(4n) {
+					margin-right: 0;
+				}
+				&:last-child {
+					margin-right: 0;
+				}
+			}
 			&--1, .qubit--small-screen {
 				@extend .qubit--full-height;
 				flex-basis: 100%;
@@ -125,29 +157,17 @@
 
 			&--2 {
 				@extend .qubit--full-height;
-				flex-basis: calc(50% - 0.5rem);
-				margin-right: 1rem;
-				&:last-child {
-					margin-right: 0;
-				}
+				@extend .qubit-row--2;
 			}
 
 			&--3 {
 				@extend .qubit--full-height;
-				margin-right: 1rem;
-				flex-basis: calc(33.33% - 0.75rem);
-
-				&:last-child {
-					margin-right: 0;
-				}
+				@extend .qubit-row--3;
 			}
 
 			&--4 {
 				@extend .qubit--half-height;
 				@extend .qubit--2;
-				&:nth-child(2n) {
-					margin-right: 0;
-				}
 			}
 
 			&--5 {
@@ -156,27 +176,78 @@
 				&:nth-child(1), &:nth-child(2) {
 					flex-basis: calc(50% - 0.5rem);
 				}
-				&:nth-child(2) {
+				&:nth-child(2), &:nth-child(5) {
 					margin-right: 0;
+				}
+				&:nth-child(3) {
+					margin-right: 1rem;
 				}
 			}
 
 			&--6 {
 				@extend .qubit--half-height;
-				@extend .qubit--3;
+				@extend .qubit-row--3;
+			}
 
-				&:nth-child(3n) {
+			&--7 {
+				@extend .qubit--half-height;
+				@extend .qubit-row--4;
+
+				&:nth-child(1), &:nth-child(2), &:nth-child(3) {
+					flex-basis: calc(33.33% - 0.75rem);
+				}
+				&:nth-child(3) {
+					margin-right: 0;
+				}
+				&:nth-child(4) {
+					margin-right: 1rem;
+				}
+			}
+
+			&--8 {
+				@extend .qubit--half-height;
+				@extend .qubit-row--4;
+			}
+
+			&--9 {
+				@extend .qubit--third-height;
+				@extend .qubit-row--3;
+			}
+
+			&--10 {
+				@extend .qubit--third-height;
+				@extend .qubit-row--4;
+
+				&:nth-child(1), &:nth-child(2) {
+					@extend .qubit-row--2;
+				}
+
+				&:nth-child(4n) {
+					margin-right: 1rem;
+				}
+				&:nth-child(6), &:nth-child(10) {
 					margin-right: 0;
 				}
 			}
 
-			&--6 {
-				@extend .qubit--half-height;
-				@extend .qubit--3;
+			&--11 {
+				@extend .qubit--third-height;
+				@extend .qubit-row--4;
 
-				&:nth-child(3n) {
+				&:nth-child(1), &:nth-child(2), &:nth-child(3) {
+					@extend .qubit-row--3;
+				}
+				&:nth-child(7), &:nth-child(11) {
 					margin-right: 0;
 				}
+				&:nth-child(4n) {
+					margin-right: 1rem;
+				}
+			}
+
+			&--12 {
+				@extend .qubit--third-height;
+				@extend .qubit-row--4;
 			}
       
 			&__info {
