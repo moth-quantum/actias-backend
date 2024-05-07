@@ -21,7 +21,7 @@
         });
 
         function handleKeydown(e) {
-            if (e.key === 'q' && performanceModeActive) {
+            if (e.key === 'Escape' && performanceModeActive) {
                 performanceModeActive = false;
                 menuItems.update(items => items.map(item => {
                     if (item.name === 'perform') {

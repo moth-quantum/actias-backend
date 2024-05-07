@@ -11,28 +11,6 @@
 
 	const handleScroll = debounce(() => redrawCables(), 1);
 
-	const handleSliderChange = (e: CustomEvent, qubit: number, axis: number) => {
-			axes[qubit].update(axes => {
-					axes[axis] = e.detail;
-					return axes;
-			});
-	}
-	// $: isSingle = $activeQubitCount === 1 || windowWidth < 1500;
-	// $: isDouble = $activeQubitCount%2 === 0 && windowWidth >= 1500;
-	// $: isTriple = $activeQubitCount%3 === 0 && windowWidth >= 1500;
-	// $: isQuadruple = $activeQubitCount >= 8 && $activeQubitCount != 9 && windowWidth >= 1500;
-	// $: isFive = $activeQubitCount === 5 && windowWidth > 1500;
-	// $: isSeven = $activeQubitCount === 7 && windowWidth > 1500;
-	// $: isTen = $activeQubitCount === 10 && windowWidth > 1500;
-	// $: isEleven = $activeQubitCount === 11 && windowWidth > 1500;
-	// $: isTwelve = $activeQubitCount === 12 && windowWidth > 1500;
-
-	// $: isFullHeight = ($activeQubitCount === 1 && windowWidth > 1000) 
-	// 		|| ($activeQubitCount === 2 && windowWidth > 1000) || ($activeQubitCount === 3 && windowWidth > 1000);
-	// $: isHalfHeight = ($activeQubitCount >= 4 && windowWidth >= 1500) && !isThirdHeight;
-	// $: isThirdHeight = ($activeQubitCount >= 9 && windowWidth >= 1500);
-	
-
 	onMount(() => {
 			windowWidth = window.innerWidth;
 	});
@@ -173,12 +151,9 @@
 
 			&--5 {
 				@extend .qubit--half-height;
-				@extend .qubit--3;
+				@extend .qubit-row--3;
 				&:nth-child(1), &:nth-child(2) {
-					flex-basis: calc(50% - 0.5rem);
-				}
-				&:nth-child(2), &:nth-child(5) {
-					margin-right: 0;
+					@extend .qubit-row--2;
 				}
 				&:nth-child(3) {
 					margin-right: 1rem;
@@ -195,10 +170,7 @@
 				@extend .qubit-row--4;
 
 				&:nth-child(1), &:nth-child(2), &:nth-child(3) {
-					flex-basis: calc(33.33% - 0.75rem);
-				}
-				&:nth-child(3) {
-					margin-right: 0;
+					@extend .qubit-row--3;
 				}
 				&:nth-child(4) {
 					margin-right: 1rem;
