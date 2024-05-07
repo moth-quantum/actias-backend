@@ -62,11 +62,11 @@
         </main>
 
         <footer class="footer container">
-            <span>Build <a href="https://cephasteom.co.uk">Cephas Teom</a> | Design James Cameron</span>
+            <span>Build | <a href="https://cephasteom.co.uk">Cephas Teom</a> / <a href="https://lunar.build">Lunar</a></span>
             <br>
-            <span>Quantum integration using <a href="https://doi.org/10.5281/zenodo.6342382">SOC-QASM</a></span>
+            <span>Design | James Cameron / <a href="https://lunar.build">Lunar</a></span>
             <br>
-            <span>© <a href="https://mothquantum.com/">Moth Quantum</a> / <a href="https://cmr.soc.plymouth.ac.uk/">ICCMR</a> 2023</span>
+            <span>© <a href="https://mothquantum.com/">Moth Quantum</a> {new Date().getFullYear()}</span>
         </footer>
     </div>
 {/if}

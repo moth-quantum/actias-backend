@@ -1,5 +1,8 @@
 <script>
     import { createEventDispatcher } from 'svelte';
+    // @ts-ignore
+    import { FontAwesomeIcon } from 'fontawesome-svelte';
+    import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
     export let value = 1;
     const dispatch = createEventDispatcher();
@@ -20,9 +23,13 @@
 </script>
 
 <div>
-    <button on:click={decrement} disabled={value === 1}>&lt;</button>
+    <button on:click={decrement} disabled={value === 1}>
+        <FontAwesomeIcon icon={faChevronLeft} />
+    </button>
     <span>{value}</span>
-    <button on:click={increment} disabled={value === 127}>&gt;</button>
+    <button on:click={increment} disabled={value === 127}>
+        <FontAwesomeIcon icon={faChevronRight} />
+    </button>
 </div>
 
 <style lang="scss">

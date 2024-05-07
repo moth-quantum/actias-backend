@@ -3,13 +3,12 @@ import Echo from "laravel-echo";
 import Pusher from "pusher-js";
 
 import { id } from '$lib/stores/profile';
-import { pusherKey } from './config';
+import { pusherKey, apiWsDomain } from './config';
 import { axes, qubits } from '$lib/stores/qubits';
 import { users } from '$lib/stores/users';
 import type { User } from '$lib/types';
 
 // TODO: do we need the window.Pusher and window.Echo declarations? 
-// TODO: get key and host from the Electron app
 export const listen = () => {
     const thisUser = get(id);
 	window.Pusher = Pusher;
@@ -17,7 +16,7 @@ export const listen = () => {
 		broadcaster: 'reverb',
 		cluster: 'eu',
 		key: get(pusherKey),
-		wsHost: "127.0.0.1",
+		wsHost: get(apiWsDomain),
 		wsPort: "8080",
 		wssPort: "8080",
 		forceTLS: false,

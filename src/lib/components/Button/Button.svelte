@@ -104,6 +104,12 @@
             max-width: 5rem;
             font-size: var(--text-xs);
         }
+
+        &.active {
+            img {
+                filter: invert(70%);
+            }
+        }
     }
 
     .btn--primary {

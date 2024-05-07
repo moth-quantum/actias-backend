@@ -26,6 +26,12 @@ export interface Parameter {
     outmin?: number;
     outmax?: number;
     isLocked?: boolean;
+    tooltipMessage?: string;
+}
+
+export interface Tooltip {
+    element: string;
+    message: string;
 }
 
 export interface Socket {
@@ -53,6 +59,7 @@ declare global {
     interface Window {
         isApp: boolean;
         apiDomain: string;
+        apiWsDomain: string;
         apiToken: string;
         apiPusherKey: string;
         electronAPI: {
@@ -90,4 +97,9 @@ export interface User {
     z: number;
     isActive: boolean;
     isConnected: boolean;
+}
+
+export interface Action {
+    label: string;
+    action: (value: number) => void;
 }

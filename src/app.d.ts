@@ -16,7 +16,11 @@ declare global {
             min: number;
             max: number;
             step: number;
-        }        
+        }
+        interface Tooltip {
+            element: string;
+            message: string;
+        }      
 	}
 }
 

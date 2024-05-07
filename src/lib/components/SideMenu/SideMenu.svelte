@@ -9,7 +9,7 @@
     import { toggleKeyboard } from '$lib/stores/global';
     import Panel from './Panel.svelte';
     import CircuitDesigner from '$lib/components/CircuitDesigner/CircuitDesigner.svelte';
-
+    
     const handleMenuClick = (name: string) => {
         
         menuItems.update(items => items.map(item => {
@@ -53,6 +53,7 @@
             <div class="side-menu__item {item.isActive ? 'side-menu__item--active' : ''}">
                 <Button 
                     text={item.name} 
+                    active={false}
                     colour="dark" 
                     orientation="vertical"
                     onClick={() => handleMenuClick(item.name)} 

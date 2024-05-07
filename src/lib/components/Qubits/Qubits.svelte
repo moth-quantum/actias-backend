@@ -1,5 +1,7 @@
 <script lang="ts">
     import { qubits, axes, activeQubitCount, isMeasuring } from '$lib/stores/qubits';
+    // @ts-ignore
+    import { axesValues } from '$lib/stores/qubits';
     import { redrawCables } from '$lib/stores/patching';
     import Qubit from './Qubit.svelte';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
@@ -10,8 +12,8 @@
     import { onMount } from 'svelte';
     import { get } from 'svelte/store';
     
-    let axesIds = ['x', 'y', 'z'];
-    let axesNames = ['λ', 'φ', 'θ'];
+    let axesIds = ['z', 'y', 'x'];
+    let axesNames = ['θ', 'φ', 'λ'];
     let windowWidth: number;
 
     const handleScroll = debounce(() => redrawCables(), 1);
@@ -28,7 +30,7 @@
     $: isTriple = !isSingle && !isDouble;
     $: isFullHeight = ($activeQubitCount === 1 && windowWidth > 1000) 
         || ($activeQubitCount === 2 && windowWidth > 1000);
-
+    
     onMount(() => {
         windowWidth = window.innerWidth;
     });
@@ -41,47 +43,50 @@
     class="qubits"
     on:scroll={() => handleScroll()}
 >
-    {#each $qubits.filter(q => q.active) as qubit, i}
-        <div 
-            class="qubit"
-            class:qubit--single={isSingle}
-            class:qubit--double={isDouble}
-            class:qubit--triple={isTriple}
-            class:qubit--full-height={isFullHeight}
-            class:qubit--border={qubit.user !== 'you'}
-            style="border-color: {getUserColour(qubit.user)};"
+    {#each axes as store, i}
+        {#if $qubits[i].active}
+            <div 
+                class="qubit"
+                class:qubit--single={isSingle}
+                class:qubit--double={isDouble}
+                class:qubit--triple={isTriple}
+                class:qubit--full-height={isFullHeight}
+                class:qubit--border={$qubits[i].user !== 'you'}
+                style="border-color: {getUserColour($qubits[i].user)};"
 
-        >
-            {#if isApp()}
-                <h3 class="qubit__info">
-                    <span style="background-color: {getUserColour(qubit.user)}">{(i + 1).toString().padStart(2, '0')}</span>
-                    <span style="background-color: {getUserColour(qubit.user)}">{getUserName(qubit.user)}</span>
-                </h3>
-            {/if}
-            <div class="qubit__qubit">
-                <Qubit 
-                    axes={axes[i]}
-                    disabled={qubit.user !== 'you' || $isMeasuring}
-                />
-            </div>
-            <div class="qubit__patchbay">    
-                <Patchbay 
-                    ids={axesIds.map(id => `${id}${i}`).reverse()} 
-                    labels={axesNames.reverse()} 
-                />
-            </div>
-            <div class="qubit__sliders">
-                {#each get(axes[i]).reverse() as value, axis}
-                    <Slider
-                        disabled={qubit.user !== 'you' || $isMeasuring}
-                        name={axesNames[2 - axis]}
-                        colour={`var(--color-theme-${3 - axis})`}
-                        value={value}
-                        on:change={e => handleSliderChange(e,i,axis)}
+            >
+                {#if isApp()}
+                    <h3 class="qubit__info">
+                        <span style="background-color: {getUserColour($qubits[i].user)}">{(i + 1).toString().padStart(2, '0')}</span>
+                        <span style="background-color: {getUserColour($qubits[i].user)}">{getUserName($qubits[i].user)}</span>
+                    </h3>
+                {/if}
+                <div class="qubit__qubit">
+                    <Qubit 
+                        axes={store}
+                        disabled={$qubits[i].user !== 'you' || $isMeasuring}
                     />
-                {/each}
+                </div>
+                <div class="qubit__patchbay">    
+                    <Patchbay 
+                        ids={axesIds.map(id => `${id}${i}`)} 
+                        labels={axesNames} 
+                    />
+                </div>
+                <div class="qubit__sliders">
+                    {#each get(store) as value, axis}
+                        <Slider
+                            id={`qubit-${i}-${axis}`}
+                            name={axesNames[2 - axis]}
+                            disabled={$qubits[i].user !== 'you' || $isMeasuring}
+                            colour={`var(--color-theme-${3 - axis})`}
+                            value={$axesValues[i][axis]}
+                            on:change={e => handleSliderChange(e,i,axis)}
+                        />
+                    {/each}
+                </div>
             </div>
-        </div>
+        {/if}
     {/each}
 </div>
 

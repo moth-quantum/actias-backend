@@ -2,13 +2,14 @@
     import { envelopes } from '$lib/stores/envelopes';
     import { volume } from '$lib/stores/global';
     import { drone } from '$lib/stores/parameters';
+    import { learn } from '$lib/stores/midi';
     import Knob from '$lib/components/Knob/Knob.svelte';
     import Keyboard from '$lib/components/Keyboard/Keyboard.svelte';
     import Button from '$lib/components/Button/Button.svelte';
-
-    import { library } from '@fortawesome/fontawesome-svg-core';
-    import { faSignal, faCircle } from '@fortawesome/free-solid-svg-icons';
-    library.add(faSignal, faCircle);
+    import Learnable from '$lib/components/Learnable/Learnable.svelte';
+    import Tooltip from '$lib/components/Tooltip/Tooltip.svelte';
+    import { faSignal } from '@fortawesome/free-solid-svg-icons';
+    import midi from '$lib/images/midi-white.svg';
     
 </script>
 
@@ -16,7 +17,25 @@
     <h2 class="visually-hidden">Controls</h2>
     
     <div class="buttons">
-        <Button orientation="vertical" text="Drone" colour="grey" active={$drone} onClick={() => drone.update(d => !d)} icon={faSignal} />
+        <div>
+            <Tooltip element="learn">
+                <Button orientation="vertical" text="Learn" colour="grey" active={$learn} onClick={() => learn.update(l => !l)} image={midi} classes="w-full"/>
+            </Tooltip>
+        </div>
+        <div>
+            <Tooltip element="drone">
+                <Learnable id="drone" classes="h-full rounded-lg">
+                    <Button 
+                        orientation="vertical" 
+                        text="Drone" 
+                        colour="grey" 
+                        active={$drone} 
+                        onClick={() => drone.update(d => !d)} 
+                        icon={faSignal} 
+                    />
+                </Learnable>
+            </Tooltip>
+        </div>
     </div>
     <div class="controller">
         <div class="keys">
@@ -26,24 +45,35 @@
             <div class="knobs__title knobs__title--volume">
                 <h3>Vol</h3>
             </div>
+            
             <div class="knobs__knob knobs__knob--vol">
-                <Knob name="Vol" pixelRange={200} bind:value={$volume}/>
+                <Tooltip element="vol" type="knob">
+                    <Knob id="volume" name="Vol" pixelRange={200} bind:value={$volume}/>
+                </Tooltip>
             </div>
             {#each $envelopes as {name, a, d, s, r}, i (name)}
                 <div class="knobs__title knobs__title--envelope__{i}">
                     <h3>{name}</h3>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_a`}">
-                    <Knob bind:value={a} pixelRange={200} min={0.01} name="a"/>
+                    <Tooltip type="knob" element={`env-${i+1}-a`}>
+                        <Knob id={`env-${i}-a`} bind:value={a} pixelRange={200} min={0.01} name="a"/>
+                    </Tooltip>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_d`}">
-                    <Knob bind:value={d} pixelRange={200} min={0.01} name="d"/>
+                    <Tooltip type="knob" element={`env-${i+1}-d`}>
+                        <Knob id={`env-${i}-d`} bind:value={d} pixelRange={200} min={0.01} name="d"/>
+                    </Tooltip>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_s`}">
-                    <Knob bind:value={s} pixelRange={200} min={0.01} name="s"/>
+                    <Tooltip type="knob" element={`env-${i+1}-s`}>
+                        <Knob id={`env-${i}-s`} bind:value={s} pixelRange={200} min={0.01} name="s"/>
+                    </Tooltip>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_r`}">
-                    <Knob bind:value={r} pixelRange={200} min={0.01} name="r"/>
+                    <Tooltip type="knob" element={`env-${i+1}-r`}>
+                        <Knob id={`env-${i}-r`} bind:value={r} pixelRange={200} min={0.01} name="r"/>
+                    </Tooltip>
                 </div>
             {/each}
         </div>
@@ -70,7 +100,6 @@
     .controls {
         display: flex;
         padding: 1rem;
-        overflow-x: scroll;
         
         @media (min-width: 1200px) {
             padding: 1rem 2rem;
@@ -82,6 +111,7 @@
     .buttons {
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         margin-right: 1rem;
         @media (min-width: 400px) {
             width: 8rem;
@@ -91,6 +121,11 @@
         }
         @media (min-width: 1200px) {
             width: 4.5rem;
+        }
+
+        & div {
+            height: calc(50% - 0.5rem);
+            width: 100%;
         }
     }
 

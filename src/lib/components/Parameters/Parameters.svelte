@@ -1,7 +1,7 @@
 <script lang="ts">
-    import Select from '$lib/components/Forms/Select.svelte';   
+    import Select from '$lib/components/Forms/Select.svelte'; 
+    import Tooltip from '$lib/components/Tooltip/Tooltip.svelte';  
     import { instrumentParameters, fxParameters, globalParameters, paramValues, randomise, keys } from '$lib/stores/parameters';
-    // import { qubits } from '$lib/stores/qubits';
     import { samples } from '$lib/stores/samples'
     import RangeSlider from '$lib/components/Sliders/RangeSlider.svelte';
     import Socket from '$lib/components/Patching/Socket.svelte';
@@ -11,9 +11,9 @@
     // @ts-ignore
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { faLock } from '@fortawesome/free-solid-svg-icons';
+    
     export let showSockets = true;
 
-    // let axesIds = $qubits[0].axes.map(({key}) => key);
     let axesIds = ['x', 'y', 'z'];
     let sampleOptions: {name: string, value: number, active: boolean}[] = [];
 
@@ -36,6 +36,7 @@
         as {type, name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)
     }
         <div class="parameter parameter--{type}">
+
             {#if type === 'select'}
                 <div class="samples">
                     <Select 
@@ -52,22 +53,22 @@
                 </div>
             {/if}
             {#if type === 'range'}
-                <h3>{name}</h3>
-
+                <Tooltip element={key} type="parameter">
+                    <h3>{name}</h3>
+                </Tooltip>
+                
                 <RangeSlider 
+                    id={`param-inst-${key}`}
                     {min} {max} {step} {units} 
                     value={$paramValues[key]}
                     bind:rangeA={rangeA} 
                     bind:rangeB={rangeB} 
                 />
 
-                <button
-                    on:click={() => isLocked = !isLocked}
-                >
+                <button on:click={() => isLocked = !isLocked}>
                     <FontAwesomeIcon icon={faLock}
                         class="icon" 
                         style={`color: ${isLocked ? '#FFF' : 'var(--color-grey-darker);'}`}
-                        
                     />
                 </button>
 
@@ -87,8 +88,12 @@
     </button>
     {#each $globalParameters as {name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)}
         <div class="parameter">
-            <h3>{name}</h3>
+            <Tooltip element={key} type="parameter">
+                <h3>{name}</h3>
+            </Tooltip>
+            
             <RangeSlider 
+                id={`param-global-${key}`}
                 {min} {max} {step} {units} 
                 value={$paramValues[key]}
                 bind:rangeA={rangeA} 
@@ -121,21 +126,21 @@
 
     {#each $fxParameters as {name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)}
         <div class="parameter">
-            <h3>{name}</h3>
+            <Tooltip element={key} type="parameter">
+                <h3>{name}</h3>
+            </Tooltip>
             <RangeSlider 
+                id={`param-fx-${key}`}
                 {min} {max} {step} {units} 
                 value={$paramValues[key]}
                 bind:rangeA={rangeA} 
                 bind:rangeB={rangeB} 
             />
 
-            <button
-                on:click={() => isLocked = !isLocked}
-            >
+            <button on:click={() => isLocked = !isLocked}>
                 <FontAwesomeIcon icon={faLock}
                     class="icon" 
                     style={`color: ${isLocked ? '#FFF' : 'var(--color-grey-darker);'}`}
-                    
                 />
             </button>
                         

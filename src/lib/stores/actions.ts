@@ -1,0 +1,61 @@
+import { get, writable, type Writable} from 'svelte/store';
+import { instruments, instrument, randomise } from '$lib/stores/parameters';
+import { randomiseConnections } from '$lib/stores/patching';
+import { presetKeys, activePreset } from '$lib/stores/presets-synths';
+import { volume } from '$lib/stores/global';
+import { updateEnvelopeValue } from '$lib/stores/envelopes';
+import { measure, axes } from '$lib/stores/qubits';
+import type { Action } from '$lib/types';
+
+export const actions: Writable<{[key: string]: Action}> = writable({
+    'Q01 θ': {label: 'Q01 θ', action: (value: number) => axes[0].update(a => [a[0], a[1], value])},
+    'Q01 φ': {label: 'Q01 φ', action: (value: number) => axes[0].update(a => [a[0], value, a[2]])},
+    'Q01 ψ': {label: 'Q01 ψ', action: (value: number) => axes[0].update(a => [value, a[1], a[2]])},
+    'Q02 θ': {label: 'Q02 θ', action: (value: number) => axes[1].update(a => [a[0], a[1], value])},
+    'Q02 φ': {label: 'Q02 φ', action: (value: number) => axes[1].update(a => [a[0], value, a[2]])},
+    'Q02 ψ': {label: 'Q02 ψ', action: (value: number) => axes[1].update(a => [value, a[1], a[2]])},
+    'Q03 θ': {label: 'Q03 θ', action: (value: number) => axes[2].update(a => [a[0], a[1], value])},
+    'Q03 φ': {label: 'Q03 φ', action: (value: number) => axes[2].update(a => [a[0], value, a[2]])},
+    'Q03 ψ': {label: 'Q03 ψ', action: (value: number) => axes[2].update(a => [value, a[1], a[2]])},
+    'Q04 θ': {label: 'Q04 θ', action: (value: number) => axes[3].update(a => [a[0], a[1], value])},
+    'Q04 φ': {label: 'Q04 φ', action: (value: number) => axes[3].update(a => [a[0], value, a[2]])},
+    'Q04 ψ': {label: 'Q04 ψ', action: (value: number) => axes[3].update(a => [value, a[1], a[2]])},
+    'Q05 θ': {label: 'Q05 θ', action: (value: number) => axes[4].update(a => [a[0], a[1], value])},
+    'Q05 φ': {label: 'Q05 φ', action: (value: number) => axes[4].update(a => [a[0], value, a[2]])},
+    'Q05 ψ': {label: 'Q05 ψ', action: (value: number) => axes[4].update(a => [value, a[1], a[2]])},
+    'Q06 θ': {label: 'Q06 θ', action: (value: number) => axes[5].update(a => [a[0], a[1], value])},
+    'Q06 φ': {label: 'Q06 φ', action: (value: number) => axes[5].update(a => [a[0], value, a[2]])},
+    'Q06 ψ': {label: 'Q06 ψ', action: (value: number) => axes[5].update(a => [value, a[1], a[2]])},
+    'Q07 θ': {label: 'Q07 θ', action: (value: number) => axes[6].update(a => [a[0], a[1], value])},
+    'Q07 φ': {label: 'Q07 φ', action: (value: number) => axes[6].update(a => [a[0], value, a[2]])},
+    'Q07 ψ': {label: 'Q07 ψ', action: (value: number) => axes[6].update(a => [value, a[1], a[2]])},
+    'Q08 θ': {label: 'Q08 θ', action: (value: number) => axes[7].update(a => [a[0], a[1], value])},
+    'Q08 φ': {label: 'Q08 φ', action: (value: number) => axes[7].update(a => [a[0], value, a[2]])},
+    'Q08 ψ': {label: 'Q08 ψ', action: (value: number) => axes[7].update(a => [value, a[1], a[2]])},
+    'Q09 θ': {label: 'Q09 θ', action: (value: number) => axes[8].update(a => [a[0], a[1], value])},
+    'Q09 φ': {label: 'Q09 φ', action: (value: number) => axes[8].update(a => [a[0], value, a[2]])},
+    'Q09 ψ': {label: 'Q09 ψ', action: (value: number) => axes[8].update(a => [value, a[1], a[2]])},
+    'Q10 θ': {label: 'Q10 θ', action: (value: number) => axes[9].update(a => [a[0], a[1], value])},
+    'Q10 φ': {label: 'Q10 φ', action: (value: number) => axes[9].update(a => [a[0], value, a[2]])},
+    'Q10 ψ': {label: 'Q10 ψ', action: (value: number) => axes[9].update(a => [value, a[1], a[2]])},
+    'Q11 θ': {label: 'Q11 θ', action: (value: number) => axes[10].update(a => [a[0], a[1], value])},
+    'Q11 φ': {label: 'Q11 φ', action: (value: number) => axes[10].update(a => [a[0], value, a[2]])},
+    'Q11 ψ': {label: 'Q11 ψ', action: (value: number) => axes[10].update(a => [value, a[1], a[2]])},
+    'Instrument': {label: 'Instrument', action: (value: number) => instrument.set(instruments[Math.floor(value * instruments.length)].name)},
+    'Preset': {label: 'Preset', action: (value: number) => activePreset.set(get(presetKeys)[Math.floor(value * get(presetKeys).length)])},
+    'Volume': {label: 'Volume', action: (value: number) => volume.set(value)},
+    'Env1 A': {label: 'Env1 A', action: (value: number) => updateEnvelopeValue(0, 'a', value)},
+    'Env1 D': {label: 'Env1 D', action: (value: number) => updateEnvelopeValue(0, 'd', value)},
+    'Env1 S': {label: 'Env1 S', action: (value: number) => updateEnvelopeValue(0, 's', value)},
+    'Env1 R': {label: 'Env1 R', action: (value: number) => updateEnvelopeValue(0, 'r', value)},
+    'Env2 A': {label: 'Env2 A', action: (value: number) => updateEnvelopeValue(1, 'a', value)},
+    'Env2 D': {label: 'Env2 D', action: (value: number) => updateEnvelopeValue(1, 'd', value)},
+    'Env2 S': {label: 'Env2 S', action: (value: number) => updateEnvelopeValue(1, 's', value)},
+    'Env2 R': {label: 'Env2 R', action: (value: number) => updateEnvelopeValue(1, 'r', value)},
+    'Measure': {label: 'Measure', action: (value: number) => value && measure()},
+    '? Instrument': {label: '? Instrument', action: (value: number) => value && randomise('inst')},
+    '? Global': {label: '? Global', action: (value: number) => value && randomise('global')},
+    '? FX': {label: '? FX', action: (value: number) => value && randomise('fx')},
+    '? All': {label: '? All', action: (value: number) => value && randomise('inst') && randomise('global') && randomise('fx')},
+    '? Connections': {label: '? Connections', action: (value: number) => value && randomiseConnections()},
+})

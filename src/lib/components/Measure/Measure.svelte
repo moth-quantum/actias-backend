@@ -1,10 +1,12 @@
-<script>
+<script lang="ts">
     import Select from '$lib/components/Forms/Select.svelte';   
     import { measure, seconds, bpm, beats, source, isMeasuring } from '$lib/stores/qubits';
     import { isApp } from '$lib/stores/global';
     import Lottie from '$lib/components/Lottie/Lottie.svelte';
     import lottieSrc from '$lib/images/measuring.json';
-
+    import Tooltip from '$lib/components/Tooltip/Tooltip.svelte';
+    import Learnable from '$lib/components/Learnable/Learnable.svelte';
+    
     const machines = [
         {name: 'local', active: true}, 
         // {name: 'qasm_simulator', active: false}, 
@@ -13,7 +15,9 @@
 </script>
 
 <div class="measure">
-    <h2 class="title">Measure</h2>
+    <Learnable id="measure">
+        <h2 class="title">Measure</h2>
+    </Learnable>
     <form>
         {#if isApp()}
             <div class="source">
@@ -43,17 +47,18 @@
         />
     </form>
     <div class="button">
-        <button
-            on:click|preventDefault={() => measure()}
-            disabled={$isMeasuring}
-        >
-            {#if $isMeasuring}
-                <Lottie src={lottieSrc} />
-            {:else}
-                <span class="button__text">Measure</span>
-            {/if}
-
-        </button>
+        <Tooltip element="measure">
+            <button
+                on:click|preventDefault={() => measure()}
+                disabled={$isMeasuring}
+            >
+                {#if $isMeasuring}
+                    <Lottie src={lottieSrc} />
+                {:else}
+                    <span class="button__text">Measure</span>
+                {/if}
+            </button>
+        </Tooltip>
     </div>
 </div>
 
