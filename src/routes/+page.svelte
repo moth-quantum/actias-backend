@@ -14,7 +14,7 @@
     import Qubits from '$lib/components/Qubits/Qubits.svelte';
     import InstrumentButtons from '$lib/components/InstrumentButtons/index.svelte';
     import Toasts from '$lib/components/Toasts/Toasts.svelte';
-    import { presetKeys, savePreset, deletePreset, editPreset, activePreset } from '$lib/stores/presets-synths';
+    import { presetKeys, savePreset, deletePreset, editPreset, activePreset } from '$lib/stores/presets-project';
 
     import { Drawer } from 'flowbite-svelte';
     import { sineIn } from 'svelte/easing';

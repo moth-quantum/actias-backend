@@ -1,7 +1,7 @@
 import { get, writable, type Writable} from 'svelte/store';
 import { instruments, instrument, randomise } from '$lib/stores/parameters';
 import { randomiseConnections } from '$lib/stores/patching';
-import { presetKeys, activePreset } from '$lib/stores/presets-synths';
+import { presetKeys, activePreset } from '$lib/stores/presets-project';
 import { volume } from '$lib/stores/global';
 import { updateEnvelopeValue } from '$lib/stores/envelopes';
 import { measure, axes } from '$lib/stores/qubits';

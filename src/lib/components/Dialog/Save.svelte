@@ -3,7 +3,7 @@
     const dispatch = createEventDispatcher();
 
     import Input from '$lib/components/Forms/Input.svelte'
-    import { savePreset } from '$lib/stores/presets-synths'
+    import { savePreset } from '$lib/stores/presets-project'
 </script>
 
 

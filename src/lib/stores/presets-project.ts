@@ -10,7 +10,7 @@ export const activePreset = writable('')
 
 function initPresets() {
     if(typeof localStorage === 'undefined') return
-    const stored = JSON.parse(localStorage.getItem('q.presets.instruments') || '{}');
+    const stored = JSON.parse(localStorage.getItem('q.presets.project') || '{}');
     presets.update(presets => ({
         ...presets, 
         ...stored,
@@ -22,7 +22,7 @@ initPresets();
 
 presets.subscribe(presets => {
     if(typeof localStorage === 'undefined') return
-    localStorage.setItem('q.presets.instruments', JSON.stringify(presets))
+    localStorage.setItem('q.presets.project', JSON.stringify(presets))
 })
 
 export const presetKeys = derived(
@@ -67,7 +67,7 @@ export function loadPreset(key: string) {
 
 export function savePreset(key: string) {
     if(typeof localStorage === 'undefined') return
-    const stored = JSON.parse(localStorage.getItem('q.presets.instruments') || "{}");
+    const stored = JSON.parse(localStorage.getItem('q.presets.project') || "{}");
 
     stored[key] = {
         instrument: get(instrument),
@@ -75,7 +75,7 @@ export function savePreset(key: string) {
         params: get(allParameters).map(({key, rangeA, rangeB}) => ({key, rangeA, rangeB})),
         connections: get(connections)
     };
-    localStorage.setItem('q.presets.instruments', JSON.stringify(stored));
+    localStorage.setItem('q.presets.project', JSON.stringify(stored));
 
     presets.update(presets => ({...presets, ...stored}))
     activePreset.set(key)
@@ -83,9 +83,9 @@ export function savePreset(key: string) {
 
 export function deletePreset(key: string) {
     if(typeof localStorage === 'undefined') return
-    const stored = JSON.parse(localStorage.getItem('q.presets.instruments') || "{}");
+    const stored = JSON.parse(localStorage.getItem('q.presets.project') || "{}");
     delete stored[key];
-    localStorage.setItem('q.presets.instruments', JSON.stringify(stored));
+    localStorage.setItem('q.presets.project', JSON.stringify(stored));
     presets.set(stored)
     activePreset.set('load')
 }
@@ -94,7 +94,7 @@ export function editPreset(key: string) {
     if(typeof localStorage === 'undefined') return
     
     const previousName = get(activePreset);
-    const stored = JSON.parse(localStorage.getItem('q.presets.instruments') || "{}");
+    const stored = JSON.parse(localStorage.getItem('q.presets.project') || "{}");
     const preset = stored[previousName];
     delete stored[previousName];
     stored[key] = {
@@ -103,7 +103,7 @@ export function editPreset(key: string) {
         params: get(allParameters).map(({key, rangeA, rangeB}) => ({key, rangeA, rangeB})),
         connections: get(connections)
     };
-    localStorage.setItem('q.presets.instruments', JSON.stringify(stored));
+    localStorage.setItem('q.presets.project', JSON.stringify(stored));
     presets.set(stored)
     activePreset.set(key)
 }

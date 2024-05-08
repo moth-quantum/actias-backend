@@ -1,4 +1,4 @@
-import { activePreset, presets } from '$lib/stores/presets-synths';
+import { activePreset, presets } from '$lib/stores/presets-project';
 import { updateSamples } from '$lib/stores/samples';
 import { getAppState } from '$lib/stores/parameters';
 import { apiDomain, apiWsDomain, apiToken, pusherKey } from '$lib/networking/config';
