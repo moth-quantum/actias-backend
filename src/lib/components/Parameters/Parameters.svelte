@@ -10,7 +10,7 @@
     import { onMount } from 'svelte';
     // @ts-ignore
     import { FontAwesomeIcon } from 'fontawesome-svelte';
-    import { faLock } from '@fortawesome/free-solid-svg-icons';
+    import { faLock, faShuffle } from '@fortawesome/free-solid-svg-icons';
     
     export let showSockets = true;
 
@@ -31,6 +31,9 @@
 <div class="group">
     <button on:click={() => randomise('inst')}>
         <h2>Instrument</h2>
+    </button>
+    <button class="connect" on:click={() => randomise('inst')}>
+        <FontAwesomeIcon icon={faShuffle} />
     </button>
     {#each $instrumentParameters.filter(({key}) => $keys.includes(key)) 
         as {type, name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)
@@ -65,7 +68,7 @@
                     bind:rangeB={rangeB} 
                 />
 
-                <button on:click={() => isLocked = !isLocked}>
+                <button class="lock" on:click={() => isLocked = !isLocked}>
                     <FontAwesomeIcon icon={faLock}
                         class="icon" 
                         style={`color: ${isLocked ? '#FFF' : 'var(--color-grey-darker);'}`}
@@ -100,9 +103,7 @@
                 bind:rangeB={rangeB} 
             />
 
-            <button
-                on:click={() => isLocked = !isLocked}
-            >
+            <button class="lock" on:click={() => isLocked = !isLocked}>
                 <FontAwesomeIcon icon={faLock}
                     class="icon" 
                     style={`color: ${isLocked ? '#FFF' : 'var(--color-grey-darker);'}`}
@@ -137,7 +138,7 @@
                 bind:rangeB={rangeB} 
             />
 
-            <button on:click={() => isLocked = !isLocked}>
+            <button class="lock" on:click={() => isLocked = !isLocked}>
                 <FontAwesomeIcon icon={faLock}
                     class="icon" 
                     style={`color: ${isLocked ? '#FFF' : 'var(--color-grey-darker);'}`}
@@ -193,7 +194,7 @@
         word-spacing: 50000px; 
     }
 
-    button {
+    .lock {
         font-size: 0.6rem;
     }
 
@@ -214,10 +215,20 @@
     }
 
     .group {
+        position: relative;
         margin-bottom: 1rem;
         & > button {
             width: 100%;
             text-align: left;
+        }
+
+        & .connect {
+            position: absolute;
+            top: 1.5px;
+            right: 1px;
+            width: 1rem;
+            color: var(--color-yellow);
+            opacity: 0.5;
         }
     }
 
