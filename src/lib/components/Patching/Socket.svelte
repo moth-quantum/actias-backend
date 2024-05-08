@@ -20,6 +20,7 @@
     function handleDragStart({ offsetX, offsetY }) {
         position = { x: offsetX, y: offsetY }
         thisSocket.style.zIndex = 1002;
+        thisSocket.classList.add('socket--dragging');
     }
 
     function handleDragEnd(e) {
@@ -39,6 +40,7 @@
         // return to original position
         position = {x: 0, y: 0}
         thisSocket.style.zIndex = 10;
+        thisSocket.classList.remove('socket--dragging');
     }
 
     function handleClick() {
@@ -114,7 +116,7 @@
     {/each}
 </div>
 
-<style>
+<style lang="scss">
     .socket__container {
         height: 100%;
         display: flex;
@@ -135,10 +137,13 @@
         height: 1.2rem;
         background-color: #000;
         border-radius: 50%;
-        
-        cursor: pointer;
+        cursor: grab;
         display: inline-block;
         z-index: 15;
+
+        &--dragging {
+            cursor: grabbing;
+        }
     }
 
     .socket--origin {
