@@ -1,7 +1,7 @@
 <script lang="ts">
     import { qubits, axes, activeQubitCount, isMeasuring } from '$lib/stores/qubits';
     // @ts-ignore
-    import { axesValues } from '$lib/stores/qubits';
+    import { axesValues, focusedQubit } from '$lib/stores/qubits';
     import { redrawCables } from '$lib/stores/patching';
     import Qubit from './Qubit.svelte';
     import Patchbay from '$lib/components/Patching/Patchbay.svelte';
@@ -63,6 +63,7 @@
                 {/if}
                 <div class="qubit__qubit">
                     <Qubit 
+                        {i}
                         axes={store}
                         disabled={$qubits[i].user !== 'you' || $isMeasuring}
                     />
@@ -81,7 +82,10 @@
                             disabled={$qubits[i].user !== 'you' || $isMeasuring}
                             colour={`var(--color-theme-${3 - axis})`}
                             value={$axesValues[i][axis]}
-                            on:change={e => handleSliderChange(e,i,axis)}
+                            on:change={e => {
+                                handleSliderChange(e,i,axis)
+                                focusedQubit.set(i)
+                            }}
                         />
                     {/each}
                 </div>

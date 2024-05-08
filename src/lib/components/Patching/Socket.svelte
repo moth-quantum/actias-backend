@@ -5,6 +5,7 @@
     import { sockets, connections, activateSocket, deactivateSockets, connectSockets, disconnectSocket } from '$lib/stores/patching';
     import Cable from '$lib/components/Patching/Cable.svelte';
     import { instrumentParameters } from '$lib/stores/parameters';
+    import { focusedQubit } from '$lib/stores/qubits';
 
     export let id;
     export let type;
@@ -111,6 +112,7 @@
                 offset={$sockets[socketId].offset}
                 from={{x: $sockets[id].x + $sockets[id].width/2, y: $sockets[id].y + $sockets[id].width/2}}
                 to={{x: $sockets[socketId].x + $sockets[socketId].width/2 - 0.5, y: $sockets[socketId].y + $sockets[socketId].width/2}}
+                isFocused={connectedTo[0] && +connectedTo[0].substring(1) === $focusedQubit}
             ></Cable>
         {/if}
     {/each}

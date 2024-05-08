@@ -5,6 +5,7 @@
     export let to = {x: 0, y: 0};
     export let offset = 2;
     export let colour = 'blue';
+    export let isFocused = false;
     
     let w = 0;
     let h = 0;
@@ -39,6 +40,7 @@
 <svg 
     viewBox={`0 0 ${w} ${h}`} xmlns="http://www.w3.org/2000/svg"
     class="svg"
+    
 >
     <circle 
         class="socket"
@@ -47,6 +49,7 @@
         {#each segments as {x1, y1, x2, y2}}
             <line 
                 class="cable"
+                class:cable--focussed={isFocused}
                 {x1} {x2} {y1} {y2}
                 stroke={colour} stroke-width="2"
             />
@@ -57,7 +60,7 @@
     />
 </svg>
 
-<style>
+<style lang="scss">
     .svg {
         position: absolute;
         top: 0;
@@ -67,6 +70,8 @@
         width: 100%;
         pointer-events: none;
         z-index: 20;
+
+
     }
 
     .socket {
@@ -74,5 +79,10 @@
     }
     .cable {
         z-index: 18;
+        opacity: 0.25;
+
+        &--focussed {
+            opacity: 1;
+        }
     }
 </style>

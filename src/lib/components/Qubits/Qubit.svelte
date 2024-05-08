@@ -4,11 +4,12 @@
     import { Vector } from 'p5'
     import { debounce, clamp, min, throttle } from '$lib/utils/utils';
     import { onMount } from 'svelte';
-    import { qubits } from '$lib/stores/qubits';
+    import { qubits, focusedQubit } from '$lib/stores/qubits';
     import { redrawCables } from '$lib/stores/patching';
     import type { Tweened } from 'svelte/motion';
     
     export let axes: Tweened<number[]>;
+    export let i: number;
     let theta: number = 0; // 2
     let phi: number = 0; // 1
     let phase: number = 0; // 0
@@ -106,7 +107,7 @@
             }
 
             axes.set([phase, phi, theta])
-
+            focusedQubit.set(i)
             return false;
         }, 25);
 
