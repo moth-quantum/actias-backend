@@ -127,7 +127,7 @@
         </div>
     
         <Presets 
-            type="instrument"
+            type="project"
             keys={$presetKeys}
             savePreset={savePreset}
             deletePreset={deletePreset}

@@ -2,6 +2,7 @@ import { get } from 'svelte/store';
 import { id, name, location } from '$lib/stores/profile';
 import { apiDomain, headers } from './config';
 import { debounce } from '$lib/utils/utils';
+import { addToast } from '$lib/stores/toasts';
 
 export const updateProfile = () => {
     const endpoint = `${get(apiDomain)}/api/app-user/${get(id)}/update`;
@@ -14,8 +15,14 @@ export const updateProfile = () => {
         
         // update the api
         const body = JSON.stringify({"name": value});
-        fetch(endpoint, { method, headers: get(headers), body })
-            .catch((error) => console.error('Error:', error));
+        fetch(endpoint, { 
+            method, headers: get(headers), body 
+        })
+        .then((response) => {
+            response.status === 404 && addToast('404: update name', 'warning');
+            response.status === 500 && addToast('500: Server error when updating name', 'error');
+        })
+        .catch((error) => console.error('Error:', error));
 
     }, 500))
 
@@ -25,8 +32,14 @@ export const updateProfile = () => {
         
         // update the api
         const body = JSON.stringify({"location": value});
-        fetch(endpoint, { method, headers: get(headers), body })
-            .catch((error) => console.error('Error:', error));
+        fetch(endpoint, { 
+            method, headers: get(headers), body 
+        })
+        .then((response) => {
+            response.status === 404 && addToast('404: update location', 'warning');
+            response.status === 500 && addToast('500: Server error when updating location', 'error');
+        })
+        .catch((error) => console.error('Error:', error));
 
     }, 500))
 

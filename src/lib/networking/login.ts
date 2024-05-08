@@ -1,6 +1,7 @@
 import { get } from 'svelte/store';
 import { id, name, location, isLoggedIn } from '$lib/stores/profile';
 import { apiDomain, headers } from './config';
+import { addToast } from '$lib/stores/toasts';
 
 export const login = async () => {
     // Check if we have a stored user
@@ -34,6 +35,11 @@ export const login = async () => {
     // Conditionally login / register
     return fetch(`${get(apiDomain)}${endpoint}`, request)
         .then(response => response.json())
+        .then((response) => {
+            response.status === 404 && addToast('404: login / register', 'warning');
+            response.status === 500 && addToast('500: Server error when logging in / registering', 'error');
+            return response;
+        })
         .then(({user}) => {
             // ensure that we store the user id for future requests
             id.set(user.id)

@@ -3,6 +3,7 @@ import { id } from '$lib/stores/profile';
 import { users } from '$lib/stores/users';
 import { apiDomain, headers } from './config';
 import type { User } from '$lib/types';
+import { addToast } from '$lib/stores/toasts';
 
 export const getUsers = async () => {
     const endpoint = `${get(apiDomain)}/api/app-users/${get(id)}`;
@@ -11,6 +12,11 @@ export const getUsers = async () => {
         headers: get(headers)
     })
     .then(response => response.json())
+    .then((response) => {
+        response.status === 404 && addToast('404: get users', 'warning');
+        response.status === 500 && addToast('500: Server error when getting users', 'error');
+        return response
+    })
     .then((data) => {
         users.update(() => data.users.map((user: any) => {
             return {
@@ -34,6 +40,11 @@ export const connect = async (userID: number) => {
         method: 'GET',
         headers: get(headers)
     })
+    .then((response) => {
+        response.status === 404 && addToast('404: connect users', 'warning');
+        response.status === 500 && addToast('500: Server error when connecting users', 'error');
+        return response
+    })
     .then(() => {
         users.update(users => users.map((user: User) => {
             return user.id === userID 
@@ -49,6 +60,11 @@ export const disconnect = async (userID: number) => {
     return fetch(endpoint, {
         method: 'GET',
         headers: get(headers)
+    })
+    .then((response) => {
+        response.status === 404 && addToast('404: disconnect users', 'warning');
+        response.status === 500 && addToast('500: Server error when disconnecting users', 'error');
+        return response
     })
     .then(() => {
         users.update(users => users.map((user: User) => {
