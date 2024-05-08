@@ -8,7 +8,7 @@
     import Buttons from '$lib/components/Patching/Buttons.svelte';
     import { loadSample } from '../../../sound';
     import { onMount } from 'svelte';
-    // import { randomiseConnections } from '$lib/stores/patching';
+    import { randomiseConnections } from '$lib/stores/patching';
     // @ts-ignore
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { faLock, faShuffle } from '@fortawesome/free-solid-svg-icons';
@@ -32,9 +32,12 @@
 <div class="group">
     <button on:click={() => randomise('inst')}>
         <h2>Instrument</h2>
-    </button>
-    <button class="connect" on:click={() => randomiseConnections()}>
-        <FontAwesomeIcon icon={faShuffle} />
+        <button class="connect" on:click={(e) => {
+            e.stopPropagation()
+            randomiseConnections()
+        }}>
+            <FontAwesomeIcon icon={faShuffle} />
+        </button>
     </button>
     {#each $instrumentParameters.filter(({key}) => $keys.includes(key)) 
         as {type, name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)
@@ -215,20 +218,21 @@
     }
 
     .group {
-        position: relative;
         margin-bottom: 1rem;
         & > button {
             width: 100%;
             text-align: left;
+            position: relative;
         }
 
         & .connect {
             position: absolute;
-            top: 1.5px;
-            right: 1px;
+            top: 0;
+            right: 0;
             width: 1rem;
             color: var(--color-yellow);
             opacity: 0.5;
+            z-index: 100;
         }
     }
 
