@@ -38,6 +38,18 @@
             <h3 class="title">Devices</h3>
             <h3 class="title">Channel</h3>
         </div>
+        {#if $inputs.some(input => !input.active)}
+            <div class="device">
+                <button 
+                    class="add-device"
+                    on:click={handleAddDevice}
+                >
+                    Add device
+                    <span class="add-device__icon">+</span>
+                </button>
+
+            </div>
+        {/if}
         {#each $inputs as {name, channel}}
             {#if $activeInputs.includes(name)}
                 <div class="device">
@@ -58,19 +70,6 @@
                 </div>
             {/if}
         {/each}
-        
-        {#if $inputs.some(input => !input.active)}
-        <div class="device">
-            <button 
-                class="add-device"
-                on:click={handleAddDevice}
-            >
-                Add device
-                <span class="add-device__icon">+</span>
-            </button>
-
-        </div>
-        {/if}
     </div>
     <div class="group map">
         <h3 class="title">
