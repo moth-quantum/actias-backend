@@ -15,11 +15,11 @@
     import InstrumentButtons from '$lib/components/InstrumentButtons/index.svelte';
     import Toasts from '$lib/components/Toasts/Toasts.svelte';
     import { presetKeys, savePreset, deletePreset, editPreset, activePreset } from '$lib/stores/presets-project';
+    import { isChrome } from '$lib/utils/utils';
 
     import { Drawer } from 'flowbite-svelte';
     import { sineIn } from 'svelte/easing';
 
-    import { library } from '@fortawesome/fontawesome-svg-core';
     import { faBars } from '@fortawesome/free-solid-svg-icons';
     
     import { login, logout } from '$lib/networking/login';
@@ -28,9 +28,10 @@
     import { listen } from '$lib/networking/listen';
     import { updateProfile } from '$lib/networking/profile';
 
+    import { addToast } from '$lib/stores/toasts';
+
     import initElectronAPI from '$lib/electronAPI';
     
-    library.add(faBars);
 
     let isDesktop = false;
     let sidebarIsHidden = true; 
@@ -46,6 +47,7 @@
     }
 
     onMount(async () => {
+        isChrome() || addToast('Please use Chrome for optimum audio performance', 'warning');
         isDesktop = window.innerWidth > 1200
         redrawCables(500)
 
