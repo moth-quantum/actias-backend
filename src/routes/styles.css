@@ -219,3 +219,11 @@ canvas {
 .gate--selected line {
 	stroke: var(--color-grey-light)!important;
 }
+
+* {
+	scrollbar-width: none; /* Firefox */
+}
+
+*::-webkit-scrollbar {
+	display: none;
+}
