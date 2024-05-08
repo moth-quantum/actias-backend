@@ -52,6 +52,7 @@ export interface Preset {
     connections: Connection[];
     params: Parameter[];
     envelopes: Envelope[];
+    circuit: any;
 };
 
 // Electron types

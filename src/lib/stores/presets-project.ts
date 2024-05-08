@@ -3,6 +3,7 @@ import { instrument, instrumentParameters, globalParameters, fxParameters, allPa
 import { envelopes } from '$lib/stores/envelopes';
 import { connections } from '$lib/stores/patching';
 import type { Envelope, Preset } from '$lib/types';
+import { circuit } from '$lib/stores/circuit';
 
 export const presets = writable({} as {[key: string]: Preset | null})
 
@@ -50,6 +51,9 @@ export function loadPreset(key: string) {
     // update connections
     connections.set(preset.connections);
 
+    // update preset
+    preset.circuit && circuit.load(preset.circuit);
+
     [instrumentParameters, globalParameters, fxParameters]
         .forEach((store) => store.update((params) => {
             return params.map((param) => {
@@ -73,7 +77,8 @@ export function savePreset(key: string) {
         instrument: get(instrument),
         envelopes: get(envelopes),
         params: get(allParameters).map(({key, rangeA, rangeB}) => ({key, rangeA, rangeB})),
-        connections: get(connections)
+        connections: get(connections),
+        circuit: circuit.save()
     };
     localStorage.setItem('q.presets.project', JSON.stringify(stored));
 
