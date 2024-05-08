@@ -43,4 +43,5 @@ export const tooltips: Writable<Tooltip[]> = writable<Tooltip[]>([
 	{ element: 'env-2-s', message: 'Envelope 2 sustain. Used for FM modulation envelope' },
 	{ element: 'env-2-r', message: 'Envelope 2 release. Used for FM modulation envelope' },
 	{ element: 'learn', message: 'MIDI learn mode. Turn on and select an outlined element. Move a control on an active MIDI device to map the element to the control. Current mappings are listed in the MIDI side menu' },
+	{ element: 'randomise-patching', message: 'Randomise patching' },
 ]);

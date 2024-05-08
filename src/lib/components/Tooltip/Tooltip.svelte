@@ -47,6 +47,9 @@
 		transition: opacity 0.2s;
 		z-index: 1000;
 		font-size: var(--text-sm);
+		text-align: left;
+		font-family: var(--font-body);
+		letter-spacing: 0.1rem;
 	}
 
 	.tooltip--show {

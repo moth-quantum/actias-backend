@@ -36,8 +36,10 @@
             e.stopPropagation()
             randomiseConnections()
         }}>
-            <FontAwesomeIcon icon={faShuffle} />
-        </button>
+            <Tooltip element="randomise-patching" type="parameter">
+                <FontAwesomeIcon icon={faShuffle} />
+            </Tooltip>
+            </button>
     </button>
     {#each $instrumentParameters.filter(({key}) => $keys.includes(key)) 
         as {type, name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)
@@ -227,11 +229,10 @@
 
         & .connect {
             position: absolute;
-            top: 0;
+            top: -2px;
             right: 0;
             width: 1rem;
             color: var(--color-yellow);
-            opacity: 0.5;
             z-index: 100;
         }
     }
