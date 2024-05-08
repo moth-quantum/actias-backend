@@ -3,6 +3,7 @@ import { axes } from '$lib/stores/qubits';
 import { throttle } from '$lib/utils/utils';
 import { id, isLoggedIn } from '$lib/stores/profile';
 import { apiDomain, headers } from './config';
+import { addToast } from '$lib/stores/toasts';
 
 const sendPosition = (axes: number[]) => {
     if(!get(isLoggedIn)) return;
@@ -17,6 +18,10 @@ const sendPosition = (axes: number[]) => {
                 z: axes[2],
             }
         })
+    })
+    .then((response) => {
+        response.status === 404 && addToast('404: broadcasting position', 'warning');
+        response.status === 500 && addToast('500: Server error when broadcasting position', 'error');
     })
     .catch((error) => console.error('Error:', error));
 }
