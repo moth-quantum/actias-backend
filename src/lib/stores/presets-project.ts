@@ -4,6 +4,7 @@ import { envelopes } from '$lib/stores/envelopes';
 import { connections } from '$lib/stores/patching';
 import type { Envelope, Preset } from '$lib/types';
 import { circuit } from '$lib/stores/circuit';
+import { qubits } from '$lib/stores/qubits';
 
 export const presets = writable({} as {[key: string]: Preset | null})
 
@@ -36,6 +37,14 @@ activePreset.subscribe(loadPreset)
 export function loadPreset(key: string) {
     const preset = get(presets)[key]
     if(!preset) return;
+
+    // update number of qubits
+    qubits.update(qs => {
+        return qs.map((q, i) => ({
+            ...q,
+            active: i < (preset.numQubits || 1)
+        }))
+    })
     
     // update envelope values
     envelopes.update((envelopes: Envelope[]) => {
@@ -78,7 +87,8 @@ export function savePreset(key: string) {
         envelopes: get(envelopes),
         params: get(allParameters).map(({key, rangeA, rangeB}) => ({key, rangeA, rangeB})),
         connections: get(connections),
-        circuit: circuit.save()
+        circuit: circuit.save(),
+        numQubits: circuit.numQubits
     };
     localStorage.setItem('q.presets.project', JSON.stringify(stored));
 
@@ -106,7 +116,9 @@ export function editPreset(key: string) {
         instrument: get(instrument),
         envelopes: get(envelopes),
         params: get(allParameters).map(({key, rangeA, rangeB}) => ({key, rangeA, rangeB})),
-        connections: get(connections)
+        connections: get(connections),
+        circuit: circuit.save(),
+        numQubits: circuit.numQubits
     };
     localStorage.setItem('q.presets.project', JSON.stringify(stored));
     presets.set(stored)

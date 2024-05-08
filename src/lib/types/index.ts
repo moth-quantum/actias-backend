@@ -53,6 +53,7 @@ export interface Preset {
     params: Parameter[];
     envelopes: Envelope[];
     circuit: any;
+    numQubits: number;
 };
 
 // Electron types
