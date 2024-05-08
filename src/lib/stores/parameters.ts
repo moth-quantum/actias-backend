@@ -1,5 +1,5 @@
 import { writable, type Writable, get, derived, type Readable } from 'svelte/store';
-import { axes } from '$lib/stores/qubits'
+import { axes, isMeasuring } from '$lib/stores/qubits'
 import { samples } from '$lib/stores/samples';
 import { envelopeValues } from './envelopes';
 import { initialiseConnections, getConnections, connections} from './patching';
@@ -193,6 +193,10 @@ export function randomise(type: 'inst' | 'global' | 'fx') {
 }
 
 export const drone = writable(false);
+// switch off drone at the end of the measurement
+isMeasuring.subscribe((measuring) => {
+    !measuring && drone.set(false);
+})
 
 export const getAppState = () => {
     return {
