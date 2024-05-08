@@ -49,7 +49,7 @@
         {#each segments as {x1, y1, x2, y2}}
             <line 
                 class="cable"
-                class:cable--focussed={isFocused}
+                class:cable--focused={isFocused}
                 {x1} {x2} {y1} {y2}
                 stroke={colour} stroke-width="2"
             />
@@ -70,8 +70,6 @@
         width: 100%;
         pointer-events: none;
         z-index: 20;
-
-
     }
 
     .socket {
@@ -79,10 +77,10 @@
     }
     .cable {
         z-index: 18;
-        opacity: 0.25;
+        display: none;
 
-        &--focussed {
-            opacity: 1;
+        &--focused {
+            display: block;
         }
     }
 </style>
