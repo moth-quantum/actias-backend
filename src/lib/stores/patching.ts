@@ -1,4 +1,5 @@
 import { writable, get } from 'svelte/store';
+import { focusedQubit } from './qubits';
 import type { Socket, Connection } from '$lib/types';
 
 export const sockets = writable({} as {[key: string]: Socket});
@@ -43,6 +44,8 @@ export const connectSockets = (a: Socket, b: Socket) => {
     connections.update((connections: Connection[]) => {
         // sort by type so there is only one way of storing a connection
         const connection = [a,b].sort(a => a.type === 'remote' ? 1 : -1).map(({id}) => id) as Connection;
+
+        focusedQubit.set(+connection[1].substring(1))
         return [...connections, connection]
     })
 }
