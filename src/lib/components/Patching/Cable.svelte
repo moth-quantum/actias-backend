@@ -42,22 +42,14 @@
     class="svg"
     
 >
-    <circle 
-        class="socket"
-        cx={from.x} cy={from.y} r="3" stroke={colour} stroke-width="1.5" fill="white"
-    />
-        {#each segments as {x1, y1, x2, y2}}
-            <line 
-                class="cable"
-                class:cable--focused={isFocused}
-                {x1} {x2} {y1} {y2}
-                stroke={colour} stroke-width="2"
-            />
-        {/each}
-    <circle 
-        class="socket"
-        cx={to.x} cy={to.y} r="3" stroke={colour} stroke-width="1.5" fill="white"
-    />
+    {#each segments as {x1, y1, x2, y2}}
+        <line 
+            class="cable"
+            class:cable--focused={isFocused}
+            {x1} {x2} {y1} {y2}
+            stroke={colour} stroke-width="2"
+        />
+    {/each}
 </svg>
 
 <style lang="scss">

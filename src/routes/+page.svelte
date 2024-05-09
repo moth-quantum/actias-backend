@@ -221,7 +221,7 @@
         
         @media (min-width: 1200px) {
             display: grid;
-            padding: 0 2rem 1.5rem;
+            padding: 0 2rem;
             grid-gap: 1rem;
             grid-template-columns: 3fr 9fr;
             grid-template-rows: 1fr 1fr 0.5fr;
@@ -235,6 +235,7 @@
         grid-column-end: 1;
         grid-row-start: 1;
         grid-row-end: 4;
+        padding-bottom: 1.5rem;
 
         @media (min-width: 1200px) {
             display: flex;
@@ -269,14 +270,13 @@
     }
 
     .controls {
-        width: 100%;
+        width: calc(100% - 2rem);
+        margin-left: 2rem;
         z-index: 100;
         background-color: var(--color-grey-mid);
 
         @media (min-width: 1200px) {
-            width: calc(100% - 1.5rem);
-            padding: 1rem 0 0 1rem;
-            margin-left: 1.5rem;
+            padding: 1rem 0 1rem 1rem;
         }
 
         @media (min-width: 1450px) {

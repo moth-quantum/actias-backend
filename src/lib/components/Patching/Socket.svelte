@@ -104,7 +104,14 @@
         on:neodrag={handleDragStart}
         on:neodrag:end={handleDragEnd}
         on:click={handleClick}
-    ></div>
+        >
+        {#if $sockets[connectedTo] || type == 'remote'}
+            <div 
+                class="socket__inner"
+                style={`background-color: ${$sockets[connectedTo]?.colour || colour}`}
+            />
+        {/if}
+    </div>
     {#each connectedTo as socketId (socketId)}
         {#if $sockets[socketId]}
             <Cable
@@ -124,14 +131,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
-    }
-
-    .socket__container--left {
-        justify-content: flex-start;
-    }
-
-    .socket__container--right {
-        justify-content: flex-end;
+        &--left {
+            justify-content: flex-start;
+        }
+    
+        &--right {
+            justify-content: flex-end;
+        }
     }
 
     .socket {
@@ -140,21 +146,30 @@
         background-color: #000;
         border-radius: 50%;
         cursor: grab;
-        display: inline-block;
+        display: flex;
+        justify-content: center ;
+        align-items: center;
         z-index: 15;
+
+        &__inner {
+            width: 0.4rem;
+            height: 0.4rem;
+            background-color: var(--color-grey-darker);
+            border-radius: 50%;
+        }
 
         &--dragging {
             cursor: grabbing;
         }
+        &--origin {
+            border: 0.2rem solid var(--color-grey-dark);
+        }
+    
+        &--remote {
+            border: 0.2rem solid var(--color-grey-light);
+        }
     }
 
-    .socket--origin {
-        border: 0.2rem solid var(--color-grey-dark);
-    }
-
-    .socket--remote {
-        border: 0.2rem solid var(--color-grey-light);
-    }
 
     .active {
         outline: 2px solid var(--color-theme-3);
