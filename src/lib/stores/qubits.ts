@@ -6,7 +6,7 @@ import { disconnectSocket } from './patching';
 import { circuit } from './circuit';
     
 export const qubits = writable<{active: boolean, user: 'you' | number}[]>(
-    Array(12).fill(null).map((_, i) => ({active: i < 4, user: 'you'}))
+    Array(12).fill(null).map((_, i) => ({active: i === 0, user: 'you'}))
 );
 
 export const focusedQubit = writable<number>(0);

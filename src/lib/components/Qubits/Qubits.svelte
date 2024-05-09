@@ -25,11 +25,21 @@
         });
     }
 
-    $: isSingle = $activeQubitCount === 1 || windowWidth < 1000;
-    $: isDouble = ($activeQubitCount%2 === 0 || $activeQubitCount === 3 || windowWidth < 1500) && !isSingle;
-    $: isTriple = !isSingle && !isDouble;
-    $: isFullHeight = ($activeQubitCount === 1 && windowWidth > 1000) 
+    $: isSingle = !$performanceMode && $activeQubitCount === 1 || windowWidth < 1000;
+    $: isDouble = !$performanceMode && ($activeQubitCount%2 === 0 || $activeQubitCount === 3 || windowWidth < 1500) && !isSingle;
+    $: isTriple = !$performanceMode && !isSingle && !isDouble;
+    $: isFullHeight = !$performanceMode && ($activeQubitCount === 1 && windowWidth > 1000) 
         || ($activeQubitCount === 2 && windowWidth > 1000);
+
+    $: pModeWidth = $activeQubitCount <= 4 ? `flex-basis: calc(${100/$activeQubitCount}% - 2rem);` :
+                   $activeQubitCount <= 6 ? `flex-basis: calc(${100/3}% - 2rem);` :
+                   $activeQubitCount <= 8 ? `flex-basis: calc(${100/4}% - 2rem);` :
+                   $activeQubitCount === 9 ? `flex-basis: calc(${100/3}% - 2rem);` :
+                   `flex-basis: calc(${100/4}% - 2rem);`
+                   ;
+    $: pModeHeight = `height: calc(${$activeQubitCount <= 4 ? '100%' 
+        : $activeQubitCount <= 8 ? '50%'
+        : '33.3333%'} - 2rem);`
     
     onMount(() => {
         windowWidth = window.innerWidth;
@@ -66,7 +76,7 @@
                 style="border-color: {$focusedQubit === i && !$performanceMode 
                     ? 'var(--color-yellow)' 
                     : getUserColour($qubits[i].user)
-                };"
+                }; {$performanceMode ? pModeWidth + pModeHeight : ''};"
 
             >
                 {#if isApp()}
@@ -89,22 +99,23 @@
                             labels={axesNames} 
                         />
                     </div>
+                    <div class="qubit__sliders">
+                        {#each get(store) as value, axis}
+                            <Slider
+                                id={`qubit-${i}-${axis}`}
+                                name={axesNames[2 - axis]}
+                                disabled={$qubits[i].user !== 'you' || $isMeasuring}
+                                colour={`var(--color-theme-${3 - axis})`}
+                                value={$axesValues[i][axis]}
+                                on:change={e => {
+                                    handleSliderChange(e,i,axis)
+                                    focusedQubit.set(i)
+                                }}
+                            />
+                        {/each}
+                    </div>
                 {/if}
-                <div class="qubit__sliders">
-                    {#each get(store) as value, axis}
-                        <Slider
-                            id={`qubit-${i}-${axis}`}
-                            name={axesNames[2 - axis]}
-                            disabled={$qubits[i].user !== 'you' || $isMeasuring}
-                            colour={`var(--color-theme-${3 - axis})`}
-                            value={$axesValues[i][axis]}
-                            on:change={e => {
-                                handleSliderChange(e,i,axis)
-                                focusedQubit.set(i)
-                            }}
-                        />
-                    {/each}
-                </div>
+
             </div>
         {/if}
     {/each}
@@ -126,9 +137,9 @@
             padding: 1rem;
             width: 100vw;
             & .qubit {
-                width: 100%;
-                height: calc(50% - 2rem);
-                flex-basis: calc(50% - 2rem);
+                // width: 100%;
+                // height: calc(50% - 2rem);
+                // flex-basis: calc(50% - 2rem);
                 margin: 1rem!important;
             }
         }
