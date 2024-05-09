@@ -1,10 +1,10 @@
 <script>
     import logo from '$lib/images/q1synth-icon.svg';
-    import { isApp, showSideMenu } from '$lib/stores/global';
+    import { isApp, showSideMenu, performanceMode } from '$lib/stores/global';
     import { page } from '$app/stores';
 </script>
 
-<header>
+<header class:hidden={$performanceMode}>
     <nav class="container nav {isApp() ? 'nav--app' : ''} {$showSideMenu ? 'has-side-menu' : ''}">
         <a href="/">
             <img

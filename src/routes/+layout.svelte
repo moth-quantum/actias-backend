@@ -1,5 +1,5 @@
 <script>
-    import { showSideMenu } from "$lib/stores/global";
+    import { showSideMenu, performanceMode } from "$lib/stores/global";
     import "../app.postcss";
     import Header from "./Header.svelte";
     import "./styles.css";
@@ -11,7 +11,7 @@
     <Header />
     
     <main class="main container">
-        {#if $showSideMenu}
+        {#if $showSideMenu && !$performanceMode}
             <SideMenu />
         {/if}
         <div class="main__content">
@@ -19,7 +19,10 @@
         </div>
     </main>
 
-    <footer class="footer container">
+    <footer 
+        class="footer container"
+        class:hidden={$performanceMode}
+    >
         <span>Build | <a href="https://cephasteom.co.uk">Cephas Teom</a> / <a href="https://lunar.build">Lunar</a></span>
         <br>
         <span>Design | James Cameron / <a href="https://lunar.build">Lunar</a></span>

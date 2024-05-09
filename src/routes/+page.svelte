@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { startAudio } from '../sound';
-    import { showKeyboard, showSideMenu, isApp } from '$lib/stores/global';
+    import { showKeyboard, showSideMenu, isApp, performanceMode } from '$lib/stores/global';
     import { redrawCables } from '$lib/stores/patching';
     import { activeQubitCount } from '$lib/stores/qubits';
     import Presets from '$lib/components/Presets/Presets.svelte';
@@ -102,7 +102,10 @@
 
 <Toasts />
 
-<section class="buttons container mx-auto">
+<section 
+    class="buttons container mx-auto"
+    class:hidden={$performanceMode}
+>
     <div class="buttons__inner">
         <div class="buttons__instruments">
             <Button 
@@ -137,9 +140,15 @@
     </div>
 </section>
 
-<section class="container synth">
+<section 
+    class="container synth"
+    class:synth--performance-mode={$performanceMode}
+>
     
-    <div class="parameters">
+    <div 
+        class="parameters"
+        class:hidden={$performanceMode}
+    >
         <Parameters />
     </div>
 
@@ -152,7 +161,7 @@
             <Qubits />
         </div>
     
-        {#if $showKeyboard}
+        {#if $showKeyboard && !$performanceMode}
             <div class="controls">
                 <div class="keyboard">
                     <Controls />
@@ -223,6 +232,16 @@
             grid-gap: 1rem;
             grid-template-columns: 3fr 9fr;
             grid-template-rows: 1fr 1fr 0.5fr;
+
+            &--performance-mode {
+                display: flex;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                padding: 2rem;
+            }
         }
     }
 

@@ -155,6 +155,11 @@ button:focus:not(:focus-visible) {
 	white-space: nowrap;
 }
 
+.hidden {
+	display: none!important;
+
+}
+
 .container {
     max-width: var(--max-width);
 }
