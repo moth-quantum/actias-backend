@@ -8,7 +8,7 @@
     import Slider from '$lib/components/Sliders/Slider.svelte';
     import { debounce } from '$lib/utils/utils';
     import { getUserColour, getUserName } from '$lib/stores/users';
-    import { isApp } from '$lib/stores/global';
+    import { isApp, performanceMode } from '$lib/stores/global';
     import { onMount } from 'svelte';
     import { get } from 'svelte/store';
     
@@ -41,6 +41,7 @@
 
 <div 
     class="qubits"
+    class:qubits--performance={$performanceMode}
     on:scroll={() => handleScroll()}
 >
     {#each axes as store, i}
@@ -53,9 +54,12 @@
                 class:qubit--full-height={isFullHeight}
                 class:qubit--border={
                     $activeQubitCount > 1 &&
-                    ($focusedQubit === i || $qubits[i].user !== 'you')
+                    (!$performanceMode && $focusedQubit === i || $qubits[i].user !== 'you')
                 }
-                style="border-color: {$focusedQubit === i ? 'var(--color-yellow)' : getUserColour($qubits[i].user)};"
+                style="border-color: {$focusedQubit === i && !$performanceMode 
+                    ? 'var(--color-yellow)' 
+                    : getUserColour($qubits[i].user)
+                };"
 
             >
                 {#if isApp()}
@@ -71,12 +75,14 @@
                         disabled={$qubits[i].user !== 'you' || $isMeasuring}
                     />
                 </div>
-                <div class="qubit__patchbay">    
-                    <Patchbay 
-                        ids={axesIds.map(id => `${id}${i}`)} 
-                        labels={axesNames} 
-                    />
-                </div>
+                {#if !$performanceMode}
+                    <div class="qubit__patchbay">    
+                        <Patchbay 
+                            ids={axesIds.map(id => `${id}${i}`)} 
+                            labels={axesNames} 
+                        />
+                    </div>
+                {/if}
                 <div class="qubit__sliders">
                     {#each get(store) as value, axis}
                         <Slider
@@ -107,6 +113,17 @@
         flex-wrap: wrap;
         @media (max-width: 1200px) {
             padding: 1rem 1rem 0;
+        }
+
+        &--performance {
+            padding: 1rem;
+            width: 100vw;
+            & .qubit {
+                width: 100%;
+                height: calc(50% - 2rem);
+                flex-basis: calc(50% - 2rem);
+                margin: 1rem!important;
+            }
         }
     }
 

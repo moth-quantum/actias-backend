@@ -156,7 +156,7 @@
         <div 
             class="qubits"
             class:qubits--full={$activeQubitCount < 3}
-            style="max-height: {$showKeyboard ? '34rem' : 'none'};"
+            style="max-height: {$showKeyboard && !$performanceMode ? '34rem' : 'none'}; height: {$performanceMode ? '100%' : 'auto'};"
         >
             <Qubits />
         </div>
@@ -240,7 +240,7 @@
                 left: 0;
                 right: 0;
                 bottom: 0;
-                padding: 2rem;
+                padding: 0;
             }
         }
     }
