@@ -51,8 +51,11 @@
                 class:qubit--double={isDouble}
                 class:qubit--triple={isTriple}
                 class:qubit--full-height={isFullHeight}
-                class:qubit--border={$qubits[i].user !== 'you'}
-                style="border-color: {getUserColour($qubits[i].user)};"
+                class:qubit--border={
+                    $activeQubitCount > 1 &&
+                    ($focusedQubit === i || $qubits[i].user !== 'you')
+                }
+                style="border-color: {$focusedQubit === i ? 'var(--color-yellow)' : getUserColour($qubits[i].user)};"
 
             >
                 {#if isApp()}
