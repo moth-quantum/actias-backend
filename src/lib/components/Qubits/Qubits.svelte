@@ -33,6 +33,13 @@
     
     onMount(() => {
         windowWidth = window.innerWidth;
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+            event.key === 'Escape' && performanceMode.set(false)
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
     });
 
 </script>

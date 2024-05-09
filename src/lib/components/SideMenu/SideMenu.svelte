@@ -6,14 +6,14 @@
     import Qubits from './PanelQubits.svelte';
     import Midi from './PanelMidi.svelte';
     import { menuItems, activeSubMenu } from '$lib/stores/sideMenu';
-    import { toggleKeyboard } from '$lib/stores/global';
+    import { toggleKeyboard, performanceMode } from '$lib/stores/global';
     import Panel from './Panel.svelte';
     import CircuitDesigner from '$lib/components/CircuitDesigner/CircuitDesigner.svelte';
     
     const handleMenuClick = (name: string) => {
         
         menuItems.update(items => items.map(item => {
-            if(item.name === name) {
+            if(item.name === name && name !== 'perform') {
                 item.isActive = !item.isActive
             } else if(item.hasSubMenu) {
                 item.isActive = false
@@ -22,7 +22,8 @@
             return item
         }))
 
-        name === 'keyboard' && toggleKeyboard() 
+        name === 'keyboard' && toggleKeyboard()
+        name === 'perform' && performanceMode.set(true)
     }
 
     const closeMenu = () => {
