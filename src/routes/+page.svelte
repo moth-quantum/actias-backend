@@ -1,10 +1,9 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { startAudio } from '../sound';
-    import { fullscreen as fs, showKeyboard, showSideMenu, isApp } from '$lib/stores/global';
+    import { showKeyboard, showSideMenu, isApp } from '$lib/stores/global';
     import { redrawCables } from '$lib/stores/patching';
     import { activeQubitCount } from '$lib/stores/qubits';
-    import { menuItems } from '$lib/stores/sideMenu';
     import Presets from '$lib/components/Presets/Presets.svelte';
     import Parameters from '$lib/components/Parameters/Parameters.svelte';
     // @ts-ignore
@@ -31,7 +30,6 @@
     import { addToast } from '$lib/stores/toasts';
 
     import initElectronAPI from '$lib/electronAPI';
-    
 
     let isDesktop = false;
     let sidebarIsHidden = true; 
@@ -139,7 +137,7 @@
     </div>
 </section>
 
-<section class={`container synth ${ $fs ? 'synth--fullscreen' : ''}`}>
+<section class="container synth">
     
     <div class="parameters">
         <Parameters />
