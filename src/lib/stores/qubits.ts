@@ -76,6 +76,7 @@ qubits.subscribe((qubits) => {
 // handle circuit updates when axes change
 axes.forEach((store, i) => {
     store.subscribe((arr) => {
+        if (!get(qubits)[i].active) return;
         initGates(i, arr[2], arr[1], arr[0]);
     })
 })

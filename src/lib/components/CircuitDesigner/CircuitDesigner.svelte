@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { axes } from '$lib/stores/qubits';
     import Presets from '$lib/components/Presets/Presets.svelte';
     import GateButton from './Gate.svelte';
     import { circuit, gates, type Gate } from '$lib/stores/circuit';
@@ -147,9 +148,14 @@
             updateSVG();
         });
 
+        const unsubscribeAxes = axes.map((store, i) => {
+            return store.subscribe((value) => updateSVG());
+        })
+
         return () => {
             window.removeEventListener('keydown', handleKeydown)
             unsubscribeActivePreset();
+            unsubscribeAxes.forEach((unsubscribe) => unsubscribe());
         };
     });
 
