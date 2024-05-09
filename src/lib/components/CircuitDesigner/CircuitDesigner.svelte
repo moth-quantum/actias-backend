@@ -4,7 +4,6 @@
     import { circuit, gates, type Gate } from '$lib/stores/circuit';
     import { onMount } from 'svelte';
     import { areTouching, arraysAreEqual, clamp } from '$lib/utils/utils';
-    import Input from '$lib/components/Forms/Input.svelte';
     import Slider from '$lib/components/Sliders/Slider.svelte';
     import { presetKeys, savePreset, deletePreset, editPreset, activePreset } from '$lib/stores/presets-circuits';
 

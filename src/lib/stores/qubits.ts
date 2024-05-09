@@ -73,6 +73,13 @@ qubits.subscribe((qubits) => {
     })
 })
 
+// handle circuit updates when axes change
+axes.forEach((store, i) => {
+    store.subscribe((arr) => {
+        initGates(i, arr[2], arr[1], arr[0]);
+    })
+})
+
 export const isMeasuring = writable<boolean>(false);
 export const seconds = writable<number>();
 export const bpm = writable<number>();
@@ -103,9 +110,11 @@ export function collapse(destinations: number[]) {
     isMeasuring.set(true);
     const startTime = new Date().getTime();
     const endTime = startTime + (get(collapseTime) * 1000);
-    const startValues: number[][] = destinations.map((_, i) => get(axes[0]));
+    const startValues: number[][] = destinations.map((_, i) => get(axes[i]));
 
     const endValues: number[][] = destinations.map(dest => [0,0,dest]);
+
+    console.log(startValues, endValues)
 
     const interval = setInterval(() => {
         const now = new Date().getTime();
