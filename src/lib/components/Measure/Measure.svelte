@@ -36,14 +36,17 @@
         <input 
             id="seconds" placeholder="Seconds" type="number" 
             bind:value={$seconds}
+            on:keydown={e => e.stopPropagation()}
         />
         <input 
             id="bpm" placeholder="BPM" type="number" 
             bind:value={$bpm}
+            on:keydown={e => e.stopPropagation()}
         />
         <input 
             id="beats" placeholder="Beats" type="number" 
             bind:value={$beats}
+            on:keydown={e => e.stopPropagation()}
         />
     </form>
     <div class="button">
