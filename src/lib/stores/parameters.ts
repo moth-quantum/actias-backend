@@ -104,7 +104,7 @@ export const paramValues: Readable<{[key: string]: number}> = derived(
             ...obj,
             [param.key]: (param.isLocked 
                 ? get(prevParamValues)[param.key]
-                : param.rangeA + (param.rangeB - param.rangeA) * getAxis(param.key)) || 0
+                : param.rangeA + (param.rangeB - param.rangeA) * getAxis(param.key))
         }), {})
 
         prevParamValues.set(nextParamValues);
@@ -113,7 +113,8 @@ export const paramValues: Readable<{[key: string]: number}> = derived(
     })
 
 function getAxis(key: string) : number {
-    const connection = getConnections(key)[0] || 'z0';
+    const connection = getConnections(key)[0];
+    if (!connection) return 0;
     const axis = connection.charAt(0);
     const qubitIndex = parseInt(connection.slice(1)) || 0;
     const axisIndex = ['x','y','z'].indexOf(axis);
