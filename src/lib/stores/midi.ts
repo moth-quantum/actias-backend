@@ -30,22 +30,6 @@ const defaultActions = {
     12: {label: 'Q01 φ', id: 'qubit-0-1' },
     13: {label: 'Q01 ψ', id: 'qubit-0-0' },
 }
-// const defaultActions = {
-//     0: {label: 'Volume', action: (value: number) => volume.set(value)},
-//     1: {label: 'Env1 A', action: (value: number) => updateEnvelopeValue(0, 'a', value)},
-//     2: {label: 'Env1 D', action: (value: number) => updateEnvelopeValue(0, 'd', value)},
-//     3: {label: 'Env1 S', action: (value: number) => updateEnvelopeValue(0, 's', value)},
-//     4: {label: 'Env1 R', action: (value: number) => updateEnvelopeValue(0, 'r', value)},
-//     5: {label: 'Env2 A', action: (value: number) => updateEnvelopeValue(1, 'a', value)},
-//     6: {label: 'Env2 D', action: (value: number) => updateEnvelopeValue(1, 'd', value)},
-//     7: {label: 'Env2 S', action: (value: number) => updateEnvelopeValue(1, 's', value)},
-//     8: {label: 'Env2 R', action: (value: number) => updateEnvelopeValue(1, 'r', value)},
-//     9: {label: 'Measure', action: (value: number) => value && measure()},
-//     10: {label: 'Drone', action: (value: number) => drone.set(value > 0)},
-//     11: {label: 'Q01 θ', action: (value: number) => axes[0].update(a => [a[0], a[1], value])},
-//     12: {label: 'Q01 φ', action: (value: number) => axes[0].update(a => [a[0], value, a[2]])},
-//     13: {label: 'Q01 ψ', action: (value: number) => axes[0].update(a => [value, a[1], a[2]])},
-// }
 
 export const actions: Writable<{[key: number]: Action}> = writable(defaultActions);
 

@@ -5,6 +5,7 @@ import { connections } from '$lib/stores/patching';
 import type { Envelope, Preset } from '$lib/types';
 import { circuit } from '$lib/stores/circuit';
 import { qubits } from '$lib/stores/qubits';
+import { actions as midi } from '$lib/stores/midi';
 
 export const presets = writable({} as {[key: string]: Preset | null})
 
@@ -63,6 +64,9 @@ export function loadPreset(key: string) {
     // update preset
     preset.circuit && circuit.load(preset.circuit);
 
+    // update midi
+    preset.midi && midi.set(preset.midi);
+
     [instrumentParameters, globalParameters, fxParameters]
         .forEach((store) => store.update((params) => {
             return params.map((param) => {
@@ -87,6 +91,7 @@ export function savePreset(key: string) {
         envelopes: get(envelopes),
         params: get(allParameters).map(({key, rangeA, rangeB}) => ({key, rangeA, rangeB})),
         connections: get(connections),
+        midi: get(midi),
         circuit: circuit.save(),
         numQubits: circuit.numQubits
     };
@@ -117,6 +122,7 @@ export function editPreset(key: string) {
         envelopes: get(envelopes),
         params: get(allParameters).map(({key, rangeA, rangeB}) => ({key, rangeA, rangeB})),
         connections: get(connections),
+        midi: get(midi),
         circuit: circuit.save(),
         numQubits: circuit.numQubits
     };
