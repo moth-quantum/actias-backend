@@ -220,7 +220,7 @@
                         <div class="circuit-designer__input">
                             <Slider
                                 name={param.name}
-                                value={gate.options.params[param.name]}
+                                value={gate.options.params[param.name] / ([1,2][param.name === 'theta' ? 0 : 1] * Math.PI)}
                                 orientation="horizontal"
                                 on:change={(e) => handleParamChange(param.name, e.detail)}
                                 colour="var(--color-grey-light)"
