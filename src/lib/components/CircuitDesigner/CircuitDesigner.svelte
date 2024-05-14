@@ -56,8 +56,9 @@
     const handleDragEnd = (i: number, pointerX: number, pointerY: number) => {
         if(!thisSvg) return;
         const {x, y, width, height} = thisSvg.getBoundingClientRect();
-        const svg = {x: x, y: y, width: width, height: height};
+        const svg = {x: x + window.scrollX, y: y + window.scrollY, width: width, height: height};
         const pointer = {x: pointerX, y: pointerY, width: 20, height: 20};
+
         if(!areTouching(pointer, svg)) return;
 
         const gate = $gates[i];
@@ -81,7 +82,9 @@
         const target = e.target as HTMLElement;
         const parent = target?.parentElement;
         const gateType = target?.dataset?.gate || parent?.dataset.gate;
-        if (gateType === 'u3') return;
+        
+        // if first, hardcoded u3 is clicked, ignore
+        if (gateType === 'u3' && +(target?.getAttribute('x') || 0) < 100) return;
         
         selectedGateId = target?.dataset?.id || parent?.dataset.id || '';
         if(!selectedGateId) return;
@@ -103,7 +106,9 @@
     // handle updating gates on the svg
     const handleMouseUp = (e: MouseEvent) => {
         if(!isClicked) return;
+        
         const gate = circuit.getGateById(selectedGateId);
+        if(!gate) return
         const wire = getClosestWireIndex(e.clientX, e.clientY)
         const column = getClosestColumnIndex(e.clientX - 20);
         
