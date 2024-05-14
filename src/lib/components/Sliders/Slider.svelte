@@ -120,6 +120,10 @@
             flex-direction: row;
             height: 1.25rem;
             width: 100%;
+            .label {
+                min-width: 40px;
+                text-align: left;
+            }
         }
     }
     .slider {
