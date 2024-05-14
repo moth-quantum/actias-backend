@@ -103,5 +103,5 @@ export interface User {
 
 export interface Action {
     label: string;
-    action: (value: number) => void;
+    id: string;
 }
