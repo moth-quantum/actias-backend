@@ -122,7 +122,6 @@
             width: 100%;
             .label {
                 min-width: 40px;
-                text-align: left;
             }
         }
     }
