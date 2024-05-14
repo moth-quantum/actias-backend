@@ -25,11 +25,10 @@
         });
     }
 
-    $: isSingle = !$performanceMode && $activeQubitCount === 1 || windowWidth < 1000;
-    $: isDouble = !$performanceMode && ($activeQubitCount%2 === 0 || $activeQubitCount === 3 || windowWidth < 1500) && !isSingle;
-    $: isTriple = !$performanceMode && !isSingle && !isDouble;
-    $: isFullHeight = !$performanceMode && ($activeQubitCount === 1 && windowWidth > 1000) 
-        || ($activeQubitCount === 2 && windowWidth > 1000);
+    $: isSingle = !$performanceMode && $activeQubitCount === 1 || windowWidth < 1200;
+    $: isDouble = !$performanceMode && ($activeQubitCount === 2 || windowWidth < 1500) && !isSingle;
+    $: isTriple = !$performanceMode && $activeQubitCount === 3 && !isSingle && !isDouble;
+    $: isQuad = !$performanceMode && !isSingle && !isDouble && !isTriple;
 
     $: pModeWidth = $activeQubitCount <= 4 ? `flex-basis: calc(${100/$activeQubitCount}% - 2rem);` :
                    $activeQubitCount <= 6 ? `flex-basis: calc(${100/3}% - 2rem);` :
@@ -69,7 +68,7 @@
                 class:qubit--single={isSingle}
                 class:qubit--double={isDouble}
                 class:qubit--triple={isTriple}
-                class:qubit--full-height={isFullHeight}
+                class:qubit--quad={isQuad}
                 class:qubit--border={
                     $activeQubitCount > 1 &&
                     (!$performanceMode && $focusedQubit === i || $qubits[i].user !== 'you')
@@ -130,6 +129,7 @@
         overflow-y: scroll;
         display: flex;
         flex-wrap: wrap;
+        padding: 0 0 1rem 1rem;
         @media (max-width: 1200px) {
             padding: 1rem 1rem 0;
         }
@@ -138,9 +138,6 @@
             padding: 1rem;
             width: 100vw;
             & .qubit {
-                // width: 100%;
-                // height: calc(50% - 2rem);
-                // flex-basis: calc(50% - 2rem);
                 margin: 1rem!important;
             }
         }
@@ -156,11 +153,6 @@
         grid-template-rows: 1fr;
         grid-template-columns: 1fr;
         border-radius: 10px;
-
-        &--full-height {
-            height: 100%;
-            max-height: 37rem;
-        }
 
         &--single {
             flex-basis: 100%;
@@ -179,14 +171,18 @@
             }
         }
 
-        &--triple {
+        &--triple,
+        &--quad {
             flex-basis: calc(33.3333% - 0.6666rem);
-            height: calc(400px - 1rem);
             margin-right: 1rem;
             margin-bottom: 1rem;
             &:nth-child(3n) {
                 margin-right: 0rem;
             }
+        }
+
+        &--quad {
+            height: calc(400px - 1rem);
         }
 
         &--border {

@@ -6,12 +6,12 @@ import { disconnectSocket } from './patching';
 import { circuit } from './circuit';
     
 export const qubits = writable<{active: boolean, user: 'you' | number}[]>(
-    Array(12).fill(null).map((_, i) => ({active: i === 0, user: 'you'}))
+    Array(6).fill(null).map((_, i) => ({active: i === 0, user: 'you'}))
 );
 
 export const focusedQubit = writable<number>(0);
 
-export const axes: Tweened<number[]>[] = Array(12).fill(null).map(() => tweened([0,0,0], {
+export const axes: Tweened<number[]>[] = Array(get(qubits).length).fill(null).map(() => tweened([0,0,0], {
     duration: 100,
 }));
 

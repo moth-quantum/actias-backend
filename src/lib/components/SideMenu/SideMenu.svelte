@@ -22,7 +22,7 @@
             return item
         }))
 
-        name === 'keyboard' && toggleKeyboard()
+        name === 'controls' && toggleKeyboard()
         name === 'perform' && performanceMode.set(true)
     }
 

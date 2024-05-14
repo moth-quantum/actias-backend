@@ -11,7 +11,7 @@ export const isApp: () => boolean = () => {
     return typeof window !== 'undefined' && !!window.isApp;
 }
 
-export const showKeyboard = writable(true);
+export const showKeyboard = writable(false);
 showKeyboard.subscribe(() => redrawCables());
 export const toggleKeyboard = () => {
     showKeyboard.update(value => !value)

@@ -153,11 +153,7 @@
     </div>
 
     <div class="interface">
-        <div 
-            class="qubits"
-            class:qubits--full={$activeQubitCount < 3}
-            style="max-height: {$showKeyboard && !$performanceMode ? '34rem' : 'none'}; height: {$performanceMode ? '100%' : 'auto'};"
-        >
+        <div class="qubits">
             <Qubits />
         </div>
     
@@ -275,13 +271,10 @@
         align-items: flex-start;
         overflow: scroll;
         margin-bottom: 1rem;
+        height: 100%;
 
         @media (min-width: 1200px) {
             margin-bottom: 0;
-        }
-
-        &--full {
-            height: 100%;
         }
 
     }
