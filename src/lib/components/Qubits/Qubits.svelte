@@ -63,6 +63,7 @@
 >
     {#each axes as store, i}
         {#if $qubits[i].active}
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
             <div 
                 class="qubit"
                 class:qubit--single={isSingle}
@@ -77,7 +78,7 @@
                     ? 'var(--color-yellow)' 
                     : getUserColour($qubits[i].user)
                 }; {$performanceMode ? pModeWidth + pModeHeight : ''};"
-
+                on:click={() => focusedQubit.set(i)}
             >
                 {#if isApp()}
                     <h3 class="qubit__info">
@@ -150,6 +151,7 @@
         box-sizing: border-box;
         background-color: var(--color-grey-dark);
         display: grid;
+        cursor: pointer;
         gap: 1rem;
         grid-template-rows: 1fr;
         grid-template-columns: 1fr;

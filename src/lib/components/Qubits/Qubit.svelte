@@ -204,5 +204,6 @@
         overflow: hidden;
         align-items: center;
         justify-content: center;
+        cursor: move;
     }
 </style>
