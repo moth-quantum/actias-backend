@@ -62,8 +62,8 @@ export const gates = readable<Gate[]>([
     {
         name: 'CZ',
         symbol: 'cz',
-        qubits: 3,
-        description: 'Controlled Z gate (controlled rotation over z-axis by PI). Requires three qubits.',
+        qubits: 2,
+        description: 'Controlled Z gate (controlled rotation over z-axis by PI). Requires two qubits.',
         params: []
     },
     {
