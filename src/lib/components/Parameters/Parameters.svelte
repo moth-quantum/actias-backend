@@ -8,10 +8,10 @@
     import Buttons from '$lib/components/Patching/Buttons.svelte';
     import { loadSample } from '../../../sound';
     import { onMount } from 'svelte';
-    import { randomiseConnections } from '$lib/stores/patching';
+    import { randomiseConnections, connections } from '$lib/stores/patching';
     // @ts-ignore
     import { FontAwesomeIcon } from 'fontawesome-svelte';
-    import { faLock, faShuffle } from '@fortawesome/free-solid-svg-icons';
+    import { faLock, faShuffle, faTrash } from '@fortawesome/free-solid-svg-icons';
     
     export let showSockets = true;
 
@@ -34,10 +34,12 @@
         <h2>Instrument</h2>
         <button class="connect" on:click={(e) => {
             e.stopPropagation()
-            randomiseConnections()
+            $connections.length 
+                ? connections.set([])
+                : randomiseConnections()
         }}>
             <Tooltip element="randomise-patching" type="parameter">
-                <FontAwesomeIcon icon={faShuffle} />
+                <FontAwesomeIcon icon={$connections.length ? faTrash : faShuffle } />
             </Tooltip>
             </button>
     </button>
@@ -229,11 +231,12 @@
 
         & .connect {
             position: absolute;
-            top: -2px;
-            right: 0;
+            top: 0px;
+            right: 2px;
             width: 1rem;
             color: var(--color-yellow);
             z-index: 100;
+            font-size: 0.75rem;
         }
     }
 
