@@ -25,7 +25,7 @@
         window.addEventListener('resize', resize)
         
         let timeoutID: NodeJS.Timeout;
-        const unsubscribeQubits= qubits.subscribe(() => {
+        const unsubscribeQubits = qubits.subscribe(() => {
             if (!p5Instance) return;
             if (timeoutID) clearTimeout(timeoutID)
             timeoutID = setTimeout(resize, 100)
@@ -68,7 +68,7 @@
             if (!container) return;
             const dimensions = container.getBoundingClientRect()
             height = min(dimensions.width - 100, 500)
-            radius = height / 3;
+            radius = height / 2.5;
         }
 
         function handleResize() {
