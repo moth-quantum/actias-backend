@@ -1,5 +1,6 @@
 <script>
-    import { showSideMenu, performanceMode } from "$lib/stores/global";
+    import { showSideMenu } from "$lib/stores/global";
+    import { performanceMode } from "$lib/stores/sideMenu";
     import "../app.postcss";
     import Header from "./Header.svelte";
     import "./styles.css";

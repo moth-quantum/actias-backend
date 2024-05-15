@@ -15,9 +15,7 @@
 </script>
 
 <div class="measure">
-    <Learnable id="measure">
-        <h2 class="title">Measure</h2>
-    </Learnable>
+    <h2 class="title">Measure</h2>
     <form>
         {#if isApp()}
             <div class="source">
@@ -51,16 +49,18 @@
     </form>
     <div class="button">
         <Tooltip element="measure">
-            <button
-                on:click|preventDefault={() => measure()}
-                disabled={$isMeasuring}
-            >
-                {#if $isMeasuring}
+            <Learnable id="measure" classes="w-full h-full">
+                <button
+                    on:click|preventDefault={() => measure()}
+                    disabled={$isMeasuring}
+                    >
+                    {#if $isMeasuring}
                     <Lottie src={lottieSrc} />
-                {:else}
+                    {:else}
                     <span class="button__text">Measure</span>
-                {/if}
-            </button>
+                    {/if}
+                </button>
+            </Learnable>
         </Tooltip>
     </div>
 </div>
@@ -68,9 +68,6 @@
 <style lang="scss">
     .measure {
         padding-top: 1rem;
-        // @media (min-width: 1200px) {
-        //     padding: 1rem 0 0;
-        // }
         width: 100%;
         height: 100%;
         display: flex;

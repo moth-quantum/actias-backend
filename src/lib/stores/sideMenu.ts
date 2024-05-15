@@ -56,3 +56,19 @@ export const toggleControls = () => {
         }), {});
     });
 }
+
+export const performanceMode = derived(
+    menuItems,
+    $menuItems => {
+        return $menuItems.find(item => item.name === 'perform')?.isActive
+    }
+);
+
+export const hidePerformanceMode = () => {
+    menuItems.update(items => {
+        return items.map((item) => ({
+            ...item,
+            isActive: item.name === 'perform' ? false : item.isActive
+        }), {});
+    });
+}
