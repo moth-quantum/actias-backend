@@ -4,6 +4,7 @@ import { instrumentParameters, globalParameters, fxParameters, drone } from '$li
 import { volume } from '$lib/stores/global';
 import { updateEnvelopeValue } from '$lib/stores/envelopes';
 import { measure, axes } from '$lib/stores/qubits';
+import { menuItems } from '$lib/stores/sideMenu';
 import type { Action, Parameter } from '$lib/types';
 import { roundToFactor } from '$lib/utils/utils';
 
@@ -145,6 +146,12 @@ const performVolumeAction = (cc: number) => volume.set(cc);
 const performEnvelopeAction = (env: number, param: string, cc: number) => updateEnvelopeValue(env, param, cc);
 const performMeasureAction = (cc: number) => cc && measure();
 const performDroneAction = (cc: number) => drone.set(cc > 0);
+const performMenuAction = (name: string, cc: number) => menuItems.update(items => items.map(item => ({
+    ...item, 
+    isActive: item.name === name 
+        ? cc > 0 
+        : item.isActive
+})));
 
 const actionFactory: {[key: string]: (...args: any) => string} = {
     qubit: (qubit: number, axis: number) => `Q${(qubit+1).toString().padStart(2, '0')} ${['θ', 'φ', 'ψ'][+axis]}`,
@@ -152,7 +159,8 @@ const actionFactory: {[key: string]: (...args: any) => string} = {
     volume: () => 'Volume',
     env: (env: number, param: string) => `Env${env + 1} ${param}`,
     measure: () => 'Measure',
-    drone: () => 'Drone'
+    drone: () => 'Drone',
+    menu: (name) => `Menu ${name}`
 }
 
 function handleControlChange(e: any) {
@@ -163,7 +171,7 @@ function handleControlChange(e: any) {
     // Handle any new midi learn actions
     if(isLearning && controlToLearn) {
         const args = controlToLearn.split('-');
-        ['qubit', 'param', 'volume', 'env', 'measure', 'drone'].includes(args[0]) && actions.update(a => ({
+        ['qubit', 'param', 'volume', 'env', 'measure', 'drone', 'menu'].includes(args[0]) && actions.update(a => ({
             ...a, 
             [number]: {
                 id: controlToLearn, 
@@ -180,6 +188,7 @@ function handleControlChange(e: any) {
     type === 'env' && performEnvelopeAction(+rest[0], rest[1], value)
     type === 'measure' && performMeasureAction(value)
     type === 'drone' && performDroneAction(value)
+    type === 'menu' && performMenuAction(rest[0], value)
 }
 
 export function resetActions() {

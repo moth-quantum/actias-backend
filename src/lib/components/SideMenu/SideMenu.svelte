@@ -9,6 +9,7 @@
     import { performanceMode } from '$lib/stores/global';
     import Panel from './Panel.svelte';
     import CircuitDesigner from '$lib/components/CircuitDesigner/CircuitDesigner.svelte';
+    import Learnable from '$lib/components/Learnable/Learnable.svelte';
     
     const handleMenuClick = (name: string) => {
         
@@ -50,15 +51,17 @@
         {#each $menuItems as item}
             {#if item.isVisible}
             <div class="side-menu__item {item.isActive ? 'side-menu__item--active' : ''}">
-                <Button 
-                    text={item.name} 
-                    active={false}
-                    colour="dark" 
-                    orientation="vertical"
-                    onClick={() => handleMenuClick(item.name)} 
-                    icon={item.icon} 
-                    image={item.image}
-                />
+                <Learnable id={'menu-' + item.name}>                    
+                    <Button 
+                        text={item.name} 
+                        active={false}
+                        colour="dark" 
+                        orientation="vertical"
+                        onClick={() => handleMenuClick(item.name)} 
+                        icon={item.icon} 
+                        image={item.image}
+                    />
+                </Learnable>
             </div>
             {/if}
         {/each}

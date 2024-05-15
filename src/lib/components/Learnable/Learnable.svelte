@@ -4,6 +4,7 @@
     export let classes: string = '';
     const handleClick = (e: Event) => {
         e.preventDefault();
+        e.stopPropagation();
         learnControl.set(id)
     };
 </script>
@@ -13,6 +14,7 @@
         on:click={handleClick}
         class={classes}
     >
+        <div class="overlay"/>
         <slot />
     </button>
 {:else}
@@ -25,5 +27,13 @@
         outline: 1px dotted var(--color-theme-3);
         letter-spacing: 0.1rem;
         text-align: inherit;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
     }
 </style>
