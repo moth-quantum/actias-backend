@@ -1,7 +1,8 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { startAudio } from '../sound';
-    import { showSideMenu, isApp, performanceMode } from '$lib/stores/global';
+    import { showSideMenu, isApp } from '$lib/stores/global';
+    import { performanceMode } from '$lib/stores/sideMenu';
     import { controlsAreVisible, hideControls, showControls, toggleControls } from '$lib/stores/sideMenu';
     import { redrawCables } from '$lib/stores/patching';
     import Presets from '$lib/components/Presets/Presets.svelte';

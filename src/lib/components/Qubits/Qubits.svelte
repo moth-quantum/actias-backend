@@ -8,7 +8,8 @@
     import Slider from '$lib/components/Sliders/Slider.svelte';
     import { debounce } from '$lib/utils/utils';
     import { getUserColour, getUserName } from '$lib/stores/users';
-    import { isApp, performanceMode } from '$lib/stores/global';
+    import { isApp } from '$lib/stores/global';
+    import { performanceMode, hidePerformanceMode } from '$lib/stores/sideMenu';
     import { onMount } from 'svelte';
     import { get } from 'svelte/store';
     
@@ -44,7 +45,7 @@
         windowWidth = window.innerWidth;
 
         const handleKeyDown = (event: KeyboardEvent) => {
-            event.key === 'Escape' && performanceMode.set(false)
+            event.key === 'Escape' && hidePerformanceMode()
         };
 
         window.addEventListener('keydown', handleKeyDown);
@@ -100,7 +101,7 @@
                         />
                     </div>
                     <div class="qubit__sliders">
-                        {#each get(store) as value, axis}
+                        {#each get(store) as _, axis}
                             <Slider
                                 id={`qubit-${i}-${axis}`}
                                 name={axesNames[2 - axis]}

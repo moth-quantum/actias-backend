@@ -1,6 +1,7 @@
 <script>
     import logo from '$lib/images/q1synth-icon.svg';
-    import { isApp, showSideMenu, performanceMode } from '$lib/stores/global';
+    import { isApp, showSideMenu } from '$lib/stores/global';
+    import { performanceMode } from '$lib/stores/sideMenu';
     import { page } from '$app/stores';
 </script>
 
