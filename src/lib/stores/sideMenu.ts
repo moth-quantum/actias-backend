@@ -64,29 +64,11 @@ export const performanceMode = derived(
     }
 );
 
-export const showPerformanceMode = () => {
-    menuItems.update(items => {
-        return items.map((item) => ({
-            ...item,
-            isActive: item.name === 'perform' ? true : item.isActive
-        }), {});
-    });
-}
-
 export const hidePerformanceMode = () => {
     menuItems.update(items => {
         return items.map((item) => ({
             ...item,
             isActive: item.name === 'perform' ? false : item.isActive
-        }), {});
-    });
-}
-
-export const togglePerformanceMode = () => {
-    menuItems.update(items => {
-        return items.map((item) => ({
-            ...item,
-            isActive: item.name === 'perform' ? !item.isActive : item.isActive
         }), {});
     });
 }
