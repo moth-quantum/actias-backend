@@ -152,23 +152,21 @@
         <Parameters />
     </div>
 
-    <div class="interface">
-        <div class="qubits">
-            <Qubits />
-        </div>
-    
-        {#if $showKeyboard && !$performanceMode}
-            <div class="controls">
-                <div class="keyboard">
-                    <Controls />
-                </div>
-        
-                <div class="measure">
-                    <Measure />
-                </div>
-            </div>
-        {/if}
+    <div class="qubits">
+        <Qubits />
     </div>
+
+    {#if $showKeyboard && !$performanceMode}
+        <div class="controls">
+            <div class="keyboard">
+                <Controls />
+            </div>
+    
+            <div class="measure">
+                <Measure />
+            </div>
+        </div>
+    {/if}
 
 </section>
 
@@ -256,17 +254,13 @@
     }
 
     .interface {
+    }
+    
+    .qubits {
         grid-column-start: 2;
         grid-column-end: 2;
         grid-row-start: 1;
         grid-row-end: 4;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
-    .qubits {
         display: flex;
         align-items: flex-start;
         overflow: scroll;
@@ -280,14 +274,15 @@
     }
 
     .controls {
-        width: calc(100% - 2rem);
-        margin-left: 2rem;
-        z-index: 100;
+        z-index: 1000;
+        width: 100%;
+        max-width: 75rem;
         background-color: var(--color-grey-mid);
-
-        @media (min-width: 1200px) {
-            padding: 1rem 0 1rem 1rem;
-        }
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        padding: 1rem;
+        border: 0.5px solid var(--color-grey-light);
 
         @media (min-width: 1450px) {
             display: flex;

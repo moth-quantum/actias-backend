@@ -19,7 +19,15 @@
     <div class="buttons">
         <div>
             <Tooltip element="learn">
-                <Button orientation="vertical" text="Learn" colour="grey" active={$learn} onClick={() => learn.update(l => !l)} image={midi} classes="w-full"/>
+                <Button 
+                    orientation="vertical" 
+                    text="Learn" 
+                    colour="grey" 
+                    active={$learn} 
+                    onClick={() => learn.update(l => !l)} 
+                    image={midi} 
+                    classes="w-full"
+                />
             </Tooltip>
         </div>
         <div>
@@ -32,6 +40,7 @@
                         active={$drone} 
                         onClick={() => drone.update(d => !d)} 
                         icon={faSignal} 
+                        classes="w-full"
                     />
                 </Learnable>
             </Tooltip>
@@ -158,12 +167,12 @@
             display: flex;
         }
         
-        @media (min-width: 1200px) {
-            display: grid;
-        }
-        @media (min-width: 1400px) {
-            display: flex;
-        }
+        // @media (min-width: 1200px) {
+        //     display: grid;
+        // }
+        // @media (min-width: 1400px) {
+        //     display: flex;
+        // }
 
         &__title {
             height: 100%;
