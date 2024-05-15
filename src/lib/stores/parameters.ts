@@ -149,7 +149,7 @@ const defaults = {
     fils: 1,
     lthresh: 0.75,
     gain: 1,
-    dur: 60000,
+    dur: 300000,
 }
 
 const formatEnvelopeValues = (values: any, instrument: string) => {
