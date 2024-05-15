@@ -290,6 +290,7 @@
         border-top: 0.5px solid var(--color-grey-light);
         @media (min-width: 1200px) {
             border: 0.5px solid var(--color-grey-light);
+            border-radius: 10px 0 0 0;
             display: flex;
             position: fixed;
             bottom: 0;
