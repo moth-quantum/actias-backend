@@ -6,7 +6,7 @@
     import Qubits from './PanelQubits.svelte';
     import Midi from './PanelMidi.svelte';
     import { menuItems, activeSubMenu } from '$lib/stores/sideMenu';
-    import { toggleKeyboard, performanceMode } from '$lib/stores/global';
+    import { performanceMode } from '$lib/stores/global';
     import Panel from './Panel.svelte';
     import CircuitDesigner from '$lib/components/CircuitDesigner/CircuitDesigner.svelte';
     
@@ -22,7 +22,6 @@
             return item
         }))
 
-        name === 'controls' && toggleKeyboard()
         name === 'perform' && performanceMode.set(true)
     }
 
@@ -38,7 +37,6 @@
     onMount(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             event.key === 'Escape' && closeMenu()
-            event.key === 'k' && handleMenuClick('keyboard')
         };
 
         window.addEventListener('keydown', handleKeyDown);

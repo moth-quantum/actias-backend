@@ -22,3 +22,37 @@ export const activeSubMenu = derived(
         return item ? item.name : null
     }
 );
+
+export const controlsAreVisible = derived(
+    menuItems,
+    $menuItems => {
+        return $menuItems.find(item => item.name === 'controls')?.isActive
+    }
+);
+
+export const showControls = () => {
+    menuItems.update(items => {
+        return items.map((item) => ({
+            ...item,
+            isActive: item.name === 'controls' ? true : item.isActive
+        }), {});
+    });
+}
+
+export const hideControls = () => {
+    menuItems.update(items => {
+        return items.map((item) => ({
+            ...item,
+            isActive: item.name === 'controls' ? false : item.isActive
+        }), {});
+    });
+}
+
+export const toggleControls = () => {
+    menuItems.update(items => {
+        return items.map((item) => ({
+            ...item,
+            isActive: item.name === 'controls' ? !item.isActive : item.isActive
+        }), {});
+    });
+}

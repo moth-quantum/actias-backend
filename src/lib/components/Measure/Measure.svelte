@@ -67,21 +67,21 @@
 
 <style lang="scss">
     .measure {
-        padding: 1rem;
-        @media (min-width: 1200px) {
-            padding: 1rem 0 0;
-        }
+        padding-top: 1rem;
+        // @media (min-width: 1200px) {
+        //     padding: 1rem 0 0;
+        // }
         width: 100%;
         height: 100%;
         display: flex;
-        @media (min-width: 1450px) {
+        @media (min-width: 1200px) {
             flex-direction: column;
             padding: 0;
         }
     }
     h2 {
         display: none;
-        @media (min-width: 1450px) {
+        @media (min-width: 1200px) {
             display: block;
         }
     }
@@ -91,7 +91,7 @@
         flex-wrap: wrap;
         width: 70%;
         height: 100%;
-        @media (min-width: 1450px) {
+        @media (min-width: 1200px) {
             width: 100%;
             margin-bottom: 0.5rem;
         }
@@ -148,7 +148,7 @@
             letter-spacing: 0.0625rem;
         }
 
-        @media (min-width: 1450px) {
+        @media (min-width: 1200px) {
             margin-left: 0;
             height: 150%;
             width: 100%;

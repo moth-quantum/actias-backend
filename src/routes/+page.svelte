@@ -1,9 +1,9 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { startAudio } from '../sound';
-    import { showKeyboard, showSideMenu, isApp, performanceMode } from '$lib/stores/global';
+    import { showSideMenu, isApp, performanceMode } from '$lib/stores/global';
+    import { controlsAreVisible, hideControls, showControls, toggleControls } from '$lib/stores/sideMenu';
     import { redrawCables } from '$lib/stores/patching';
-    import { activeQubitCount } from '$lib/stores/qubits';
     import Presets from '$lib/components/Presets/Presets.svelte';
     import Parameters from '$lib/components/Parameters/Parameters.svelte';
     // @ts-ignore
@@ -41,6 +41,9 @@
     
     const handleResize = () => {
         isDesktop = window.innerWidth > 1200
+        isDesktop 
+            ? hideControls() 
+            : showControls()
         sidebarIsHidden = true
     }
 
@@ -49,8 +52,14 @@
         isDesktop = window.innerWidth > 1200
         redrawCables(500)
 
+        const handleKeyDown = (event: KeyboardEvent) => {
+            event.key === 'k' && toggleControls();
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
         // exit at this point if not in electron
-        if(!isApp()) return
+        if(!isApp()) return () => window.removeEventListener('keydown', handleKeyDown);
         
         initElectronAPI()
         
@@ -67,6 +76,7 @@
             unsubscribeListen()
             unsubscribeUpdateProfile()
             window.removeEventListener("beforeunload", logout);
+            window.removeEventListener('keydown', handleKeyDown);
         }
     });
 
@@ -156,7 +166,7 @@
         <Qubits />
     </div>
 
-    {#if $showKeyboard && !$performanceMode}
+    {#if $controlsAreVisible && !$performanceMode}
         <div class="controls">
             <div class="keyboard">
                 <Controls />
@@ -252,9 +262,6 @@
             display: flex;
         }
     }
-
-    .interface {
-    }
     
     .qubits {
         grid-column-start: 2;
@@ -265,9 +272,9 @@
         align-items: flex-start;
         overflow: scroll;
         margin-bottom: 1rem;
-        height: 100%;
-
+        
         @media (min-width: 1200px) {
+            height: 100%;
             margin-bottom: 0;
         }
 
@@ -278,20 +285,20 @@
         width: 100%;
         max-width: 75rem;
         background-color: var(--color-grey-mid);
-        position: fixed;
-        bottom: 0;
-        right: 0;
         padding: 1rem;
-        border: 0.5px solid var(--color-grey-light);
-
-        @media (min-width: 1450px) {
+        border-top: 0.5px solid var(--color-grey-light);
+        @media (min-width: 1200px) {
+            border: 0.5px solid var(--color-grey-light);
             display: flex;
+            position: fixed;
+            bottom: 0;
+            right: 0;
         }
     }
 
     .keyboard {
         background-color: var(--color-grey-dark);
-        @media (min-width: 1450px) {
+        @media (min-width: 1200px) {
             width: 75%;
             margin-right: 1rem;
         }

@@ -31,7 +31,7 @@
     </footer>
 </div>
 
-<svelte:window on:resize={() => window.innerWidth < 1200 && showSideMenu.set(false)} />
+<svelte:window on:resize={() => showSideMenu.set(window.innerWidth > 1200)} />
 
 <style lang="scss">
     .app {
