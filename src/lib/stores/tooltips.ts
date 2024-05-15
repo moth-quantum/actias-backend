@@ -16,7 +16,7 @@ export const tooltips: Writable<Tooltip[]> = writable<Tooltip[]>([
 	{ element: 'op3gain', message: 'Operator 3 gain' },
 	{ element: 'op3fb', message: 'Operator 3 feedback' },
 	{ element: 'loop', message: 'Whether the sample should loop when it reaches the end' },
-	{ element: 'size', message: 'Size of the loop. 1 is the entire sample, 0.5 is half the sample etc.' },
+	{ element: 'loopsize', message: 'Size of the loop. 1 is the entire sample, 0.5 is half the sample etc.' },
 	{ element: 'rate', message: 'Playback rate. 1 is normal speed, 2 is twice as fast, 0.5 is half speed etc. Negative numbers play sample in reverse' },
 	{ element: 'grainrate', message: 'Grain rate. Number of grains per second' },
 	{ element: 'grainsize', message: 'Grain size' },
