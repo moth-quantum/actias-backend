@@ -56,7 +56,7 @@ export const connect = async (userID: number) => {
 }
 
 export const disconnect = async (userID: number) => {
-    const endpoint = `${apiDomain}/api/app-user/disconnect/${get(id)}/${userID}`;
+    const endpoint = `${get(apiDomain)}/api/app-user/disconnect/${get(id)}/${userID}`;
     return fetch(endpoint, {
         method: 'GET',
         headers: get(headers)
