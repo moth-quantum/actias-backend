@@ -10,7 +10,7 @@ export const menuItems = writable([
     { name: 'qubits', icon: faGlobe, isVisible: true, isActive: false, hasSubMenu: true},
     { name: 'circuit', icon: faDiagramProject, isVisible: true, isActive: false, hasSubMenu: true},
     { name: 'midi', image: midi, isVisible: true, isActive: false, hasSubMenu: true},
-    { name: 'controls', image: keyboard, isVisible: true, isActive: false, hasSubMenu: false},
+    { name: 'controls', image: keyboard, isVisible: true, isActive: true, hasSubMenu: false},
     { name: 'tooltips', icon: faCircleQuestion, isVisible: true, isActive: false, hasSubMenu: false},
     { name: 'perform', icon: faPlay, isVisible: true, isActive: false, hasSubMenu: false }
 ]);

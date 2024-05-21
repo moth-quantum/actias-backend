@@ -66,7 +66,7 @@ export const handleEvent = (params) => {
     const detune = semitone + (octave * 12)
 
     get(drone) && inst === 'synth' && instruments[inst]?.cut(immediate());
-    instruments[inst]?.play({...params, n, detune}, immediate() + 0.01)
+    instruments[inst]?.play({...params, n, detune}, immediate())
     fx.set(params, immediate())
     crush.wet.value = params.crush
     crush.set({bits: mapToStepRange(params.crush, 0, 1, 16, 4, 1)})

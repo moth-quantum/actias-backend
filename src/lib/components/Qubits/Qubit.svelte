@@ -122,7 +122,7 @@
             
             const vector = Vector.fromAngles(
                 p5.radians(theta * 180), 
-                p5.radians(phi * 180), 
+                p5.radians(phi * 360), 
                 radius
             )
 
@@ -138,8 +138,8 @@
             p5.noFill()
             
             // Azimuth
-            const cos_y = p5.cos(p5.radians(-phi * 180));
-            const sin_y = p5.sin(p5.radians(-phi * 180));
+            const cos_y = p5.cos(p5.radians(-phi * 360));
+            const sin_y = p5.sin(p5.radians(-phi * 360));
             p5.applyMatrix(cos_y, 0.0, sin_y, 0.0, 0.0, 1.0, 0.0, 0.0, -sin_y, 0.0, cos_y, 0.0, 0.0, 0.0, 0.0, 1.0);
 
             // Inclination
@@ -167,7 +167,7 @@
             p5.stroke('#FF695A')
             p5.strokeWeight(4)
             p5.rotateY(p5.radians(90))
-            p5.rotateY(p5.radians(phi * 180))
+            p5.rotateY(p5.radians(phi * 360))
             p5.circle(0, 0, (radius * 2));
             p5.pop()
 
