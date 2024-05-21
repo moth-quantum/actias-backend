@@ -74,6 +74,8 @@
             : circuit.addGate(gate.symbol, column, wires, options);
         
         updateSVG() 
+
+        selectedGateId = ''
     }
 
     // handle selecting a gate on the svg
@@ -123,10 +125,14 @@
         circuit.addGate(gate.name, column, wires, gate.options);
         
         updateSVG();
+
+        selectedGateId = ''
     }
 
     const handleParamChange = (param: string, value: number) => {
         const gate = circuit.getGateById(selectedGateId);
+        if(!gate) return;
+
         const { id, column } = gate;
         circuit.gates.forEach((gates: any) => {
             if(id !== gates[column]?.id) return;
@@ -212,22 +218,19 @@
             {/each}
         </div>
         <div class="circuit-designer__instructions">
-            {#if gate}
-
-                {#if params?.length}
-                    <p>This gate accepts the following additional parameters (in radians):</p>
-                    {#each params as param}
-                        <div class="circuit-designer__input">
-                            <Slider
-                                name={param.name}
-                                value={gate.options.params[param.name] / ([1,2][param.name === 'theta' ? 0 : 1] * Math.PI)}
-                                orientation="horizontal"
-                                on:change={(e) => handleParamChange(param.name, e.detail)}
-                                colour="var(--color-grey-light)"
-                            />
-                        </div>
-                    {/each}
-                {/if}
+            {#if gate && params?.length}
+                <p>This gate accepts the following additional parameters (in radians):</p>
+                {#each params as param}
+                    <div class="circuit-designer__input">
+                        <Slider
+                            name={param.name}
+                            value={gate.options.params[param.name] / ([1,2][param.name === 'theta' ? 0 : 1] * Math.PI)}
+                            orientation="horizontal"
+                            on:change={(e) => handleParamChange(param.name, e.detail)}
+                            colour="var(--color-grey-light)"
+                        />
+                    </div>
+                {/each}
             {/if}
             {#if !gate || !params?.length}
                 {#if focusedGate}
