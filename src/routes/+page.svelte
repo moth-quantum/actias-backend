@@ -299,7 +299,7 @@
             height: 1rem;
             width: 100%;
             background-color: transparent;
-            cursor: crosshair;
+            cursor: move;
         }
         @media (min-width: 1000px) {
             border: 0.5px solid var(--color-grey-light);
