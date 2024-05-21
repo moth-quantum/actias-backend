@@ -169,7 +169,7 @@
     </div>
 
     {#if $controlsAreVisible && !$performanceMode}
-        <div class="controls" use:draggable={{bounds: 'body', position, handle: '.controls__handle'}}>
+        <div class="controls" use:draggable={{position, handle: '.controls__handle'}}>
             <div class="controls__handle"></div>
             <div class="keyboard">
                 <Controls />
