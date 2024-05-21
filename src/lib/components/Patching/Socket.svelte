@@ -104,7 +104,7 @@
         on:neodrag={handleDragStart}
         on:neodrag:end={handleDragEnd}
         on:click={handleClick}
-        >
+    >
         {#if $sockets[connectedTo] || type == 'remote'}
             <div 
                 class="socket__inner"
