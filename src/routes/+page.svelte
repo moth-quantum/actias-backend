@@ -16,7 +16,7 @@
     import Toasts from '$lib/components/Toasts/Toasts.svelte';
     import { presetKeys, savePreset, deletePreset, editPreset, activePreset } from '$lib/stores/presets-project';
     import { isChrome } from '$lib/utils/utils';
-
+    import { draggable } from '@neodrag/svelte';
     import { Drawer } from 'flowbite-svelte';
     import { sineIn } from 'svelte/easing';
 
@@ -39,6 +39,7 @@
         duration: 200,
         easing: sineIn
     };
+    let position = {x: 0, y: 0};
     
     const handleResize = () => {
         isDesktop = window.innerWidth > 1200
@@ -168,7 +169,8 @@
     </div>
 
     {#if $controlsAreVisible && !$performanceMode}
-        <div class="controls">
+        <div class="controls" use:draggable={{position, handle: '.controls__handle'}}>
+            <div class="controls__handle"></div>
             <div class="keyboard">
                 <Controls />
             </div>
@@ -288,6 +290,17 @@
         background-color: var(--color-grey-mid);
         padding: 1rem;
         border-top: 0.5px solid var(--color-grey-light);
+        position: relative;
+        
+        &__handle {
+            position:absolute;
+            top: 0;
+            left: 0;
+            height: 1rem;
+            width: 100%;
+            background-color: transparent;
+            cursor: move;
+        }
         @media (min-width: 1000px) {
             border: 0.5px solid var(--color-grey-light);
             border-radius: 10px 0 0 0;
