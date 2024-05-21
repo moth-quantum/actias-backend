@@ -197,7 +197,7 @@
         }
 
         &--measuring {
-            opacity: 0.5
+            animation: pulse 1s infinite;
         }
 
         &__info {
@@ -217,6 +217,7 @@
                 &:nth-child(3) {
                     background-color: var(--color-grey-darker);
                     color: white;
+                    animation: pulse 1s infinite;
                 }
             }
         }
