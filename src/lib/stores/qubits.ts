@@ -1,3 +1,4 @@
+import { tick } from 'svelte';
 import { writable, get, derived } from 'svelte/store';
 import { tweened, type Tweened } from 'svelte/motion';
 import { mapToRange, clamp } from '../utils/utils';
@@ -5,8 +6,8 @@ import { redrawCables } from './patching';
 import { disconnectSocket } from './patching';
 import { circuit } from './circuit';
     
-export const qubits = writable<{active: boolean, user: 'you' | number}[]>(
-    Array(6).fill(null).map((_, i) => ({active: i === 0, user: 'you'}))
+export const qubits = writable<{active: boolean, user: 'you' | number, isMeasuring: boolean}[]>(
+    Array(6).fill(null).map((_, i) => ({active: i === 0, user: 'you', isMeasuring: false}))
 );
 
 export const focusedQubit = writable<number>(0);
@@ -107,24 +108,29 @@ export function collapse(destinations: number[]) {
 
     const endValues: number[][] = destinations.map(dest => [0,0,dest]);
 
-    console.log(startValues, endValues)
-
     const interval = setInterval(() => {
         const now = new Date().getTime();
         const progress = (now - startTime) / (endTime - startTime);
         if (progress > 1) {
             clearInterval(interval);
-            isMeasuring.set(false);
-        }
-        
+            
             axes.forEach((store, qubit) => {
                 if (destinations.length <= qubit) return;
-                store.update((arr) => {
-                    return arr.map((_,axis) => clamp(
-                        mapToRange(progress, 0, 1, startValues[qubit][axis], endValues[qubit][axis]),
-                        0, 1
-                    ))
-                });
+                store.set(endValues[qubit]);
+            })
+            
+            // Allow time for tweened values to come to rest
+            setTimeout(() => isMeasuring.set(false), 100);
+        }
+        
+        axes.forEach((store, qubit) => {
+            if (destinations.length <= qubit) return;
+            store.update((arr) => {
+                return arr.map((_,axis) => clamp(
+                    mapToRange(progress, 0, 1, startValues[qubit][axis], endValues[qubit][axis]),
+                    0, 1
+                ))
             });
+        });
     }, 100);
 }

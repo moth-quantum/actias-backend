@@ -74,6 +74,7 @@
                     $activeQubitCount > 1 &&
                     (!$performanceMode && $focusedQubit === i || $qubits[i].user !== 'you')
                 }
+                
                 style="border-color: {$focusedQubit === i && !$performanceMode 
                     ? 'var(--color-yellow)' 
                     : getUserColour($qubits[i].user)
@@ -84,9 +85,14 @@
                     <h3 class="qubit__info">
                         <span style="background-color: {getUserColour($qubits[i].user)}">{(i + 1).toString().padStart(2, '0')}</span>
                         <span style="background-color: {getUserColour($qubits[i].user)}">{getUserName($qubits[i].user)}</span>
+                        {#if $qubits[i].isMeasuring}<span>Measuring...</span>{/if}
                     </h3>
                 {/if}
-                <div class="qubit__qubit">
+
+                <div 
+                    class="qubit__qubit"
+                    class:qubit--measuring={$qubits[i].isMeasuring}
+                >
                     <Qubit 
                         {i}
                         axes={store}
@@ -190,6 +196,10 @@
             border: 2px solid;
         }
 
+        &--measuring {
+            opacity: 0.5
+        }
+
         &__info {
             position: absolute;
             top: 1.5rem;
@@ -203,6 +213,11 @@
                 margin-right: 0.5rem;
                 font-weight: bold;
                 color: var(--color-grey-darker);
+
+                &:nth-child(3) {
+                    background-color: var(--color-grey-darker);
+                    color: white;
+                }
             }
         }
 
