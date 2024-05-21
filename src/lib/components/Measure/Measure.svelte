@@ -1,6 +1,6 @@
 <script lang="ts">
     import Select from '$lib/components/Forms/Select.svelte';   
-    import { measure, seconds, bpm, beats, source, isMeasuring } from '$lib/stores/qubits';
+    import { measure, seconds, source, isMeasuring } from '$lib/stores/qubits';
     import { isApp } from '$lib/stores/global';
     import Lottie from '$lib/components/Lottie/Lottie.svelte';
     import lottieSrc from '$lib/images/measuring.json';
@@ -8,9 +8,8 @@
     import Learnable from '$lib/components/Learnable/Learnable.svelte';
     
     const machines = [
-        {name: 'local', active: true}, 
-        // {name: 'qasm_simulator', active: false}, 
-        // {name: 'ibmq_belem', active: false}
+        {name: 'local', value: 'local', active: true}, 
+        {name: 'ibmq_belem', value: 'ibmq_belem', active: false},
     ];
 </script>
 
@@ -23,6 +22,7 @@
                     <Select 
                         id="source" 
                         options={machines} 
+                        selected={'local'}
                         onChange={e => source.update(() => {
                             // @ts-ignore
                             return e.target?.value || 'local'
@@ -34,16 +34,6 @@
         <input 
             id="seconds" placeholder="Seconds" type="number" 
             bind:value={$seconds}
-            on:keydown={e => e.stopPropagation()}
-        />
-        <input 
-            id="bpm" placeholder="BPM" type="number" 
-            bind:value={$bpm}
-            on:keydown={e => e.stopPropagation()}
-        />
-        <input 
-            id="beats" placeholder="Beats" type="number" 
-            bind:value={$beats}
             on:keydown={e => e.stopPropagation()}
         />
     </form>
@@ -71,14 +61,14 @@
         width: 100%;
         height: 100%;
         display: flex;
-        @media (min-width: 1200px) {
+        @media (min-width: 1000px) {
             flex-direction: column;
             padding: 0;
         }
     }
     h2 {
         display: none;
-        @media (min-width: 1200px) {
+        @media (min-width: 1000px) {
             display: block;
         }
     }
@@ -87,8 +77,7 @@
         display: flex;
         flex-wrap: wrap;
         width: 70%;
-        height: 100%;
-        @media (min-width: 1200px) {
+        @media (min-width: 1000px) {
             width: 100%;
             margin-bottom: 0.5rem;
         }
@@ -101,17 +90,12 @@
         padding: 0.125rem 0.75rem;
         width: 100%;
         border-radius: 5px;
+        @media (min-width: 1000px) {
+            max-height: 2rem;
+        }
 
         &#seconds {
             flex-basis: 100%;
-            margin-bottom: 0.5rem;
-        }
-        &#bpm, &#beats {
-            flex-basis: calc(50% - 0.25rem);
-        }
-
-        &#bpm {
-            margin-right: 0.5rem;
         }
     }
 
@@ -123,6 +107,7 @@
         width: 100%;
         margin-bottom: 0.5rem;
         display: flex;
+        max-height: 2rem;
 
         & > div {
             width: 100%;
@@ -145,9 +130,9 @@
             letter-spacing: 0.0625rem;
         }
 
-        @media (min-width: 1200px) {
+        @media (min-width: 1000px) {
             margin-left: 0;
-            height: 150%;
+            height: 170%;
             width: 100%;
         }
         button {

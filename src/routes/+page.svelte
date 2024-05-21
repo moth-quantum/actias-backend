@@ -288,10 +288,13 @@
         background-color: var(--color-grey-mid);
         padding: 1rem;
         border-top: 0.5px solid var(--color-grey-light);
-        @media (min-width: 1200px) {
+        @media (min-width: 1000px) {
             border: 0.5px solid var(--color-grey-light);
             border-radius: 10px 0 0 0;
             display: flex;
+        }
+        
+        @media (min-width: 1200px) {
             position: fixed;
             bottom: 0;
             right: 0;
@@ -300,9 +303,14 @@
 
     .keyboard {
         background-color: var(--color-grey-dark);
-        @media (min-width: 1200px) {
+        @media (min-width: 1000px) {
             width: 75%;
             margin-right: 1rem;
+        }
+    }
+    .measure {
+        @media (min-width: 1000px) {
+            width: 25%;
         }
     }
 </style>

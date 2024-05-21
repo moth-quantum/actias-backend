@@ -83,17 +83,9 @@ axes.forEach((store, i) => {
 
 export const isMeasuring = writable<boolean>(false);
 export const seconds = writable<number>();
-export const bpm = writable<number>();
-export const beats = writable<number>();
 export const source = writable<string>('local');
 export const password = writable<string>('');
 export const token = writable<string>('');
-
-export const collapseTime = derived([seconds, bpm, beats], ([$seconds, $bpm, $beats]) => {
-    if ($bpm > 0 && $beats > 0) return 60 / $bpm * $beats;
-    if ($seconds) return $seconds;
-    return 1;
-});
 
 export const measure = () => {
     if (get(isMeasuring)) return;
@@ -110,7 +102,7 @@ export const measure = () => {
 export function collapse(destinations: number[]) {
     isMeasuring.set(true);
     const startTime = new Date().getTime();
-    const endTime = startTime + (get(collapseTime) * 1000);
+    const endTime = startTime + ((get(seconds) || 1) * 1000);
     const startValues: number[][] = destinations.map((_, i) => get(axes[i]));
 
     const endValues: number[][] = destinations.map(dest => [0,0,dest]);

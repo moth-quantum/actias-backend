@@ -110,7 +110,7 @@
         display: flex;
         padding: 1rem;
         
-        @media (min-width: 1200px) {
+        @media (min-width: 1000px) {
             padding: 1rem 2rem;
         }
         height: 100%;
@@ -128,7 +128,7 @@
         @media (min-width: 650px) {
             width: 10rem;
         }
-        @media (min-width: 1200px) {
+        @media (min-width: 1000px) {
             width: 4.5rem;
         }
 
@@ -166,13 +166,6 @@
         @media (min-width: 700px) {
             display: flex;
         }
-        
-        // @media (min-width: 1200px) {
-        //     display: grid;
-        // }
-        // @media (min-width: 1400px) {
-        //     display: flex;
-        // }
 
         &__title {
             height: 100%;

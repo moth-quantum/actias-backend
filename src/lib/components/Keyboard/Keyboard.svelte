@@ -100,7 +100,7 @@
     }
 
     onMount(() => {
-        isMobile = window.innerWidth < 650
+        isMobile = window.innerWidth < 800
         const unsubscribeFromInputs = inputs.subscribe(inputs => {
             inputs.forEach(({name, active}) => active 
                 ? activateInput(name)
