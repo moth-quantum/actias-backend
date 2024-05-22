@@ -1,6 +1,6 @@
 <script lang="ts">
     import Tooltip from '$lib/components/Tooltip/Tooltip.svelte';  
-    import { instrumentParameters, fxParameters, globalParameters, randomise, demoParameters } from '$lib/stores/parameters';
+    import { instrument, instrumentParameters, fxParameters, globalParameters, randomise, demoParameters } from '$lib/stores/parameters';
     import { samples } from '$lib/stores/samples'
     import { onMount } from 'svelte';
     import { randomiseConnections, connections } from '$lib/stores/patching';
@@ -16,53 +16,73 @@
             sampleOptions = urls.map((url, i) => ({name: url.split('/').pop() || '', value: i, active: true}));
         })
 
-        return () => {
-            unsubscribeSamples();
-        }
+        return () => unsubscribeSamples();
     })
 </script>
 
-<div class="group">
-    <button on:click={() => randomise('inst')}>
-        <h2>Instrument</h2>
-        <button class="connect" on:click={(e) => {
-            e.stopPropagation()
-            $connections.length 
-                ? connections.set([])
-                : randomiseConnections()
-        }}>
-            <Tooltip element="randomise-patching" type="parameter">
-                <FontAwesomeIcon icon={$connections.length ? faTrash : faShuffle } />
-            </Tooltip>
+{#if $instrument === 'demo'}
+    <div class="group">
+        <button on:click={() => randomise('inst')}>
+            <h2>Parameters</h2>
+            <button class="connect" on:click={(e) => {
+                e.stopPropagation()
+                $connections.length 
+                    ? connections.set([])
+                    : randomiseConnections()
+            }}>
+                <Tooltip element="randomise-patching" type="parameter">
+                    <FontAwesomeIcon icon={$connections.length ? faTrash : faShuffle } />
+                </Tooltip>
             </button>
-    </button>
-    <ParameterGroup 
-        group="inst"
-        parameters={instrumentParameters}  
-        selectOptions={sampleOptions} 
-    />
-</div>
+        </button>
+        <ParameterGroup 
+            group="demo"
+            parameters={demoParameters} 
+        />
+    </div>
+{:else}
+    <div class="group">
+        <button on:click={() => randomise('inst')}>
+            <h2>Instrument</h2>
+            <button class="connect" on:click={(e) => {
+                e.stopPropagation()
+                $connections.length 
+                    ? connections.set([])
+                    : randomiseConnections()
+            }}>
+                <Tooltip element="randomise-patching" type="parameter">
+                    <FontAwesomeIcon icon={$connections.length ? faTrash : faShuffle } />
+                </Tooltip>
+            </button>
+        </button>
+        <ParameterGroup 
+            group="inst"
+            parameters={instrumentParameters}  
+            selectOptions={sampleOptions} 
+        />
+    </div>
 
-<div class="group">
-    <button on:click={() => randomise('global')}>
-        <h2>Global</h2>
-    </button>
-    <ParameterGroup 
-        group="global"
-        parameters={globalParameters} 
-    />
-</div>
+    <div class="group">
+        <button on:click={() => randomise('global')}>
+            <h2>Global</h2>
+        </button>
+        <ParameterGroup 
+            group="global"
+            parameters={globalParameters} 
+        />
+    </div>
 
-<div class="group">
-    <button on:click={() => randomise('fx')}>
-        <h2>Effects</h2>
-    </button>
+    <div class="group">
+        <button on:click={() => randomise('fx')}>
+            <h2>Effects</h2>
+        </button>
 
-    <ParameterGroup 
-        group="fx"
-        parameters={fxParameters}
-    />
-</div>
+        <ParameterGroup 
+            group="fx"
+            parameters={fxParameters}
+        />
+    </div>
+{/if}
 
 <style lang="scss">
     h2 {

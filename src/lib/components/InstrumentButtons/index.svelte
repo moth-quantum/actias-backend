@@ -3,10 +3,11 @@
     import Button from '$lib/components/Button/Button.svelte';
 
     import { library } from '@fortawesome/fontawesome-svg-core';
-    import { faSmileWink, faNetworkWired, faCompactDisc, faBraille, faTable } from '@fortawesome/free-solid-svg-icons';
+    import { faSmileWink, faNetworkWired, faCompactDisc, faBraille, faTable, faWaveSquare } from '@fortawesome/free-solid-svg-icons';
     library.add(faSmileWink, faNetworkWired, faCompactDisc, faBraille, faTable);
 
     const icons = {
+        'demo': faWaveSquare,
         'synth': faNetworkWired,
         'sampler': faCompactDisc,
         'granular': faBraille,

@@ -24,7 +24,6 @@ const instrumentKeys: Dictionary = {
 }
 
 export const keys = writable(instrumentKeys.demo);
-export const demoParams: Dictionary = {op2ratio: 'FMPitch', op2gain: 'FMAmt', semitone: 'detune', pan: 'pan', reverb: 'reverb'};
 
 const instParams: Parameter[] = [
     {type: 'range', key: 'op1fb', name: 'op1fb', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.01, units: '', outmin: 0, outmax: 1, isLocked: false},
@@ -77,6 +76,14 @@ const fxParams: Parameter[] = [
     {type: 'range', key: 'locut', name: 'locut', rangeA: 0, rangeB: 25, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1, isLocked: false},
 ]
 
+const demoParams: Parameter[] = [
+    {type: 'range', key: 'op2ratio', name: 'op2r', rangeA: 0.5, rangeB: 20, min: 0.5, max: 20, step: 0.5, units: '', isLocked: false},
+    {type: 'range', key: 'op2gain', name: 'op2g', rangeA: 0, rangeB: 10, min: 0, max: 10, step: 0.01, units: '', isLocked: false},
+    {type: 'range', key: 'semitone', name: 'dtune', rangeA: -12, rangeB: 12, min: -12, max: 12, step: 0.1, units: 'st', isLocked: false},
+    {type: 'range', key: 'pan', name: 'pan', rangeA: -1, rangeB: 1, min: -1, max: 1, step: 0.01, units: '', outmin: 0, outmax: 1, isLocked: false},
+    {type: 'range', key: 'reverb', name: 'Reverb', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1, isLocked: false},
+]
+
 export const instrumentParameters = writable(instParams);
 
 samples.subscribe(s => {
@@ -88,10 +95,11 @@ samples.subscribe(s => {
 
 export const globalParameters = writable(gParams);
 export const fxParameters = writable(fxParams);
+export const demoParameters = writable(demoParams);
 export const allParameters: Readable<Parameter[]> = derived(
-    [instrumentParameters, globalParameters, fxParameters], 
-    ([$instrumentParameters, $globalParameters, $fxParameters]) => {
-        return [...$instrumentParameters, ...$globalParameters, ...$fxParameters]
+    [instrumentParameters, globalParameters, fxParameters, demoParameters], 
+    ([$instrumentParameters, $globalParameters, $fxParameters, $demoParameters]) => {
+        return [...$instrumentParameters, ...$globalParameters, ...$fxParameters, ...$demoParameters]
     }
 );
 
@@ -113,23 +121,7 @@ export const paramValues: Readable<{[key: string]: number}> = derived(
         prevParamValues.set(nextParamValues);
 
         return nextParamValues;
-    })
-
-export const demoParameters: Readable<Parameter[]> = derived(
-    [instrumentParameters, globalParameters, fxParameters],
-    ([$instrumentParameters, $globalParameters, $fxParameters]) => {
-        return [...$instrumentParameters, ...$globalParameters, ...$fxParameters]
-            .filter((param) => {
-                return Object.keys(demoParams).includes(param.key);
-            })
-            .map((param) => {
-                return {
-                    ...param,
-                    name: demoParams[param.key]
-                }
-            })
-    }
-)
+    });
 
 function getAxis(key: string) : number {
     const connection = getConnections(key)[0];
@@ -180,7 +172,7 @@ export const synthValues: Readable<{[key: string]: number | string}> = derived(
     [paramValues, envelopeValues, instrument], 
     ([$paramValues, $envelopeValues, $instrument]) => ({
         ...defaults,
-        inst: $instrument,
+        inst: $instrument === 'demo' ? 'synth' : $instrument,
         ...formatEnvelopeValues($envelopeValues, $instrument),
         ...Object.entries($paramValues).reduce((obj, [key, value]) => ({
             ...obj,
