@@ -1,4 +1,3 @@
-import { tick } from 'svelte';
 import { writable, get, derived } from 'svelte/store';
 import { tweened, type Tweened } from 'svelte/motion';
 import { mapToRange, clamp } from '../utils/utils';
@@ -27,6 +26,10 @@ export const axesValues = derived(
 export const activeQubitCount = derived(qubits, ($qubits) => {
     return $qubits.filter(q => q.active).length;
 });
+
+activeQubitCount.subscribe((count) => {
+    focusedQubit.set(count - 1);
+})
 
 export const activateQubit = () => {
     const i = get(qubits).findIndex(q => !q.active);
