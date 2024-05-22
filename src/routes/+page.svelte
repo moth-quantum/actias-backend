@@ -185,6 +185,7 @@
 
 <style lang="scss">
     .sidebar {
+        z-index: 2000;
         &__instruments {
             margin-bottom: 1rem;
         }
@@ -284,7 +285,6 @@
     }
 
     .controls {
-        z-index: 1000;
         width: 100%;
         max-width: 75rem;
         background-color: var(--color-grey-mid);
@@ -301,13 +301,14 @@
             background-color: transparent;
             cursor: move;
         }
-        @media (min-width: 1000px) {
+        @media (min-width: 1000px) {            
             border: 0.5px solid var(--color-grey-light);
             border-radius: 10px 0 0 0;
             display: flex;
         }
         
         @media (min-width: 1200px) {
+            z-index: 100;
             position: fixed;
             bottom: 0;
             right: 0;

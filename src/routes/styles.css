@@ -168,6 +168,8 @@ button:focus:not(:focus-visible) {
 
 #sidebar {
     background-color: var(--color-grey-mid);
+	border-right: 1px solid var(--color-grey-light);
+
 }
 
 #side-menu {
