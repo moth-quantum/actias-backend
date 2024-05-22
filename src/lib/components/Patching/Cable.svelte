@@ -1,6 +1,7 @@
 <script>
     // @ts-nocheck
     import { onDestroy, onMount } from 'svelte';
+    import { activeQubitCount } from '$lib/stores/qubits';
     export let from = {x: 0, y:0};
     export let to = {x: 0, y: 0};
     export let offset = 2;
@@ -24,8 +25,8 @@
     });
     onDestroy(() => resizeObserver.disconnect());
 
-    $: line1 = {x1: from.x + 3, y1: from.y, x2: from.x + 43 + offset, y2: from.y}
-    $: line2 = {x1: line1.x2, y1: from.y, x2: line1.x2, y2: to.y + 23 - offset}
+    $: line1 = {x1: from.x + 3, y1: from.y, x2: from.x + 30 + offset, y2: from.y}
+    $: line2 = {x1: line1.x2, y1: from.y, x2: line1.x2, y2: to.y + ($activeQubitCount > 1 ? 23 - offset : 15)}
     $: line3 = {x1: line2.x1, y1: line2.y2, x2: to.x, y2: line2.y2}
     $: line4 = {x1: line3.x2, y1: line3.y2, x2: to.x, y2: to.y}
     $: segments = [
