@@ -63,6 +63,14 @@
         sockets.update(s => ({...s, [id]: {...s[id], id, x, y, width, active, type, colour, offset}}));
     }
 
+    function cleanUp() {
+        // remove from store
+        sockets.update(s => {
+            delete s[id];
+            return s;
+        });
+    }
+
     const unsubscribeInstrumentParameters = instrumentParameters.subscribe(async () => {
         await tick();
         thisSocket && init();
@@ -84,6 +92,7 @@
             unsubscribeSockets();
             unsubscribeConnections();
             unsubscribeInstrumentParameters();
+            cleanUp()
         }
 
     });

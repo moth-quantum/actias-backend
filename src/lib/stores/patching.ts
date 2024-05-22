@@ -28,7 +28,6 @@ export const deactivateSockets = () => {
 }
 
 export const connectSockets = (a: Socket, b: Socket) => {
-    console.log(a, b)
     // Don't connect sockets of the same type
     if(a.type === b.type) return
     
