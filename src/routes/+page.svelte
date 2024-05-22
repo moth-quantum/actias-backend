@@ -108,7 +108,7 @@
         <div class="sidebar__instruments">
             <InstrumentButtons orientation="vertical"/>
         </div>
-        <Parameters showSockets={false}/>
+        <Parameters />
     </div>
 </Drawer>
 

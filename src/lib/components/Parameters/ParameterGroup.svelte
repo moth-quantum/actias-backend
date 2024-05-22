@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { onMount } from "svelte";
     import type { Parameter } from "$lib/types";
     import type { Writable } from "svelte/store";
     import { paramValues, keys } from '$lib/stores/parameters';
@@ -15,9 +16,20 @@
     export let group: string;
     export let parameters: Writable<Parameter[]>;
     export let selectOptions: {name: string, value: number, active: boolean}[] = [];
+
+    let isMobile: boolean;
+
+    const handleResize = () => {
+        isMobile = window.innerWidth < 1200;
+    }
+
+    onMount(() => {
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        
+        return () => window.removeEventListener('resize', handleResize);
+    });
 </script>
-
-
 
 {#each $parameters.filter(({key}) => group !== 'inst' || $keys.includes(key)) 
     as {type, name, min, max, step, units, key, rangeA, rangeB, isLocked} (key)
@@ -59,11 +71,10 @@
                 />
             </button>
 
-            <!-- TODO: hide sockets on mobile -->
-            {#if true}
-                <Socket id={key} type="origin" align="right"/>
-            {:else}
+            {#if isMobile}
                 <Buttons id={key} options={['x', 'y', 'z']}/>
+            {:else}
+                <Socket id={key} type="origin" align="right"/>
             {/if}
         {/if}
     </div>
