@@ -9,7 +9,7 @@ export const showTooltips: Readable<boolean> = derived(
 
 export const tooltips: Writable<Tooltip[]> = writable<Tooltip[]>([
 	{ element: 'op1fb', message: 'Operator 1 feedback' },
-	{ element: 'op2ratio', message: 'Operator 1 harmonicity ratio' },
+	{ element: 'op2ratio', message: 'Operator 2 harmonicity ratio' },
 	{ element: 'op2gain', message: 'Operator 2 gain' },
 	{ element: 'op2fb', message: 'Operator 2 feedback' },
 	{ element: 'op3ratio', message: 'Operator 3 harmonicity ratio' },

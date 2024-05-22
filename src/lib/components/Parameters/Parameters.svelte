@@ -1,7 +1,7 @@
 <script lang="ts">
     import Select from '$lib/components/Forms/Select.svelte'; 
     import Tooltip from '$lib/components/Tooltip/Tooltip.svelte';  
-    import { instrumentParameters, fxParameters, globalParameters, paramValues, randomise, keys } from '$lib/stores/parameters';
+    import { instrumentParameters, fxParameters, globalParameters, paramValues, randomise, keys, demoParameters } from '$lib/stores/parameters';
     import { samples } from '$lib/stores/samples'
     import RangeSlider from '$lib/components/Sliders/RangeSlider.svelte';
     import Socket from '$lib/components/Patching/Socket.svelte';
@@ -22,6 +22,8 @@
         const unsubscribeSamples = samples.subscribe(urls => {
             sampleOptions = urls.map((url, i) => ({name: url.split('/').pop() || '', value: i, active: true}));
         })
+
+        console.log('demoParameters', $demoParameters)
 
         return () => {
             unsubscribeSamples();

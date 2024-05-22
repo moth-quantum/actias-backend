@@ -2,26 +2,29 @@ import { writable, type Writable, get, derived, type Readable } from 'svelte/sto
 import { axes, isMeasuring } from '$lib/stores/qubits'
 import { samples } from '$lib/stores/samples';
 import { envelopeValues } from './envelopes';
-import { initialiseConnections, getConnections, connections} from './patching';
+import { getConnections, connections} from './patching';
 import { mapToStepRange, roundToFactor } from '$lib/utils/utils';
-import type { InstrumentName, Parameter } from '$lib/types';
+import type { InstrumentName, Parameter, Dictionary } from '$lib/types';
 
-export const instrument: Writable<InstrumentName> = writable('synth');
+export const instrument: Writable<InstrumentName> = writable('demo');
 export const instruments: {name: InstrumentName, active: boolean}[] = [
-    {name: 'synth', active: true},
+    {name: 'demo', active: true},
+    {name: 'synth', active: false},
     {name: 'sampler', active: false},
     {name: 'granular', active: false},
     {name: 'wavetable', active: false},
 ]
 
-const instrumentKeys = {
+const instrumentKeys: Dictionary = {
+    demo: ['op2ratio', 'op2gain'],
     synth: ['op1fb','op2ratio', 'op2gain', 'op2fb', 'op3ratio', 'op3gain', 'op3fb'],
     sampler: ['i', 'loop', 'loopsize', 'rate', 'begin', 'cutoff', 'res'],
     granular: ['i', 'grainrate', 'grainsize', 'grainpan', 'begin', 'end', 'cutoff', 'res'],
     wavetable: ['i', 'tablesize', 'rows', 'xlfo', 'ylfo', 'cutoff', 'res']
 }
 
-export const keys = writable(instrumentKeys.synth);
+export const keys = writable(instrumentKeys.demo);
+export const demoParams: Dictionary = {op2ratio: 'FMPitch', op2gain: 'FMAmt', semitone: 'detune', pan: 'pan', reverb: 'reverb'};
 
 const instParams: Parameter[] = [
     {type: 'range', key: 'op1fb', name: 'op1fb', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.01, units: '', outmin: 0, outmax: 1, isLocked: false},
@@ -112,6 +115,22 @@ export const paramValues: Readable<{[key: string]: number}> = derived(
         return nextParamValues;
     })
 
+export const demoParameters: Readable<Parameter[]> = derived(
+    [instrumentParameters, globalParameters, fxParameters],
+    ([$instrumentParameters, $globalParameters, $fxParameters]) => {
+        return [...$instrumentParameters, ...$globalParameters, ...$fxParameters]
+            .filter((param) => {
+                return Object.keys(demoParams).includes(param.key);
+            })
+            .map((param) => {
+                return {
+                    ...param,
+                    name: demoParams[param.key]
+                }
+            })
+    }
+)
+
 function getAxis(key: string) : number {
     const connection = getConnections(key)[0];
     if (!connection) return 0;
@@ -120,14 +139,6 @@ function getAxis(key: string) : number {
     const axisIndex = ['x','y','z'].indexOf(axis);
     return get(axes[qubitIndex])[axisIndex];
 }
-
-const initConnections = () => initialiseConnections([
-    ...instParams.filter(({key}) => get(keys).includes(key)),
-    ...gParams,
-    ...fxParams,
-].map(({key}) => key), ['z0', 'y0', 'x0']);
-
-// initConnections();
 
 instrument.subscribe((instrument) => {
     // update available keys

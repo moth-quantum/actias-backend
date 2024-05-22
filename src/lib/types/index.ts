@@ -1,8 +1,8 @@
 import type Echo from "laravel-echo";
 import type Pusher from "pusher-js";
-export type InstrumentName = 'synth' | 'sampler' | 'granular' | 'wavetable';
+export type InstrumentName = 'demo' | 'synth' | 'sampler' | 'granular' | 'wavetable';
 
-type Dictionary = {[key: string]: any};
+export type Dictionary = {[key: string]: any};
 
 export interface Envelope extends Dictionary {
     key: string;
