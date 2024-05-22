@@ -62,7 +62,7 @@ const gParams: Parameter[] = [
 
 const fxParams: Parameter[] = [
     {type: 'range', key: 'reverb', name: 'Reverb', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1, isLocked: false},
-    {type: 'range', key: 'rsize', name: 'RTime', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1, isLocked: false},
+    {type: 'range', key: 'rsize', name: 'RTime', rangeA: 50, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1, isLocked: false},
     {type: 'range', key: 'delay', name: 'Delay', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1, isLocked: false},
     {type: 'range', key: 'dtime', name: 'Dtime', rangeA: 10, rangeB: 2000, min: 10, max: 2000, step: 1, units: 'ms', isLocked: false},
     {type: 'range', key: 'dcolour', name: 'DColour', rangeA: 25, rangeB: 50, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1, isLocked: false},

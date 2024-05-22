@@ -261,8 +261,9 @@
         grid-row-start: 1;
         grid-row-end: 4;
         padding-bottom: 1.5rem;
-
+        
         @media (min-width: 1200px) {
+            min-height: 70vh;
             display: flex;
         }
     }
