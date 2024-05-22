@@ -10,6 +10,7 @@
     export let rotRange = 2 * Math.PI * 0.8;
     export let pixelRange = 200;
     export let startRotation = -Math.PI * 0.8;
+    export let disabled = false;
     
     let startY, startValue;
     $: valueRange = max - min;
@@ -33,7 +34,10 @@
     }
 </script>
 
-<div class="knob__container">
+<div 
+    class="knob__container"
+    class:disabled={disabled}
+>
     <div class="knob__gradient" style="--rotation: {rotation}"></div>
     <svg viewBox="-10 -10 20 20">
         <circle r="9" stroke="none" stroke-width="0.5" fill="var(--color-grey-dark)"/>
@@ -49,7 +53,10 @@
 </div>
 
 <style lang="scss">
-
+    .disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
 	.knob {
         touch-action: none;
 		background: var(--color-grey-mid);
@@ -88,8 +95,6 @@
         transform: translate(-50%, -50%);
         box-shadow:
             0 0 1.5px 0.75px #fff;  /* inner white */
-            /* 0 0 100px 60px #f0f; */
-            /* 0 0 140px 90px #0ff; outer cyan */
     }
 
     .knob__label {
@@ -97,11 +102,7 @@
         color: var(--color-yellow);
         text-transform: uppercase;
         text-align: center;
-        // width: 97%;
-        // height: 2.5rem;
         background-color: var(--color-grey-dark);
-        // position: absolute;
-        // bottom: -0.5rem;
         display: flex;
         align-items: flex-end;
         justify-content: center;

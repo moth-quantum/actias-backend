@@ -157,7 +157,11 @@ button:focus:not(:focus-visible) {
 
 .hidden {
 	display: none!important;
+}
 
+.disabled {
+	opacity: 0.5;
+	pointer-events: none;
 }
 
 .container {

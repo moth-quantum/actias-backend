@@ -1,7 +1,7 @@
 <script lang="ts">
     import { envelopes } from '$lib/stores/envelopes';
     import { volume } from '$lib/stores/global';
-    import { drone } from '$lib/stores/parameters';
+    import { drone, instrument } from '$lib/stores/parameters';
     import { learn } from '$lib/stores/midi';
     import Knob from '$lib/components/Knob/Knob.svelte';
     import Keyboard from '$lib/components/Keyboard/Keyboard.svelte';
@@ -10,7 +10,6 @@
     import Tooltip from '$lib/components/Tooltip/Tooltip.svelte';
     import { faSignal } from '@fortawesome/free-solid-svg-icons';
     import midi from '$lib/images/midi-white.svg';
-    
 </script>
 
 <div class="controls">
@@ -62,26 +61,26 @@
             </div>
             {#each $envelopes as {name, a, d, s, r}, i (name)}
                 <div class="knobs__title knobs__title--envelope__{i}">
-                    <h3>{name}</h3>
+                    <h3 class:disabled={!['synth', 'demo'].includes($instrument) && i === 1}>{name}</h3>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_a`}">
                     <Tooltip type="knob" element={`env-${i+1}-a`}>
-                        <Knob id={`env-${i}-a`} bind:value={a} pixelRange={200} min={0.01} name="a"/>
+                        <Knob id={`env-${i}-a`} bind:value={a} pixelRange={200} min={0.01} name="a" disabled={!['synth', 'demo'].includes($instrument) && i === 1}/>
                     </Tooltip>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_d`}">
                     <Tooltip type="knob" element={`env-${i+1}-d`}>
-                        <Knob id={`env-${i}-d`} bind:value={d} pixelRange={200} min={0.01} name="d"/>
+                        <Knob id={`env-${i}-d`} bind:value={d} pixelRange={200} min={0.01} name="d" disabled={!['synth', 'demo'].includes($instrument) && i === 1}/>
                     </Tooltip>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_s`}">
                     <Tooltip type="knob" element={`env-${i+1}-s`}>
-                        <Knob id={`env-${i}-s`} bind:value={s} pixelRange={200} min={0.01} name="s"/>
+                        <Knob id={`env-${i}-s`} bind:value={s} pixelRange={200} min={0.01} name="s" disabled={!['synth', 'demo'].includes($instrument) && i === 1}/>
                     </Tooltip>
                 </div>
                 <div class="knobs__knob knobs__knob--{`${name}_r`}">
                     <Tooltip type="knob" element={`env-${i+1}-r`}>
-                        <Knob id={`env-${i}-r`} bind:value={r} pixelRange={200} min={0.01} name="r"/>
+                        <Knob id={`env-${i}-r`} bind:value={r} pixelRange={200} min={0.01} name="r" disabled={!['synth', 'demo'].includes($instrument) && i === 1}/>
                     </Tooltip>
                 </div>
             {/each}
