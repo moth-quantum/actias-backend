@@ -13,6 +13,8 @@
     let theta: number = 0; // 2
     let phi: number = 0; // 1
     let phase: number = 0; // 0
+    let mouseDragX = 0
+    let mouseDragY = 0
     export let disabled: boolean = false;
     
     let container: HTMLDivElement
@@ -82,6 +84,8 @@
             // @ts-ignore
             const isCanvas = e.target instanceof HTMLCanvasElement
             p5.mouseIsPressed = isCanvas && isWithinCanvas(p5.mouseX, p5.mouseY)
+            mouseDragX = p5.mouseX
+            mouseDragY = p5.mouseY
         }
         p5.mouseReleased = e => p5.mouseIsPressed = false
 
@@ -95,15 +99,19 @@
         }
 
         const debouncedMouseDragged = throttle(() => {
-            if (!isWithinCanvas(p5.mouseX, p5.mouseY) || !p5.mouseIsPressed) return;
+            if (!p5.mouseIsPressed) return;
 
             const setPhase = p5.keyIsPressed && p5.key === 'Shift';
+            const dragDistanceX = p5.mouseX - mouseDragX;
+            const dragDistanceY = p5.mouseY - mouseDragY;
+            mouseDragX = p5.mouseX;
+            mouseDragY = p5.mouseY;
 
             if (setPhase) {
-                phase = clamp(p5.mouseX / (p5.width * 0.95));
+                phase = clamp(phase + (dragDistanceX / (p5.width * 0.25)));
             } else {
-                phi = clamp(p5.mouseX / (p5.width * 0.95));
-                theta = clamp(p5.mouseY / (p5.height * 0.95));
+                phi = clamp(phi + (dragDistanceX / (p5.width * 0.25)));
+                theta = clamp(theta + (dragDistanceY / (p5.height * 0.25)));
             }
 
             axes.set([phase, phi, theta])
@@ -148,8 +156,8 @@
             p5.applyMatrix(cos_x, sin_x, -sin_x, cos_x, 0, 0);
 
             // Phase
-            const cos_z = p5.cos(p5.radians(phase * 180));
-            const sin_z = p5.sin(p5.radians(phase * 180));
+            const cos_z = p5.cos(p5.radians(phase * 360));
+            const sin_z = p5.sin(p5.radians(phase * 360));
             p5.applyMatrix(cos_z, 0.0, sin_z, 0.0, 0.0, 1.0, 0.0, 0.0, -sin_z, 0.0, cos_z, 0.0, 0.0, 0.0, 0.0, 1.0);
             p5.sphere(radius - 2, 20, 20);
             p5.pop()
