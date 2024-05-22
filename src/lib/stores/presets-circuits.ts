@@ -59,7 +59,6 @@ export function savePreset(key: string) {
     if(typeof localStorage === 'undefined') return
     const stored = JSON.parse(localStorage.getItem('q.presets.circuits') || "{}");
 
-    // TODO
     stored[key] = circuit.save();
     localStorage.setItem('q.presets.circuits', JSON.stringify(stored));
 
@@ -82,7 +81,6 @@ export function editPreset(key: string) {
     const previousName = get(activePreset);
     const stored = JSON.parse(localStorage.getItem('q.presets.circuits') || "{}");
     delete stored[previousName];
-    // TODO
     stored[key] = circuit.save();
     localStorage.setItem('q.presets.circuits', JSON.stringify(stored));
     presets.set(stored)

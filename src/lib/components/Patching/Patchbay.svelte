@@ -2,7 +2,6 @@
     import Socket from "./Socket.svelte";
 
     export let ids: string[];
-    export let labels: string[];
     export let orientation: 'horizontal' | 'vertical' = 'horizontal';
 
     const colours = [
@@ -24,7 +23,6 @@
 >
     {#each ids as id, i}
         <div class="socket">
-            <!-- <h3 style="color: {colours[i]}">{labels[i]}</h3> -->
             <Socket {id} type="remote" colour={colours[i]} offset={offsets[i]}/>
         </div>
     {/each}
@@ -49,13 +47,6 @@
                 }
             }
         }
-    }
-    
-    h3 {
-        font-size: 1rem;
-        text-align: center;
-        transform: translate(1px,0);
-        margin-bottom: 0.25rem;
     }
     .socket {
         display: flex;

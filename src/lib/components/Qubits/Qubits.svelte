@@ -106,7 +106,6 @@
                     >
                         <Patchbay 
                             ids={axesIds.map(id => `${id}${i}`)} 
-                            labels={axesNames} 
                             orientation={isSingle ? 'vertical' : 'horizontal'}
                         />
                     </div>

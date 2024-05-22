@@ -16,6 +16,7 @@
 
     let thisSocket;
     let connectedTo = [];
+    let hasConnections = false;
     let position = {x: 0, y: 0};
 
     function handleDragStart({ offsetX, offsetY }) {
@@ -85,6 +86,7 @@
         });
         const unsubscribeConnections = connections.subscribe(connections => {
             connectedTo = connections.filter(c => c[0] === id)?.map(c => c[1]) || [];
+            hasConnections = connections.some(c => c.includes(id));
         })
 
         return () => {
@@ -117,7 +119,7 @@
         {#if $sockets[connectedTo] || type == 'remote'}
             <div 
                 class="socket__inner"
-                style={`background-color: ${$sockets[connectedTo]?.colour || colour}`}
+                style={`background-color: ${$sockets[connectedTo]?.colour || (hasConnections ? colour : '#000')}`}
             />
         {/if}
     </div>
