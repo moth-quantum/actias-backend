@@ -37,12 +37,16 @@
         justify-content: center;
 
         &--vertical {
+            margin-top: 1rem;
             margin-left: 2rem;
             flex-direction: column;
             
             & .socket {
                 align-items: flex-start;
-                margin-bottom: 1rem;
+                height: 2rem;
+                &:last-child {
+                    margin-bottom: 0;
+                }
             }
         }
     }
