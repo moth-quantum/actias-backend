@@ -100,10 +100,14 @@
                     />
                 </div>
                 {#if !$performanceMode}
-                    <div class="qubit__patchbay">    
+                    <div 
+                        class="qubit__patchbay"
+                        class:qubit__patchbay--single={isSingle}
+                    >
                         <Patchbay 
                             ids={axesIds.map(id => `${id}${i}`)} 
                             labels={axesNames} 
+                            orientation={isSingle ? 'vertical' : 'horizontal'}
                         />
                     </div>
                     <div class="qubit__sliders">
@@ -237,6 +241,10 @@
             grid-row: 1;
             grid-column: 1;
             padding-bottom: 1rem;
+
+            &--single {
+                align-items: center;
+            }
 
             @media (min-width: 1200px) {
                 display: flex;

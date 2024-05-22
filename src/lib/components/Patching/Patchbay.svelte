@@ -3,6 +3,7 @@
 
     export let ids: string[];
     export let labels: string[];
+    export let orientation: 'horizontal' | 'vertical' = 'horizontal';
 
     const colours = [
         '#FF695A',
@@ -17,10 +18,13 @@
     ]
 </script>
 
-<div class="patchbay">
+<div 
+    class="patchbay"
+    class:patchbay--vertical={orientation === 'vertical'}
+>
     {#each ids as id, i}
         <div class="socket">
-            <h3 style="color: {colours[i]}">{labels[i]}</h3>
+            <!-- <h3 style="color: {colours[i]}">{labels[i]}</h3> -->
             <Socket {id} type="remote" colour={colours[i]} offset={offsets[i]}/>
         </div>
     {/each}
@@ -31,6 +35,16 @@
         width: 100%;
         display: flex;
         justify-content: center;
+
+        &--vertical {
+            margin-left: 2rem;
+            flex-direction: column;
+            
+            & .socket {
+                align-items: flex-start;
+                margin-bottom: 1rem;
+            }
+        }
     }
     
     h3 {
