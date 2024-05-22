@@ -68,6 +68,8 @@
         margin-bottom: 0.5rem;
         z-index: 10;
         box-shadow: 0px 10px 10px 0px var(--color-grey-darker);
+        
+        cursor: move;
 
         &__container {
             display: flex;
