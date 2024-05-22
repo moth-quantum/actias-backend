@@ -174,7 +174,7 @@ export const synthValues: Readable<{[key: string]: number | string}> = derived(
     ([$paramValues, $envelopeValues, $instrument]) => ({
         ...defaults,
         inst: $instrument === 'demo' ? 'synth' : $instrument,
-        ...formatEnvelopeValues($envelopeValues, $instrument),
+        ...formatEnvelopeValues($envelopeValues, $instrument === 'demo' ? 'synth' : $instrument),
         ...Object.entries($paramValues).reduce((obj, [key, value]) => ({
             ...obj,
             [key]: scaleParamValue(key, value)
