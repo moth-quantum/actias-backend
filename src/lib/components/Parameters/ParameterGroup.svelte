@@ -72,7 +72,7 @@
             </button>
 
             {#if isMobile}
-                <Buttons id={key} options={['x', 'y', 'z']}/>
+                <Buttons id={key} options={['x0', 'y0', 'z0']}/>
             {:else}
                 <Socket id={key} type="origin" align="right"/>
             {/if}
