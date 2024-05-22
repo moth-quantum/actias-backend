@@ -2,7 +2,7 @@ import { writable, type Writable, get, derived, type Readable } from 'svelte/sto
 import { axes, isMeasuring } from '$lib/stores/qubits'
 import { samples } from '$lib/stores/samples';
 import { envelopeValues } from './envelopes';
-import { getConnections, connections} from './patching';
+import { redrawCables, getConnections, connections} from './patching';
 import { mapToStepRange, roundToFactor } from '$lib/utils/utils';
 import type { InstrumentName, Parameter, Dictionary } from '$lib/types';
 
@@ -77,8 +77,8 @@ const fxParams: Parameter[] = [
 ]
 
 const demoParams: Parameter[] = [
-    {type: 'range', key: 'op2ratio', name: 'op2r', rangeA: 0.5, rangeB: 20, min: 0.5, max: 20, step: 0.5, units: '', isLocked: false},
-    {type: 'range', key: 'op2gain', name: 'op2g', rangeA: 0, rangeB: 10, min: 0, max: 10, step: 0.01, units: '', isLocked: false},
+    {type: 'range', key: 'op2ratio', name: 'FMPitch', rangeA: 0.5, rangeB: 20, min: 0.5, max: 20, step: 0.5, units: '', isLocked: false},
+    {type: 'range', key: 'op2gain', name: 'FMAmt', rangeA: 0, rangeB: 10, min: 0, max: 10, step: 0.01, units: '', isLocked: false},
     {type: 'range', key: 'semitone', name: 'dtune', rangeA: -12, rangeB: 12, min: -12, max: 12, step: 0.1, units: 'st', isLocked: false},
     {type: 'range', key: 'pan', name: 'pan', rangeA: -1, rangeB: 1, min: -1, max: 1, step: 0.01, units: '', outmin: 0, outmax: 1, isLocked: false},
     {type: 'range', key: 'reverb', name: 'Reverb', rangeA: 0, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 1, isLocked: false},
@@ -135,6 +135,7 @@ function getAxis(key: string) : number {
 instrument.subscribe((instrument) => {
     // update available keys
     keys.set(instrumentKeys[instrument]);
+    redrawCables();
 });
 
 function scaleParamValue(key: string, value: number) {

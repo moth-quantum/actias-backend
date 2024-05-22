@@ -27,8 +27,8 @@
 
     $: line1 = {x1: from.x + 3, y1: from.y, x2: from.x + 30 + offset, y2: from.y}
     $: line2 = {x1: line1.x2, y1: from.y, x2: line1.x2, y2: to.y + ($activeQubitCount > 1 ? 23 - offset : 15)}
-    $: line3 = {x1: line2.x1, y1: line2.y2, x2: to.x, y2: line2.y2}
-    $: line4 = {x1: line3.x2, y1: line3.y2, x2: to.x, y2: to.y}
+    $: line3 = {x1: line2.x1, y1: line2.y2, x2: to.x + 0.5, y2: line2.y2}
+    $: line4 = {x1: line3.x2, y1: line3.y2, x2: to.x + 0.5, y2: to.y}
     $: segments = [
         line1,
         line2,
