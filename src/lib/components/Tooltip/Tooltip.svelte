@@ -4,7 +4,7 @@
 	export let classes: string = '';
 	export let type: string = '';
 
-	let message = $tooltips.find(tooltip => tooltip.element.toLowerCase() === element.toLowerCase())?.message || '';
+	$: message = $tooltips.find(tooltip => tooltip.element.toLowerCase() === element.toLowerCase())?.message || '';
 	let hoveredEl: any = null;
 </script>
 

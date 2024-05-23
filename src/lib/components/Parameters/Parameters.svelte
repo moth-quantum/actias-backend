@@ -30,7 +30,11 @@
                     ? connections.set([])
                     : randomiseConnections()
             }}>
-                <Tooltip element="randomise-patching" type="parameter">
+                <Tooltip 
+                    element={$connections.length ? 'clear-patching' : 'randomise-patching'} 
+                    classes="flex items-center"
+                    type="parameter"
+                >
                     <FontAwesomeIcon icon={$connections.length ? faTrash : faShuffle } />
                 </Tooltip>
             </button>
