@@ -99,8 +99,8 @@
                 position: relative;
                 background-color: var(--color-grey-darker);
                 border-radius: 20px;
-                margin-bottom: 1rem;
                 border: 1px solid white;
+                min-height: 164px;
                 button {
                     position: absolute;
                     top: 1rem;
