@@ -18,7 +18,7 @@ export const listen = () => {
 		cluster: 'eu',
 		key: get(pusherKey),
 		wsHost: get(apiWsDomain),
-		wsPort: 80,
+		wsPort: isProduction ? 80 : 8080,
 		wssPort: 443,
 		forceTLS: isProduction,
 		enabledTransports: ['ws', 'wss'],
