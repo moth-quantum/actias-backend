@@ -3,15 +3,16 @@ import Echo from "laravel-echo";
 import Pusher from "pusher-js";
 
 import { id } from '$lib/stores/profile';
-import { pusherKey, apiWsDomain } from './config';
+import { environment, pusherKey, apiWsDomain } from './config';
 import { axes, qubits, isMeasuring } from '$lib/stores/qubits';
 import { users } from '$lib/stores/users';
 import type { User } from '$lib/types';
 
-// TODO: do we need the window.Pusher and window.Echo declarations? 
 export const listen = () => {
     const thisUser = get(id);
 	window.Pusher = Pusher;
+
+	const isProduction = get(environment) === 'production';
 	window.Echo = new Echo({
 		broadcaster: 'reverb',
 		cluster: 'eu',
@@ -19,7 +20,7 @@ export const listen = () => {
 		wsHost: get(apiWsDomain),
 		wsPort: 80,
 		wssPort: 443,
-		forceTLS: true,
+		forceTLS: isProduction,
 		enabledTransports: ['ws', 'wss'],
 		disableStats: true,
 	});

@@ -1,5 +1,6 @@
 import { writable, derived } from 'svelte/store';
 
+export const environment = writable('');
 export const apiDomain = writable('');
 export const apiWsDomain = writable('');
 export const apiToken = writable('');

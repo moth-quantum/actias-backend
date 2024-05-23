@@ -61,6 +61,7 @@ export interface Preset {
 declare global {
     interface Window {
         isApp: boolean;
+        environment: string;
         apiDomain: string;
         apiWsDomain: string;
         apiToken: string;
