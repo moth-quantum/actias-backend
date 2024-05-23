@@ -5,13 +5,12 @@
     import Connect from './PanelConnect.svelte';
     import Qubits from './PanelQubits.svelte';
     import Midi from './PanelMidi.svelte';
-    import { menuItems, activeSubMenu, hidePerformanceMode } from '$lib/stores/sideMenu';
+    import { menuItems, activeSubMenu } from '$lib/stores/sideMenu';
     import Panel from './Panel.svelte';
     import CircuitDesigner from '$lib/components/CircuitDesigner/CircuitDesigner.svelte';
     import Learnable from '$lib/components/Learnable/Learnable.svelte';
     
     const handleMenuClick = (name: string) => {
-        
         menuItems.update(items => items.map(item => {
             if(item.name === name) {
                 item.isActive = !item.isActive
@@ -102,9 +101,7 @@
         padding: 4rem 0 1rem;
         position: relative;
         border-top: 1px solid var(--color-grey-dark);
-        min-height: 80vh;
         
-
         &__buttons {
             padding: 1rem 0;
             display: flex;

@@ -283,7 +283,7 @@
 	}
     .circuit-designer {
         display: flex;
-        min-height: 80vh;
+        min-height: 76vh;
         height: 100%;
         background-color: var(--color-grey-mid);
 
@@ -296,6 +296,7 @@
             background-color: var(--color-grey-darker);
             border-radius: 10px;
             padding: 2rem;
+            overflow-y: scroll;
         }
         &__palette {
             width: 30%;
@@ -313,6 +314,7 @@
             padding: 1rem 0;
             margin-bottom: 1rem;
             border-bottom: 0.5px solid var(--color-grey-light);
+            overflow: hidden;
         }
 
         &__instructions {
@@ -328,7 +330,7 @@
         &__circuit {
             padding: 2rem 4rem;
             width: 100%;
-            overflow: scroll;
+            // overflow: scroll;
         }
 
         &__input {

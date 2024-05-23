@@ -263,7 +263,7 @@
         padding-bottom: 1.5rem;
         
         @media (min-width: 1200px) {
-            min-height: 70vh;
+            min-height: 76vh;
             display: flex;
         }
     }
@@ -309,7 +309,7 @@
         }
         
         @media (min-width: 1200px) {
-            z-index: 100;
+            z-index: 1000;
             position: fixed;
             bottom: 0;
             right: 0;
