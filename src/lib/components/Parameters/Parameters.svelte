@@ -108,7 +108,7 @@
         & .connect {
             position: absolute;
             top: 0px;
-            right: 2px;
+            right: 0px;
             width: 1rem;
             color: var(--color-yellow);
             z-index: 100;

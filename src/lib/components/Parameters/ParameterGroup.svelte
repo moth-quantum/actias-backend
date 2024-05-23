@@ -52,7 +52,7 @@
             </div>
         {/if}
         {#if type === 'range'}
-            <Tooltip element={key} type="parameter">
+            <Tooltip element={key} type="parameter" classes="flex items-centre">
                 <h3>{name}</h3>
             </Tooltip>
             

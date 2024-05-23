@@ -12,11 +12,11 @@
 	<div 
 		class="tooltip-container" 
 	>
-		<div class="tooltip tooltip--{element} {hoveredEl === element ? 'tooltip--show' : ''} {classes}">
+		<div class="tooltip tooltip--{element} {hoveredEl === element ? 'tooltip--show' : ''}">
 			{message}
 		</div>
 		<div 
-			class="{type !== 'knob' ? 'tooltip-element' : ''} tooltip-element--{type} tooltip-element--{element}" 
+			class="{type !== 'knob' ? 'tooltip-element' : ''} tooltip-element--{type} tooltip-element--{element} {classes}" 
 			on:mouseenter={() => hoveredEl = element}
 			on:mouseleave={() => hoveredEl = null}
 		>
