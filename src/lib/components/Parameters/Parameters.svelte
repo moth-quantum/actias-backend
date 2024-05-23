@@ -108,11 +108,13 @@
         & .connect {
             position: absolute;
             top: 0px;
-            right: 0px;
+            right: 1px;
             width: 1rem;
             color: var(--color-yellow);
             z-index: 100;
             font-size: 0.75rem;
+            display: flex;
+            justify-content: center;
         }
     }
 
