@@ -3,7 +3,7 @@ import { WebMidi } from "webmidi";
 import { instrumentParameters, globalParameters, fxParameters, drone } from '$lib/stores/parameters';
 import { volume } from '$lib/stores/global';
 import { updateEnvelopeValue } from '$lib/stores/envelopes';
-import { measure, axes } from '$lib/stores/qubits';
+import { measure, axes, isMeasuring } from '$lib/stores/qubits';
 import { menuItems } from '$lib/stores/sideMenu';
 import type { Action, Parameter } from '$lib/types';
 import { roundToFactor } from '$lib/utils/utils';
@@ -125,6 +125,7 @@ inputs.subscribe(inputs => {
 })
 
 function performQubitAction(qubit: number, axis: number, cc: number) {
+    if(get(isMeasuring)) return
     axes[qubit].update(a => {
         a[axis] = cc;
         return a;
