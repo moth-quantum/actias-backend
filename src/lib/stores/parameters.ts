@@ -97,9 +97,11 @@ export const globalParameters = writable(gParams);
 export const fxParameters = writable(fxParams);
 export const demoParameters = writable(demoParams);
 export const allParameters: Readable<Parameter[]> = derived(
-    [instrumentParameters, globalParameters, fxParameters, demoParameters], 
-    ([$instrumentParameters, $globalParameters, $fxParameters, $demoParameters]) => {
-        return [...$instrumentParameters, ...$globalParameters, ...$fxParameters, ...$demoParameters]
+    [instrument, instrumentParameters, globalParameters, fxParameters, demoParameters], 
+    ([$instrument, $instrumentParameters, $globalParameters, $fxParameters, $demoParameters]) => {
+        return $instrument === 'demo'
+            ? [...$instrumentParameters, ...$globalParameters, ...$fxParameters, ...$demoParameters]
+            : [...$instrumentParameters, ...$globalParameters, ...$fxParameters]
     }
 );
 
