@@ -5,10 +5,12 @@ This app was built with Svelte Kit. It is intended to work as both an applicatio
 This repository can be viewed in both the website or app contexts to facilitate concurrent development of the two. When serving a local version of this codebase, if viewed in a browser, you are seeing the website, when viewed in the electron 'shell' you are seeing the app. Use the `isApp()` function, found in src/stores/global.ts, whenever you need to conditionally vary the behaviour / appearance of the application, depending on the context. `isApp` is always true when viewed inside Electron and false when viewed in a browser.
 
 ## Local development
+* Download this repository
 * nvm use
 * yarn install
-* yarn run dev
-* yarn run build
+* install repos found in .gitsubmodules
+* yarn dev
+* yarn build
 
 ## Hosting
 The website is currently hosted on Moth's Netlify account, at the following domains:
