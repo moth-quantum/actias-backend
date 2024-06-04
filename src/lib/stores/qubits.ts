@@ -118,13 +118,21 @@ export function collapse(destinations: number[]) {
         if (progress > 1) {
             clearInterval(interval);
             
+            // Update axes to final values
             axes.forEach((store, qubit) => {
                 if (destinations.length <= qubit) return;
                 store.set(endValues[qubit]);
             })
             
-            // Allow time for tweened values to come to rest
-            setTimeout(() => isMeasuring.set(false), 100);
+            // Reset axes to 0 after measuring, if resetAfterMeasuring is true
+            get(resetAfterMeasuring) 
+                ? setTimeout(() => {
+                    axes.forEach((store, qubit) => store.set([0,0,0]))
+                    setTimeout(() => isMeasuring.set(false), 100);  
+                }, 500)
+                // Allow time for tweened values to come to rest
+                : setTimeout(() => isMeasuring.set(false), 100);
+             
         }
         
         axes.forEach((store, qubit) => {
