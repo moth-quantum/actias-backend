@@ -35,6 +35,19 @@ export const presetKeys = derived(
 
 activePreset.subscribe(loadPreset)
 
+export function currentState() {
+    return {
+        instrument: get(instrument),
+        envelopes: get(envelopes),
+        params: get(allParameters).map(({key, rangeA, rangeB}) => ({key, rangeA, rangeB})),
+        connections: get(connections),
+        midi: get(midi),
+        circuit: circuit.save(),
+        numQubits: circuit.numQubits,
+        seconds: get(seconds)
+    }
+}
+
 export function loadPreset(key: string) {
     const preset = get(presets)[key]
     if(!preset) return;
@@ -89,16 +102,7 @@ export function savePreset(key: string) {
     if(typeof localStorage === 'undefined') return
     const stored = JSON.parse(localStorage.getItem('q.presets.project') || "{}");
 
-    stored[key] = {
-        instrument: get(instrument),
-        envelopes: get(envelopes),
-        params: get(allParameters).map(({key, rangeA, rangeB}) => ({key, rangeA, rangeB})),
-        connections: get(connections),
-        midi: get(midi),
-        circuit: circuit.save(),
-        numQubits: circuit.numQubits,
-        seconds: get(seconds)
-    };
+    stored[key] = currentState();
     localStorage.setItem('q.presets.project', JSON.stringify(stored));
 
     presets.update(presets => ({...presets, ...stored}))
@@ -119,16 +123,25 @@ export function editPreset(key: string) {
     
     const previousName = get(activePreset);
     const stored = JSON.parse(localStorage.getItem('q.presets.project') || "{}");
-    const preset = stored[previousName];
     delete stored[previousName];
+    stored[key] = currentState();
+    localStorage.setItem('q.presets.project', JSON.stringify(stored));
+    presets.set(stored)
+    activePreset.set(key)
+}
+
+export function importPreset(name: string, data: any) {
+    if(typeof localStorage === 'undefined') return
+    const stored = JSON.parse(localStorage.getItem('q.presets.project') || "{}");
+    const key = get(presetKeys).find(k => k === name) ? `${name} (imported)` : name;
     stored[key] = {
-        instrument: get(instrument),
-        envelopes: get(envelopes),
-        params: get(allParameters).map(({key, rangeA, rangeB}) => ({key, rangeA, rangeB})),
-        connections: get(connections),
-        midi: get(midi),
-        circuit: circuit.save(),
-        numQubits: circuit.numQubits
+        instrument: data.instrument || get(instrument),
+        envelopes: data.envelopes || get(envelopes),
+        params: data.params || get(allParameters).map(({key, rangeA, rangeB}) => ({key, rangeA, rangeB})),
+        connections: data.connections || get(connections),
+        midi: data.midi || get(midi),
+        circuit: data.circuit || circuit.save(),
+        numQubits: data.numQubits || circuit.numQubits
     };
     localStorage.setItem('q.presets.project', JSON.stringify(stored));
     presets.set(stored)
