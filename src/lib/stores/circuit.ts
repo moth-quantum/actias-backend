@@ -104,28 +104,5 @@ export const gates = readable<Gate[]>([
                 default: 0
             }
         ]
-    },
-    {
-        name: 'U3',
-        symbol: 'u3',
-        qubits: 1,
-        description: 'Controlled rotation around the x, y, and z-axis by given angles.',
-        params: [
-            {
-                name: 'theta',
-                type: 'number',
-                default: 0
-            },
-            {
-                name: 'phi',
-                type: 'number',
-                default: 0
-            },
-            {
-                name: 'lambda',
-                type: 'number',
-                default: 0
-            }
-        ]
     }
 ])
