@@ -42,7 +42,7 @@ const instParams: Parameter[] = [
     {type: 'range', key: 'end', name: 'end', rangeA: 1, rangeB: 0, min: 0, max: 1, step: 0.001, units: '', isLocked: false},
     {type: 'range', key: 'grainrate', name: 'rate', rangeA: 8, rangeB: 16, min: 1, max: 64, step: 1, units: '', isLocked: false},
     {type: 'range', key: 'grainsize', name: 'size', rangeA: 0.1, rangeB: 1, min: 0.001, max: 1, step: 0.001, units: '', isLocked: false},
-    {type: 'range', key: 'grainpan', name: 'pan', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.001, units: '', isLocked: false},
+    {type: 'range', key: 'grainpan', name: 'space', rangeA: 0, rangeB: 1, min: 0, max: 1, step: 0.001, units: '', isLocked: false},
     // Needs exponential range
     {type: 'range', key: 'cutoff', name: 'cutoff', rangeA: 50, rangeB: 100, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 20000, isLocked: false},
     {type: 'range', key: 'res', name: 'res', rangeA: 0, rangeB: 25, min: 0, max: 100, step: 0.01, units: '%', outmin: 0, outmax: 0.95, isLocked: false},
