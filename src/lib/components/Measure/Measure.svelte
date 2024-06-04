@@ -1,11 +1,12 @@
 <script lang="ts">
     import Select from '$lib/components/Forms/Select.svelte';   
-    import { measure, seconds, source, isMeasuring } from '$lib/stores/qubits';
+    import { measure, seconds, source, isMeasuring, resetAfterMeasuring } from '$lib/stores/qubits';
     import { isApp } from '$lib/stores/global';
     import Lottie from '$lib/components/Lottie/Lottie.svelte';
     import lottieSrc from '$lib/images/measuring.json';
     import Tooltip from '$lib/components/Tooltip/Tooltip.svelte';
     import Learnable from '$lib/components/Learnable/Learnable.svelte';
+    import Checkbox from '$lib/components/Forms/Checkbox.svelte';
     
     const machines = [
         {name: 'local', value: 'local', active: true}, 
@@ -35,6 +36,11 @@
             id="seconds" placeholder="Seconds" type="number" 
             bind:value={$seconds}
             on:keydown={e => e.stopPropagation()}
+        />
+        <Checkbox 
+            bind:checked={$resetAfterMeasuring} 
+            onChange={checked => resetAfterMeasuring.set(checked)} 
+            label="Reset to |0⟩"
         />
     </form>
     <div class="button">
@@ -90,6 +96,7 @@
         padding: 0.125rem 0.75rem;
         width: 100%;
         border-radius: 5px;
+        margin-bottom: 0.5rem;
         @media (min-width: 1000px) {
             max-height: 2rem;
         }

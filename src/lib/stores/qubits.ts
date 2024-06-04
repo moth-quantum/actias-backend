@@ -90,6 +90,7 @@ export const seconds = writable<number>();
 export const source = writable<string>('local');
 export const password = writable<string>('');
 export const token = writable<string>('');
+export const resetAfterMeasuring = writable<boolean>(false);
 
 export const measure = () => {
     if (get(isMeasuring)) return;
