@@ -4,7 +4,7 @@ import { envelopes } from '$lib/stores/envelopes';
 import { connections } from '$lib/stores/patching';
 import type { Envelope, Preset } from '$lib/types';
 import { circuit } from '$lib/stores/circuit';
-import { qubits } from '$lib/stores/qubits';
+import { qubits, seconds } from '$lib/stores/qubits';
 import { actions as midi } from '$lib/stores/midi';
 
 export const presets = writable({} as {[key: string]: Preset | null})
@@ -67,6 +67,9 @@ export function loadPreset(key: string) {
     // update midi
     preset.midi && midi.set(preset.midi);
 
+    // update seconds
+    preset.seconds && seconds.set(preset.seconds);
+
     [instrumentParameters, globalParameters, fxParameters]
         .forEach((store) => store.update((params) => {
             return params.map((param) => {
@@ -93,7 +96,8 @@ export function savePreset(key: string) {
         connections: get(connections),
         midi: get(midi),
         circuit: circuit.save(),
-        numQubits: circuit.numQubits
+        numQubits: circuit.numQubits,
+        seconds: get(seconds)
     };
     localStorage.setItem('q.presets.project', JSON.stringify(stored));
 

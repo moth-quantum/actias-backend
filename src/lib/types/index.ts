@@ -55,6 +55,7 @@ export interface Preset {
     circuit: any;
     numQubits: number;
     midi: any;
+    seconds: number;
 };
 
 // Electron types
