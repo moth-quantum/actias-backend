@@ -85,8 +85,7 @@
         const parent = target?.parentElement;
         const gateType = target?.dataset?.gate || parent?.dataset.gate;
         
-        // if first, hardcoded u3 is clicked, ignore
-        if (gateType === 'u3' && +(target?.getAttribute('x') || 0) < 100) return;
+        if (gateType === 'u3') return;
         
         selectedGateId = target?.dataset?.id || parent?.dataset.id || '';
         if(!selectedGateId) return;
