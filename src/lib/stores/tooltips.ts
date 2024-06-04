@@ -20,7 +20,7 @@ export const tooltips: Writable<Tooltip[]> = writable<Tooltip[]>([
 	{ element: 'rate', message: 'Playback rate. 1 is normal speed, 2 is twice as fast, 0.5 is half speed etc. Negative numbers play sample in reverse' },
 	{ element: 'grainrate', message: 'Grain rate. Number of grains per second' },
 	{ element: 'grainsize', message: 'Grain size' },
-	{ element: 'grainpan', message: 'Grain panning. Amount of panning between grains' },
+	{ element: 'grainpan', message: 'Stereo position of grain. Amount of random panning between grains' },
 	{ element: 'tablesize', message: 'Size of the wavetable' },
 	{ element: 'rows', message: 'Number of rows in the wavetable' },
 	{ element: 'xlfo', message: 'LFO rate reading wavetable in horizontal direction' },
