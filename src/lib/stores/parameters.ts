@@ -203,16 +203,3 @@ export const drone = writable(false);
 isMeasuring.subscribe((measuring) => {
     !measuring && drone.set(false);
 })
-
-export const getAppState = () => {
-    return {
-        instrument: get(instrument),
-        instrumentParameters: get(instrumentParameters),
-        globalParameters: get(globalParameters),
-        fxParameters: get(fxParameters),
-        axes: get(axes[0]),
-        connections: get(connections),
-        drone: get(drone),
-        envelopeValues: get(envelopeValues),
-    }
-}

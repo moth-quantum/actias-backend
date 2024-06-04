@@ -1,8 +1,8 @@
 import { activePreset, presets } from '$lib/stores/presets-project';
 import { updateSamples } from '$lib/stores/samples';
-import { getAppState } from '$lib/stores/parameters';
 import { environment, apiDomain, apiWsDomain, apiToken, pusherKey } from '$lib/networking/config';
 import { logout } from '$lib/networking/logout';
+import { get } from 'svelte/store';
 
 export default function initElectronAPI() {
 
@@ -23,7 +23,7 @@ export default function initElectronAPI() {
     })
     presets.subscribe(presets => window.electronAPI.syncUserPresets(presets))
     window.electronAPI.onExportPreset(() => {
-        window.electronAPI.exportPresetResponse(getAppState())
+        window.electronAPI.exportPresetResponse(get(presets)[get(activePreset)])
     })
     window.electronAPI.onImportPreset((data: {name: string, data: any}) => {
         // TODO: import preset
