@@ -150,6 +150,8 @@
             }
 
             &__user {
+                margin-top: 1rem;
+                
                 h3 {
                     background-color: var(--color-theme-1);
                     color: var(--color-grey-darker);
