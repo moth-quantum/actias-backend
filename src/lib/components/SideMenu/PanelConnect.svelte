@@ -46,7 +46,9 @@
             </h3>
             <button
                 class="search__button"
-                on:click={() => showSearch = !showSearch}
+                on:click={() => {
+                    showSearch = !showSearch                 
+                }}
             >
                 <FontAwesomeIcon 
                     icon={faSearch} 

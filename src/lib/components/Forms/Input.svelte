@@ -14,9 +14,7 @@
     export let type: string = 'text';
     export let readonly: boolean = false;
     
-    const handleInput = (event: any) => {
-        value = event.target.value;
-    };
+    const handleInput = (event: any) => value = event.target.value;
 </script>
 
 {#if showLabel}
@@ -40,9 +38,8 @@
         border: ${border}; 
         color: ${color}; 
         text-transform: ${uppercase ? 'uppercase' : 'none'};
-        padding-left: ${showLabel ? '0' : 'auto'}
-        `
-    }
+        padding-left: ${showLabel ? '0' : 'auto'};   
+    `}
     class={classes}
 />
 
