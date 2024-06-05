@@ -184,7 +184,7 @@ export const synthValues: Readable<{[key: string]: number | string}> = derived(
     })
 )
 
-export function randomise(type: 'inst' | 'global' | 'fx') {
+export function randomise(type: 'inst' | 'global' | 'fx' | 'demo') {
     const func = (p: Parameter) => ({
         ...p,
         rangeA: mapToStepRange(Math.random(), 0, 1, p.min, p.max, p.step),
@@ -194,6 +194,7 @@ export function randomise(type: 'inst' | 'global' | 'fx') {
     type === 'inst' && instrumentParameters.update((params: Parameter[]) => params.map(func));
     type === 'global' && globalParameters.update((params: Parameter[]) => params.map(func));
     type === 'fx' && fxParameters.update((params: Parameter[]) => params.map(func));
+    type === 'demo' && demoParameters.update((params: Parameter[]) => params.map(func));
     
     return true;
 }

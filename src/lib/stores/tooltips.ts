@@ -62,4 +62,5 @@ export const tooltips: Writable<Tooltip[]> = writable<Tooltip[]>([
 	{ element: 'global-parameters', message: 'Generic parameters such as octave, gain and panning. Click to randomise'},	
 	{ element: 'instrument-parameters', message: 'Instrument specific parameters. Click to randomise'},
 	{ element: 'fx-parameters', message: 'Effects parameters, such as reverb and delay. Click to randomise'},
+	{ element: 'demo-parameters', message: 'Basic parameters to control the demo synth. Click to randomise'},
 ]);

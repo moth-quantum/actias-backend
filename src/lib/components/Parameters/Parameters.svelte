@@ -22,8 +22,10 @@
 
 {#if $instrument === 'demo'}
     <div class="group">
-        <button on:click={() => randomise('inst')}>
-            <h2>Parameters</h2>
+        <button on:click={() => randomise('demo')}>
+            <Tooltip element="demo-parameters" fullHeight={false}>
+                <h2>Parameters</h2>
+            </Tooltip>
             <button class="connect" on:click={(e) => {
                 e.stopPropagation()
                 $connections.length 
@@ -46,21 +48,21 @@
     </div>
 {:else}
     <div class="group">
-        <Tooltip element="instrument-parameters" fullHeight={false}>
-            <button on:click={() => randomise('inst')}>
+        <button on:click={() => randomise('inst')}>
+            <Tooltip element="instrument-parameters" fullHeight={false}>
                 <h2>Instrument</h2>
-                <button class="connect" on:click={(e) => {
-                    e.stopPropagation()
-                    $connections.length 
-                        ? connections.set([])
-                        : randomiseConnections()
-                }}>
-                    <Tooltip element="randomise-patching" type="parameter" fullHeight={false}>
-                        <FontAwesomeIcon icon={$connections.length ? faTrash : faShuffle } />
-                    </Tooltip>
-                </button>
+            </Tooltip>
+            <button class="connect" on:click={(e) => {
+                e.stopPropagation()
+                $connections.length 
+                    ? connections.set([])
+                    : randomiseConnections()
+            }}>
+                <Tooltip element="randomise-patching" type="parameter" fullHeight={false}>
+                    <FontAwesomeIcon icon={$connections.length ? faTrash : faShuffle } />
+                </Tooltip>
             </button>
-        </Tooltip>
+        </button>
 
         <ParameterGroup 
             group="inst"
@@ -70,11 +72,11 @@
     </div>
 
     <div class="group">
-        <Tooltip element="global-parameters" fullHeight={false}>
-            <button on:click={() => randomise('global')}>
+        <button on:click={() => randomise('global')}>
+            <Tooltip element="global-parameters" fullHeight={false}>
                 <h2>Global</h2>
-            </button>
-        </Tooltip>
+            </Tooltip>
+        </button>
         <ParameterGroup 
             group="global"
             parameters={globalParameters} 
@@ -83,7 +85,9 @@
 
     <div class="group">
         <button on:click={() => randomise('fx')}>
-            <h2>Effects</h2>
+            <Tooltip element="fx-parameters" fullHeight={false}>
+                <h2>Effects</h2>
+            </Tooltip>
         </button>
 
         <ParameterGroup 
@@ -124,6 +128,8 @@
             font-size: 0.75rem;
             display: flex;
             justify-content: center;
+            align-items: center;
+            height: 18px;
         }
     }
 
