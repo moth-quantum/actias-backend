@@ -39,34 +39,6 @@ export const gates = readable<Gate[]>([
         params: []
     },
     {
-        name: 'Hadamard',
-        symbol: 'h',
-        qubits: 1,
-        description: 'PI/2 rotation over x-axis.',
-        params: []
-    },    
-    {
-        name: 'CNOT',
-        symbol: 'cx',
-        qubits: 2,
-        description: 'Controlled NOT gate. Requires two qubits.',
-        params: []
-    },
-    {
-        name: 'CCNOT',
-        symbol: 'ccx',
-        qubits: 3,
-        description: 'Toffoli gate. Requires three qubits.',
-        params: []
-    },
-    {
-        name: 'CZ',
-        symbol: 'cz',
-        qubits: 2,
-        description: 'Controlled Z gate (controlled rotation over z-axis by PI). Requires two qubits.',
-        params: []
-    },
-    {
         name: 'RX',
         symbol: 'rx',
         qubits: 1,
@@ -104,5 +76,26 @@ export const gates = readable<Gate[]>([
                 default: 0
             }
         ]
+    },
+    {
+        name: 'Hadamard',
+        symbol: 'h',
+        qubits: 1,
+        description: 'PI/2 rotation over x-axis.',
+        params: []
+    },    
+    {
+        name: 'CNOT',
+        symbol: 'cx',
+        qubits: 2,
+        description: 'Controlled NOT gate. Requires two qubits.',
+        params: []
+    },
+    {
+        name: 'CCNOT',
+        symbol: 'ccx',
+        qubits: 3,
+        description: 'Toffoli gate. Requires three qubits.',
+        params: []
     }
 ])
