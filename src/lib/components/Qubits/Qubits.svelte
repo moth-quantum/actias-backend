@@ -62,7 +62,7 @@
     on:scroll={() => handleScroll()}
 >
     {#each axes as store, i}
-        {#if $qubits[i].active}
+        <!-- {#if $qubits[i].active} -->
             <!-- svelte-ignore a11y-click-events-have-key-events -->
             <div 
                 class="qubit"
@@ -74,6 +74,7 @@
                     $activeQubitCount > 1 &&
                     (!$performanceMode && $focusedQubit === i || $qubits[i].user !== 'you')
                 }
+                class:hidden={!$qubits[i].active}
                 
                 style="border-color: {$focusedQubit === i && !$performanceMode 
                     ? 'var(--color-yellow)' 
@@ -127,7 +128,7 @@
                 {/if}
 
             </div>
-        {/if}
+        <!-- {/if} -->
     {/each}
 </div>
 

@@ -26,6 +26,7 @@
     onMount(async () => {
         window.addEventListener('resize', resize)
         
+        // @ts-ignore
         let timeoutID: NodeJS.Timeout;
         const unsubscribeQubits = qubits.subscribe(() => {
             if (!p5Instance) return;
