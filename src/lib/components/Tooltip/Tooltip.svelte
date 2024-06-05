@@ -3,6 +3,8 @@
 	export let element: string = '';
 	export let classes: string = '';
 	export let type: string = '';
+	export let fullHeight: boolean = true;
+	export let fullWidth: boolean = false;
 
 	$: message = $tooltips.find(tooltip => tooltip.element.toLowerCase() === element.toLowerCase())?.message || '';
 	let hoveredEl: any = null;
@@ -11,6 +13,7 @@
 {#if $showTooltips}
 	<div 
 		class="tooltip-container" 
+		style="height: {fullHeight ? '100%' : 'auto'}; width: {fullWidth ? '100%' : 'auto'};"
 	>
 		<div class="tooltip tooltip--{element} {hoveredEl === element ? 'tooltip--show' : ''}">
 			{message}
@@ -30,8 +33,8 @@
 <style>
 	.tooltip-container {
 		position: relative;
-		height: 100%;
     	cursor: pointer;
+		z-index: 100;
 	}
 
 	.tooltip {

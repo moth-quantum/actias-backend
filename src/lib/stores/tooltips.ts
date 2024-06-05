@@ -59,4 +59,7 @@ export const tooltips: Writable<Tooltip[]> = writable<Tooltip[]>([
 	{ element: 'learn', message: 'MIDI learn mode. Turn on and select an outlined element. Move a control on an active MIDI device to map the element to the control. Current mappings are listed in the MIDI side menu' },
 	{ element: 'randomise-patching', message: 'Randomise patch cables' },
 	{ element: 'clear-patching', message: 'Clear patch cables' },
+	{ element: 'global-parameters', message: 'Generic parameters such as octave, gain and panning. Click to randomise'},	
+	{ element: 'instrument-parameters', message: 'Instrument specific parameters. Click to randomise'},
+	{ element: 'fx-parameters', message: 'Effects parameters, such as reverb and delay. Click to randomise'},
 ]);

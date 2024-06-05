@@ -46,19 +46,22 @@
     </div>
 {:else}
     <div class="group">
-        <button on:click={() => randomise('inst')}>
-            <h2>Instrument</h2>
-            <button class="connect" on:click={(e) => {
-                e.stopPropagation()
-                $connections.length 
-                    ? connections.set([])
-                    : randomiseConnections()
-            }}>
-                <Tooltip element="randomise-patching" type="parameter">
-                    <FontAwesomeIcon icon={$connections.length ? faTrash : faShuffle } />
-                </Tooltip>
+        <Tooltip element="instrument-parameters" fullHeight={false}>
+            <button on:click={() => randomise('inst')}>
+                <h2>Instrument</h2>
+                <button class="connect" on:click={(e) => {
+                    e.stopPropagation()
+                    $connections.length 
+                        ? connections.set([])
+                        : randomiseConnections()
+                }}>
+                    <Tooltip element="randomise-patching" type="parameter">
+                        <FontAwesomeIcon icon={$connections.length ? faTrash : faShuffle } />
+                    </Tooltip>
+                </button>
             </button>
-        </button>
+        </Tooltip>
+
         <ParameterGroup 
             group="inst"
             parameters={instrumentParameters}  
@@ -67,9 +70,11 @@
     </div>
 
     <div class="group">
-        <button on:click={() => randomise('global')}>
-            <h2>Global</h2>
-        </button>
+        <Tooltip element="global-parameters" fullHeight={false}>
+            <button on:click={() => randomise('global')}>
+                <h2>Global</h2>
+            </button>
+        </Tooltip>
         <ParameterGroup 
             group="global"
             parameters={globalParameters} 
@@ -103,7 +108,7 @@
     
     .group {
         margin-bottom: 1rem;
-        & > button {
+        & button {
             width: 100%;
             text-align: left;
             position: relative;
