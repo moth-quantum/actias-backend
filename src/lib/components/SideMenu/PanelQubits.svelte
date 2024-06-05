@@ -6,9 +6,7 @@
     import Select from '$lib/components/Forms/Select.svelte';
     // @ts-ignore
     import { FontAwesomeIcon } from 'fontawesome-svelte';
-    import { library } from '@fortawesome/fontawesome-svg-core';
     import { faClose } from '@fortawesome/free-solid-svg-icons';
-    library.add(faClose);
 </script>
 
 <section>
