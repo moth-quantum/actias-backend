@@ -55,7 +55,7 @@
                         ? connections.set([])
                         : randomiseConnections()
                 }}>
-                    <Tooltip element="randomise-patching" type="parameter">
+                    <Tooltip element="randomise-patching" type="parameter" fullHeight={false}>
                         <FontAwesomeIcon icon={$connections.length ? faTrash : faShuffle } />
                     </Tooltip>
                 </button>
