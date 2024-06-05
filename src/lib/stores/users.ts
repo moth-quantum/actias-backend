@@ -4,6 +4,13 @@ import { colours } from '$lib/utils/utils';
 
 export const users = writable<User[]>([]);
 export const search = writable<string | number>('');
+export const page = writable<number>(0);
+export const perPage = writable<number>(10);
+
+search.subscribe(() => page.set(0));
+
+export const nextPage = () => page.update(n => n + 1);
+export const prevPage = () => page.update(n => n - 1);
 
 export const connectedUsers = derived(users, ($users) => 
     $users.filter(user => user.isConnected)
@@ -11,8 +18,8 @@ export const connectedUsers = derived(users, ($users) =>
 );
 export const activeUsersCount = derived(users, ($users) => $users.filter(user => user.isActive).length);
 
-export const searchResults = derived([users, search], ([$users, $search]) => {
-    if (!$search) return $users;
+export const searchResults = derived([users, page, search], ([$users, $page, $search]) => {
+    if (!$search) return $users.slice($page * get(perPage), ($page + 1) * get(perPage));
     return $users.filter(user => user.name.toLowerCase().includes($search.toString().toLowerCase())
         || user.id.toString().includes($search.toString()));
 

@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { connectedUsers, searchResults, activeUsersCount, search } from '$lib/stores/users'
+    import { connectedUsers, searchResults, activeUsersCount, search, page, perPage, nextPage, prevPage, users } from '$lib/stores/users'
     import { connect, disconnect, getUsers } from '$lib/networking/users';
     // @ts-ignore
     import { FontAwesomeIcon } from 'fontawesome-svelte';
-    import { faRefresh, faSearch } from '@fortawesome/free-solid-svg-icons';
+    import { faRefresh, faSearch, faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
     import Input from '$lib/components/Forms/Input.svelte';
 
     let showSearch = false;
@@ -78,6 +78,20 @@
                 </span>
             </li>
         {/each}
+        <div class="pagination">
+            <button
+                disabled={$page === 0}
+                on:click={prevPage}
+            >
+                <FontAwesomeIcon icon={faArrowLeft} />
+            </button>
+            <button
+                disabled={($page + 1) * $perPage >= $users.length}
+                on:click={nextPage}
+            >
+                <FontAwesomeIcon icon={faArrowRight} />
+            </button>
+        </div>
     </div>
 </section>
 
@@ -153,6 +167,16 @@
             &__title {
                 width: 100%;
                 font-size: var(--text-sm);
+            }
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            & button {
+                &:disabled {
+                    opacity: 0.25;
+                }
             }
         }
     }
