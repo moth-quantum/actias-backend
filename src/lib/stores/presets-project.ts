@@ -35,19 +35,6 @@ export const presetKeys = derived(
 
 activePreset.subscribe(loadPreset)
 
-export function currentState() {
-    return {
-        instrument: get(instrument),
-        envelopes: get(envelopes),
-        params: get(allParameters).map(({key, rangeA, rangeB}) => ({key, rangeA, rangeB})),
-        connections: get(connections),
-        midi: get(midi),
-        circuit: circuit.save(),
-        numQubits: circuit.numQubits,
-        seconds: get(seconds)
-    }
-}
-
 export function loadPreset(key: string) {
     const preset = get(presets)[key]
     if(!preset) return;
@@ -56,7 +43,8 @@ export function loadPreset(key: string) {
     qubits.update(qs => {
         return qs.map((q, i) => ({
             ...q,
-            active: i < (preset.numQubits || 1)
+            active: i < (preset.numQubits || 1),
+            mounted: i < (preset.numQubits || 1) || q.mounted
         }))
     })
     
@@ -146,4 +134,17 @@ export function importPreset(name: string, data: any) {
     localStorage.setItem('q.presets.project', JSON.stringify(stored));
     presets.set(stored)
     activePreset.set(key)
+}
+
+export function currentState() {
+    return {
+        instrument: get(instrument),
+        envelopes: get(envelopes),
+        params: get(allParameters).map(({key, rangeA, rangeB}) => ({key, rangeA, rangeB})),
+        connections: get(connections),
+        midi: get(midi),
+        circuit: circuit.save(),
+        numQubits: circuit.numQubits,
+        seconds: get(seconds)
+    }
 }
