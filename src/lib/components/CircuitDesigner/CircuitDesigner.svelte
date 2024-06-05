@@ -310,7 +310,7 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
-            padding: 1rem 0;
+            padding: 1rem 1px;
             margin-bottom: 1rem;
             border-bottom: 0.5px solid var(--color-grey-light);
             overflow: hidden;
