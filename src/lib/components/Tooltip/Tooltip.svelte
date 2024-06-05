@@ -34,7 +34,6 @@
 	.tooltip-container {
 		position: relative;
     	cursor: pointer;
-		z-index: 100;
 	}
 
 	.tooltip {
