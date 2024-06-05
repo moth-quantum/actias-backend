@@ -62,7 +62,7 @@
     on:scroll={() => handleScroll()}
 >
     {#each axes as store, i}
-        <!-- {#if $qubits[i].active} -->
+        {#if $qubits[i].mounted}
             <!-- svelte-ignore a11y-click-events-have-key-events -->
             <div 
                 class="qubit"
@@ -128,7 +128,7 @@
                 {/if}
 
             </div>
-        <!-- {/if} -->
+        {/if}
     {/each}
 </div>
 

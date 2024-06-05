@@ -108,3 +108,10 @@ export interface Action {
     label: string;
     id: string;
 }
+
+export interface Qubit {
+    active: boolean
+    mounted: boolean
+    user: 'you' | number
+    isMeasuring: boolean
+}

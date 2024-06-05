@@ -4,9 +4,15 @@ import { mapToRange, clamp } from '../utils/utils';
 import { redrawCables } from './patching';
 import { disconnectSocket } from './patching';
 import { circuit } from './circuit';
+import type { Qubit } from '$lib/types';
     
-export const qubits = writable<{active: boolean, user: 'you' | number, isMeasuring: boolean}[]>(
-    Array(6).fill(null).map((_, i) => ({active: i === 0, user: 'you', isMeasuring: false}))
+export const qubits = writable<Qubit[]>(
+    Array(6).fill(null).map((_, i) => ({
+        active: i === 0, 
+        mounted: i === 0,
+        user: 'you', 
+        isMeasuring: false
+    }))
 );
 
 export const focusedQubit = writable<number>(0);
@@ -34,7 +40,10 @@ activeQubitCount.subscribe((count) => {
 export const activateQubit = () => {
     const i = get(qubits).findIndex(q => !q.active);
     i !== -1 && qubits.update(qs => {
+        // show the qubit
         qs[i].active = true;
+        // mount it if it's not already
+        qs[i].mounted = true;
         return qs
     })
     redrawCables();
