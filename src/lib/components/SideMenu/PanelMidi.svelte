@@ -7,6 +7,7 @@
     // @ts-ignore
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { faMinus, faRefresh } from '@fortawesome/free-solid-svg-icons';
+    import { onMount } from 'svelte';
 
     const handleAddDevice = () => {
         const firstInactiveIndex = get(inputs).find(input => !input.active);
@@ -30,6 +31,10 @@
     const handleRemoveDevice = (device: string) => {
         deactivateInput(device);
     }
+
+    onMount(() => {
+        console.log($actions)
+    });
 </script>
 
 <section>

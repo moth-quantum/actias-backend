@@ -27,9 +27,9 @@ const defaultActions = {
     8: {label: 'Env2 R', id: 'env-2-r' },
     9: {label: 'Measure', id: 'measure' },
     10: {label: 'Drone', id: 'drone' },
-    11: {label: 'Q01 θ', id: 'qubit-0-2' },
-    12: {label: 'Q01 φ', id: 'qubit-0-1' },
-    13: {label: 'Q01 ψ', id: 'qubit-0-0' },
+    11: {label: 'Q1 θ', id: 'qubit-0-2' },
+    12: {label: 'Q1 φ', id: 'qubit-0-1' },
+    13: {label: 'Q1 ψ', id: 'qubit-0-0' },
 }
 
 export const actions: Writable<{[key: number]: Action}> = writable(defaultActions);
@@ -155,7 +155,7 @@ const performMenuAction = (name: string, cc: number) => menuItems.update(items =
 })));
 
 const actionFactory: {[key: string]: (...args: any) => string} = {
-    qubit: (qubit: number, axis: number) => `Q${(qubit+1).toString().padStart(2, '0')} ${['θ', 'φ', 'ψ'][+axis]}`,
+    qubit: (qubit: number, axis: number) => `Q${(+qubit+1)} ${['θ', 'φ', 'ψ'][+axis]}`,
     param: (param: string, minMax: string) => `${param} ${minMax}`,
     volume: () => 'Volume',
     env: (env: number, param: string) => `Env${env + 1} ${param}`,
