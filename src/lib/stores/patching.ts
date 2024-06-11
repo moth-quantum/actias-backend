@@ -1,7 +1,6 @@
 import { writable, get } from 'svelte/store';
 import { focusedQubit } from './qubits';
 import type { Socket, Connection } from '$lib/types';
-// import { allParameters } from './parameters';
 
 export const sockets = writable({} as {[key: string]: Socket});
 export const connections = writable([] as Connection[]);

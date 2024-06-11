@@ -2,9 +2,16 @@
     // @ts-nocheck
     import { onMount, tick } from 'svelte';
     import { draggable } from '@neodrag/svelte';
-    import { sockets, connections, activateSocket, deactivateSockets, connectSockets, disconnectSocket } from '$lib/stores/patching';
+    import { 
+        sockets, 
+        connections, 
+        activateSocket, 
+        deactivateSockets, 
+        connectSockets, 
+        disconnectSocket
+    } from '$lib/stores/patching';
     import Cable from '$lib/components/Patching/Cable.svelte';
-    import { instrumentParameters } from '$lib/stores/parameters';
+    import { instrumentParameters, unlockParameter } from '$lib/stores/parameters';
     import { focusedQubit } from '$lib/stores/qubits';
 
     export let id;
@@ -51,7 +58,11 @@
 
     function handleKeydown(e) {
         e.key === "Escape" && deactivateSockets();
-        e.key === "Backspace" && active && disconnectSocket(id);
+        if(e.key === "Backspace" && active) { 
+            disconnectSocket(id);
+            // TODO: unlock
+            unlockParameter(id);
+        }
     }
 
     function init() {

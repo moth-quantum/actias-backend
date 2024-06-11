@@ -206,21 +206,6 @@ export function randomise(type: 'inst' | 'global' | 'fx' | 'demo') {
     return true;
 }
 
-connections.subscribe((connections) => {
-    // unlock parameters if they are not connected
-    const connected = connections.flat();
-    [
-        instrumentParameters,
-        globalParameters,
-        fxParameters,
-        demoParameters
-        
-    ].forEach(store => store.update((params) => params.map((param) => ({
-        ...param,
-        isLocked: connected.includes(param.key) ? param.isLocked : false
-    }))))
-})
-
 export const drone = writable(false);
 // switch off drone at the end of the measurement
 isMeasuring.subscribe((measuring) => {
@@ -237,13 +222,18 @@ export const clearConnections = () => {
 }
 
 export const randomiseConnections = () => {
+    const locked = get(lockedParameters)
     // disconnect all unlocked sockets
     clearConnections()
     // split sockets by type
     const all = get(sockets);
+    // get all origin sockets that are not locked
     const originSockets = Object.values(all)
         .filter(s => s.type === 'origin')
-        .filter(s => !get(lockedParameters).includes(s.id));
+        .filter(s => !locked.includes(s.id));
+
+    // console.log(originSockets)
+    
     const remoteSockets = Object.values(all).filter(s => s.type === 'remote');
     // for each local socket, create a connection where the other socket is a random remote socket (x, y, z)
     originSockets.forEach((socket: Socket) => {
@@ -252,3 +242,14 @@ export const randomiseConnections = () => {
     })
 }
 
+export const unlockParameter = (key: string) => {
+    [
+        instrumentParameters,
+        globalParameters,
+        fxParameters,
+        demoParameters
+    ].forEach(store => store.update((params) => params.map((param) => ({
+        ...param,
+        isLocked: key === param.key ? false : param.isLocked
+    }))))
+}
