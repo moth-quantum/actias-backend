@@ -139,11 +139,11 @@
             p5.push()
             p5.rotateY(p5.radians(90))
             p5.ambientMaterial(194);
-            let c = p5.color('rgb(209, 206, 199)')
+            let c = p5.color('rgb(209, 206, 206)')
             
             c.setAlpha(50)
             p5.stroke(c)
-            p5.strokeWeight(0.25)
+            p5.strokeWeight(0.5)
             p5.noFill()
             
             // Azimuth
