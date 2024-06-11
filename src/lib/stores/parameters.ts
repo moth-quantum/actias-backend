@@ -204,6 +204,21 @@ export function randomise(type: 'inst' | 'global' | 'fx' | 'demo') {
     return true;
 }
 
+connections.subscribe((connections) => {
+    // unlock parameters if they are not connected
+    const connected = connections.flat();
+    [
+        instrumentParameters,
+        globalParameters,
+        fxParameters,
+        demoParameters
+        
+    ].forEach(store => store.update((params) => params.map((param) => ({
+        ...param,
+        isLocked: connected.includes(param.key) ? param.isLocked : false
+    }))))
+})
+
 export const drone = writable(false);
 // switch off drone at the end of the measurement
 isMeasuring.subscribe((measuring) => {

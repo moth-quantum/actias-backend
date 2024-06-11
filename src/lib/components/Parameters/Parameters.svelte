@@ -1,6 +1,6 @@
 <script lang="ts">
     import Tooltip from '$lib/components/Tooltip/Tooltip.svelte';  
-    import { instrument, instrumentParameters, fxParameters, globalParameters, randomise, demoParameters, clearConnections, randomiseConnections } from '$lib/stores/parameters';
+    import { instrument, instrumentParameters, fxParameters, globalParameters, randomise, demoParameters, clearConnections, randomiseConnections, lockedParameters } from '$lib/stores/parameters';
     import { samples } from '$lib/stores/samples'
     import { onMount } from 'svelte';
     import { connections } from '$lib/stores/patching';
@@ -10,6 +10,8 @@
     import ParameterGroup from './ParameterGroup.svelte';
 
     let sampleOptions: {name: string, value: number, active: boolean}[] = [];
+
+    $: shuffleTrash = $connections.length > $lockedParameters.length
 
     onMount(() => {
         const unsubscribeSamples = samples.subscribe(urls => {
@@ -28,16 +30,16 @@
             </Tooltip>
             <button class="connect" on:click={(e) => {
                 e.stopPropagation()
-                $connections.length 
+                shuffleTrash
                     ? clearConnections()
                     : randomiseConnections()
             }}>
                 <Tooltip 
-                    element={$connections.length ? 'clear-patching' : 'randomise-patching'} 
+                    element={shuffleTrash ? 'clear-patching' : 'randomise-patching'} 
                     classes="flex items-center"
                     type="parameter"
                 >
-                    <FontAwesomeIcon icon={$connections.length ? faTrash : faShuffle } />
+                    <FontAwesomeIcon icon={shuffleTrash ? faTrash : faShuffle } />
                 </Tooltip>
             </button>
         </button>
