@@ -1,7 +1,6 @@
 <script>
     import Toast from "./Toast.svelte";
     import { toasts } from '$lib/stores/toasts';
-
 </script>
 
 <div class="toasts">

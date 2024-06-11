@@ -32,6 +32,7 @@
 
     import initElectronAPI from '$lib/electronAPI';
 
+    let showEscapeMessage = false;
     let isDesktop = false;
     let sidebarIsHidden = true; 
     let transitionParams = {
@@ -60,8 +61,15 @@
 
         window.addEventListener('keydown', handleKeyDown);
 
+        const unsubscribePerformanceMode = performanceMode.subscribe(isVisible => {
+            isVisible && addToast('Press escape to exit performance mode', 'info')
+        })
+
         // exit at this point if not in electron
-        if(!isApp()) return () => window.removeEventListener('keydown', handleKeyDown);
+        if(!isApp()) return () => {
+            window.removeEventListener('keydown', handleKeyDown)
+            unsubscribePerformanceMode()
+        };
         
         initElectronAPI()
         
@@ -77,6 +85,7 @@
             unsubscribeBroadcast()
             unsubscribeListen()
             unsubscribeUpdateProfile()
+            unsubscribePerformanceMode()
             window.removeEventListener("beforeunload", logout);
             window.removeEventListener('keydown', handleKeyDown);
         }
