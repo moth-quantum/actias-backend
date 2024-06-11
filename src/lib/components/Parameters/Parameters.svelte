@@ -11,7 +11,7 @@
 
     let sampleOptions: {name: string, value: number, active: boolean}[] = [];
 
-    $: shuffleTrash = $connections.length > $lockedParameters.length
+    $: clear = $connections.length > $lockedParameters.length
 
     onMount(() => {
         const unsubscribeSamples = samples.subscribe(urls => {
@@ -30,16 +30,16 @@
             </Tooltip>
             <button class="connect" on:click={(e) => {
                 e.stopPropagation()
-                shuffleTrash
+                clear
                     ? clearConnections()
                     : randomiseConnections()
             }}>
                 <Tooltip 
-                    element={shuffleTrash ? 'clear-patching' : 'randomise-patching'} 
+                    element={clear ? 'clear-patching' : 'randomise-patching'} 
                     classes="flex items-center"
                     type="parameter"
                 >
-                    <FontAwesomeIcon icon={shuffleTrash ? faTrash : faShuffle } />
+                    <FontAwesomeIcon icon={clear ? faTrash : faShuffle } />
                 </Tooltip>
             </button>
         </button>
@@ -56,12 +56,12 @@
             </Tooltip>
             <button class="connect" on:click={(e) => {
                 e.stopPropagation()
-                $connections.length 
-                    ? connections.set([])
+                clear
+                    ? clearConnections()
                     : randomiseConnections()
             }}>
                 <Tooltip element="randomise-patching" type="parameter" fullHeight={false}>
-                    <FontAwesomeIcon icon={$connections.length ? faTrash : faShuffle } />
+                    <FontAwesomeIcon icon={clear ? faTrash : faShuffle } />
                 </Tooltip>
             </button>
         </button>
