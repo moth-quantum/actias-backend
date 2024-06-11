@@ -1,6 +1,6 @@
 <script lang="ts">
     import Tooltip from '$lib/components/Tooltip/Tooltip.svelte';  
-    import { instrument, instrumentParameters, fxParameters, globalParameters, randomise, demoParameters } from '$lib/stores/parameters';
+    import { instrument, instrumentParameters, fxParameters, globalParameters, randomise, demoParameters, clearConnections } from '$lib/stores/parameters';
     import { samples } from '$lib/stores/samples'
     import { onMount } from 'svelte';
     import { randomiseConnections, connections } from '$lib/stores/patching';
@@ -29,7 +29,7 @@
             <button class="connect" on:click={(e) => {
                 e.stopPropagation()
                 $connections.length 
-                    ? connections.set([])
+                    ? clearConnections()
                     : randomiseConnections()
             }}>
                 <Tooltip 

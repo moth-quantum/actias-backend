@@ -1,6 +1,7 @@
-import { writable, get } from 'svelte/store';
+import { writable, get, derived, type Readable } from 'svelte/store';
 import { focusedQubit } from './qubits';
 import type { Socket, Connection } from '$lib/types';
+// import { allParameters } from './parameters';
 
 export const sockets = writable({} as {[key: string]: Socket});
 export const connections = writable([] as Connection[]);
@@ -76,6 +77,17 @@ export const getConnections = (id: string) => {
     return all.filter(c => c[0] === id || c[1] === id).map(c => c[0] === id ? c[1] : c[0]);
 }
 
+
+// export const clearConnections = () => {
+//     // const locked = get(lockedParameters)
+//     // // disconnect all sockets, unless they are locked
+//     // connections.update(connections => connections.filter(c => {
+//     //     const [a, b] = c;
+//     //     return !locked.includes(a) && !locked.includes(b)
+//     // }))
+//     connections.set([]);
+// }
+
 export const randomiseConnections = () => {
     // disconnect all sockets
     connections.set([]);
@@ -89,3 +101,4 @@ export const randomiseConnections = () => {
         connectSockets(socket, randomSocket);
     })
 }
+

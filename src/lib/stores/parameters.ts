@@ -105,6 +105,11 @@ export const allParameters: Readable<Parameter[]> = derived(
     }
 );
 
+export const lockedParameters: Readable<string[]> = derived(
+    allParameters, 
+    ($allParameters) => $allParameters.filter((param) => param.isLocked).map(p => p.key)
+);
+
 const prevParamValues: Writable<{[key: string]: number}> = writable({});
 export const paramValues: Readable<{[key: string]: number}> = derived(
     [
@@ -204,3 +209,13 @@ export const drone = writable(false);
 isMeasuring.subscribe((measuring) => {
     !measuring && drone.set(false);
 })
+
+export const clearConnections = () => {
+    const locked = get(lockedParameters)
+    // disconnect all sockets, unless they are locked
+    connections.update(connections => connections.filter(c => {
+        const [a] = c;
+        return locked.includes(a)
+    }))
+    console.log(get(connections))
+}
