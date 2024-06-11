@@ -1,9 +1,9 @@
 <script lang="ts">
     import Tooltip from '$lib/components/Tooltip/Tooltip.svelte';  
-    import { instrument, instrumentParameters, fxParameters, globalParameters, randomise, demoParameters, clearConnections } from '$lib/stores/parameters';
+    import { instrument, instrumentParameters, fxParameters, globalParameters, randomise, demoParameters, clearConnections, randomiseConnections } from '$lib/stores/parameters';
     import { samples } from '$lib/stores/samples'
     import { onMount } from 'svelte';
-    import { randomiseConnections, connections } from '$lib/stores/patching';
+    import { connections } from '$lib/stores/patching';
     // @ts-ignore
     import { FontAwesomeIcon } from 'fontawesome-svelte';
     import { faShuffle, faTrash } from '@fortawesome/free-solid-svg-icons';

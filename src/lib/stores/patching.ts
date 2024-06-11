@@ -1,4 +1,4 @@
-import { writable, get, derived, type Readable } from 'svelte/store';
+import { writable, get } from 'svelte/store';
 import { focusedQubit } from './qubits';
 import type { Socket, Connection } from '$lib/types';
 // import { allParameters } from './parameters';
@@ -76,29 +76,3 @@ export const getConnections = (id: string) => {
     let all = get(connections)
     return all.filter(c => c[0] === id || c[1] === id).map(c => c[0] === id ? c[1] : c[0]);
 }
-
-
-// export const clearConnections = () => {
-//     // const locked = get(lockedParameters)
-//     // // disconnect all sockets, unless they are locked
-//     // connections.update(connections => connections.filter(c => {
-//     //     const [a, b] = c;
-//     //     return !locked.includes(a) && !locked.includes(b)
-//     // }))
-//     connections.set([]);
-// }
-
-export const randomiseConnections = () => {
-    // disconnect all sockets
-    connections.set([]);
-    // split sockets by type
-    const all = get(sockets);
-    const originSockets = Object.values(all).filter(s => s.type === 'origin');
-    const remoteSockets = Object.values(all).filter(s => s.type === 'remote');
-    // for each local socket, create a connection where the other socket is a random remote socket (x, y, z)
-    originSockets.forEach((socket: Socket) => {
-        const randomSocket = remoteSockets[Math.floor(Math.random() * remoteSockets.length)];
-        connectSockets(socket, randomSocket);
-    })
-}
-

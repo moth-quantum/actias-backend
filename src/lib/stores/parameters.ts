@@ -2,9 +2,9 @@ import { writable, type Writable, get, derived, type Readable } from 'svelte/sto
 import { axes, isMeasuring } from '$lib/stores/qubits'
 import { samples } from '$lib/stores/samples';
 import { envelopeValues } from './envelopes';
-import { redrawCables, getConnections, connections} from './patching';
+import { sockets, redrawCables, getConnections, connections, connectSockets} from './patching';
 import { mapToStepRange, roundToFactor } from '$lib/utils/utils';
-import type { InstrumentName, Parameter, Dictionary } from '$lib/types';
+import type { InstrumentName, Parameter, Dictionary, Socket } from '$lib/types';
 
 export const instrument: Writable<InstrumentName> = writable('demo');
 export const instruments: {name: InstrumentName, active: boolean}[] = [
@@ -217,5 +217,21 @@ export const clearConnections = () => {
         const [a] = c;
         return locked.includes(a)
     }))
-    console.log(get(connections))
 }
+
+export const randomiseConnections = () => {
+    // disconnect all unlocked sockets
+    clearConnections()
+    // split sockets by type
+    const all = get(sockets);
+    const originSockets = Object.values(all)
+        .filter(s => s.type === 'origin')
+        .filter(s => !get(lockedParameters).includes(s.id));
+    const remoteSockets = Object.values(all).filter(s => s.type === 'remote');
+    // for each local socket, create a connection where the other socket is a random remote socket (x, y, z)
+    originSockets.forEach((socket: Socket) => {
+        const randomSocket = remoteSockets[Math.floor(Math.random() * remoteSockets.length)];
+        connectSockets(socket, randomSocket);
+    })
+}
+
