@@ -100,7 +100,7 @@
                         disabled={$qubits[i].user !== 'you' || $isMeasuring}
                     />
                 </div>
-                {#if !$performanceMode}
+                {#if !$performanceMode && $qubits[i].active}
                     <div 
                         class="qubit__patchbay"
                         class:qubit__patchbay--single={isSingle}
