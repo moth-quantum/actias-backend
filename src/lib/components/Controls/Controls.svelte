@@ -114,6 +114,7 @@
         }
         height: 100%;
         min-height: 13rem;
+        overflow: scroll;
     }
 
     .buttons {

@@ -296,7 +296,7 @@
 
     .controls {
         width: 100%;
-        max-width: 75rem;
+        max-width: 100vw;
         background-color: var(--color-grey-mid);
         padding: 1rem;
         border-top: 0.5px solid var(--color-grey-light);
@@ -311,6 +311,11 @@
             background-color: transparent;
             cursor: move;
         }
+        
+        @media (min-width: 800px) {
+            max-width: 75rem;
+        }
+
         @media (min-width: 1000px) {            
             border: 0.5px solid var(--color-grey-light);
             border-radius: 10px 0 0 0;
