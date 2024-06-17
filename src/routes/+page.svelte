@@ -32,7 +32,6 @@
 
     import initElectronAPI from '$lib/electronAPI';
 
-    let showEscapeMessage = false;
     let isDesktop = false;
     let sidebarIsHidden = true; 
     let transitionParams = {
@@ -178,7 +177,11 @@
     </div>
 
     {#if $controlsAreVisible && !$performanceMode}
-        <div class="controls" use:draggable={{position, handle: '.controls__handle'}}>
+        <div class="controls" use:draggable={{
+            position, 
+            handle: '.controls__handle',
+            disabled: !isDesktop
+        }}>
             <div class="controls__handle"></div>
             <div class="keyboard">
                 <Controls />
