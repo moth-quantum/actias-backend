@@ -1,8 +1,6 @@
 <script lang="ts">
     import Button from "$lib/components/Button/Button.svelte";
     import { faTimes } from "@fortawesome/free-solid-svg-icons";
-    import { library } from '@fortawesome/fontawesome-svg-core';
-    library.add(faTimes);
 
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();

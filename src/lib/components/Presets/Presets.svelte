@@ -4,12 +4,10 @@
     import Select from '$lib/components/Forms/Select.svelte';
     import Button from '$lib/components/Button/Button.svelte';
     import Input from '$lib/components/Forms/Input.svelte';
-    import { library } from '@fortawesome/fontawesome-svg-core';
-    import { faAdd, faChevronLeft, faChevronRight, faFloppyDisk, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+    import { faAdd, faFloppyDisk, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
     import { mute } from '$lib/stores/global';
     import type { Writable } from 'svelte/store';
     
-    library.add(faChevronLeft, faChevronRight, faFloppyDisk, faTrash, faPen, faAdd);
 
     export let type: string;
     export let hidden = false;
