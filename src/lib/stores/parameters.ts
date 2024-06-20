@@ -6,7 +6,7 @@ import { sockets, redrawCables, getConnections, connections, connectSockets} fro
 import { mapToStepRange, roundToFactor } from '$lib/utils/utils';
 import type { InstrumentName, Parameter, Dictionary, Socket } from '$lib/types';
 
-export const instrument: Writable<InstrumentName> = writable('synth');
+export const instrument: Writable<InstrumentName> = writable('demo');
 export const instruments: {name: InstrumentName, active: boolean}[] = [
     {name: 'demo', active: true},
     {name: 'synth', active: false},
