@@ -2,9 +2,7 @@
     import { instrument, instruments } from '$lib/stores/parameters';
     import Button from '$lib/components/Button/Button.svelte';
 
-    import { library } from '@fortawesome/fontawesome-svg-core';
-    import { faSmileWink, faNetworkWired, faCompactDisc, faBraille, faTable, faWaveSquare } from '@fortawesome/free-solid-svg-icons';
-    library.add(faSmileWink, faNetworkWired, faCompactDisc, faBraille, faTable);
+    import { faNetworkWired, faCompactDisc, faBraille, faTable, faWaveSquare } from '@fortawesome/free-solid-svg-icons';
 
     const icons = {
         'demo': faWaveSquare,
@@ -18,7 +16,7 @@
 </script>
 
 <div class={`instrument-buttons instrument-buttons--${orientation}`}>
-    {#each instruments as {name}}
+    {#each instruments.filter(({name}) => name !== 'demo') as {name}}
         <Button 
             onClick={() => instrument.set(name)} 
             active={$instrument === name} 
