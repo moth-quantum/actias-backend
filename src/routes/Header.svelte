@@ -2,7 +2,6 @@
     import logo from '$lib/images/q1synth-icon.svg';
     import { isApp, showSideMenu } from '$lib/stores/global';
     import { performanceMode } from '$lib/stores/sideMenu';
-    import { page } from '$app/stores';
 </script>
 
 <header class:hidden={$performanceMode}>
@@ -15,9 +14,6 @@
             />
         </a>
         <ul class="menu">
-            <!-- <li class="menu__item"><a class={$page.url.pathname === '/about' ? 'active' : ''} href="/about">About</a></li> -->
-            <!-- <li class="menu__item"><a class={$page.url.pathname === '/help' ? 'active' : ''} href="/help">Help</a></li>
-            <li class="menu__item"><a class={$page.url.pathname === '/faq' ? 'active' : ''} href="/faq">FAQ</a></li> -->
             <li class="menu__item"><a href="https://q1-synth-docs.netlify.app/" target="_blank">Docs</a></li>
         </ul>
     
