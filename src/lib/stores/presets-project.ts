@@ -2,12 +2,13 @@ import { writable, derived, get } from 'svelte/store';
 import { instrument, instrumentParameters, globalParameters, fxParameters, allParameters } from '$lib/stores/parameters';
 import { envelopes } from '$lib/stores/envelopes';
 import { connections } from '$lib/stores/patching';
-import type { Envelope, Preset } from '$lib/types';
+import type { Envelope } from '$lib/types';
 import { circuit } from '$lib/stores/circuit';
 import { qubits, seconds } from '$lib/stores/qubits';
 import { actions as midi } from '$lib/stores/midi';
+import { projects } from '$lib/examples/projects';
 
-export const presets = writable({} as {[key: string]: Preset | null})
+export const presets = writable<{[key: string]: any}>(projects)
 
 export const activePreset = writable('')
 

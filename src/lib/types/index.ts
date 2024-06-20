@@ -48,7 +48,7 @@ export interface Socket {
 export type Connection = [string, string];
 
 export interface Preset {
-    instrument: InstrumentName;
+    instrument: InstrumentName | string;
     connections: Connection[];
     params: Parameter[];
     envelopes: Envelope[];
