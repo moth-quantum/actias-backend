@@ -7,6 +7,8 @@ import { measure, axes, isMeasuring } from '$lib/stores/qubits';
 import { menuItems } from '$lib/stores/sideMenu';
 import type { Action, Parameter } from '$lib/types';
 import { roundToFactor } from '$lib/utils/utils';
+// import { loadPresetByNormalisedValue as loadCircuit } from '$lib/stores/presets-circuits';
+import { loadPresetByNormalisedValue as loadProject } from '$lib/stores/presets-project';
 
 export const inputs: Writable<{name: string, active: boolean, channel: number}[]> = writable([]);
 // maintain the order of active inputs
@@ -153,6 +155,9 @@ const performMenuAction = (name: string, cc: number) => menuItems.update(items =
         ? cc > 0 
         : item.isActive
 })));
+const performPresetAction = (name: string, cc: number) => {
+    name === 'project' && loadProject(cc);
+}
 
 const actionFactory: {[key: string]: (...args: any) => string} = {
     qubit: (qubit: number, axis: number) => `Q${(+qubit+1)} ${['θ', 'φ', 'ψ'][+axis]}`,
@@ -169,7 +174,6 @@ function handleControlChange(e: any) {
     const { value, controller: { number } } = e;
     const isLearning = get(learn);
     const controlToLearn = get(learnControl);
-    console.log(controlToLearn)
     
     // Handle any new midi learn actions
     if(isLearning && controlToLearn) {
@@ -192,6 +196,7 @@ function handleControlChange(e: any) {
     type === 'measure' && performMeasureAction(value)
     type === 'drone' && performDroneAction(value)
     type === 'menu' && performMenuAction(rest[0], value)
+    // type === 'preset' && performPresetAction(rest[0], value)
 }
 
 export function resetActions() {

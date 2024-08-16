@@ -36,6 +36,13 @@ export const presetKeys = derived(
 
 activePreset.subscribe(loadPreset)
 
+export function loadPresetByNormalisedValue(value: number) {
+    const i = Math.floor(value * get(presetKeys).length)
+    const key = get(presetKeys)[i]
+    if(!key || key === get(activePreset)) return
+    loadPreset(key)
+}
+
 export function loadPreset(key: string) {
     const preset = get(presets)[key]
     if(!preset) return;
