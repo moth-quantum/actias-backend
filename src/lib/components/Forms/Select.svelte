@@ -1,4 +1,5 @@
 <script lang="ts">
+    import Learnable from '$lib/components/Learnable/Learnable.svelte';
     export let id: string;
     export let options: {name: string, value?: string | number, active?: boolean}[];
     export let onChange: (e: Event) => void = () => {};
@@ -11,21 +12,23 @@
     export let classes: string = '';
 </script>
 
-<select 
-    id={id}
-    on:change={onChange}
-    bind:value={selected}
-    style={`background-color: ${background}; color: ${color}; border: ${border}; text-transform: ${uppercase ? 'uppercase' : 'none'}`}
-    {disabled}
-    class={classes}
->
-    {#each options as {name, value, active}}
-        <option 
-            disabled={!active}
-            value={value}
-        >{name}</option>
-    {/each}
-</select>
+<Learnable id={id}>
+    <select 
+        id={id}
+        on:change={onChange}
+        bind:value={selected}
+        style={`background-color: ${background}; color: ${color}; border: ${border}; text-transform: ${uppercase ? 'uppercase' : 'none'}`}
+        {disabled}
+        class={classes}
+    >
+        {#each options as {name, value, active}}
+            <option 
+                disabled={!active}
+                value={value}
+            >{name}</option>
+        {/each}
+    </select>
+</Learnable>
 
 <style>
 

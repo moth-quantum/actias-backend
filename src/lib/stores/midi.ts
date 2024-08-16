@@ -161,18 +161,20 @@ const actionFactory: {[key: string]: (...args: any) => string} = {
     env: (env: number, param: string) => `Env${env + 1} ${param}`,
     measure: () => 'Measure',
     drone: () => 'Drone',
-    menu: (name) => `Menu ${name}`
+    menu: (name) => `Menu ${name}`,
+    preset: (name) => `Load ${name}`
 }
 
 function handleControlChange(e: any) {
     const { value, controller: { number } } = e;
     const isLearning = get(learn);
     const controlToLearn = get(learnControl);
+    console.log(controlToLearn)
     
     // Handle any new midi learn actions
     if(isLearning && controlToLearn) {
         const args = controlToLearn.split('-');
-        ['qubit', 'param', 'volume', 'env', 'measure', 'drone', 'menu'].includes(args[0]) && actions.update(a => ({
+        ['qubit', 'param', 'volume', 'env', 'measure', 'drone', 'menu', 'preset'].includes(args[0]) && actions.update(a => ({
             ...a, 
             [number]: {
                 id: controlToLearn, 

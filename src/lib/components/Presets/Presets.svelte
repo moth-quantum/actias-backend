@@ -8,7 +8,6 @@
     import { mute } from '$lib/stores/global';
     import type { Writable } from 'svelte/store';
     
-
     export let type: string;
     export let hidden = false;
     export let keys: string[] = [];
@@ -65,7 +64,7 @@
 >
     {#if !isEditing && !isSaving}
         <Select 
-            id="load-preset"
+            id={`preset-${type}`}
             background="transparent"
             options={[
                 {name: `Load ${type}`, value: 'load', active: false},
