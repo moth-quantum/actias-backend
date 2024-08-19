@@ -231,8 +231,6 @@ export const randomiseConnections = () => {
     const originSockets = Object.values(all)
         .filter(s => s.type === 'origin')
         .filter(s => !locked.includes(s.id));
-
-    // console.log(originSockets)
     
     const remoteSockets = Object.values(all).filter(s => s.type === 'remote');
     // for each local socket, create a connection where the other socket is a random remote socket (x, y, z)

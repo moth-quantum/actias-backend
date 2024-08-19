@@ -10,9 +10,10 @@
     export let uppercase: boolean = true;
     export let disabled: boolean = false;
     export let classes: string = '';
+    export let isLearnable: boolean = true;
 </script>
 
-<Learnable id={id}>
+<Learnable id={id} disabled={!isLearnable}>
     <select 
         id={id}
         on:change={onChange}

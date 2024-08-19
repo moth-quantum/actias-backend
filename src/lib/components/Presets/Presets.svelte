@@ -65,6 +65,7 @@
     {#if !isEditing && !isSaving}
         <Select 
             id={`preset-${type}`}
+            isLearnable={false}
             background="transparent"
             options={[
                 {name: `Load ${type}`, value: 'load', active: false},

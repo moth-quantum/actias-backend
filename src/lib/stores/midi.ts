@@ -32,9 +32,14 @@ const defaultActions = {
     11: {label: 'Q1 θ', id: 'qubit-0-2' },
     12: {label: 'Q1 φ', id: 'qubit-0-1' },
     13: {label: 'Q1 ψ', id: 'qubit-0-0' },
+    100: {label: 'Load Project', id: 'preset-project' }
 }
 
 export const actions: Writable<{[key: number]: Action}> = writable(defaultActions);
+export const loadActions = (newActions: {[key: number]: Action}) => actions.set({
+    ...defaultActions,
+    ...newActions
+});
 
 // Subscribe to inputs and activeInputs changes and save them in local storage
 export function activateInput(name: string) {
@@ -178,7 +183,7 @@ function handleControlChange(e: any) {
     // Handle any new midi learn actions
     if(isLearning && controlToLearn) {
         const args = controlToLearn.split('-');
-        ['qubit', 'param', 'volume', 'env', 'measure', 'drone', 'menu', 'preset'].includes(args[0]) && actions.update(a => ({
+        ['qubit', 'param', 'volume', 'env', 'measure', 'drone', 'menu'].includes(args[0]) && actions.update(a => ({
             ...a, 
             [number]: {
                 id: controlToLearn, 
@@ -196,7 +201,7 @@ function handleControlChange(e: any) {
     type === 'measure' && performMeasureAction(value)
     type === 'drone' && performDroneAction(value)
     type === 'menu' && performMenuAction(rest[0], value)
-    // type === 'preset' && performPresetAction(rest[0], value)
+    type === 'preset' && performPresetAction(rest[0], value) // this isn't learnable, but is hardcoded to cc100
 }
 
 export function resetActions() {

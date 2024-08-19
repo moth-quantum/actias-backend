@@ -5,7 +5,7 @@ import { connections } from '$lib/stores/patching';
 import type { Envelope } from '$lib/types';
 import { circuit } from '$lib/stores/circuit';
 import { qubits, seconds } from '$lib/stores/qubits';
-import { actions as midi } from '$lib/stores/midi';
+import { loadActions as loadMidi } from '$lib/stores/midi';
 import { projects } from '$lib/examples/projects';
 
 export const presets = writable<{[key: string]: any}>(projects)
@@ -74,7 +74,7 @@ export function loadPreset(key: string) {
     preset.circuit && circuit.load(preset.circuit);
 
     // update midi
-    preset.midi && midi.set(preset.midi);
+    preset.midi && loadMidi(preset.midi);
 
     // update seconds
     preset.seconds && seconds.set(preset.seconds);
@@ -92,6 +92,8 @@ export function loadPreset(key: string) {
                 }
             })
         }))
+
+    activePreset.set(key)
 }
 
 export function savePreset(key: string) {

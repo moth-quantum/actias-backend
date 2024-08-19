@@ -2,6 +2,7 @@
     import { learn, learnControl } from '$lib/stores/midi';
     export let id: string = '';
     export let classes: string = '';
+    export let disabled: boolean = false;
     const handleClick = (e: Event) => {
         e.preventDefault();
         e.stopPropagation();
@@ -9,7 +10,7 @@
     };
 </script>
 
-{#if $learn}
+{#if $learn && !disabled}
     <button 
         on:click={handleClick}
         class={classes}
