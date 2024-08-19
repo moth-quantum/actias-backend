@@ -16,7 +16,6 @@ export const samples = writable([
 ]);
 
 export const updateSamples = (userSamples: string[]) => {
-    console.log(userSamples)
     samples.set([
         ...factorySamples,
         ...userSamples

@@ -49,15 +49,24 @@ wavetable.banks = {default: get(samples)}
 wavetable.bank('default')
 wavetable.connect(crush)
 
+export const instruments = { synth, sampler, granular, wavetable }
+
+export const loadSample = (i) => {
+    Object.values(instruments).map(inst => inst.loadSample && inst.loadSample('default', i))
+}
+
 // load samples where applicable
-samples.subscribe(s => [sampler, granular, wavetable]
+samples.subscribe(s => {
+    [sampler, granular, wavetable]
         .forEach(inst => {
             // update default sample bank with list of urls
             inst.banks = {default: s}
         })
-    )
+    s.forEach((url, i) => {
+        loadSample(i)
+    })
+})
 
-export const instruments = { synth, sampler, granular, wavetable }
 
 export const handleEvent = (params) => {
     if(get(mute)) return
@@ -92,10 +101,6 @@ export const handleMutation = (params) => {
     fx.mutate(params, immediate())
     crush.wet.value = params.crush
     crush.set({bits: mapToStepRange(params.crush, 0, 1, 16, 4, 1)})
-}
-
-export const loadSample = (i) => {
-    Object.values(instruments).map(inst => inst.loadSample && inst.loadSample('default', i))
 }
 
 synthValues.subscribe(throttle(values => handleMutation(values), 100))
