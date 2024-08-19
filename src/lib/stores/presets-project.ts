@@ -5,7 +5,7 @@ import { connections } from '$lib/stores/patching';
 import type { Envelope } from '$lib/types';
 import { circuit } from '$lib/stores/circuit';
 import { qubits, seconds } from '$lib/stores/qubits';
-import { loadActions as loadMidi } from '$lib/stores/midi';
+import { loadActions as loadMidi, actions as midi } from '$lib/stores/midi';
 import { projects } from '$lib/examples/projects';
 
 export const presets = writable<{[key: string]: any}>(projects)
