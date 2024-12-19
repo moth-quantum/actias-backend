@@ -13,6 +13,5 @@ This repository can be viewed in both the website or app contexts to facilitate 
 * yarn build
 
 ## Hosting
-The website is currently hosted on Moth's Netlify account, at the following domains:
-* production -> https://q1synth.mothquantum.com/
-* staging -> https://q1synth-uat.mothquantum.com/
+The website is currently hosted on Moth's Netlify account, at:
+https://actias.mothquantum.com/
