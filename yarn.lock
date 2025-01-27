@@ -1002,10 +1002,10 @@ flowbite@^3.0.0:
     flowbite-datepicker "^1.3.1"
     mini-svg-data-uri "^1.4.3"
 
-fontawesome-svelte@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/fontawesome-svelte/-/fontawesome-svelte-2.0.1.tgz#1e878f474e0c89ac3d044d0528cc31753584a4c8"
-  integrity sha512-6OSbpfBFiQA4fcrj5CvJBx36iVYfdvQY8xEdcsQNhWk6FjdwoiWkjxOIvSsr6v1KI2fM9xr99z7uRJHLSsxreQ==
+fontawesome-svelte@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/fontawesome-svelte/-/fontawesome-svelte-3.0.0.tgz#d4632d5e9968adea6fe530df2b301ad08b5996f7"
+  integrity sha512-0jrpHtA4S9t+AfnvvyPaXaZw3nSJl527mCchRhA3Vh6PEsUiK7dC6KxwBg5DNTODj7L+8LRxM8fOe1oxXs2+PQ==
 
 foreground-child@^3.1.0:
   version "3.1.1"
