@@ -141,16 +141,17 @@
         display: flex;
         flex-wrap: wrap;
         padding: 0 0 1rem 1rem;
-        @media (max-width: 1200px) {
-            padding: 1rem 1rem 0;
-        }
-
+        
         &--performance {
             padding: 1rem;
             width: 100vw;
             & .qubit {
                 margin: 1rem!important;
             }
+        }
+        
+        @media (max-width: 1200px) {
+            padding: 1rem 1rem 0;
         }
     }
 
@@ -249,7 +250,6 @@
             @media (min-width: 1200px) {
                 display: flex;
             }
-            
         }
 
         &__sliders {

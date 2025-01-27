@@ -88,13 +88,14 @@
     .parameter {
         display: grid;
         grid-template-columns: 3fr 7fr 1fr 3fr;
-        @media (min-width: 1200px) {
-            grid-template-columns: 3fr 9fr 1fr 1fr;
-        }
         margin-bottom: 0.4rem;
-
+        
         &--select {
             grid-template-columns: 2fr 10fr;
+        }
+        
+        @media (min-width: 1200px) {
+            grid-template-columns: 3fr 9fr 1fr 1fr;
         }
     }
 

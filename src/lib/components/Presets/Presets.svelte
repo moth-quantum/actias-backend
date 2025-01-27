@@ -137,13 +137,14 @@
 <style lang="scss">
     .presets {
         display: none;
-        @media (min-width: 500px) {
-            display: flex;
-        }
         align-items: center;
-
+        
         &--hidden {
             display: none;
+        }
+        
+        @media (min-width: 500px) {
+            display: flex;
         }
     }
 </style>

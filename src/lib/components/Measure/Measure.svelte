@@ -97,13 +97,14 @@
         width: 100%;
         border-radius: 5px;
         margin-bottom: 0.5rem;
+        &#seconds {
+            flex-basis: 100%;
+        }
+
         @media (min-width: 1000px) {
             max-height: 2rem;
         }
 
-        &#seconds {
-            flex-basis: 100%;
-        }
     }
 
     input::placeholder {
@@ -137,11 +138,6 @@
             letter-spacing: 0.0625rem;
         }
 
-        @media (min-width: 1000px) {
-            margin-left: 0;
-            height: 170%;
-            width: 100%;
-        }
         button {
             background-color: var(--color-grey-light);
             font-size: var(--text-base);
@@ -157,7 +153,12 @@
                 cursor: not-allowed;
             }
         }
-
+        
+        @media (min-width: 1000px) {
+            margin-left: 0;
+            height: 170%;
+            width: 100%;
+        }
     }
 
 </style>

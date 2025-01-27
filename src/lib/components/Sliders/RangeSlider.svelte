@@ -27,10 +27,11 @@
 <style lang="scss">
     .range-slider {
         display: grid;
+        align-items: center;
+
         @media (min-width: 1200px) {
             grid-template-columns: 1fr 4fr 1fr;
         }
-        align-items: center;
     }
     .slider {
         display: flex;
@@ -43,13 +44,14 @@
 
     span {
         display: none;
-        @media (min-width: 1200px) {
-            display: block;
-        }
         color: var(--color-grey-light);
         font-size: var(--text-xxs);
         letter-spacing: 0.1rem;
         text-align: center;
+        
+        @media (min-width: 1200px) {
+            display: block;
+        }
     }
 
     input[type=range] {

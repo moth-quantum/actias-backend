@@ -207,9 +207,7 @@
         }
     }
     .buttons {
-        @media (min-width: 1200px) {
-            padding-bottom: 1.5rem;
-        }
+
         background-color: var(--color-grey-mid);
         &__inner {
             padding: 1rem;
@@ -221,25 +219,25 @@
             }
 
         }
-        @media (min-width: 1200px) {
-            z-index: 100;
-        }
         
-
         &__instruments {
             display: none;
             @media (min-width: 1200px) {
                 display: flex;
             }
         }
-
+        
         &__parameters {
             display: block;
             @media (min-width: 1200px) {
                 display: none
             }
         }
-
+        
+        @media (min-width: 1200px) {
+            z-index: 100;
+            padding-bottom: 1.5rem;
+        }
 	}
 
     .synth {

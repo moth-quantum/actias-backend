@@ -75,9 +75,6 @@
         padding: 1.25rem 0;
         border-radius: 10px;
         width: calc(100%/2 - 0.25rem);
-        @media (min-width: 1200px){
-            width: calc(100%/3 - (1rem/3));
-        }
 
         &:disabled {
             cursor: not-allowed;
@@ -106,6 +103,10 @@
                 justify-content: center;
                 align-items: center;
             }
+        }
+
+        @media (min-width: 1200px){
+            width: calc(100%/3 - (1rem/3));
         }
     }
 

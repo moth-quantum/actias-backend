@@ -109,12 +109,13 @@
         display: flex;
         padding: 1rem;
         
-        @media (min-width: 1000px) {
-            padding: 1rem 2rem;
-        }
         height: 100%;
         min-height: 13rem;
         overflow: scroll;
+        
+        @media (min-width: 1000px) {
+            padding: 1rem 2rem;
+        }
     }
 
     .buttons {
@@ -122,6 +123,12 @@
         flex-direction: column;
         justify-content: space-between;
         margin-right: 1rem;
+        
+        & div {
+            height: calc(50% - 0.5rem);
+            width: 100%;
+        }
+        
         @media (min-width: 400px) {
             width: 8rem;
         }
@@ -130,11 +137,6 @@
         }
         @media (min-width: 1000px) {
             width: 4.5rem;
-        }
-
-        & div {
-            height: calc(50% - 0.5rem);
-            width: 100%;
         }
     }
 

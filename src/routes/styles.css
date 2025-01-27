@@ -93,6 +93,7 @@ h2 {
 h3 {
     font-size: var(--text-xxs);
 }
+
 @media (min-width: 1200px) {
     h3 {
         font-size: var(--text-xs);

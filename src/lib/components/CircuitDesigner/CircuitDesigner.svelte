@@ -265,9 +265,6 @@
 
 <style lang="scss">
     .buttons {
-        @media (min-width: 1200px) {
-            padding-bottom: 1.5rem;
-        }
         background-color: var(--color-grey-mid);
         &__inner {
             padding: 1rem;
@@ -277,7 +274,10 @@
             @media (min-width: 1200px) {
                 padding: 1rem 2rem;
             }
+        }
 
+        @media (min-width: 1200px) {
+            padding-bottom: 1.5rem;
         }
 	}
     .circuit-designer {
@@ -287,9 +287,6 @@
         background-color: var(--color-grey-mid);
 
         padding: 2rem;
-        @media (min-width: 1200px) {
-            padding: 0 2rem 2rem 2rem;
-        }
     
         &__palette, &__circuit {
             background-color: var(--color-grey-darker);
@@ -342,6 +339,10 @@
             &--moving {
                 cursor: grabbing;
             }
+        }
+        
+        @media (min-width: 1200px) {
+            padding: 0 2rem 2rem 2rem;
         }
     }
 </style>

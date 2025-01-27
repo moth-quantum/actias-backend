@@ -62,6 +62,10 @@
         text-align: center;
         background-color: var(--color-grey-darker);
 
+        span {
+            font-size: var(--text-sm);
+        }
+        
         @media (min-width: 1200px) {
             text-align: right;
             padding: 1rem 2rem;
@@ -71,9 +75,6 @@
             padding: 1rem 0;
         }
 
-        span {
-            font-size: var(--text-sm);
-        }
     }
 
 </style>

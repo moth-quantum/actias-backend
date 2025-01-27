@@ -36,6 +36,10 @@
         justify-content: space-between;
         padding: 1rem;
 
+        &.has-side-menu {
+            padding-left: 105px;
+        }
+
         @media (min-width: 1200px) {
             padding: 1rem 2rem;
         }
@@ -43,11 +47,6 @@
         @media (min-width: calc(var(--max-width))) {
             padding-right: 0rem;
         }
-
-        &.has-side-menu {
-            padding-left: 105px;
-        }
-
     }
 
     .menu {
