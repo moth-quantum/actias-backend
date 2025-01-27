@@ -50,7 +50,7 @@
     "p5-svelte": "^3.1.2",
     "pusher-js": "^8.4.0-rc2",
     "quantum-circuit": "^0.9.221",
-    "tone": "^14.7.77",
+    "tone": "^15.0.4",
     "webmidi": "^3.1.5"
   }
 }
