@@ -7,8 +7,6 @@ import { measure, axes, isMeasuring } from '$lib/stores/qubits';
 import { menuItems } from '$lib/stores/sideMenu';
 import type { Action, Parameter } from '$lib/types';
 import { roundToFactor } from '$lib/utils/utils';
-// import { loadPresetByNormalisedValue as loadCircuit } from '$lib/stores/presets-circuits';
-import { loadPresetByNormalisedValue as loadProject } from '$lib/stores/presets-project';
 
 export const inputs: Writable<{name: string, active: boolean, channel: number}[]> = writable([]);
 // maintain the order of active inputs
@@ -32,7 +30,6 @@ const defaultActions = {
     11: {label: 'Q1 θ', id: 'qubit-0-2' },
     12: {label: 'Q1 φ', id: 'qubit-0-1' },
     13: {label: 'Q1 ψ', id: 'qubit-0-0' },
-    100: {label: 'Load Project', id: 'preset-project' }
 }
 
 export const actions: Writable<{[key: number]: Action}> = writable(defaultActions);
@@ -160,9 +157,6 @@ const performMenuAction = (name: string, cc: number) => menuItems.update(items =
         ? cc > 0 
         : item.isActive
 })));
-const performPresetAction = (name: string, cc: number) => {
-    name === 'project' && loadProject(cc);
-}
 
 const actionFactory: {[key: string]: (...args: any) => string} = {
     qubit: (qubit: number, axis: number) => `Q${(+qubit+1)} ${['θ', 'φ', 'ψ'][+axis]}`,
@@ -201,7 +195,6 @@ function handleControlChange(e: any) {
     type === 'measure' && performMeasureAction(value)
     type === 'drone' && performDroneAction(value)
     type === 'menu' && performMenuAction(rest[0], value)
-    type === 'preset' && performPresetAction(rest[0], value) // this isn't learnable, but is hardcoded to cc100
 }
 
 export function resetActions() {
