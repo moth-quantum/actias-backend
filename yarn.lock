@@ -231,11 +231,6 @@
   dependencies:
     lottie-web "^5.10.0"
 
-"@neoconfetti/svelte@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@neoconfetti/svelte/-/svelte-1.0.0.tgz#84a7f98981ad546d959d8c99460da8cebdf70301"
-  integrity sha512-SmksyaJAdSlMa9cTidVSIqYo1qti+WTsviNDwgjNVm+KQ3DRP2Df9umDIzC4vCcpEYY+chQe0i2IKnLw03AT8Q==
-
 "@neodrag/svelte@^2.0.3":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@neodrag/svelte/-/svelte-2.3.0.tgz#3286932bb46cb35b9eee65554549ee85e4c694eb"
