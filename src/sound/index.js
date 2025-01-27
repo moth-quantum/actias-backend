@@ -71,6 +71,7 @@ samples.subscribe(s => {
 export const handleEvent = (params) => {
     if(get(mute)) return
     
+    console.log(params)
     const { inst, n, semitone, octave} = params
     const detune = semitone + (octave * 12)
 
