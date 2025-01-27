@@ -105,7 +105,6 @@
             unsubscribeSockets();
             unsubscribeConnections();
             unsubscribeInstrumentParameters();
-            cleanUp()
         }
 
     });
