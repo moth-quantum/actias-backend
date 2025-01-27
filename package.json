@@ -41,7 +41,6 @@
     "@rnbo/js": "^1.2.5",
     "audiokeys": "^0.1.1",
     "classnames": "^2.3.2",
-    "concurrently": "^8.0.1",
     "directory-tree": "^3.5.1",
     "flowbite": "^3.0.0",
     "flowbite-svelte": "^0.47.4",
