@@ -47,7 +47,6 @@
     "fontawesome-svelte": "^2.0.1",
     "fs": "^0.0.1-security",
     "laravel-echo": "^1.16.1",
-    "osc": "^2.4.4",
     "p5-svelte": "^3.1.2",
     "pusher-js": "^8.4.0-rc2",
     "quantum-circuit": "^0.9.221",
