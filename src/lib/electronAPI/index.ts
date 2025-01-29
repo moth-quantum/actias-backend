@@ -27,7 +27,15 @@ export default function initElectronAPI() {
     window.electronAPI.onImportPreset((data: {name: string, data: any}) => {
         importPreset(data.name, data.data)
     })
+
+    // Samples
     window.electronAPI.onUpdateSamples(updateSamples)
+
+    // Restore Factory Settings
+    window.electronAPI.onRestoreFactorySettings(() => {
+        window.localStorage.clear()
+        window.location.reload()
+    })
 
     window.electronAPI.onQuit(logout)
 }

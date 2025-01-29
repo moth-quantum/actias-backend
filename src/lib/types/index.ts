@@ -77,6 +77,7 @@ declare global {
             exportPresetResponse(data: any): void;
             syncUserPresets(data: {[key: string]: Preset | null}): void;
             onQuit(callback: () => void): void;
+            onRestoreFactorySettings(callback: () => void): void;
         };
         Pusher: typeof Pusher;
         Echo: Echo;
