@@ -17,7 +17,7 @@
     "@types/lodash.debounce": "^4.0.9",
     "@types/p5": "^1.6.0",
     "autoprefixer": "^10.4.7",
-    "postcss": "^8.4.14",
+    "postcss": "^8.5.10",
     "postcss-load-config": "^4.0.1",
     "sass": "^1.60.0",
     "svelte": "^3.54.0",
